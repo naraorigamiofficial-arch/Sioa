@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIOA - Society of Indian Origami Artists</title>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@300;400;700;900&family=DM+Sans:wght@400;500&family=Noto+Sans+Devanagari:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: #000000;
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        /* Gradient Background */
+        .gradient-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            background: linear-gradient(180deg, #000000 0%, #0a1628 30%, #1a2d4a 60%, #0a1628 90%, #000000 100%);
+        }
+
+        /* Geometric Pattern Overlay */
+        .pattern-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.15;
+            background-image: 
+                linear-gradient(30deg, transparent 48%, rgba(255, 255, 255, 0.05) 49%, rgba(255, 255, 255, 0.05) 51%, transparent 52%),
+                linear-gradient(150deg, transparent 48%, rgba(255, 255, 255, 0.05) 49%, rgba(255, 255, 255, 0.05) 51%, transparent 52%),
+                linear-gradient(90deg, transparent 48%, rgba(255, 255, 255, 0.03) 49%, rgba(255, 255, 255, 0.03) 51%, transparent 52%),
+                linear-gradient(0deg, transparent 48%, rgba(255, 255, 255, 0.03) 49%, rgba(255, 255, 255, 0.03) 51%, transparent 52%);
+            background-size: 80px 80px, 80px 80px, 40px 40px, 40px 40px;
+            background-position: 0 0, 0 0, 20px 20px, 20px 20px;
+            animation: patternShift 60s linear infinite;
+        }
+
+        @keyframes patternShift {
+            0% {
+                background-position: 0 0, 0 0, 20px 20px, 20px 20px;
+                opacity: 0.15;
+            }
+            25% {
+                opacity: 0.08;
+            }
+            50% {
+                background-position: 40px 40px, 40px 40px, 60px 60px, 60px 60px;
+                opacity: 0.18;
+            }
+            75% {
+                opacity: 0.1;
+            }
+            100% {
+                background-position: 0 0, 0 0, 20px 20px, 20px 20px;
+                opacity: 0.15;
+            }
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2rem 4rem;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        nav.scrolled {
+            background: rgba(0, 0, 0, 0.8);
+            padding: 1.5rem 4rem;
+        }
+
+        .logo {
+            font-family: 'Archivo', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 900;
+            letter-spacing: 0.15em;
+            line-height: 1;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 3rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: rgba(255, 255, 255, 0.6);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: #fff;
+        }
+
+        .nav-links a:hover::after,
+        .nav-links a.active::after {
+            width: 100%;
+        }
+
+        /* Sections */
+        section {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 6rem 4rem;
+            position: relative;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Side Navigation Dots */
+        .side-nav {
+            position: fixed;
+            right: 2rem;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            z-index: 999;
+        }
+
+        .side-nav span {
+            width: 10px;
+            height: 10px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+        }
+
+        .side-nav span::before {
+            content: '';
+            position: absolute;
+            inset: -5px;
+            border: 2px solid transparent;
+            border-radius: 50%;
+            transition: all 0.4s ease;
+        }
+
+        .side-nav span:hover {
+            background: rgba(255, 255, 255, 0.5);
+            transform: scale(1.2);
+        }
+
+        .side-nav span.active {
+            background: rgba(255, 255, 255, 0.8);
+            transform: scale(1.3);
+        }
+
+        .side-nav span.active::before {
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        /* Home Section */
+        #home {
+            text-align: center;
+        }
+
+        .hero-content {
+            position: relative;
+        }
+
+        .hero-subtitle {
+            font-family: 'Noto Sans Devanagari', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 500;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            margin-bottom: 1.5rem;
+            opacity: 0.6;
+            animation: fadeInUp 1s ease 0.2s both;
+        }
+
+        .hero-content h1 {
+            font-family: 'Archivo', sans-serif;
+            font-size: 8rem;
+            font-weight: 900;
+            letter-spacing: 0.15em;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, #ffffff 0%, rgba(255, 255, 255, 0.7) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: fadeInUp 1s ease 0.4s both;
+            line-height: 0.9;
+        }
+
+        .hero-content h2 {
+            font-family: 'Archivo', sans-serif;
+            font-size: 2.2rem;
+            font-weight: 300;
+            letter-spacing: 0.15em;
+            margin-bottom: 2rem;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.5) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: fadeInUp 1s ease 0.6s both;
+        }
+
+        .hero-content p {
+            font-family: 'Noto Sans Devanagari', sans-serif;
+            font-size: 1.3rem;
+            letter-spacing: 0.1em;
+            opacity: 0.7;
+            animation: fadeInUp 1s ease 0.8s both;
+            font-weight: 400;
+        }
+
+        /* Projects Section */
+        #projects {
+            flex-direction: column;
+        }
+
+        .section-title {
+            font-family: 'Archivo', sans-serif;
+            font-size: 4.5rem;
+            font-weight: 900;
+            letter-spacing: -0.02em;
+            margin-bottom: 2rem;
+            text-align: center;
+            background: linear-gradient(135deg, #fff 0%, rgba(255, 255, 255, 0.6) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .section-description {
+            max-width: 650px;
+            text-align: center;
+            margin-bottom: 4rem;
+            opacity: 0.7;
+            line-height: 1.8;
+            font-size: 1.05rem;
+        }
+
+        .albums-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2.5rem;
+            margin-bottom: 4rem;
+            width: 100%;
+            max-width: 1200px;
+        }
+
+        .album-card {
+            position: relative;
+            aspect-ratio: 1;
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .album-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0.01) 100%);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .album-card:hover {
+            transform: translateY(-15px);
+            border-color: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5),
+                        0 0 80px rgba(255, 255, 255, 0.05);
+        }
+
+        .album-card:hover::before {
+            opacity: 1;
+        }
+
+        .album-image {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            position: relative;
+        }
+
+        .album-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.95) 0%, transparent 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 2rem;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .album-card:hover .album-overlay {
+            opacity: 1;
+        }
+
+        .album-title {
+            font-family: 'Archivo', sans-serif;
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            letter-spacing: 0.05em;
+        }
+
+        .album-artist {
+            font-size: 0.95rem;
+            opacity: 0.6;
+            font-weight: 500;
+        }
+
+        .btn {
+            padding: 1.2rem 3.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: #fff;
+            font-size: 0.95rem;
+            font-weight: 500;
+            letter-spacing: 0.1em;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: rgba(255, 255, 255, 0.1);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .btn:hover {
+            border-color: rgba(255, 255, 255, 0.4);
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        .btn:hover::before {
+            opacity: 1;
+        }
+
+        .btn span {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Artists Section */
+        #artists {
+            flex-direction: column;
+        }
+
+        .artists-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2.5rem;
+            margin-bottom: 4rem;
+            width: 100%;
+            max-width: 1200px;
+        }
+
+        .artist-card {
+            position: relative;
+            aspect-ratio: 1;
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .artist-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0.01) 100%);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .artist-card:hover {
+            transform: translateY(-15px);
+            border-color: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5),
+                        0 0 80px rgba(255, 255, 255, 0.05);
+        }
+
+        .artist-card:hover::before {
+            opacity: 1;
+        }
+
+        .artist-image {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 5rem;
+            filter: grayscale(1) opacity(0.3);
+            transition: all 0.5s ease;
+        }
+
+        .artist-card:hover .artist-image {
+            filter: grayscale(0) opacity(1);
+            transform: scale(1.1);
+        }
+
+        /* Contact Section */
+        #contact {
+            flex-direction: column;
+        }
+
+        .contact-content {
+            max-width: 900px;
+            width: 100%;
+        }
+
+        .beat-me {
+            font-family: 'Archivo', sans-serif;
+            font-size: 3rem;
+            font-weight: 900;
+            margin-bottom: 2rem;
+            text-align: center;
+            background: linear-gradient(135deg, #fff 0%, rgba(255, 255, 255, 0.6) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: 0.05em;
+        }
+
+        .contact-intro {
+            text-align: center;
+            margin-bottom: 4rem;
+            line-height: 1.8;
+            opacity: 0.7;
+            font-size: 1.05rem;
+        }
+
+        .contact-title {
+            font-family: 'Archivo', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            letter-spacing: 0.15em;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .contact-form {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 1rem;
+            margin-bottom: 4rem;
+        }
+
+        .contact-form input {
+            padding: 1.2rem 1.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 8px;
+            color: #fff;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+        }
+
+        .contact-form input:focus {
+            outline: none;
+            border-color: rgba(255, 255, 255, 0.4);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .contact-form input::placeholder {
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        .contact-info {
+            text-align: center;
+        }
+
+        .info-item {
+            margin-bottom: 2.5rem;
+        }
+
+        .info-label {
+            font-family: 'Archivo', sans-serif;
+            font-weight: 700;
+            letter-spacing: 0.15em;
+            margin-bottom: 0.8rem;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+        }
+
+        .info-value {
+            opacity: 0.7;
+            font-size: 1rem;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in {
+            animation: fadeInUp 0.8s ease both;
+        }
+
+        .delay-1 { animation-delay: 0.1s; }
+        .delay-2 { animation-delay: 0.2s; }
+        .delay-3 { animation-delay: 0.3s; }
+        .delay-4 { animation-delay: 0.4s; }
+        .delay-5 { animation-delay: 0.5s; }
+        .delay-6 { animation-delay: 0.6s; }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .hero-content h1 {
+                font-size: 5rem;
+            }
+
+            .hero-content h2 {
+                font-size: 1.8rem;
+            }
+
+            .section-title {
+                font-size: 3rem;
+            }
+
+            .albums-grid,
+            .artists-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            nav {
+                padding: 1.5rem 2rem;
+            }
+
+            .nav-links {
+                gap: 1.5rem;
+                font-size: 0.85rem;
+            }
+
+            .logo {
+                font-size: 1.3rem;
+            }
+
+            .hero-content h1 {
+                font-size: 3.5rem;
+            }
+
+            .hero-content h2 {
+                font-size: 1.3rem;
+            }
+
+            .hero-content p {
+                font-size: 1rem;
+            }
+
+            .section-title {
+                font-size: 2.5rem;
+            }
+
+            .albums-grid,
+            .artists-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .contact-form {
+                grid-template-columns: 1fr;
+            }
+
+            .side-nav {
+                right: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Gradient Background -->
+    <div class="gradient-bg"></div>
+    <div class="pattern-overlay"></div>
+
+    <!-- Navigation -->
+    <nav id="navbar">
+        <div class="logo">SIOA</div>
+        <ul class="nav-links">
+            <li><a href="#projects" data-section="projects">Projects</a></li>
+            <li><a href="#artists" data-section="artists">Artists</a></li>
+            <li><a href="#contact" data-section="contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <!-- Side Navigation -->
+    <div class="side-nav">
+        <span data-section="home" class="active"></span>
+        <span data-section="projects"></span>
+        <span data-section="artists"></span>
+        <span data-section="contact"></span>
+    </div>
+
+    <!-- Home Section -->
+    <section id="home" class="visible">
+        <div class="hero-content">
+            <div class="hero-subtitle">VIDHĀNA · ABHYĀSA · GAURAVA · HASTA</div>
+            <h1>SIOA</h1>
+            <h2>Society of Indian Origami Artists</h2>
+            <p>विधान · अभ्यास · गौरव · हस्त</p>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects">
+        <div>
+            <h2 class="section-title fade-in">RECORDS</h2>
+            <p class="section-description fade-in delay-1">
+                SIOA is the premier organization for origami artists in India, dedicated to preserving traditional paper folding techniques while fostering innovation and creativity. We bring together artists from across the nation to share, learn, and celebrate the ancient art of origami.
+            </p>
+            <div class="albums-grid">
+                <div class="album-card fade-in delay-2">
+                    <div class="album-image" style="background: linear-gradient(135deg, rgba(26, 38, 72, 0.6) 0%, rgba(0, 0, 0, 0.9) 100%);">
+                        🦅
+                        <div class="album-overlay">
+                            <div class="album-title">TRADITIONAL FORMS</div>
+                            <div class="album-artist">Classic Collection</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="album-card fade-in delay-3">
+                    <div class="album-image" style="background: linear-gradient(135deg, rgba(26, 38, 72, 0.6) 0%, rgba(0, 0, 0, 0.9) 100%);">
+                        🌸
+                        <div class="album-overlay">
+                            <div class="album-title">MODERN DESIGNS</div>
+                            <div class="album-artist">Contemporary Art</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="album-card fade-in delay-4">
+                    <div class="album-image" style="background: linear-gradient(135deg, rgba(26, 38, 72, 0.6) 0%, rgba(0, 0, 0, 0.9) 100%);">
+                        🎋
+                        <div class="album-overlay">
+                            <div class="album-title">EXHIBITIONS</div>
+                            <div class="album-artist">Gallery Works</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button class="btn fade-in delay-5"><span>View Records</span></button>
+        </div>
+    </section>
+
+    <!-- Artists Section -->
+    <section id="artists">
+        <div>
+            <h2 class="section-title fade-in">ARTISTS</h2>
+            <p class="section-description fade-in delay-1">
+                SIOA brings together master origami artists from across India, each contributing their unique perspective and expertise to this timeless art form. Our artists range from traditional practitioners to contemporary innovators pushing the boundaries of paper folding.
+            </p>
+            <div class="artists-grid">
+                <div class="artist-card fade-in delay-2">
+                    <div class="artist-image" style="background: linear-gradient(135deg, rgba(26, 38, 72, 0.4) 0%, rgba(0, 0, 0, 0.9) 100%);">🧘</div>
+                </div>
+                <div class="artist-card fade-in delay-3">
+                    <div class="artist-image" style="background: linear-gradient(135deg, rgba(26, 38, 72, 0.4) 0%, rgba(0, 0, 0, 0.9) 100%);">🎨</div>
+                </div>
+                <div class="artist-card fade-in delay-4">
+                    <div class="artist-image" style="background: linear-gradient(135deg, rgba(26, 38, 72, 0.4) 0%, rgba(0, 0, 0, 0.9) 100%);">✋</div>
+                </div>
+            </div>
+            <button class="btn fade-in delay-5"><span>View Artists</span></button>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact">
+        <div class="contact-content">
+            <h2 class="beat-me fade-in">JOIN SIOA</h2>
+            <p class="contact-intro fade-in delay-1">
+                The Society of Indian Origami Artists welcomes practitioners of all skill levels. Whether you're a beginner learning your first fold or a master artist, SIOA provides a supportive community dedicated to the preservation and advancement of origami in India. Join us in celebrating this beautiful art form.
+            </p>
+            <h3 class="contact-title fade-in delay-2">CONTACT</h3>
+            <div class="contact-form fade-in delay-3">
+                <input type="email" placeholder="Enter your Email">
+                <button class="btn"><span>Connect</span></button>
+            </div>
+            <div class="contact-info fade-in delay-4">
+                <div class="info-item">
+                    <div class="info-label">Address</div>
+                    <div class="info-value">New Delhi, India</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Email</div>
+                    <div class="info-value">contact@sioa.org.in</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Phone</div>
+                    <div class="info-value">+91 11 2345 6789</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Navbar scroll effect
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 100) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Smooth scroll animation
+        const observerOptions = {
+            threshold: 0.2,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    
+                    // Update side nav
+                    const sectionId = entry.target.id;
+                    document.querySelectorAll('.side-nav span').forEach(dot => {
+                        dot.classList.remove('active');
+                        if (dot.dataset.section === sectionId) {
+                            dot.classList.add('active');
+                        }
+                    });
+
+                    // Update nav links
+                    document.querySelectorAll('.nav-links a').forEach(link => {
+                        link.classList.remove('active');
+                        if (link.dataset.section === sectionId) {
+                            link.classList.add('active');
+                        }
+                    });
+                }
+            });
+        }, observerOptions);
+
+        // Observe all sections
+        document.querySelectorAll('section').forEach(section => {
+            observer.observe(section);
+        });
+
+        // Smooth scroll to section
+        function scrollToSection(sectionId) {
+            const section = document.getElementById(sectionId);
+            section.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Navigation clicks
+        document.querySelectorAll('.nav-links a, .side-nav span').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const section = link.dataset.section;
+                scrollToSection(section);
+            });
+        });
+
+        // Enhanced card hover effects with 3D tilt
+        document.querySelectorAll('.album-card, .artist-card').forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                
+                const rotateX = (y - centerY) / 15;
+                const rotateY = (centerX - x) / 15;
+                
+                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-15px)`;
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = '';
+            });
+        });
+
+        // Button interactions
+        document.querySelectorAll('.btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                btn.style.transform = 'scale(0.95) translateY(-3px)';
+                setTimeout(() => {
+                    btn.style.transform = '';
+                }, 150);
+            });
+        });
+
+        // Parallax effect on scroll
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const heroContent = document.querySelector('.hero-content');
+            if (heroContent) {
+                heroContent.style.transform = `translateY(${scrolled * 0.4}px)`;
+                heroContent.style.opacity = 1 - (scrolled / 700);
+            }
+        });
+    </script>
+</body>
+</html>
