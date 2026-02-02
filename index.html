@@ -31,45 +31,62 @@
             background: linear-gradient(180deg, #000000 0%, #0a1628 30%, #1a2d4a 60%, #0a1628 90%, #000000 100%);
         }
 
-        /* Geometric Pattern Overlay */
-        .pattern-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            opacity: 0.15;
-            background-image: 
-                linear-gradient(30deg, transparent 48%, rgba(255, 255, 255, 0.05) 49%, rgba(255, 255, 255, 0.05) 51%, transparent 52%),
-                linear-gradient(150deg, transparent 48%, rgba(255, 255, 255, 0.05) 49%, rgba(255, 255, 255, 0.05) 51%, transparent 52%),
-                linear-gradient(90deg, transparent 48%, rgba(255, 255, 255, 0.03) 49%, rgba(255, 255, 255, 0.03) 51%, transparent 52%),
-                linear-gradient(0deg, transparent 48%, rgba(255, 255, 255, 0.03) 49%, rgba(255, 255, 255, 0.03) 51%, transparent 52%);
-            background-size: 80px 80px, 80px 80px, 40px 40px, 40px 40px;
-            background-position: 0 0, 0 0, 20px 20px, 20px 20px;
-            animation: patternShift 60s linear infinite;
-        }
+        /* Organic Geometric Pattern Overlay */
+.pattern-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: -1;
+  opacity: 0.12;
 
-        @keyframes patternShift {
-            0% {
-                background-position: 0 0, 0 0, 20px 20px, 20px 20px;
-                opacity: 0.15;
-            }
-            25% {
-                opacity: 0.08;
-            }
-            50% {
-                background-position: 40px 40px, 40px 40px, 60px 60px, 60px 60px;
-                opacity: 0.18;
-            }
-            75% {
-                opacity: 0.1;
-            }
-            100% {
-                background-position: 0 0, 0 0, 20px 20px, 20px 20px;
-                opacity: 0.15;
-            }
-        }
+  background-image:
+    linear-gradient(23deg, rgba(255,255,255,0.04) 1px, transparent 1px),
+    linear-gradient(127deg, rgba(255,255,255,0.035) 1px, transparent 1px),
+    linear-gradient(83deg, rgba(255,255,255,0.03) 1px, transparent 1px),
+    radial-gradient(circle at 30% 40%, rgba(255,255,255,0.035), transparent 45%),
+    radial-gradient(circle at 70% 60%, rgba(255,255,255,0.03), transparent 50%);
+
+  background-size:
+    140px 140px,
+    220px 220px,
+    180px 180px,
+    600px 600px,
+    800px 800px;
+
+  animation: organicDrift 90s linear infinite;
+}
+
+        @keyframes organicDrift {
+  0% {
+    background-position:
+      0 0,
+      0 0,
+      0 0,
+      30% 40%,
+      70% 60%;
+  }
+
+  50% {
+    background-position:
+      120px 80px,
+      -140px 160px,
+      90px -110px,
+      35% 45%,
+      65% 55%;
+  }
+
+  100% {
+    background-position:
+      0 0,
+      0 0,
+      0 0,
+      30% 40%,
+      70% 60%;
+  }
+}
 
         /* Navigation */
         nav {
