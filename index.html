@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SIOA – Society of Indian Origami Artists</title>
     <style>
-        /* CSS Variables for Color Palepte */
+        /* CSS Variables for Color Palette */
         :root {
             --black: #000000;
             --deep-blue: #0a1628;
@@ -14,6 +14,8 @@
             --bright-cyan: #2d89b0;
             --metallic-blue: #4a90a4;
             --light-cyan: #57a6bb;
+            --white: #e8f4f8;
+            --light-grey: #c5d9e0;
         }
 
         * {
@@ -22,12 +24,163 @@
             box-sizing: border-box;
         }
 
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
         body {
-            font-family: 'Garamond', 'Georgia', serif;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
             background: var(--black);
-            color: var(--light-cyan);
+            color: var(--white);
             overflow-x: hidden;
             cursor: none;
+            padding-top: 80px; /* Space for fixed header */
+        }
+
+        /* Navigation Header */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(26, 95, 122, 0.15);
+            padding: 25px 0;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            transform: translateY(0);
+        }
+
+        .navbar.scrolled {
+            padding: 12px 0;
+            background: rgba(0, 0, 0, 0.98);
+            box-shadow: 
+                0 10px 40px rgba(0, 0, 0, 0.5),
+                0 2px 10px rgba(26, 95, 122, 0.2);
+            border-bottom: 1px solid rgba(26, 95, 122, 0.3);
+        }
+
+        .navbar.hidden {
+            transform: translateY(-100%);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo {
+            font-size: 28px;
+            font-weight: 800;
+            letter-spacing: 0.1em;
+            color: var(--white);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            transform: scale(1);
+        }
+
+        .navbar.scrolled .nav-logo {
+            font-size: 24px;
+        }
+
+        .nav-logo:hover {
+            color: var(--bright-cyan);
+            text-shadow: 0 0 20px rgba(45, 137, 176, 0.5);
+            transform: scale(1.05);
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 50px;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-menu li {
+            opacity: 0;
+            transform: translateY(-20px);
+            animation: slideDown 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .nav-menu li:nth-child(1) { animation-delay: 0.1s; }
+        .nav-menu li:nth-child(2) { animation-delay: 0.2s; }
+        .nav-menu li:nth-child(3) { animation-delay: 0.3s; }
+
+        @keyframes slideDown {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .nav-menu a {
+            color: var(--light-grey);
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: 400;
+            letter-spacing: 0.05em;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            padding: 5px 0;
+            display: inline-block;
+        }
+
+        .nav-menu a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--bright-cyan), var(--light-cyan));
+            transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 0 10px rgba(45, 137, 176, 0.5);
+        }
+
+        .nav-menu a:hover {
+            color: var(--white);
+            transform: translateY(-2px);
+        }
+
+        .nav-menu a:hover::after {
+            width: 100%;
+        }
+
+        /* Mobile Menu Toggle */
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            padding: 10px;
+        }
+
+        .menu-toggle span {
+            width: 25px;
+            height: 2px;
+            background: var(--white);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            transform-origin: center;
+        }
+
+        .menu-toggle:hover span {
+            background: var(--bright-cyan);
+        }
+
+        .menu-toggle.active span:nth-child(1) {
+            transform: rotate(45deg) translateY(7px);
+        }
+
+        .menu-toggle.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .menu-toggle.active span:nth-child(3) {
+            transform: rotate(-45deg) translateY(-7px);
         }
 
         /* Custom Cursor */
@@ -87,17 +240,14 @@
         }
 
         .hero-logo {
-            font-size: clamp(80px, 15vw, 180px);
-            font-weight: 700;
-            letter-spacing: 0.15em;
-            background: linear-gradient(135deg, var(--light-cyan) 0%, var(--bright-cyan) 50%, var(--metallic-blue) 100%);
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 30px;
+            font-size: clamp(100px, 18vw, 220px);
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            color: var(--white);
+            margin-bottom: 25px;
             transform-style: preserve-3d;
             animation: heroFloat 6s ease-in-out infinite;
-            text-shadow: 0 0 60px rgba(87, 166, 187, 0.3);
+            text-shadow: 0 0 80px rgba(255, 255, 255, 0.1);
         }
 
         @keyframes heroFloat {
@@ -105,14 +255,35 @@
             50% { transform: translateY(-20px) rotateX(2deg); }
         }
 
+        .hero-tagline-top {
+            font-size: clamp(11px, 1.3vw, 15px);
+            font-weight: 400;
+            letter-spacing: 0.25em;
+            color: var(--light-grey);
+            margin-bottom: 20px;
+            opacity: 0;
+            animation: fadeInUp 1.2s ease forwards 0.3s;
+            text-transform: uppercase;
+        }
+
         .hero-subtitle {
-            font-size: clamp(18px, 2.5vw, 28px);
+            font-size: clamp(16px, 2vw, 22px);
             font-weight: 300;
-            letter-spacing: 0.3em;
-            color: var(--metallic-blue);
-            margin-bottom: 60px;
+            letter-spacing: 0.15em;
+            color: var(--light-grey);
+            margin-bottom: 20px;
             opacity: 0;
             animation: fadeInUp 1.2s ease forwards 0.5s;
+        }
+
+        .hero-tagline-bottom {
+            font-size: clamp(12px, 1.4vw, 16px);
+            font-weight: 400;
+            letter-spacing: 0.2em;
+            color: var(--light-grey);
+            margin-bottom: 60px;
+            opacity: 0;
+            animation: fadeInUp 1.2s ease forwards 0.7s;
         }
 
         @keyframes fadeInUp {
@@ -126,53 +297,55 @@
             }
         }
 
-        .hero-description {
-            max-width: 700px;
-            font-size: clamp(16px, 1.8vw, 20px);
-            line-height: 1.8;
-            color: var(--cyan-blue);
-            margin-bottom: 40px;
-            opacity: 0;
-            animation: fadeInUp 1.2s ease forwards 0.8s;
-        }
-
         /* Section Styling */
         section {
             padding: 120px 0;
             position: relative;
         }
 
-        .section-title {
-            font-size: clamp(40px, 6vw, 72px);
-            font-weight: 600;
-            letter-spacing: 0.08em;
-            background: linear-gradient(135deg, var(--bright-cyan) 0%, var(--metallic-blue) 100%);
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 60px;
+        .section-header {
             text-align: center;
+            margin-bottom: 80px;
             opacity: 0;
             transform: translateY(40px);
             transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        .section-title.visible {
+        .section-header.visible {
             opacity: 1;
             transform: translateY(0);
+        }
+
+        .section-label {
+            font-size: clamp(11px, 1.2vw, 14px);
+            font-weight: 500;
+            letter-spacing: 0.25em;
+            color: var(--bright-cyan);
+            text-transform: uppercase;
+            margin-bottom: 15px;
+        }
+
+        .section-title {
+            font-size: clamp(42px, 6vw, 68px);
+            font-weight: 700;
+            letter-spacing: 0.02em;
+            color: var(--white);
+            margin-bottom: 0;
+            line-height: 1.2;
         }
 
         /* About Section */
         .about-content {
             max-width: 900px;
             margin: 0 auto;
-            font-size: clamp(17px, 2vw, 22px);
-            line-height: 2;
-            color: var(--metallic-blue);
+            font-size: clamp(17px, 2vw, 21px);
+            line-height: 1.8;
+            color: var(--light-grey);
             text-align: center;
             opacity: 0;
             transform: translateY(40px);
             transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.2s;
+            font-weight: 300;
         }
 
         .about-content.visible {
@@ -230,8 +403,8 @@
             z-index: 1;
             font-size: clamp(18px, 2.2vw, 24px);
             font-weight: 500;
-            letter-spacing: 0.05em;
-            color: var(--bright-cyan);
+            letter-spacing: 0.02em;
+            color: var(--white);
         }
 
         /* Cards Grid */
@@ -304,28 +477,29 @@
         }
 
         .card-title {
-            font-size: clamp(24px, 3vw, 32px);
+            font-size: clamp(24px, 3vw, 30px);
             font-weight: 600;
             margin-bottom: 20px;
-            color: var(--bright-cyan);
-            letter-spacing: 0.05em;
+            color: var(--white);
+            letter-spacing: 0.02em;
             transition: all 0.4s ease;
         }
 
         .card:hover .card-title {
-            color: var(--light-cyan);
+            color: var(--white);
             transform: translateZ(10px);
         }
 
         .card-description {
-            font-size: clamp(16px, 1.8vw, 19px);
+            font-size: clamp(15px, 1.8vw, 18px);
             line-height: 1.7;
-            color: var(--cyan-blue);
+            color: var(--light-grey);
+            font-weight: 300;
             transition: all 0.4s ease;
         }
 
         .card:hover .card-description {
-            color: var(--metallic-blue);
+            color: var(--white);
             transform: translateZ(5px);
         }
 
@@ -379,15 +553,17 @@
 
         .highlight-item h3 {
             font-size: clamp(20px, 2.5vw, 26px);
-            color: var(--bright-cyan);
+            color: var(--white);
             margin-bottom: 15px;
-            letter-spacing: 0.05em;
+            letter-spacing: 0.02em;
+            font-weight: 600;
         }
 
         .highlight-item p {
-            font-size: clamp(16px, 1.8vw, 18px);
+            font-size: clamp(15px, 1.8vw, 18px);
             line-height: 1.7;
-            color: var(--metallic-blue);
+            color: var(--light-grey);
+            font-weight: 300;
         }
 
         /* Footer */
@@ -398,10 +574,36 @@
             margin-top: 100px;
         }
 
+        .contact-section {
+            margin-bottom: 40px;
+        }
+
+        .contact-section h3 {
+            font-size: clamp(20px, 2.5vw, 26px);
+            color: var(--white);
+            margin-bottom: 15px;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+        }
+
+        .contact-section a {
+            color: var(--bright-cyan);
+            text-decoration: none;
+            font-size: clamp(16px, 1.8vw, 20px);
+            transition: all 0.3s ease;
+            font-weight: 400;
+        }
+
+        .contact-section a:hover {
+            color: var(--light-cyan);
+            text-shadow: 0 0 15px rgba(45, 137, 176, 0.4);
+        }
+
         footer p {
             font-size: 16px;
-            color: var(--cyan-blue);
-            letter-spacing: 0.1em;
+            color: var(--light-grey);
+            letter-spacing: 0.05em;
+            font-weight: 300;
         }
 
         /* Scroll Animations */
@@ -418,6 +620,36 @@
 
         /* Responsive Design */
         @media (max-width: 768px) {
+            body {
+                padding-top: 70px;
+            }
+
+            .nav-container {
+                padding: 0 20px;
+            }
+
+            .menu-toggle {
+                display: flex;
+            }
+
+            .nav-menu {
+                position: fixed;
+                top: 70px;
+                right: -100%;
+                flex-direction: column;
+                background: rgba(0, 0, 0, 0.98);
+                width: 250px;
+                height: calc(100vh - 70px);
+                padding: 40px 20px;
+                gap: 30px;
+                transition: right 0.3s ease;
+                border-left: 1px solid rgba(26, 95, 122, 0.2);
+            }
+
+            .nav-menu.active {
+                right: 0;
+            }
+
             .container {
                 padding: 0 20px;
             }
@@ -461,6 +693,23 @@
     </style>
 </head>
 <body>
+    <!-- Navigation Header -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="#" class="nav-logo">SIOA</a>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="#about">About</a></li>
+                <li><a href="#offerings">Our Platform</a></li>
+                <li><a href="#competition">Competition</a></li>
+            </ul>
+            <div class="menu-toggle" id="menuToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
     <!-- Custom Cursor -->
     <div id="cursor"></div>
     <div id="cursor-light"></div>
@@ -471,19 +720,20 @@
     <!-- Hero Section -->
     <section class="hero">
         <div class="container">
+            <p class="hero-tagline-top">VIDHĀNA · ABHYĀSA · GAURAVA · HASTA</p>
             <h1 class="hero-logo">SIOA</h1>
-            <p class="hero-subtitle">SOCIETY OF INDIAN ORIGAMI ARTISTS</p>
-            <p class="hero-description">
-                A national-level cultural and competitive platform dedicated to preserving, promoting, 
-                and advancing the ancient art of origami across India.
-            </p>
+            <p class="hero-subtitle">Society of Indian Origami Artists</p>
+            <p class="hero-tagline-bottom">विधान · अभ्यास · गौरव · हस्त</p>
         </div>
     </section>
 
     <!-- About Section -->
     <section id="about">
         <div class="container">
-            <h2 class="section-title fade-in-section">About SIOA</h2>
+            <div class="section-header fade-in-section">
+                <p class="section-label">About</p>
+                <h2 class="section-title">SIOA</h2>
+            </div>
             <div class="about-content fade-in-section">
                 <p>
                     The Society of Indian Origami Artists stands as India's premier institution for the 
@@ -503,17 +753,16 @@
                     competitive discipline worthy of institutional recognition.
                 </p>
             </div>
-
-            <div class="notice-banner fade-in-section">
-                <p>📋 Official Information Brochure will be released soon</p>
-            </div>
         </div>
     </section>
 
     <!-- What We Offer -->
     <section id="offerings">
         <div class="container">
-            <h2 class="section-title fade-in-section">What We Offer</h2>
+            <div class="section-header fade-in-section">
+                <p class="section-label">Our Platform</p>
+                <h2 class="section-title">What We Offer</h2>
+            </div>
             <div class="cards-grid fade-in-section">
                 <div class="card">
                     <span class="card-icon">🏆</span>
@@ -575,7 +824,10 @@
     <!-- National Origami Competition -->
     <section id="competition" class="competition-page">
         <div class="container">
-            <h2 class="section-title fade-in-section">About National Origami Competition</h2>
+            <div class="section-header fade-in-section">
+                <p class="section-label">Competition</p>
+                <h2 class="section-title">About National Origami Competition</h2>
+            </div>
             <div class="competition-content">
                 <div class="about-content fade-in-section">
                     <p>
@@ -640,6 +892,10 @@
                         </p>
                     </div>
                 </div>
+
+                <div class="notice-banner fade-in-section" style="margin-top: 80px;">
+                    <p>📋 Official Information Brochure will be released soon</p>
+                </div>
             </div>
         </div>
     </section>
@@ -647,11 +903,92 @@
     <!-- Footer -->
     <footer>
         <div class="container">
+            <div class="contact-section">
+                <h3>Contact Us</h3>
+                <a href="mailto:sioa.paper@gmail.com">sioa.paper@gmail.com</a>
+            </div>
             <p>© 2026 SIOA – Society of Indian Origami Artists. All rights reserved.</p>
         </div>
     </footer>
 
     <script>
+        // ===================================
+        // Navigation Functionality
+        // ===================================
+        
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('.nav-menu a').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const targetId = link.getAttribute('href');
+                const targetSection = document.querySelector(targetId);
+                
+                if (targetSection) {
+                    const navHeight = document.querySelector('.navbar').offsetHeight;
+                    const targetPosition = targetSection.offsetTop - navHeight;
+                    
+                    window.scrollTo({
+                        top: targetPosition,
+                        behavior: 'smooth'
+                    });
+                    
+                    // Close mobile menu if open
+                    document.getElementById('navMenu').classList.remove('active');
+                    document.getElementById('menuToggle').classList.remove('active');
+                }
+            });
+        });
+
+        // Mobile menu toggle
+        const menuToggle = document.getElementById('menuToggle');
+        const navMenu = document.getElementById('navMenu');
+        
+        menuToggle.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+            menuToggle.classList.toggle('active');
+        });
+
+        // Advanced Navbar scroll effect - hide on scroll down, show on scroll up
+        const navbar = document.querySelector('.navbar');
+        let lastScrollY = window.scrollY;
+        let scrollTimeout;
+
+        window.addEventListener('scroll', () => {
+            const currentScrollY = window.scrollY;
+            
+            // Clear previous timeout
+            clearTimeout(scrollTimeout);
+            
+            // Add scrolled class for styling
+            if (currentScrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+            
+            // Hide navbar on scroll down, show on scroll up
+            if (currentScrollY > lastScrollY && currentScrollY > 200) {
+                // Scrolling down & past threshold
+                navbar.classList.add('hidden');
+            } else {
+                // Scrolling up
+                navbar.classList.remove('hidden');
+            }
+            
+            // Always show navbar when at the top
+            if (currentScrollY < 10) {
+                navbar.classList.remove('hidden');
+            }
+            
+            // Update last scroll position
+            lastScrollY = currentScrollY;
+            
+            // Add a slight delay to make the animation feel more premium
+            scrollTimeout = setTimeout(() => {
+                // Navbar is stable
+            }, 150);
+        });
+
         // ===================================
         // Custom Cursor with Light Effect
         // ===================================
