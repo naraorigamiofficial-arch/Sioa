@@ -17,6 +17,10 @@
     <meta property="og:locale" content="en_IN">
     <meta name="twitter:card" content="summary_large_image">
 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
     <style>
         :root {
             --black: #000000;
@@ -32,14 +36,11 @@
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
-
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
             background: var(--black);
             color: var(--white);
             overflow-x: hidden;
-            cursor: none;
             padding-top: 80px;
         }
 
@@ -106,6 +107,7 @@
         .nav-menu li:nth-child(1) { animation-delay: 0.1s; }
         .nav-menu li:nth-child(2) { animation-delay: 0.2s; }
         .nav-menu li:nth-child(3) { animation-delay: 0.3s; }
+        .nav-menu li:nth-child(4) { animation-delay: 0.4s; }
 
         @keyframes slideDown {
             to { opacity: 1; transform: translateY(0); }
@@ -157,32 +159,12 @@
         .menu-toggle.active span:nth-child(2) { opacity: 0; }
         .menu-toggle.active span:nth-child(3) { transform: rotate(-45deg) translateY(-7px); }
 
-        #cursor {
-            position: fixed;
-            width: 20px; height: 20px;
-            border: 2px solid var(--bright-cyan);
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 10000;
-            transition: transform 0.15s ease;
-            mix-blend-mode: screen;
-        }
-
-        #cursor-light {
-            position: fixed;
-            width: 400px; height: 400px;
-            background: radial-gradient(circle, rgba(42,144,176,0.15) 0%, rgba(42,144,176,0.05) 30%, transparent 70%);
-            pointer-events: none;
-            z-index: 9999;
-            transform: translate(-50%,-50%);
-            transition: opacity 0.3s ease;
-        }
-
         #bg-canvas {
             position: fixed;
             top: 0; left: 0;
             width: 100%; height: 100%;
             z-index: 0; opacity: 0.4;
+            pointer-events: none;
         }
 
         .container {
@@ -330,7 +312,6 @@
             border-radius: 4px;
             position: relative;
             overflow: hidden;
-            cursor: none;
             transition: all 0.5s cubic-bezier(0.16,1,0.3,1);
         }
 
@@ -401,7 +382,6 @@
             border-bottom: 1px solid rgba(26,95,122,0.25);
             color: var(--white);
             text-decoration: none;
-            cursor: none;
             position: relative;
             overflow: hidden;
             transition: all 0.45s cubic-bezier(0.16,1,0.3,1);
@@ -409,7 +389,6 @@
 
         .platform-btn:last-child { border-bottom: none; }
 
-        /* Sweep fill */
         .platform-btn::before {
             content: '';
             position: absolute;
@@ -420,7 +399,6 @@
             z-index: 0;
         }
 
-        /* Left accent bar */
         .platform-btn::after {
             content: '';
             position: absolute;
@@ -651,7 +629,7 @@
         .fade-in-section.visible { opacity: 1; transform: translateY(0); }
 
         @media (max-width: 768px) {
-            body { padding-top: 70px; cursor: default; }
+            body { padding-top: 70px; }
             .nav-container { padding: 0 20px; }
             .menu-toggle { display: flex; }
             .nav-menu {
@@ -666,18 +644,16 @@
             .nav-menu.active { right: 0; }
             .container { padding: 0 20px; }
             section { padding: 80px 0; }
-            .platform-btn { padding: 26px 22px; cursor: pointer; }
+            .platform-btn { padding: 26px 22px; }
             .pb-left { gap: 16px; }
             .pb-title { font-size: 17px; }
             .pb-icon { width: 38px; height: 38px; font-size: 16px; }
             .pb-desc { display: none; }
             .notice-banner { padding: 25px 30px; margin: 50px auto; }
-            #cursor, #cursor-light { display: none; }
-            .btn-members { cursor: pointer; }
         }
 
         @media print {
-            #bg-canvas, #cursor, #cursor-light { display: none; }
+            #bg-canvas { display: none; }
         }
     </style>
 </head>
@@ -690,6 +666,7 @@
                 <li><a href="#about">About</a></li>
                 <li><a href="#offerings">Our Platform</a></li>
                 <li><a href="#competition">Competition</a></li>
+                <li><a href="/database/index.html">Database</a></li>
             </ul>
             <div class="menu-toggle" id="menuToggle">
                 <span></span><span></span><span></span>
@@ -697,8 +674,6 @@
         </div>
     </nav>
 
-    <div id="cursor"></div>
-    <div id="cursor-light"></div>
     <canvas id="bg-canvas"></canvas>
 
     <section class="hero">
@@ -849,7 +824,7 @@
     </footer>
 
     <script>
-        document.querySelectorAll('.nav-menu a').forEach(link => {
+        document.querySelectorAll('.nav-menu a[href^="#"]').forEach(link => {
             link.addEventListener('click', e => {
                 e.preventDefault();
                 const target = document.querySelector(link.getAttribute('href'));
@@ -877,21 +852,6 @@
             else navbar.classList.remove('hidden');
             if (curr < 10) navbar.classList.remove('hidden');
             lastScrollY = curr;
-        });
-
-        const cursor   = document.getElementById('cursor');
-        const cursorLt = document.getElementById('cursor-light');
-        let mx = 0, my = 0, cx = 0, cy = 0;
-        document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
-        (function loop() {
-            cx += (mx - cx) * 0.15; cy += (my - cy) * 0.15;
-            cursor.style.transform = `translate(${cx-10}px, ${cy-10}px)`;
-            cursorLt.style.left = `${cx}px`; cursorLt.style.top = `${cy}px`;
-            requestAnimationFrame(loop);
-        })();
-        document.querySelectorAll('a, .platform-btn').forEach(el => {
-            el.addEventListener('mouseenter', () => cursor.style.transform += ' scale(1.5)');
-            el.addEventListener('mouseleave', () => cursor.style.transform = cursor.style.transform.replace(' scale(1.5)', ''));
         });
 
         const canvas = document.getElementById('bg-canvas');
