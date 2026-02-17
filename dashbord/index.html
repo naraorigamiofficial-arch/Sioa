@@ -723,7 +723,7 @@
         btn.innerHTML = '<span class="spinner"></span> Saving…';
 
         const { data: { user } } = await sb.auth.getUser();
-        if (!user) { window.location.href = "/login/"; return; }
+        if (!user) { window.location.href = "/login/login.html"; return; }
 
         const updates = {
             id:        user.id,
