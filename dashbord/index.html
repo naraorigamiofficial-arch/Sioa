@@ -1168,7 +1168,24 @@
     <!-- ═══════════════════════════════════════
          SCRIPTS
     ═══════════════════════════════════════ -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+        
+const supabaseUrl = "https://zbvgzzaejaxrgcjovc.supabase.co";
+const supabaseKey = "sb_publishable_gCLTB6WM95Iw6Txcf2fjCA_5fnXPw77";
+
+(async () => {
+  const { data: { user } } = await supabase.auth.getUser();
+
+  if (!user) {
+    window.location.href = "/login/";
+    return;
+  }
+
+  loadProfile(user);
+})();
+
+
     /* ── Mobile nav ── */
     const menuToggle = document.getElementById('menuToggle');
     const navMenu    = document.getElementById('navMenu');
@@ -1256,10 +1273,11 @@
     });
 
     /* ── Logout button hook ── */
-    document.getElementById('logout').addEventListener('click', function() {
-        // TODO: connect Supabase signOut logic here
-        // Example: supabase.auth.signOut().then(() => window.location.href = '/');
-    });
+   document.getElementById("logout").addEventListener("click", async function() {
+  await supabase.auth.signOut();
+  window.location.href = "/";
+});
+
 
     /* ── Ambient particle canvas (matches main site) ── */
     const canvas = document.getElementById('bg-canvas');
