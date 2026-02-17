@@ -649,6 +649,7 @@
 
         if (profile) {
             const name = profile.full_name || authName;
+           document.getElementById('full_name').value = name;
            document.getElementById('city').value  = profile.city  || '';
            document.getElementById('state').value = profile.state || '';
            document.getElementById('bio').value   = profile.bio   || '';
