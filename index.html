@@ -3,36 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <!-- Primary Meta Tags -->
-    <title>SIOA | Society of Indian Origami Artists </title>
-    <meta name="title" content="SIOA | Society of Indian Origami Artists ">
+    <title>SIOA | Society of Indian Origami Artists</title>
     <meta name="description" content="SIOA is India's premier institution for origami, organizing the National Origami Competition and fostering excellence in paper folding artistry nationwide.">
     <meta name="keywords" content="origami India, national origami competition, paper folding, Indian origami artists, SIOA, origami society, cultural arts India">
     <meta name="author" content="Society of Indian Origami Artists">
     <link rel="canonical" href="https://sioa.art/">
-    
-    <!-- Language -->
     <meta http-equiv="content-language" content="en">
-    
-    <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://sioa.art/">
     <meta property="og:title" content="SIOA | Society of Indian Origami Artists">
     <meta property="og:description" content="SIOA is India's premier institution for origami, organizing the National Origami Competition and fostering excellence in paper folding artistry nationwide.">
     <meta property="og:image" content="https://sioa.art/assets/og-image.png">
     <meta property="og:locale" content="en_IN">
-    <meta property="og:site_name" content="SIOA – Society of Indian Origami Artists">
-    
-    <!-- Twitter / X -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:url" content="https://sioa.art/">
-    <meta name="twitter:title" content="SIOA | Society of Indian Origami Artists">
-    <meta name="twitter:description" content="SIOA is India's premier institution for origami, organizing the National Origami Competition and fostering excellence in paper folding artistry nationwide.">
-    <meta name="twitter:image" content="https://sioa.art/assets/og-image.png">
-    
+
     <style>
-        /* CSS Variables for Color Palette */
         :root {
             --black: #000000;
             --deep-blue: #0a1628;
@@ -45,11 +30,7 @@
             --light-grey: #c5d9e0;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
 
@@ -62,33 +43,26 @@
             padding-top: 80px;
         }
 
-        /* Navigation Header */
         .navbar {
             position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
+            top: 0; left: 0; right: 0;
             z-index: 1000;
-            background: rgba(0, 0, 0, 0.85);
+            background: rgba(0,0,0,0.85);
             backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(26, 95, 122, 0.15);
+            border-bottom: 1px solid rgba(26,95,122,0.15);
             padding: 25px 0;
-            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            transition: all 0.4s cubic-bezier(0.16,1,0.3,1);
             transform: translateY(0);
         }
 
         .navbar.scrolled {
             padding: 12px 0;
-            background: rgba(0, 0, 0, 0.98);
-            box-shadow: 
-                0 10px 40px rgba(0, 0, 0, 0.5),
-                0 2px 10px rgba(26, 95, 122, 0.2);
-            border-bottom: 1px solid rgba(26, 95, 122, 0.3);
+            background: rgba(0,0,0,0.98);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5), 0 2px 10px rgba(26,95,122,0.2);
+            border-bottom: 1px solid rgba(26,95,122,0.3);
         }
 
-        .navbar.hidden {
-            transform: translateY(-100%);
-        }
+        .navbar.hidden { transform: translateY(-100%); }
 
         .nav-container {
             max-width: 1400px;
@@ -106,16 +80,13 @@
             color: var(--white);
             text-decoration: none;
             transition: all 0.3s ease;
-            transform: scale(1);
         }
 
-        .navbar.scrolled .nav-logo {
-            font-size: 24px;
-        }
+        .navbar.scrolled .nav-logo { font-size: 24px; }
 
         .nav-logo:hover {
             color: var(--bright-cyan);
-            text-shadow: 0 0 20px rgba(45, 137, 176, 0.5);
+            text-shadow: 0 0 20px rgba(45,137,176,0.5);
             transform: scale(1.05);
         }
 
@@ -129,7 +100,7 @@
         .nav-menu li {
             opacity: 0;
             transform: translateY(-20px);
-            animation: slideDown 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            animation: slideDown 0.6s cubic-bezier(0.16,1,0.3,1) forwards;
         }
 
         .nav-menu li:nth-child(1) { animation-delay: 0.1s; }
@@ -146,7 +117,7 @@
             font-size: 15px;
             font-weight: 400;
             letter-spacing: 0.05em;
-            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            transition: all 0.3s cubic-bezier(0.16,1,0.3,1);
             position: relative;
             padding: 5px 0;
             display: inline-block;
@@ -155,26 +126,17 @@
         .nav-menu a::after {
             content: '';
             position: absolute;
-            bottom: 0;
-            left: 50%;
+            bottom: 0; left: 50%;
             transform: translateX(-50%);
-            width: 0;
-            height: 2px;
+            width: 0; height: 2px;
             background: linear-gradient(90deg, var(--bright-cyan), var(--light-cyan));
-            transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-            box-shadow: 0 0 10px rgba(45, 137, 176, 0.5);
+            transition: width 0.4s cubic-bezier(0.16,1,0.3,1);
+            box-shadow: 0 0 10px rgba(45,137,176,0.5);
         }
 
-        .nav-menu a:hover {
-            color: var(--white);
-            transform: translateY(-2px);
-        }
+        .nav-menu a:hover { color: var(--white); transform: translateY(-2px); }
+        .nav-menu a:hover::after { width: 100%; }
 
-        .nav-menu a:hover::after {
-            width: 100%;
-        }
-
-        /* Mobile Menu Toggle */
         .menu-toggle {
             display: none;
             flex-direction: column;
@@ -184,24 +146,20 @@
         }
 
         .menu-toggle span {
-            width: 25px;
-            height: 2px;
+            width: 25px; height: 2px;
             background: var(--white);
-            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            transition: all 0.3s cubic-bezier(0.16,1,0.3,1);
             transform-origin: center;
         }
 
         .menu-toggle:hover span { background: var(--bright-cyan); }
-
         .menu-toggle.active span:nth-child(1) { transform: rotate(45deg) translateY(7px); }
         .menu-toggle.active span:nth-child(2) { opacity: 0; }
         .menu-toggle.active span:nth-child(3) { transform: rotate(-45deg) translateY(-7px); }
 
-        /* Custom Cursor */
         #cursor {
             position: fixed;
-            width: 20px;
-            height: 20px;
+            width: 20px; height: 20px;
             border: 2px solid var(--bright-cyan);
             border-radius: 50%;
             pointer-events: none;
@@ -212,27 +170,21 @@
 
         #cursor-light {
             position: fixed;
-            width: 400px;
-            height: 400px;
-            background: radial-gradient(circle, rgba(42, 144, 176, 0.15) 0%, rgba(42, 144, 176, 0.05) 30%, transparent 70%);
+            width: 400px; height: 400px;
+            background: radial-gradient(circle, rgba(42,144,176,0.15) 0%, rgba(42,144,176,0.05) 30%, transparent 70%);
             pointer-events: none;
             z-index: 9999;
-            transform: translate(-50%, -50%);
+            transform: translate(-50%,-50%);
             transition: opacity 0.3s ease;
         }
 
-        /* Animated Background Pattern */
         #bg-canvas {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 0;
-            opacity: 0.4;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: 0; opacity: 0.4;
         }
 
-        /* Main Container */
         .container {
             position: relative;
             z-index: 1;
@@ -241,7 +193,6 @@
             padding: 0 40px;
         }
 
-        /* Hero Section */
         .hero {
             min-height: 100vh;
             display: flex;
@@ -261,16 +212,16 @@
             margin-bottom: 25px;
             transform-style: preserve-3d;
             animation: heroFloat 6s ease-in-out infinite;
-            text-shadow: 0 0 80px rgba(255, 255, 255, 0.1);
+            text-shadow: 0 0 80px rgba(255,255,255,0.1);
         }
 
         @keyframes heroFloat {
-            0%, 100% { transform: translateY(0px) rotateX(0deg); }
-            50% { transform: translateY(-20px) rotateX(2deg); }
+            0%,100% { transform: translateY(0px) rotateX(0deg); }
+            50%      { transform: translateY(-20px) rotateX(2deg); }
         }
 
         .hero-tagline-top {
-            font-size: clamp(11px, 1.3vw, 15px);
+            font-size: clamp(11px,1.3vw,15px);
             font-weight: 400;
             letter-spacing: 0.25em;
             color: var(--light-grey);
@@ -281,7 +232,7 @@
         }
 
         .hero-subtitle {
-            font-size: clamp(16px, 2vw, 22px);
+            font-size: clamp(16px,2vw,22px);
             font-weight: 300;
             letter-spacing: 0.15em;
             color: var(--light-grey);
@@ -291,7 +242,7 @@
         }
 
         .hero-tagline-bottom {
-            font-size: clamp(12px, 1.4vw, 16px);
+            font-size: clamp(12px,1.4vw,16px);
             font-weight: 400;
             letter-spacing: 0.2em;
             color: var(--light-grey);
@@ -302,30 +253,23 @@
 
         @keyframes fadeInUp {
             from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
+            to   { opacity: 1; transform: translateY(0); }
         }
 
-        /* Section Styling */
-        section {
-            padding: 120px 0;
-            position: relative;
-        }
+        section { padding: 120px 0; position: relative; }
 
         .section-header {
             text-align: center;
             margin-bottom: 80px;
             opacity: 0;
             transform: translateY(40px);
-            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+            transition: all 0.8s cubic-bezier(0.16,1,0.3,1);
         }
 
-        .section-header.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
+        .section-header.visible { opacity: 1; transform: translateY(0); }
 
         .section-label {
-            font-size: clamp(11px, 1.2vw, 14px);
+            font-size: clamp(11px,1.2vw,14px);
             font-weight: 500;
             letter-spacing: 0.25em;
             color: var(--bright-cyan);
@@ -334,51 +278,40 @@
         }
 
         .section-title {
-            font-size: clamp(42px, 6vw, 68px);
+            font-size: clamp(42px,6vw,68px);
             font-weight: 700;
             letter-spacing: 0.02em;
             color: var(--white);
-            margin-bottom: 0;
             line-height: 1.2;
         }
 
-        /* About Section */
         .about-content {
             max-width: 900px;
             margin: 0 auto;
-            font-size: clamp(17px, 2vw, 21px);
+            font-size: clamp(17px,2vw,21px);
             line-height: 1.8;
             color: var(--light-grey);
             text-align: center;
             opacity: 0;
             transform: translateY(40px);
-            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.2s;
+            transition: all 0.8s cubic-bezier(0.16,1,0.3,1) 0.2s;
             font-weight: 300;
         }
 
-        .about-content.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
+        .about-content.visible { opacity: 1; transform: translateY(0); }
+        .about-content p { margin-bottom: 30px; }
 
-        .about-content p {
-            margin-bottom: 30px;
-        }
-
-        /* ===== MEMBERS BUTTON ===== */
+        /* Members button */
         .members-btn-wrap {
             display: flex;
             justify-content: center;
             margin-top: 20px;
             opacity: 0;
             transform: translateY(30px);
-            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.5s;
+            transition: all 0.8s cubic-bezier(0.16,1,0.3,1) 0.5s;
         }
 
-        .members-btn-wrap.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
+        .members-btn-wrap.visible { opacity: 1; transform: translateY(0); }
 
         .btn-members {
             display: inline-flex;
@@ -398,60 +331,208 @@
             position: relative;
             overflow: hidden;
             cursor: none;
-            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            transition: all 0.5s cubic-bezier(0.16,1,0.3,1);
         }
 
         .btn-members::before {
             content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(135deg, var(--cyan-blue) 0%, var(--bright-cyan) 100%);
+            position: absolute; inset: 0;
+            background: linear-gradient(135deg, var(--cyan-blue), var(--bright-cyan));
             transform: translateX(-105%);
-            transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            transition: transform 0.5s cubic-bezier(0.16,1,0.3,1);
             z-index: 0;
         }
 
-        .btn-members:hover::before {
-            transform: translateX(0);
-        }
-
+        .btn-members:hover::before { transform: translateX(0); }
         .btn-members:hover {
             border-color: var(--bright-cyan);
-            box-shadow: 0 0 40px rgba(45, 137, 176, 0.35), 0 8px 32px rgba(0,0,0,0.5);
+            box-shadow: 0 0 40px rgba(45,137,176,0.35), 0 8px 32px rgba(0,0,0,0.5);
             transform: translateY(-3px);
             letter-spacing: 0.22em;
         }
 
-        .btn-members span,
-        .btn-members svg {
+        .btn-members span, .btn-members svg { position: relative; z-index: 1; }
+        .btn-members svg { width: 18px; height: 18px; transition: transform 0.4s cubic-bezier(0.16,1,0.3,1); }
+        .btn-members:hover svg { transform: translateX(5px); }
+
+        /* ================================================
+           PLATFORM — 3 SLEEK NAV BUTTONS
+        ================================================ */
+        .platform-intro {
+            max-width: 650px;
+            margin: -20px auto 70px;
+            text-align: center;
+            font-size: clamp(15px,1.7vw,18px);
+            font-weight: 300;
+            color: rgba(197,217,224,0.65);
+            line-height: 1.8;
+            letter-spacing: 0.02em;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.16,1,0.3,1) 0.15s;
+        }
+
+        .platform-intro.visible { opacity: 1; transform: translateY(0); }
+
+        .platform-nav {
+            display: flex;
+            flex-direction: column;
+            max-width: 860px;
+            margin: 0 auto;
+            border: 1px solid rgba(26,95,122,0.35);
+            border-radius: 10px;
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s cubic-bezier(0.16,1,0.3,1) 0.3s;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.4), 0 0 0 1px rgba(26,95,122,0.1);
+        }
+
+        .platform-nav.visible { opacity: 1; transform: translateY(0); }
+
+        .platform-btn {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 30px;
+            padding: 38px 52px;
+            background: linear-gradient(135deg, rgba(10,22,40,0.75) 0%, rgba(15,40,71,0.5) 100%);
+            border: none;
+            border-bottom: 1px solid rgba(26,95,122,0.25);
+            color: var(--white);
+            text-decoration: none;
+            cursor: none;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.45s cubic-bezier(0.16,1,0.3,1);
+        }
+
+        .platform-btn:last-child { border-bottom: none; }
+
+        /* Sweep fill */
+        .platform-btn::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 0; height: 100%;
+            background: linear-gradient(90deg, rgba(26,95,122,0.22), rgba(45,137,176,0.10));
+            transition: width 0.55s cubic-bezier(0.16,1,0.3,1);
+            z-index: 0;
+        }
+
+        /* Left accent bar */
+        .platform-btn::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 3px; height: 100%;
+            background: linear-gradient(180deg, var(--light-cyan), var(--cyan-blue));
+            transform: scaleY(0);
+            transform-origin: bottom;
+            transition: transform 0.45s cubic-bezier(0.16,1,0.3,1);
+        }
+
+        .platform-btn:hover::before { width: 100%; }
+        .platform-btn:hover::after  { transform: scaleY(1); }
+
+        .pb-left {
+            display: flex;
+            align-items: center;
+            gap: 36px;
             position: relative;
             z-index: 1;
         }
 
-        .btn-members svg {
-            width: 18px;
-            height: 18px;
-            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        .pb-number {
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.22em;
+            color: var(--bright-cyan);
+            opacity: 0.5;
+            min-width: 22px;
+            transition: opacity 0.35s ease;
         }
 
-        .btn-members:hover svg {
-            transform: translateX(5px);
+        .platform-btn:hover .pb-number { opacity: 1; }
+
+        .pb-title {
+            font-size: clamp(19px,2.2vw,25px);
+            font-weight: 600;
+            letter-spacing: 0.02em;
+            color: var(--white);
+            margin-bottom: 5px;
+            line-height: 1.15;
+            transition: letter-spacing 0.4s ease;
+        }
+
+        .platform-btn:hover .pb-title { letter-spacing: 0.045em; }
+
+        .pb-desc {
+            font-size: 13px;
+            font-weight: 300;
+            letter-spacing: 0.04em;
+            color: rgba(197,217,224,0.45);
+            transition: color 0.35s ease;
+        }
+
+        .platform-btn:hover .pb-desc { color: rgba(197,217,224,0.75); }
+
+        .pb-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            position: relative;
+            z-index: 1;
+            flex-shrink: 0;
+        }
+
+        .pb-icon {
+            width: 50px; height: 50px;
+            border: 1px solid rgba(26,95,122,0.45);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            background: rgba(26,95,122,0.08);
+            transition: all 0.4s cubic-bezier(0.16,1,0.3,1);
+            color: rgba(87,166,187,0.7);
+        }
+
+        .platform-btn:hover .pb-icon {
+            background: rgba(45,137,176,0.18);
+            border-color: var(--bright-cyan);
+            transform: scale(1.08);
+            box-shadow: 0 0 22px rgba(45,137,176,0.28);
+            color: var(--light-cyan);
+        }
+
+        .pb-arrow {
+            display: flex;
+            align-items: center;
+            color: rgba(197,217,224,0.25);
+            transition: all 0.4s cubic-bezier(0.16,1,0.3,1);
+        }
+
+        .pb-arrow svg { width: 20px; height: 20px; }
+
+        .platform-btn:hover .pb-arrow {
+            color: var(--bright-cyan);
+            transform: translateX(7px);
         }
 
         /* Notice Banner */
         .notice-banner {
-            background: linear-gradient(135deg, var(--deep-blue) 0%, var(--navy-blue) 100%);
+            background: linear-gradient(135deg, var(--deep-blue), var(--navy-blue));
             border: 2px solid var(--cyan-blue);
             padding: 30px 50px;
             border-radius: 8px;
             text-align: center;
             margin: 80px auto;
             max-width: 800px;
-            box-shadow: 
-                0 10px 40px rgba(26, 95, 122, 0.3),
-                inset 0 1px 0 rgba(87, 166, 187, 0.2);
+            box-shadow: 0 10px 40px rgba(26,95,122,0.3), inset 0 1px 0 rgba(87,166,187,0.2);
             transform-style: preserve-3d;
-            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            transition: all 0.4s cubic-bezier(0.16,1,0.3,1);
             position: relative;
             overflow: hidden;
         }
@@ -459,122 +540,31 @@
         .notice-banner::before {
             content: '';
             position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(45deg, transparent 30%, rgba(87, 166, 187, 0.05) 50%, transparent 70%);
+            top: -50%; left: -50%;
+            width: 200%; height: 200%;
+            background: linear-gradient(45deg, transparent 30%, rgba(87,166,187,0.05) 50%, transparent 70%);
             animation: shimmer 6s linear infinite;
         }
 
         @keyframes shimmer {
-            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
-            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+            0%   { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%)  translateY(100%)  rotate(45deg); }
         }
 
         .notice-banner:hover {
             transform: translateY(-8px);
-            box-shadow: 
-                0 20px 60px rgba(26, 95, 122, 0.5),
-                inset 0 1px 0 rgba(87, 166, 187, 0.3);
+            box-shadow: 0 20px 60px rgba(26,95,122,0.5), inset 0 1px 0 rgba(87,166,187,0.3);
         }
 
         .notice-banner p {
-            position: relative;
-            z-index: 1;
-            font-size: clamp(18px, 2.2vw, 24px);
+            position: relative; z-index: 1;
+            font-size: clamp(18px,2.2vw,24px);
             font-weight: 500;
             letter-spacing: 0.02em;
             color: var(--white);
         }
 
-        /* Cards Grid */
-        .cards-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
-            gap: 50px;
-            margin-top: 80px;
-            opacity: 0;
-            transform: translateY(40px);
-            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.4s;
-        }
-
-        .cards-grid.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .card {
-            background: linear-gradient(135deg, var(--deep-blue) 0%, var(--navy-blue) 100%);
-            border: 2px solid var(--cyan-blue);
-            border-radius: 12px;
-            padding: 60px 45px;
-            position: relative;
-            transform-style: preserve-3d;
-            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-            overflow: hidden;
-            box-shadow: 
-                0 15px 50px rgba(10, 22, 40, 0.6),
-                inset 0 1px 0 rgba(87, 166, 187, 0.15),
-                inset 0 -1px 0 rgba(10, 22, 40, 0.5);
-        }
-
-        .card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(87, 166, 187, 0.1), transparent);
-            transition: left 0.6s ease;
-        }
-
-        .card:hover::before { left: 100%; }
-
-        .card:hover {
-            transform: translateY(-15px) rotateX(5deg) rotateY(3deg);
-            box-shadow: 
-                0 30px 80px rgba(26, 95, 122, 0.4),
-                inset 0 2px 0 rgba(87, 166, 187, 0.3),
-                inset 0 -2px 0 rgba(10, 22, 40, 0.7);
-            border-color: var(--bright-cyan);
-        }
-
-        .card-icon {
-            font-size: 56px;
-            margin-bottom: 30px;
-            display: block;
-            transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        .card:hover .card-icon { transform: scale(1.15) translateZ(20px); }
-
-        .card-title {
-            font-size: clamp(24px, 3vw, 30px);
-            font-weight: 600;
-            margin-bottom: 20px;
-            color: var(--white);
-            letter-spacing: 0.02em;
-            transition: all 0.4s ease;
-        }
-
-        .card:hover .card-title { transform: translateZ(10px); }
-
-        .card-description {
-            font-size: clamp(15px, 1.8vw, 18px);
-            line-height: 1.7;
-            color: var(--light-grey);
-            font-weight: 300;
-            transition: all 0.4s ease;
-        }
-
-        .card:hover .card-description {
-            color: var(--white);
-            transform: translateZ(5px);
-        }
-
-        /* Competition Section */
+        /* Competition */
         .competition-page {
             background: linear-gradient(180deg, var(--black) 0%, var(--deep-blue) 50%, var(--black) 100%);
             padding: 140px 0;
@@ -586,58 +576,51 @@
         .competition-page::after {
             content: '';
             position: absolute;
-            left: 0;
-            width: 100%;
-            height: 2px;
+            left: 0; width: 100%; height: 2px;
             background: linear-gradient(90deg, transparent, var(--cyan-blue), transparent);
         }
 
         .competition-page::before { top: 0; }
-        .competition-page::after { bottom: 0; }
+        .competition-page::after  { bottom: 0; }
 
-        .competition-content {
-            max-width: 1000px;
-            margin: 0 auto;
-        }
+        .competition-content { max-width: 1000px; margin: 0 auto; }
 
         .competition-highlights {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(300px,1fr));
             gap: 40px;
             margin-top: 60px;
         }
 
         .highlight-item {
             padding: 40px;
-            background: linear-gradient(135deg, rgba(10, 22, 40, 0.6) 0%, rgba(15, 40, 71, 0.6) 100%);
+            background: linear-gradient(135deg, rgba(10,22,40,0.6), rgba(15,40,71,0.6));
             border-left: 4px solid var(--bright-cyan);
             border-radius: 8px;
-            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            transition: all 0.4s cubic-bezier(0.16,1,0.3,1);
             transform-style: preserve-3d;
         }
 
         .highlight-item:hover {
             transform: translateX(10px) rotateY(-2deg);
             border-left-width: 6px;
-            box-shadow: -10px 10px 40px rgba(26, 95, 122, 0.3);
+            box-shadow: -10px 10px 40px rgba(26,95,122,0.3);
         }
 
         .highlight-item h3 {
-            font-size: clamp(20px, 2.5vw, 26px);
+            font-size: clamp(20px,2.5vw,26px);
             color: var(--white);
             margin-bottom: 15px;
-            letter-spacing: 0.02em;
             font-weight: 600;
         }
 
         .highlight-item p {
-            font-size: clamp(15px, 1.8vw, 18px);
+            font-size: clamp(15px,1.8vw,18px);
             line-height: 1.7;
             color: var(--light-grey);
             font-weight: 300;
         }
 
-        /* Footer */
         footer {
             padding: 80px 0 40px;
             text-align: center;
@@ -645,76 +628,51 @@
             margin-top: 100px;
         }
 
-        .contact-section {
-            margin-bottom: 40px;
-        }
-
+        .contact-section { margin-bottom: 40px; }
         .contact-section h3 {
-            font-size: clamp(20px, 2.5vw, 26px);
-            color: var(--white);
-            margin-bottom: 15px;
-            font-weight: 600;
-            letter-spacing: 0.05em;
+            font-size: clamp(20px,2.5vw,26px);
+            color: var(--white); margin-bottom: 15px;
+            font-weight: 600; letter-spacing: 0.05em;
         }
-
         .contact-section a {
-            color: var(--bright-cyan);
-            text-decoration: none;
-            font-size: clamp(16px, 1.8vw, 20px);
+            color: var(--bright-cyan); text-decoration: none;
+            font-size: clamp(16px,1.8vw,20px);
             transition: all 0.3s ease;
-            font-weight: 400;
         }
+        .contact-section a:hover { color: var(--light-cyan); text-shadow: 0 0 15px rgba(45,137,176,0.4); }
 
-        .contact-section a:hover {
-            color: var(--light-cyan);
-            text-shadow: 0 0 15px rgba(45, 137, 176, 0.4);
-        }
+        footer p { font-size: 16px; color: var(--light-grey); letter-spacing: 0.05em; font-weight: 300; }
 
-        footer p {
-            font-size: 16px;
-            color: var(--light-grey);
-            letter-spacing: 0.05em;
-            font-weight: 300;
-        }
-
-        /* Scroll Animations */
         .fade-in-section {
             opacity: 0;
             transform: translateY(40px);
-            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+            transition: all 0.8s cubic-bezier(0.16,1,0.3,1);
         }
+        .fade-in-section.visible { opacity: 1; transform: translateY(0); }
 
-        .fade-in-section.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* Responsive */
         @media (max-width: 768px) {
-            body { padding-top: 70px; }
+            body { padding-top: 70px; cursor: default; }
             .nav-container { padding: 0 20px; }
             .menu-toggle { display: flex; }
             .nav-menu {
-                position: fixed;
-                top: 70px;
-                right: -100%;
+                position: fixed; top: 70px; right: -100%;
                 flex-direction: column;
-                background: rgba(0, 0, 0, 0.98);
-                width: 250px;
-                height: calc(100vh - 70px);
-                padding: 40px 20px;
-                gap: 30px;
+                background: rgba(0,0,0,0.98);
+                width: 250px; height: calc(100vh - 70px);
+                padding: 40px 20px; gap: 30px;
                 transition: right 0.3s ease;
-                border-left: 1px solid rgba(26, 95, 122, 0.2);
+                border-left: 1px solid rgba(26,95,122,0.2);
             }
             .nav-menu.active { right: 0; }
             .container { padding: 0 20px; }
             section { padding: 80px 0; }
-            .cards-grid { grid-template-columns: 1fr; gap: 30px; }
-            .card { padding: 40px 30px; }
+            .platform-btn { padding: 26px 22px; cursor: pointer; }
+            .pb-left { gap: 16px; }
+            .pb-title { font-size: 17px; }
+            .pb-icon { width: 38px; height: 38px; font-size: 16px; }
+            .pb-desc { display: none; }
             .notice-banner { padding: 25px 30px; margin: 50px auto; }
             #cursor, #cursor-light { display: none; }
-            body { cursor: default; }
             .btn-members { cursor: pointer; }
         }
 
@@ -724,7 +682,7 @@
     </style>
 </head>
 <body>
-    <!-- Navigation Header -->
+
     <nav class="navbar">
         <div class="nav-container">
             <a href="#" class="nav-logo">SIOA</a>
@@ -734,21 +692,15 @@
                 <li><a href="#competition">Competition</a></li>
             </ul>
             <div class="menu-toggle" id="menuToggle">
-                <span></span>
-                <span></span>
-                <span></span>
+                <span></span><span></span><span></span>
             </div>
         </div>
     </nav>
 
-    <!-- Custom Cursor -->
     <div id="cursor"></div>
     <div id="cursor-light"></div>
-
-    <!-- Animated Background Canvas -->
     <canvas id="bg-canvas"></canvas>
 
-    <!-- Hero Section -->
     <section class="hero">
         <div class="container">
             <p class="hero-tagline-top">VIDHĀNA · ABHYĀSA · GAURAVA · HASTA</p>
@@ -758,7 +710,6 @@
         </div>
     </section>
 
-    <!-- About Section -->
     <section id="about">
         <div class="container">
             <div class="section-header fade-in-section">
@@ -766,92 +717,83 @@
                 <h2 class="section-title">Society of Indian Origami Artists</h2>
             </div>
             <div class="about-content fade-in-section">
-                <p>
-                    The Society of Indian Origami Artists stands as India's premier institution for the 
-                    art of paper folding. We are committed to establishing origami as a recognized 
-                    cultural practice, fostering creativity, precision, and artistic expression through this 
-                    timeless medium.
-                </p>
-                <p>
-                    SIOA serves as a unifying force for origami practitioners across the nation, providing a 
-                    structured platform for learning, competition, and artistic excellence. Our mission extends 
-                    beyond recreation, we cultivate discipline, spatial thinking, and cultural appreciation 
-                    through the meditative practice of origami.
-                </p>
-                <p>
-                    As a national-level organization, we uphold the highest standards of artistic integrity 
-                    and competitive fairness, ensuring that origami is celebrated as both an art form and a 
-                    competitive discipline worthy of institutional recognition.
-                </p>
+                <p>The Society of Indian Origami Artists stands as India's premier institution for the art of paper folding. We are committed to establishing origami as a recognized cultural practice, fostering creativity, precision, and artistic expression through this timeless medium.</p>
+                <p>SIOA serves as a unifying force for origami practitioners across the nation, providing a structured platform for learning, competition, and artistic excellence. Our mission extends beyond recreation — we cultivate discipline, spatial thinking, and cultural appreciation through the meditative practice of origami.</p>
+                <p>As a national-level organization, we uphold the highest standards of artistic integrity and competitive fairness, ensuring that origami is celebrated as both an art form and a competitive discipline worthy of institutional recognition.</p>
             </div>
-
-            <!-- About Our Members Button -->
             <div class="members-btn-wrap fade-in-section">
-                <a href="membes.html" class="btn-members">
+                <a href="members.html" class="btn-members">
                     <span>About Our Members</span>
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M5 12h14M12 5l7 7-7 7"/>
-                    </svg>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
                 </a>
             </div>
         </div>
     </section>
 
-    <!-- What We Offer -->
+    <!-- Our Platform — 3 Sleek Nav Buttons -->
     <section id="offerings">
         <div class="container">
             <div class="section-header fade-in-section">
                 <p class="section-label">Our Platform</p>
                 <h2 class="section-title">What We Offer</h2>
             </div>
-            <div class="cards-grid fade-in-section">
-                <div class="card">
-                    <h3 class="card-title">National Competitions</h3>
-                    <p class="card-description">
-                        Structured, merit-based competitions that recognize technical skill, creativity, 
-                        and mastery. Our events set the benchmark for competitive origami in India.
-                    </p>
-                </div>
-                <div class="card">
-                    <h3 class="card-title">Educational Resources</h3>
-                    <p class="card-description">
-                        Comprehensive training materials, workshops, and certification programs designed 
-                        to elevate practitioners from novice to master level.
-                    </p>
-                </div>
-                <div class="card">
-                    <h3 class="card-title">Community Network</h3>
-                    <p class="card-description">
-                        A nationwide network of artists, educators, and enthusiasts united by a shared 
-                        dedication to excellence in origami.
-                    </p>
-                </div>
-                <div class="card">
-                    <h3 class="card-title">Cultural Preservation</h3>
-                    <p class="card-description">
-                        Safeguarding traditional techniques while encouraging innovation, ensuring origami 
-                        remains a living, evolving art form.
-                    </p>
-                </div>
-                <div class="card">
-                    <h3 class="card-title">Recognition & Awards</h3>
-                    <p class="card-description">
-                        Official recognition for outstanding artists and contributors, celebrating excellence 
-                        and inspiring the next generation of origami masters.
-                    </p>
-                </div>
-                <div class="card">
-                    <h3 class="card-title">Research & Innovation</h3>
-                    <p class="card-description">
-                        Advancing the mathematical, artistic, and pedagogical dimensions of origami through 
-                        scholarly research and creative exploration.
-                    </p>
-                </div>
+            <p class="platform-intro fade-in-section">
+                Explore SIOA's three pillars — curated knowledge, practical tools, and a living community of artists from across India.
+            </p>
+            <div class="platform-nav fade-in-section">
+
+                <a href="blog.html" class="platform-btn">
+                    <div class="pb-left">
+                        <span class="pb-number">01</span>
+                        <div>
+                            <p class="pb-title">Educational Blog</p>
+                            <p class="pb-desc">Articles, techniques, history &amp; inspiration</p>
+                        </div>
+                    </div>
+                    <div class="pb-right">
+                        <div class="pb-icon">✦</div>
+                        <div class="pb-arrow">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="resources.html" class="platform-btn">
+                    <div class="pb-left">
+                        <span class="pb-number">02</span>
+                        <div>
+                            <p class="pb-title">Resources</p>
+                            <p class="pb-desc">Diagrams, tutorials, certifications &amp; downloads</p>
+                        </div>
+                    </div>
+                    <div class="pb-right">
+                        <div class="pb-icon">◈</div>
+                        <div class="pb-arrow">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="network.html" class="platform-btn">
+                    <div class="pb-left">
+                        <span class="pb-number">03</span>
+                        <div>
+                            <p class="pb-title">Community Network</p>
+                            <p class="pb-desc">Connect with artists, chapters &amp; events across India</p>
+                        </div>
+                    </div>
+                    <div class="pb-right">
+                        <div class="pb-icon">⬡</div>
+                        <div class="pb-arrow">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                        </div>
+                    </div>
+                </a>
+
             </div>
         </div>
     </section>
 
-    <!-- National Origami Competition -->
     <section id="competition" class="competition-page">
         <div class="container">
             <div class="section-header fade-in-section">
@@ -860,19 +802,9 @@
             </div>
             <div class="competition-content">
                 <div class="about-content fade-in-section">
-                    <p>
-                        The National Origami Competition (VAGH 2026), represents the pinnacle of competitive paper folding 
-                        in India. This annual event brings together the nation's most skilled practitioners 
-                        to demonstrate technical excellence, artistic vision, and creative innovation.
-                    </p>
-                    <p>
-                        Participants compete across multiple categories, each designed to test different aspects 
-                        of origami mastery, from classical forms and complex designs to original creations 
-                        and thematic interpretations. Our judging criteria emphasize precision, creativity, and 
-                        cultural significance.
-                    </p>
+                    <p>The National Origami Competition (VAGH 2026) represents the pinnacle of competitive paper folding in India. This annual event brings together the nation's most skilled practitioners to demonstrate technical excellence, artistic vision, and creative innovation.</p>
+                    <p>Participants compete across multiple categories, each designed to test different aspects of origami mastery — from classical forms and complex designs to original creations and thematic interpretations. Our judging criteria emphasize precision, creativity, and cultural significance.</p>
                 </div>
-
                 <div class="competition-highlights fade-in-section">
                     <div class="highlight-item">
                         <h3>National Recognition</h3>
@@ -899,15 +831,13 @@
                         <p>Connect with fellow artists, educators, and enthusiasts, building relationships that extend beyond the competition.</p>
                     </div>
                 </div>
-
-                <div class="notice-banner fade-in-section" style="margin-top: 80px;">
+                <div class="notice-banner fade-in-section" style="margin-top:80px;">
                     <p>📋 Official Information Brochure will be released soon</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Footer -->
     <footer>
         <div class="container">
             <div class="contact-section">
@@ -919,169 +849,101 @@
     </footer>
 
     <script>
-        // Navigation smooth scroll
         document.querySelectorAll('.nav-menu a').forEach(link => {
-            link.addEventListener('click', (e) => {
+            link.addEventListener('click', e => {
                 e.preventDefault();
-                const targetId = link.getAttribute('href');
-                const targetSection = document.querySelector(targetId);
-                if (targetSection) {
-                    const navHeight = document.querySelector('.navbar').offsetHeight;
-                    window.scrollTo({ top: targetSection.offsetTop - navHeight, behavior: 'smooth' });
+                const target = document.querySelector(link.getAttribute('href'));
+                if (target) {
+                    window.scrollTo({ top: target.offsetTop - document.querySelector('.navbar').offsetHeight, behavior: 'smooth' });
                     document.getElementById('navMenu').classList.remove('active');
                     document.getElementById('menuToggle').classList.remove('active');
                 }
             });
         });
 
-        // Mobile menu toggle
         const menuToggle = document.getElementById('menuToggle');
-        const navMenu = document.getElementById('navMenu');
+        const navMenu    = document.getElementById('navMenu');
         menuToggle.addEventListener('click', () => {
             navMenu.classList.toggle('active');
             menuToggle.classList.toggle('active');
         });
 
-        // Navbar scroll behaviour
         const navbar = document.querySelector('.navbar');
         let lastScrollY = window.scrollY;
-
         window.addEventListener('scroll', () => {
-            const currentScrollY = window.scrollY;
-            navbar.classList.toggle('scrolled', currentScrollY > 50);
-            if (currentScrollY > lastScrollY && currentScrollY > 200) {
-                navbar.classList.add('hidden');
-            } else {
-                navbar.classList.remove('hidden');
-            }
-            if (currentScrollY < 10) navbar.classList.remove('hidden');
-            lastScrollY = currentScrollY;
+            const curr = window.scrollY;
+            navbar.classList.toggle('scrolled', curr > 50);
+            if (curr > lastScrollY && curr > 200) navbar.classList.add('hidden');
+            else navbar.classList.remove('hidden');
+            if (curr < 10) navbar.classList.remove('hidden');
+            lastScrollY = curr;
         });
 
-        // Custom Cursor
-        const cursor = document.getElementById('cursor');
-        const cursorLight = document.getElementById('cursor-light');
-        let mouseX = 0, mouseY = 0, cursorX = 0, cursorY = 0;
-
-        document.addEventListener('mousemove', (e) => { mouseX = e.clientX; mouseY = e.clientY; });
-
-        function animateCursor() {
-            cursorX += (mouseX - cursorX) * 0.15;
-            cursorY += (mouseY - cursorY) * 0.15;
-            cursor.style.transform = `translate(${cursorX - 10}px, ${cursorY - 10}px)`;
-            cursorLight.style.left = `${cursorX}px`;
-            cursorLight.style.top = `${cursorY}px`;
-            requestAnimationFrame(animateCursor);
-        }
-        animateCursor();
-
-        document.querySelectorAll('a, button, .card').forEach(el => {
+        const cursor   = document.getElementById('cursor');
+        const cursorLt = document.getElementById('cursor-light');
+        let mx = 0, my = 0, cx = 0, cy = 0;
+        document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+        (function loop() {
+            cx += (mx - cx) * 0.15; cy += (my - cy) * 0.15;
+            cursor.style.transform = `translate(${cx-10}px, ${cy-10}px)`;
+            cursorLt.style.left = `${cx}px`; cursorLt.style.top = `${cy}px`;
+            requestAnimationFrame(loop);
+        })();
+        document.querySelectorAll('a, .platform-btn').forEach(el => {
             el.addEventListener('mouseenter', () => cursor.style.transform += ' scale(1.5)');
             el.addEventListener('mouseleave', () => cursor.style.transform = cursor.style.transform.replace(' scale(1.5)', ''));
         });
 
-        // Animated Background
         const canvas = document.getElementById('bg-canvas');
         const ctx = canvas.getContext('2d');
-
-        function resizeCanvas() {
-            canvas.width = window.innerWidth;
-            canvas.height = document.documentElement.scrollHeight;
-        }
-        resizeCanvas();
-        window.addEventListener('resize', resizeCanvas);
+        function resize() { canvas.width = window.innerWidth; canvas.height = document.documentElement.scrollHeight; }
+        resize(); window.addEventListener('resize', resize);
 
         const particles = [];
         class Particle {
-            constructor() {
-                this.reset();
-                this.y = Math.random() * canvas.height;
-                this.opacity = Math.random() * 0.5 + 0.3;
-            }
+            constructor() { this.reset(); this.y = Math.random() * canvas.height; }
             reset() {
-                this.x = Math.random() * canvas.width;
-                this.y = -10;
-                this.size = Math.random() * 3 + 1;
-                this.speedY = Math.random() * 0.3 + 0.1;
-                this.speedX = (Math.random() - 0.5) * 0.2;
-                this.opacity = Math.random() * 0.5 + 0.3;
+                this.x = Math.random() * canvas.width; this.y = -10;
+                this.size = Math.random() * 3 + 1; this.speedY = Math.random() * 0.3 + 0.1;
+                this.speedX = (Math.random() - 0.5) * 0.2; this.opacity = Math.random() * 0.5 + 0.3;
                 this.hue = Math.random() * 40 + 180;
             }
             update() {
-                this.y += this.speedY;
-                this.x += this.speedX;
-                this.x += Math.sin(this.y * 0.01) * 0.3;
+                this.y += this.speedY; this.x += this.speedX + Math.sin(this.y * 0.01) * 0.3;
                 if (this.y > canvas.height + 10) this.reset();
                 if (this.x < 0) this.x = canvas.width;
                 if (this.x > canvas.width) this.x = 0;
             }
             draw() {
-                ctx.save();
-                ctx.globalAlpha = this.opacity;
-                ctx.fillStyle = `hsl(${this.hue}, 70%, 50%)`;
-                ctx.shadowBlur = 15;
-                ctx.shadowColor = `hsl(${this.hue}, 70%, 50%)`;
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                ctx.fill();
-                ctx.restore();
+                ctx.save(); ctx.globalAlpha = this.opacity;
+                ctx.fillStyle = `hsl(${this.hue},70%,50%)`; ctx.shadowBlur = 15;
+                ctx.shadowColor = `hsl(${this.hue},70%,50%)`;
+                ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI*2); ctx.fill(); ctx.restore();
             }
         }
-
         for (let i = 0; i < 80; i++) particles.push(new Particle());
-
-        function drawConnections() {
+        (function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
             for (let i = 0; i < particles.length; i++) {
-                for (let j = i + 1; j < particles.length; j++) {
-                    const dx = particles[i].x - particles[j].x;
-                    const dy = particles[i].y - particles[j].y;
-                    const dist = Math.sqrt(dx * dx + dy * dy);
-                    if (dist < 150) {
-                        ctx.save();
-                        ctx.globalAlpha = (1 - dist / 150) * 0.15;
-                        ctx.strokeStyle = `hsl(190, 70%, 50%)`;
-                        ctx.lineWidth = 1;
-                        ctx.beginPath();
-                        ctx.moveTo(particles[i].x, particles[i].y);
-                        ctx.lineTo(particles[j].x, particles[j].y);
-                        ctx.stroke();
-                        ctx.restore();
+                for (let j = i+1; j < particles.length; j++) {
+                    const dx = particles[i].x - particles[j].x, dy = particles[i].y - particles[j].y;
+                    const d = Math.sqrt(dx*dx + dy*dy);
+                    if (d < 150) {
+                        ctx.save(); ctx.globalAlpha = (1-d/150)*0.15;
+                        ctx.strokeStyle = 'hsl(190,70%,50%)'; ctx.lineWidth = 1;
+                        ctx.beginPath(); ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y); ctx.stroke(); ctx.restore();
                     }
                 }
             }
-        }
-
-        function animate() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            drawConnections();
             particles.forEach(p => { p.update(); p.draw(); });
             requestAnimationFrame(animate);
-        }
-        animate();
+        })();
 
-        // Scroll animations
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) entry.target.classList.add('visible');
-            });
-        }, { threshold: 0.15, rootMargin: '0px 0px -100px 0px' });
-
-        document.querySelectorAll('.fade-in-section').forEach(el => observer.observe(el));
-
-        // 3D Card Tilt
-        document.querySelectorAll('.card').forEach(card => {
-            card.addEventListener('mousemove', (e) => {
-                const rect = card.getBoundingClientRect();
-                const x = e.clientX - rect.left;
-                const y = e.clientY - rect.top;
-                const rotateX = ((y - rect.height / 2) / rect.height) * 8;
-                const rotateY = ((x - rect.width / 2) / rect.width) * -8;
-                card.style.transform = `translateY(-15px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
-            });
-            card.addEventListener('mouseleave', () => {
-                card.style.transform = 'translateY(0) rotateX(0deg) rotateY(0deg)';
-            });
-        });
+        const io = new IntersectionObserver(entries => {
+            entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+        }, { threshold: 0.12, rootMargin: '0px 0px -80px 0px' });
+        document.querySelectorAll('.fade-in-section, .platform-intro, .platform-nav').forEach(el => io.observe(el));
     </script>
 </body>
 </html>
