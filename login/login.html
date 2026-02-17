@@ -432,7 +432,7 @@
     /* ── Redirect if already logged in ── */
     (async () => {
         const { data: { user } } = await sb.auth.getUser();
-        if (user) window.location.href = "/dashboard/";
+        if (user) window.location.href = "/dashbord/index.html";
     })();
 
     /* ── Tab switching ── */
@@ -490,7 +490,7 @@
             showMsg('login-msg', error.message, 'error');
         } else {
             showMsg('login-msg', 'Signed in! Redirecting…', 'success');
-            setTimeout(() => window.location.href = '/dashboard/', 800);
+            setTimeout(() => window.location.href = '/dashbord/index.html', 800);
         }
     });
 
