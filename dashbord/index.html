@@ -1263,14 +1263,46 @@ const supabaseKey = "sb_publishable_gCLTB6WM95Iw6Txcf2fjCA_5fnXPw77";
     stateInput.addEventListener('input', updateLocation);
 
     /* ── Profile form submit hook (no Supabase logic) ── */
-    document.getElementById('profile-form').addEventListener('submit', function(e) {
-        e.preventDefault();
+    document.getElementById('profile-form').addEventListener('submit', async function(e) {
+    e.preventDefault();
+
+    const msg = document.getElementById('message');
+    msg.textContent = "Saving...";
+    msg.className = "";
+
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) {
+        window.location.href = "/login/";
+        return;
+    }
+
+    const updates = {
+        full_name: document.getElementById('full_name').value.trim(),
+        city: document.getElementById('city').value.trim(),
+        state: document.getElementById('state').value.trim(),
+        bio: document.getElementById('bio').value.trim()
+    };
+
+    const { error } = await supabase
+        .from('profiles')
+        .update(updates)
+        .eq('id', user.id);
+
+    if (error) {
+        msg.textContent = "Error saving profile.";
+        msg.className = "error";
+        console.error(error);
+    } else {
+        msg.textContent = "Profile updated successfully.";
+        msg.className = "success";
+    }
+});
+
         // TODO: connect Supabase update logic here
         // Placeholder feedback:
         const msg = document.getElementById('message');
         msg.textContent = ''; // clear
-        // Example of calling a handler: handleProfileUpdate(e)
-    });
+        // Example of calling a handler: handleProfileUpdate(e)});
 
     /* ── Logout button hook ── */
    document.getElementById("logout").addEventListener("click", async function() {
