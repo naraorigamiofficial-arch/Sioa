@@ -1192,7 +1192,18 @@ const sb = window.supabase.createClient(
   }
 })();
         // On page load — show empty state until data arrives
-    
+    const logoutBtn = document.getElementById('logoutBtn');
+
+if (logoutBtn) {
+    logoutBtn.addEventListener('click', async function (e) {
+        e.preventDefault();
+
+        await sb.auth.signOut();
+
+        window.location.href = '/';
+    });
+}
+
 
 
         /* ─────────────────────────────────────────────────────────────
