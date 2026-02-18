@@ -806,9 +806,17 @@
             </div>
 
             <div class="hero-actions">
-                <a href="dashbord/index.html" class="btn-primary-hero">Create Your Profile</a>
-                <a href="#offerings" class="btn-ghost-hero">Explore Platform</a>
-            </div>
+    <a href="dashbord/index.html"
+       id="mainCtaBtn"
+       class="btn-primary-hero">
+       Create Your Profile
+    </a>
+
+    <a href="#offerings"
+       class="btn-ghost-hero">
+       Explore Platform
+    </a>
+</div>
         </div>
     </section>
 
@@ -1169,15 +1177,13 @@ const sb = window.supabase.createClient(
   "sb_publishable_gCLTB6WM95Iw6Txcf2fjCA_5fnXPw77"
 );
 
-(async () => {
-  const { data } = await sb.auth.getSession();
+(async function () {
+  const { data } = await sb.auth.getUser();
 
-  if (data.session) {
-    // Hide "Create Account"
+  if (data.user) {
     const createBtn = document.getElementById("createAccountBtn");
     if (createBtn) createBtn.style.display = "none";
 
-    // Change main CTA
     const mainBtn = document.getElementById("mainCtaBtn");
     if (mainBtn) {
       mainBtn.textContent = "Go to Dashboard";
