@@ -630,8 +630,9 @@
     <!-- SUPABASE CDN (MUST BE ABOVE AUTH SCRIPT) -->
 
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2">
-    
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"> </script>
+
+<script>
 const supabase = window.supabase.createClient(
   "https://zbgvgzzaejaxrgcjjovc.supabase.co",
   "sb_publishable_gCLTB6WM95Iw6Txcf2fjCA_5fnXPw77"
@@ -648,6 +649,15 @@ async function checkAuth() {
   return data.session.user;
 }
 
+async function boot() {
+  const user = await checkAuth();
+  if (!user) return;
+
+  document.body.classList.add("auth-ready");
+  console.log("Authenticated:", user.email);
+}
+
+boot();
 
 
     /* ─────────────────────────────────────────
@@ -1025,6 +1035,6 @@ async function checkAuth() {
         wireActionButtons(profile ? profile.username : '');
     })();
 
-       </script>
+</script>
 </body>
 </html>
