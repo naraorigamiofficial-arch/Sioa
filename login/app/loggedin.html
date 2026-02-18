@@ -632,22 +632,8 @@
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-<script>
-const supabase = window.supabase.createClient(
-  "https://zbgvgzzaejaxrgcjjovc.supabase.co",
-  "sb_publishable_gCLTB6WM95Iw6Txcf2fjCA_5fnXPw77"
-);
 
-async function checkAuth() {
-  const { data, error } = await supabase.auth.getSession();
-
-  if (error || !data || !data.session) {
-    window.location.href = "/login/index.html";
-    return null;
-  }
-
-  return data.session.user;
-}
+    <script>
 
 
     /* ─────────────────────────────────────────
@@ -1025,6 +1011,6 @@ async function checkAuth() {
         wireActionButtons(profile ? profile.username : '');
     })();
 
-    </script>
+       </script>
 </body>
 </html>
