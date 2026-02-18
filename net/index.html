@@ -930,7 +930,7 @@
                     '<button class="btn-follow ' + (following ? 'following' : '') + '" data-id="' + p.id + '">' +
                         (following ? 'Following' : 'Follow') +
                     '</button>' +
-                    '<a class="btn-view-profile" href="/artists/index.html">View</a>' +
+                    '<a class="btn-view-profile" href="/artists/index.html?u=' + (p.username || p.id) + '">View</a>' +
                 '</div>';
 
             // Attach follow event
