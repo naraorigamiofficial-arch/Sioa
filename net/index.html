@@ -1,0 +1,1153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIOA | Browse Artists</title>
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --black: #000000;
+            --deep-blue: #0a1628;
+            --navy-blue: #0f2847;
+            --cyan-blue: #1a5f7a;
+            --bright-cyan: #2d89b0;
+            --light-cyan: #57a6bb;
+            --white: #e8f4f8;
+            --light-grey: #c5d9e0;
+            --border: rgba(26,95,122,0.25);
+            --border-strong: rgba(45,137,176,0.4);
+            --card-bg: linear-gradient(135deg, rgba(10,22,40,0.75), rgba(15,40,71,0.5));
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--black);
+            color: var(--white);
+            overflow-x: hidden;
+            visibility: hidden;
+        }
+        body.auth-ready { visibility: visible; }
+
+        #bg-canvas {
+            position: fixed; top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: 0; opacity: 0.35; pointer-events: none;
+        }
+
+        /* NAVBAR */
+        .navbar {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+            background: rgba(0,0,0,0.88);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+            padding: 18px 0;
+            transition: all 0.4s cubic-bezier(0.16,1,0.3,1);
+        }
+        .navbar.scrolled {
+            padding: 12px 0;
+            background: rgba(0,0,0,0.98);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5), 0 2px 10px rgba(26,95,122,0.2);
+            border-bottom: 1px solid var(--border-strong);
+        }
+        .nav-container {
+            max-width: 1300px; margin: 0 auto; padding: 0 40px;
+            display: flex; align-items: center; justify-content: space-between;
+        }
+        .nav-logo {
+            font-size: 24px; font-weight: 800; letter-spacing: 0.1em;
+            color: var(--white); text-decoration: none;
+            transition: color 0.3s;
+        }
+        .nav-logo:hover { color: var(--bright-cyan); }
+        .nav-right {
+            display: flex; align-items: center; gap: 32px;
+        }
+        .nav-links {
+            display: flex; gap: 32px; list-style: none; align-items: center;
+        }
+        .nav-links a {
+            color: var(--light-grey); text-decoration: none; font-size: 13px;
+            font-weight: 400; letter-spacing: 0.06em;
+            position: relative; padding: 4px 0;
+            transition: color 0.3s;
+        }
+        .nav-links a.active { color: var(--white); }
+        .nav-links a::after {
+            content: ''; position: absolute; bottom: 0; left: 50%;
+            transform: translateX(-50%); width: 0; height: 1.5px;
+            background: linear-gradient(90deg, var(--bright-cyan), var(--light-cyan));
+            transition: width 0.35s cubic-bezier(0.16,1,0.3,1);
+        }
+        .nav-links a:hover { color: var(--white); }
+        .nav-links a.active::after,
+        .nav-links a:hover::after { width: 100%; }
+        .nav-user {
+            display: flex; align-items: center; gap: 12px;
+            cursor: pointer;
+        }
+        .nav-avatar {
+            width: 36px; height: 36px; border-radius: 50%;
+            background: linear-gradient(135deg, var(--cyan-blue), var(--bright-cyan));
+            border: 1.5px solid var(--border-strong);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 13px; font-weight: 700; color: var(--white);
+            letter-spacing: 0.04em;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+        .nav-user:hover .nav-avatar {
+            border-color: var(--bright-cyan);
+            box-shadow: 0 0 14px rgba(45,137,176,0.3);
+        }
+        .nav-username {
+            font-size: 13px; font-weight: 500; color: var(--light-grey);
+            letter-spacing: 0.04em;
+        }
+        .btn-signout {
+            padding: 8px 18px; background: transparent;
+            border: 1px solid rgba(26,95,122,0.45); border-radius: 4px;
+            color: var(--light-grey); font-family: 'Inter', sans-serif;
+            font-size: 12px; font-weight: 500; letter-spacing: 0.1em;
+            text-transform: uppercase; cursor: pointer;
+            transition: all 0.3s;
+        }
+        .btn-signout:hover {
+            border-color: var(--bright-cyan); color: var(--white);
+            background: rgba(26,95,122,0.12);
+        }
+
+        /* PAGE */
+        .page {
+            position: relative; z-index: 1;
+            max-width: 1300px; margin: 0 auto;
+            padding: 110px 40px 80px;
+        }
+
+        /* HEADER */
+        .page-header {
+            margin-bottom: 44px;
+            opacity: 0; animation: fadeUp 0.7s ease forwards 0.1s;
+        }
+        .page-eyebrow {
+            font-size: 11px; font-weight: 500; letter-spacing: 0.3em;
+            text-transform: uppercase; color: var(--bright-cyan); margin-bottom: 10px;
+        }
+        .page-title {
+            font-size: clamp(28px, 4vw, 46px); font-weight: 700;
+            color: var(--white); letter-spacing: 0.01em; line-height: 1.1;
+            margin-bottom: 8px;
+        }
+        .page-sub {
+            font-size: 15px; font-weight: 300; color: var(--light-grey);
+            letter-spacing: 0.04em;
+        }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(22px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /* SEARCH BAR */
+        .search-section {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 28px;
+            margin-bottom: 28px;
+            opacity: 0; animation: fadeUp 0.7s ease forwards 0.2s;
+        }
+        .search-row {
+            display: flex; gap: 12px; align-items: stretch;
+            margin-bottom: 16px;
+        }
+        .search-input-wrap {
+            flex: 1; position: relative;
+        }
+        .search-icon {
+            position: absolute; left: 16px; top: 50%; transform: translateY(-50%);
+            pointer-events: none;
+        }
+        .search-icon svg {
+            width: 17px; height: 17px; stroke: var(--bright-cyan);
+            stroke-width: 1.7; fill: none;
+            stroke-linecap: round; stroke-linejoin: round;
+        }
+        .search-input {
+            width: 100%; padding: 13px 16px 13px 46px;
+            background: rgba(10,22,40,0.7);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            color: var(--white); font-family: 'Inter', sans-serif;
+            font-size: 14px; font-weight: 300; letter-spacing: 0.03em;
+            outline: none;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+        .search-input::placeholder { color: rgba(197,217,224,0.3); }
+        .search-input:focus {
+            border-color: var(--bright-cyan);
+            box-shadow: 0 0 0 3px rgba(45,137,176,0.1);
+        }
+        .btn-search {
+            padding: 13px 28px;
+            background: linear-gradient(135deg, var(--cyan-blue), var(--bright-cyan));
+            border: none; border-radius: 6px;
+            color: var(--white); font-family: 'Inter', sans-serif;
+            font-size: 13px; font-weight: 600; letter-spacing: 0.12em;
+            text-transform: uppercase; cursor: pointer;
+            transition: opacity 0.3s, transform 0.2s, box-shadow 0.3s;
+            white-space: nowrap;
+        }
+        .btn-search:hover {
+            opacity: 0.9; transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(45,137,176,0.3);
+        }
+        .btn-search:active { transform: translateY(0); }
+
+        .filters-row {
+            display: flex; gap: 12px; flex-wrap: wrap; align-items: center;
+        }
+        .filter-group {
+            display: flex; flex-direction: column; gap: 5px;
+        }
+        .filter-label {
+            font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase;
+            color: rgba(197,217,224,0.4);
+        }
+        .filter-select {
+            padding: 9px 34px 9px 14px;
+            background: rgba(10,22,40,0.7) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%232d89b0' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E") no-repeat right 10px center;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            color: var(--white); font-family: 'Inter', sans-serif;
+            font-size: 13px; letter-spacing: 0.03em;
+            outline: none; cursor: pointer;
+            appearance: none; -webkit-appearance: none;
+            min-width: 170px;
+            transition: border-color 0.3s;
+        }
+        .filter-select option { background: #0a1628; color: var(--white); }
+        .filter-select:focus { border-color: var(--bright-cyan); }
+
+        .filter-divider {
+            width: 1px; height: 38px; background: var(--border);
+            align-self: flex-end; margin-bottom: 0;
+        }
+
+        .results-meta {
+            display: flex; align-items: center; justify-content: space-between;
+            margin-bottom: 20px;
+            opacity: 0; animation: fadeUp 0.7s ease forwards 0.3s;
+        }
+        .results-count {
+            font-size: 12px; letter-spacing: 0.08em; color: rgba(197,217,224,0.5);
+        }
+        .results-count span { color: var(--bright-cyan); font-weight: 600; }
+
+        /* ARTIST GRID */
+        .artists-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            opacity: 0; animation: fadeUp 0.7s ease forwards 0.35s;
+        }
+
+        /* ARTIST CARD */
+        .artist-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            overflow: hidden;
+            transition: transform 0.35s cubic-bezier(0.16,1,0.3,1), border-color 0.35s, box-shadow 0.35s;
+            position: relative;
+        }
+        .artist-card::before {
+            content: ''; position: absolute;
+            top: 0; left: 0; right: 0; height: 2px;
+            background: linear-gradient(90deg, var(--cyan-blue), var(--bright-cyan));
+            transform: scaleX(0); transform-origin: left;
+            transition: transform 0.35s cubic-bezier(0.16,1,0.3,1);
+        }
+        .artist-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--border-strong);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.4), 0 0 20px rgba(45,137,176,0.08);
+        }
+        .artist-card:hover::before { transform: scaleX(1); }
+
+        .artist-card-top {
+            padding: 24px 24px 20px;
+            display: flex; align-items: flex-start; gap: 16px;
+        }
+        .artist-avatar {
+            width: 56px; height: 56px; border-radius: 50%; flex-shrink: 0;
+            background: linear-gradient(135deg, rgba(26,95,122,0.55), rgba(45,137,176,0.45));
+            border: 2px solid var(--border-strong);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 19px; font-weight: 700; color: var(--white);
+            letter-spacing: 0.03em;
+            box-shadow: 0 0 20px rgba(45,137,176,0.12);
+            transition: box-shadow 0.35s, border-color 0.35s;
+        }
+        .artist-card:hover .artist-avatar {
+            border-color: var(--bright-cyan);
+            box-shadow: 0 0 24px rgba(45,137,176,0.3);
+        }
+        .artist-info { flex: 1; min-width: 0; }
+        .artist-name {
+            font-size: 16px; font-weight: 600; color: var(--white);
+            letter-spacing: 0.02em; margin-bottom: 3px;
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+        }
+        .artist-handle {
+            font-size: 12px; color: var(--bright-cyan); letter-spacing: 0.06em;
+            margin-bottom: 6px;
+        }
+        .artist-location {
+            display: flex; align-items: center; gap: 5px;
+            font-size: 11px; color: rgba(197,217,224,0.5); letter-spacing: 0.06em;
+        }
+        .artist-location svg {
+            width: 11px; height: 11px; stroke: rgba(45,137,176,0.5);
+            stroke-width: 1.8; fill: none;
+            stroke-linecap: round; stroke-linejoin: round;
+            flex-shrink: 0;
+        }
+
+        .artist-card-mid {
+            padding: 0 24px 18px;
+            border-bottom: 1px solid var(--border);
+        }
+        .artist-specialty {
+            display: inline-flex; align-items: center;
+            padding: 4px 12px;
+            background: rgba(26,95,122,0.15);
+            border: 1px solid var(--border);
+            border-radius: 100px;
+            font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase;
+            color: var(--light-cyan);
+        }
+        .artist-bio {
+            margin-top: 10px;
+            font-size: 12px; font-weight: 300; color: rgba(197,217,224,0.6);
+            line-height: 1.6; letter-spacing: 0.02em;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .artist-card-stats {
+            padding: 16px 24px;
+            display: flex; gap: 0;
+        }
+        .stat-item {
+            flex: 1; text-align: center;
+            padding: 0 8px;
+            border-right: 1px solid var(--border);
+        }
+        .stat-item:last-child { border-right: none; }
+        .stat-val {
+            font-size: 20px; font-weight: 700; color: var(--bright-cyan);
+            letter-spacing: -0.01em; line-height: 1;
+        }
+        .stat-key {
+            font-size: 9px; letter-spacing: 0.18em; text-transform: uppercase;
+            color: rgba(197,217,224,0.4); margin-top: 5px;
+        }
+
+        .artist-card-footer {
+            padding: 16px 24px;
+            border-top: 1px solid var(--border);
+            display: flex; gap: 10px;
+        }
+        .btn-follow {
+            flex: 1; padding: 10px 16px;
+            background: linear-gradient(135deg, var(--cyan-blue), var(--bright-cyan));
+            border: none; border-radius: 6px;
+            color: var(--white); font-family: 'Inter', sans-serif;
+            font-size: 12px; font-weight: 600; letter-spacing: 0.1em;
+            text-transform: uppercase; cursor: pointer;
+            transition: opacity 0.3s, transform 0.2s, box-shadow 0.3s;
+        }
+        .btn-follow:hover {
+            opacity: 0.9; transform: translateY(-1px);
+            box-shadow: 0 4px 16px rgba(45,137,176,0.3);
+        }
+        .btn-follow:active { transform: translateY(0); }
+        .btn-follow.following {
+            background: transparent;
+            border: 1px solid var(--border-strong);
+            color: var(--light-grey);
+        }
+        .btn-follow.following:hover {
+            border-color: rgba(220,60,60,0.5);
+            color: rgba(220,120,120,0.9);
+            box-shadow: none;
+        }
+        .btn-follow:disabled {
+            opacity: 0.5; cursor: not-allowed; transform: none;
+        }
+        .btn-view-profile {
+            padding: 10px 16px;
+            background: transparent;
+            border: 1px solid var(--border); border-radius: 6px;
+            color: var(--light-grey); font-family: 'Inter', sans-serif;
+            font-size: 12px; font-weight: 500; letter-spacing: 0.08em;
+            cursor: pointer; text-decoration: none;
+            display: flex; align-items: center;
+            transition: all 0.3s;
+            white-space: nowrap;
+        }
+        .btn-view-profile:hover {
+            border-color: var(--bright-cyan); color: var(--white);
+            background: rgba(26,95,122,0.12);
+        }
+
+        /* STATES */
+        .state-empty, .state-loading, .state-error {
+            grid-column: 1 / -1;
+            padding: 72px 40px;
+            text-align: center;
+        }
+        .state-icon {
+            width: 56px; height: 56px;
+            margin: 0 auto 20px;
+            background: rgba(26,95,122,0.1);
+            border: 1px solid var(--border);
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .state-icon svg {
+            width: 24px; height: 24px; stroke: var(--bright-cyan);
+            stroke-width: 1.5; fill: none;
+            stroke-linecap: round; stroke-linejoin: round;
+        }
+        .state-title {
+            font-size: 16px; font-weight: 600; color: var(--white);
+            margin-bottom: 8px; letter-spacing: 0.02em;
+        }
+        .state-sub {
+            font-size: 13px; font-weight: 300; color: rgba(197,217,224,0.4);
+            letter-spacing: 0.04em;
+        }
+
+        /* Loading spinner */
+        .spinner {
+            width: 28px; height: 28px;
+            border: 2px solid rgba(45,137,176,0.2);
+            border-top-color: var(--bright-cyan);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin: 0 auto 20px;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* Skeleton */
+        .skeleton-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            overflow: hidden;
+            padding: 24px;
+        }
+        .skel {
+            background: linear-gradient(90deg, rgba(26,95,122,0.15) 25%, rgba(45,137,176,0.1) 50%, rgba(26,95,122,0.15) 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.4s infinite;
+            border-radius: 4px;
+        }
+        @keyframes shimmer {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+        .skel-avatar { width: 56px; height: 56px; border-radius: 50%; flex-shrink: 0; }
+        .skel-line { height: 12px; margin-bottom: 8px; }
+        .skel-line.w60 { width: 60%; }
+        .skel-line.w40 { width: 40%; }
+        .skel-line.w80 { width: 80%; }
+        .skel-top { display: flex; gap: 16px; margin-bottom: 16px; }
+
+        /* PAGINATION */
+        .pagination {
+            display: flex; align-items: center; justify-content: center;
+            gap: 8px; margin-top: 36px;
+            opacity: 0; animation: fadeUp 0.7s ease forwards 0.4s;
+        }
+        .btn-page {
+            padding: 9px 18px;
+            background: rgba(10,22,40,0.6);
+            border: 1px solid var(--border); border-radius: 6px;
+            color: var(--light-grey); font-family: 'Inter', sans-serif;
+            font-size: 12px; font-weight: 500; letter-spacing: 0.08em;
+            cursor: pointer; transition: all 0.3s;
+        }
+        .btn-page:hover:not(:disabled) {
+            border-color: var(--bright-cyan); color: var(--white);
+            background: rgba(26,95,122,0.12);
+        }
+        .btn-page:disabled { opacity: 0.3; cursor: not-allowed; }
+        .page-info {
+            font-size: 12px; color: rgba(197,217,224,0.4); letter-spacing: 0.06em;
+            padding: 0 8px;
+        }
+
+        /* FOOTER */
+        footer {
+            position: relative; z-index: 1;
+            border-top: 1px solid var(--border);
+            padding: 28px 40px;
+            display: flex; align-items: center; justify-content: space-between;
+            max-width: 1300px; margin: 0 auto;
+            font-size: 12px; color: rgba(197,217,224,0.4); letter-spacing: 0.06em;
+            flex-wrap: wrap; gap: 12px;
+        }
+        .footer-beta {
+            display: inline-flex; align-items: center; gap: 7px;
+            padding: 4px 12px; background: rgba(26,95,122,0.1);
+            border: 1px solid var(--border); border-radius: 100px;
+            font-size: 10px; letter-spacing: 0.14em; color: var(--bright-cyan);
+        }
+        .footer-beta::before {
+            content: ''; width: 5px; height: 5px; border-radius: 50%;
+            background: var(--bright-cyan); animation: blink 1.6s infinite;
+        }
+        @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.2} }
+
+        /* TOAST */
+        .toast {
+            position: fixed; bottom: 32px; right: 32px; z-index: 9999;
+            padding: 14px 22px;
+            background: rgba(10,22,40,0.96);
+            border: 1px solid var(--border-strong);
+            border-radius: 8px;
+            font-size: 13px; font-weight: 400; color: var(--white);
+            letter-spacing: 0.04em;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+            transform: translateY(20px); opacity: 0;
+            transition: all 0.35s cubic-bezier(0.16,1,0.3,1);
+            pointer-events: none;
+        }
+        .toast.show { transform: translateY(0); opacity: 1; }
+        .toast.error { border-color: rgba(200,60,60,0.5); }
+
+        /* RESPONSIVE */
+        @media (max-width: 1024px) {
+            .artists-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 768px) {
+            .artists-grid { grid-template-columns: 1fr; }
+            .filters-row { flex-direction: column; align-items: stretch; }
+            .filter-group { flex-direction: row; align-items: center; gap: 10px; }
+            .filter-label { min-width: 70px; }
+            .filter-select { flex: 1; min-width: unset; }
+            .filter-divider { display: none; }
+            .search-row { flex-direction: column; }
+            .btn-search { width: 100%; }
+        }
+        @media (max-width: 640px) {
+            .page { padding: 90px 20px 60px; }
+            .nav-container { padding: 0 20px; }
+            .nav-links { display: none; }
+            footer { padding: 24px 20px; }
+            .toast { bottom: 16px; right: 16px; left: 16px; }
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="bg-canvas"></canvas>
+
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="/" class="nav-logo">SIOA</a>
+            <div class="nav-right">
+                <ul class="nav-links">
+                    <li><a href="/home/index.html">Home</a></li>
+                    <li><a href="/network/index.html" class="active">Browse Artists</a></li>
+                    <li><a href="/dashbord/competition.html">Competition</a></li>
+                </ul>
+                <div class="nav-user" id="navUser">
+                    <div class="nav-avatar" id="navAvatar">—</div>
+                    <span class="nav-username" id="navUsername">Loading…</span>
+                </div>
+                <button class="btn-signout" id="signOutBtn">Sign Out</button>
+            </div>
+        </div>
+    </nav>
+
+    <main class="page">
+        <div class="page-header">
+            <p class="page-eyebrow">Network</p>
+            <h1 class="page-title">Browse Artists</h1>
+            <p class="page-sub">Discover origami artists across India</p>
+        </div>
+
+        <!-- SEARCH -->
+        <div class="search-section">
+            <div class="search-row">
+                <div class="search-input-wrap">
+                    <span class="search-icon">
+                        <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                    </span>
+                    <input type="text" class="search-input" id="searchInput"
+                        placeholder="Search by name or username…"
+                        autocomplete="off" spellcheck="false">
+                </div>
+                <button class="btn-search" id="searchBtn">Search</button>
+            </div>
+            <div class="filters-row">
+                <div class="filter-group">
+                   <span class="filter-label">Specialty</span>
+                   <select class="filter-select" id="filterSpecialty">
+                       <option value="">All Specialties</option>
+                       <option value="22.5 designer">22.5 Designer</option>
+                       <option value="Box pleating designer">Box Pleating Designer</option>
+                       <option value="casual folder">Casual Folder</option>
+                       <option value="serious folder">Serious Folder</option>
+                       <option value="casual designer">Casual Designer</option>
+                       <option value="serious designer">Serious Designer</option>
+                  </select>
+                 </div>
+
+                <div class="filter-divider"></div>
+                <div class="filter-group">
+                    <span class="filter-label">Sort By</span>
+                    <select class="filter-select" id="filterSort">
+                        <option value="newest">Newest Members</option>
+                        <option value="competitions">Most Competitions</option>
+                        <option value="alpha">Alphabetical (A–Z)</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- RESULTS META -->
+        <div class="results-meta">
+            <div class="results-count" id="resultsCount">&nbsp;</div>
+        </div>
+
+        <!-- GRID -->
+        <div class="artists-grid" id="artistsGrid">
+            <!-- Skeleton loading -->
+            <div class="skeleton-card">
+                <div class="skel-top">
+                    <div class="skel skel-avatar"></div>
+                    <div style="flex:1">
+                        <div class="skel skel-line w60"></div>
+                        <div class="skel skel-line w40"></div>
+                        <div class="skel skel-line w80"></div>
+                    </div>
+                </div>
+                <div class="skel skel-line w80"></div>
+                <div class="skel skel-line" style="height:8px;width:100%;margin-top:4px"></div>
+            </div>
+            <div class="skeleton-card">
+                <div class="skel-top">
+                    <div class="skel skel-avatar"></div>
+                    <div style="flex:1">
+                        <div class="skel skel-line w60"></div>
+                        <div class="skel skel-line w40"></div>
+                        <div class="skel skel-line w80"></div>
+                    </div>
+                </div>
+                <div class="skel skel-line w80"></div>
+                <div class="skel skel-line" style="height:8px;width:100%;margin-top:4px"></div>
+            </div>
+            <div class="skeleton-card">
+                <div class="skel-top">
+                    <div class="skel skel-avatar"></div>
+                    <div style="flex:1">
+                        <div class="skel skel-line w60"></div>
+                        <div class="skel skel-line w40"></div>
+                        <div class="skel skel-line w80"></div>
+                    </div>
+                </div>
+                <div class="skel skel-line w80"></div>
+                <div class="skel skel-line" style="height:8px;width:100%;margin-top:4px"></div>
+            </div>
+        </div>
+
+        <!-- PAGINATION -->
+        <div class="pagination" id="pagination" style="display:none;">
+            <button class="btn-page" id="prevPage" disabled>← Prev</button>
+            <span class="page-info" id="pageInfo">Page 1</span>
+            <button class="btn-page" id="nextPage">Next →</button>
+        </div>
+    </main>
+
+    <footer>
+        <span>© 2026 SIOA – Society of Indian Origami Artists</span>
+        <span class="footer-beta">BETA — platform in active development</span>
+        <span>विधान · अभ्यास · गौरव · हस्त</span>
+    </footer>
+
+    <div class="toast" id="toast"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+(function() {
+    'use strict';
+
+    // ─── SUPABASE CLIENT ──────────────────────────────────────────────────────
+    var sb = window.supabase.createClient(
+        'https://zbgvgzzaejaxrgcjjovc.supabase.co',
+        'sb_publishable_gCLTB6WM95Iw6Txcf2fjCA_5fnXPw77'
+    );
+
+    // ─── STATE ────────────────────────────────────────────────────────────────
+    var currentUserId = null;
+    var followingSet = new Set();   // IDs the current user follows
+    var followerCounts = {};        // profileId → count
+    var currentPage = 1;
+    var pageSize = 12;
+    var totalCount = 0;
+    var debounceTimer = null;
+    var lastQuery = { search: '', specialty: '', state: '', sort: 'newest' };
+
+    // ─── DOM REFS ─────────────────────────────────────────────────────────────
+    function el(id) { return document.getElementById(id); }
+
+    // ─── AUTH ─────────────────────────────────────────────────────────────────
+    async function checkAuth() {
+        var res = await sb.auth.getUser();
+        if (!res.data.user) {
+            window.location.href = '/login/index.html';
+            return null;
+        }
+        return res.data.user;
+    }
+
+    // ─── LOAD PROFILES ────────────────────────────────────────────────────────
+    async function loadProfiles(opts) {
+        var search    = opts.search    || '';
+        var specialty = opts.specialty || '';
+        var state     = opts.state     || '';
+        var sort      = opts.sort      || 'newest';
+        var page      = opts.page      || 1;
+
+        var from = (page - 1) * pageSize;
+        var to   = from + pageSize - 1;
+
+        var q = sb.from('profiles')
+            .select('id, full_name, username, city, state, specialty, bio, created_at, competition_count', { count: 'exact' })
+            .neq('id', currentUserId);
+
+        if (search.trim()) {
+            q = q.or('full_name.ilike.%' + search.trim() + '%,username.ilike.%' + search.trim() + '%');
+        }
+        if (specialty) q = q.eq('specialty', specialty);
+        if (state)     q = q.eq('state', state);
+
+        switch (sort) {
+            case 'competitions': q = q.order('competition_count', { ascending: false }); break;
+            case 'alpha':        q = q.order('full_name', { ascending: true });          break;
+            default:             q = q.order('created_at', { ascending: false });
+        }
+
+        q = q.range(from, to);
+
+        var res = await q;
+        if (res.error) throw res.error;
+        return { data: res.data || [], count: res.count || 0 };
+    }
+
+    // ─── LOAD FOLLOWER COUNTS ─────────────────────────────────────────────────
+    async function loadFollowerCounts(profileIds) {
+        if (!profileIds || profileIds.length === 0) return;
+
+        var res = await sb.from('follow')
+            .select('following_id')
+            .in('following_id', profileIds);
+
+        if (res.error) { console.error('follower count error:', res.error); return; }
+
+        // Reset counts for these IDs
+        profileIds.forEach(function(id) { followerCounts[id] = 0; });
+
+        (res.data || []).forEach(function(row) {
+            followerCounts[row.following_id] = (followerCounts[row.following_id] || 0) + 1;
+        });
+    }
+
+    // ─── LOAD MY FOLLOWING ────────────────────────────────────────────────────
+    async function loadMyFollowing() {
+        var res = await sb.from('follow')
+            .select('following_id')
+            .eq('follower_id', currentUserId);
+        if (res.error) { console.error('loadMyFollowing error:', res.error); return; }
+        followingSet = new Set((res.data || []).map(function(r) { return r.following_id; }));
+    }
+
+    // ─── IS FOLLOWING ─────────────────────────────────────────────────────────
+    function isFollowing(targetId) {
+        return followingSet.has(targetId);
+    }
+
+    // ─── TOGGLE FOLLOW ────────────────────────────────────────────────────────
+    async function toggleFollow(targetId, btn) {
+        if (!currentUserId) return;
+        btn.disabled = true;
+
+        var already = isFollowing(targetId);
+
+        if (already) {
+            // Unfollow
+            var res = await sb.from('follow')
+                .delete()
+                .eq('follower_id', currentUserId)
+                .eq('following_id', targetId);
+            if (res.error) {
+                showToast('Failed to unfollow. Please try again.', true);
+                btn.disabled = false;
+                return;
+            }
+            followingSet.delete(targetId);
+            followerCounts[targetId] = Math.max(0, (followerCounts[targetId] || 1) - 1);
+            updateFollowBtn(btn, false, followerCounts[targetId]);
+            showToast('Unfollowed successfully.');
+        } else {
+            // Follow
+            var res2 = await sb.from('follow')
+                .insert({ follower_id: currentUserId, following_id: targetId });
+            if (res2.error) {
+                showToast('Failed to follow. Please try again.', true);
+                btn.disabled = false;
+                return;
+            }
+            followingSet.add(targetId);
+            followerCounts[targetId] = (followerCounts[targetId] || 0) + 1;
+            updateFollowBtn(btn, true, followerCounts[targetId]);
+            showToast('Following!');
+        }
+
+        // Update the follower stat display in this card
+        var card = btn.closest('.artist-card');
+        if (card) {
+            var statVal = card.querySelector('.stat-followers');
+            if (statVal) statVal.textContent = formatNum(followerCounts[targetId] || 0);
+        }
+
+        btn.disabled = false;
+    }
+
+    function updateFollowBtn(btn, nowFollowing, count) {
+        if (nowFollowing) {
+            btn.textContent = 'Following';
+            btn.classList.add('following');
+        } else {
+            btn.textContent = 'Follow';
+            btn.classList.remove('following');
+        }
+    }
+
+    // ─── RENDER PROFILES ──────────────────────────────────────────────────────
+    function renderProfiles(profiles) {
+        var grid = el('artistsGrid');
+        grid.innerHTML = '';
+
+        if (!profiles || profiles.length === 0) {
+            grid.innerHTML =
+                '<div class="state-empty">' +
+                    '<div class="state-icon"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div>' +
+                    '<div class="state-title">No artists found</div>' +
+                    '<div class="state-sub">Try adjusting your search or filters</div>' +
+                '</div>';
+            return;
+        }
+
+        profiles.forEach(function(p) {
+            var initials = getInitials(p.full_name, p.username);
+            var following = isFollowing(p.id);
+            var followers = followerCounts[p.id] || 0;
+            var location = [p.city, p.state].filter(Boolean).join(', ') || '—';
+            var profileUrl = '/artists/' + (p.username || p.id);
+
+            var card = document.createElement('div');
+            card.className = 'artist-card';
+            card.innerHTML =
+                '<div class="artist-card-top">' +
+                    '<div class="artist-avatar">' + escHtml(initials) + '</div>' +
+                    '<div class="artist-info">' +
+                        '<div class="artist-name">' + escHtml(p.full_name || '—') + '</div>' +
+                        '<div class="artist-handle">' + (p.username ? '@' + escHtml(p.username) : '') + '</div>' +
+                        '<div class="artist-location">' +
+                            '<svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>' +
+                            escHtml(location) +
+                        '</div>' +
+                    '</div>' +
+                '</div>' +
+                '<div class="artist-card-mid">' +
+                    (p.specialty ? '<span class="artist-specialty">' + escHtml(p.specialty) + '</span>' : '') +
+                    (p.bio ? '<div class="artist-bio">' + escHtml(p.bio) + '</div>' : '') +
+                '</div>' +
+                '<div class="artist-card-stats">' +
+                    '<div class="stat-item">' +
+                        '<div class="stat-val stat-followers">' + formatNum(followers) + '</div>' +
+                        '<div class="stat-key">Followers</div>' +
+                    '</div>' +
+                    '<div class="stat-item">' +
+                        '<div class="stat-val">' + (p.competition_count || 0) + '</div>' +
+                        '<div class="stat-key">Competitions</div>' +
+                    '</div>' +
+                    '<div class="stat-item">' +
+                        '<div class="stat-val">' + (p.created_at ? new Date(p.created_at).getFullYear() : '—') + '</div>' +
+                        '<div class="stat-key">Joined</div>' +
+                    '</div>' +
+                '</div>' +
+                '<div class="artist-card-footer">' +
+                    '<button class="btn-follow ' + (following ? 'following' : '') + '" data-id="' + p.id + '">' +
+                        (following ? 'Following' : 'Follow') +
+                    '</button>' +
+                    '<a class="btn-view-profile" href="' + profileUrl + '">View</a>' +
+                '</div>';
+
+            // Attach follow event
+            var followBtn = card.querySelector('.btn-follow');
+            followBtn.addEventListener('click', function() {
+                toggleFollow(p.id, followBtn);
+            });
+
+            grid.appendChild(card);
+        });
+    }
+
+    // ─── RENDER PAGINATION ────────────────────────────────────────────────────
+    function renderPagination() {
+        var totalPages = Math.ceil(totalCount / pageSize);
+        var pagEl = el('pagination');
+        var prevBtn = el('prevPage');
+        var nextBtn = el('nextPage');
+        var info    = el('pageInfo');
+
+        if (totalPages <= 1) {
+            pagEl.style.display = 'none';
+            return;
+        }
+        pagEl.style.display = 'flex';
+        prevBtn.disabled = currentPage <= 1;
+        nextBtn.disabled = currentPage >= totalPages;
+        info.textContent = 'Page ' + currentPage + ' of ' + totalPages;
+    }
+
+    // ─── MAIN SEARCH / LOAD ───────────────────────────────────────────────────
+    async function performSearch(resetPage) {
+        if (resetPage) currentPage = 1;
+
+        lastQuery = {
+            search:    el('searchInput').value,
+            specialty: el('filterSpecialty').value,
+            state:     el('filterState').value,
+            sort:      el('filterSort').value,
+            page:      currentPage
+        };
+
+        // Show loading skeleton
+        var grid = el('artistsGrid');
+        grid.innerHTML =
+            '<div class="state-loading">' +
+                '<div class="spinner"></div>' +
+                '<div class="state-title">Loading artists…</div>' +
+            '</div>';
+        el('resultsCount').innerHTML = '&nbsp;';
+
+        try {
+            var result = await loadProfiles(lastQuery);
+            var profiles = result.data;
+            totalCount = result.count;
+
+            // Load follower counts for these profiles
+            var ids = profiles.map(function(p) { return p.id; });
+            await loadFollowerCounts(ids);
+
+            renderProfiles(profiles);
+            renderPagination();
+
+            var from = (currentPage - 1) * pageSize + 1;
+            var to   = Math.min(currentPage * pageSize, totalCount);
+            if (totalCount === 0) {
+                el('resultsCount').innerHTML = 'No artists found';
+            } else {
+                el('resultsCount').innerHTML =
+                    'Showing <span>' + from + '–' + to + '</span> of <span>' + totalCount + '</span> artist' + (totalCount !== 1 ? 's' : '');
+            }
+        } catch (err) {
+            console.error('Search failed:', err);
+            grid.innerHTML =
+                '<div class="state-error">' +
+                    '<div class="state-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div>' +
+                    '<div class="state-title">Failed to load artists</div>' +
+                    '<div class="state-sub">Please check your connection and try again.</div>' +
+                '</div>';
+            el('resultsCount').innerHTML = '&nbsp;';
+        }
+    }
+
+    // ─── DEBOUNCED SEARCH ─────────────────────────────────────────────────────
+    function debouncedSearch() {
+        clearTimeout(debounceTimer);
+        debounceTimer = setTimeout(function() { performSearch(true); }, 300);
+    }
+
+    // ─── HELPERS ──────────────────────────────────────────────────────────────
+    function getInitials(fullName, username) {
+        if (fullName && fullName.trim()) {
+            return fullName.trim().split(/\s+/).map(function(w) { return w[0]; }).slice(0, 2).join('').toUpperCase();
+        }
+        if (username && username[0]) return username[0].toUpperCase();
+        return '?';
+    }
+
+    function escHtml(str) {
+        if (!str) return '';
+        return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#039;');
+    }
+
+    function formatNum(n) {
+        if (n >= 1000) return (n / 1000).toFixed(1) + 'k';
+        return String(n);
+    }
+
+    // ─── TOAST ────────────────────────────────────────────────────────────────
+    var toastTimer = null;
+    function showToast(msg, isError) {
+        var t = el('toast');
+        t.textContent = msg;
+        t.className = 'toast' + (isError ? ' error' : '');
+        void t.offsetWidth;
+        t.classList.add('show');
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(function() { t.classList.remove('show'); }, 2800);
+    }
+
+    // ─── NAV SCROLL ───────────────────────────────────────────────────────────
+    window.addEventListener('scroll', function() {
+        el('navbar').classList.toggle('scrolled', window.scrollY > 40);
+    });
+
+    // ─── SIGN OUT ─────────────────────────────────────────────────────────────
+    el('signOutBtn').addEventListener('click', async function() {
+        await sb.auth.signOut();
+        window.location.href = '/';
+    });
+
+    // ─── EVENTS ───────────────────────────────────────────────────────────────
+    el('searchInput').addEventListener('input', debouncedSearch);
+    el('searchBtn').addEventListener('click', function() { performSearch(true); });
+    el('searchInput').addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') { clearTimeout(debounceTimer); performSearch(true); }
+    });
+    el('filterSpecialty').addEventListener('change', function() { performSearch(true); });
+    el('filterState').addEventListener('change', function() { performSearch(true); });
+    el('filterSort').addEventListener('change', function() { performSearch(true); });
+
+    el('prevPage').addEventListener('click', function() {
+        if (currentPage > 1) { currentPage--; performSearch(false); window.scrollTo({ top: 0, behavior: 'smooth' }); }
+    });
+    el('nextPage').addEventListener('click', function() {
+        if (currentPage < Math.ceil(totalCount / pageSize)) { currentPage++; performSearch(false); window.scrollTo({ top: 0, behavior: 'smooth' }); }
+    });
+
+    // ─── BACKGROUND CANVAS ────────────────────────────────────────────────────
+    (function initCanvas() {
+        var canvas = el('bg-canvas');
+        var ctx = canvas.getContext('2d');
+        function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+        resize();
+        window.addEventListener('resize', resize);
+
+        function P() { this.reset(); this.y = Math.random() * canvas.height; }
+        P.prototype.reset = function() {
+            this.x = Math.random() * canvas.width;
+            this.y = -10;
+            this.s = Math.random() * 2.5 + 0.8;
+            this.vy = Math.random() * 0.25 + 0.08;
+            this.vx = (Math.random() - 0.5) * 0.15;
+            this.o = Math.random() * 0.45 + 0.2;
+            this.h = Math.random() * 40 + 180;
+        };
+        P.prototype.update = function() {
+            this.y += this.vy;
+            this.x += this.vx + Math.sin(this.y * 0.01) * 0.25;
+            if (this.y > canvas.height + 10) this.reset();
+            if (this.x < 0) this.x = canvas.width;
+            if (this.x > canvas.width) this.x = 0;
+        };
+        P.prototype.draw = function() {
+            ctx.save();
+            ctx.globalAlpha = this.o;
+            ctx.fillStyle = 'hsl(' + this.h + ',70%,50%)';
+            ctx.shadowBlur = 12;
+            ctx.shadowColor = ctx.fillStyle;
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.s, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.restore();
+        };
+        var pts = [];
+        for (var i = 0; i < 60; i++) pts.push(new P());
+        (function loop() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            for (var i = 0; i < pts.length; i++) {
+                for (var j = i + 1; j < pts.length; j++) {
+                    var dx = pts[i].x - pts[j].x;
+                    var dy = pts[i].y - pts[j].y;
+                    var d = Math.sqrt(dx*dx + dy*dy);
+                    if (d < 130) {
+                        ctx.save();
+                        ctx.globalAlpha = (1 - d/130) * 0.12;
+                        ctx.strokeStyle = 'hsl(190,70%,50%)';
+                        ctx.lineWidth = 1;
+                        ctx.beginPath();
+                        ctx.moveTo(pts[i].x, pts[i].y);
+                        ctx.lineTo(pts[j].x, pts[j].y);
+                        ctx.stroke();
+                        ctx.restore();
+                    }
+                }
+            }
+            pts.forEach(function(p) { p.update(); p.draw(); });
+            requestAnimationFrame(loop);
+        })();
+    })();
+
+    // ─── BOOT ─────────────────────────────────────────────────────────────────
+    (async function boot() {
+        var user = await checkAuth();
+        if (!user) return;
+
+        currentUserId = user.id;
+        document.body.classList.add('auth-ready');
+
+        // Load navbar user info
+        try {
+            var profileRes = await sb.from('profiles')
+                .select('full_name, username')
+                .eq('id', currentUserId)
+                .single();
+            if (!profileRes.error && profileRes.data) {
+                var p = profileRes.data;
+                var initials = getInitials(p.full_name, p.username);
+                el('navAvatar').textContent = initials;
+                el('navUsername').textContent = p.full_name || p.username || 'Member';
+            }
+        } catch (e) {
+            console.error('Nav profile error:', e);
+        }
+
+        // Load who current user follows
+        await loadMyFollowing();
+
+        // Initial load
+        await performSearch(true);
+    })();
+
+})();
+</script>
+</body>
+</html>
