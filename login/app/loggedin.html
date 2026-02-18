@@ -633,32 +633,21 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script>
-(function () {
+const supabase = window.supabase.createClient(
+  "https://zbgvgzzaejaxrgcjjovc.supabase.co",
+  "sb_publishable_gCLTB6WM95Iw6Txcf2fjCA_5fnXPw77"
+);
 
-  if (!window.supabase) {
-    console.error("Supabase not loaded");
-    return;
+async function checkAuth() {
+  const { data, error } = await supabase.auth.getSession();
+
+  if (error || !data || !data.session) {
+    window.location.href = "/login/index.html";
+    return null;
   }
 
-  const supabase = window.supabase.createClient(
-    "https://zbgvgzzaejaxrgcjjovc.supabase.co",
-    "sb_publishable_gCLTB6WM95Iw6Txcf2fjCA_5fnXPw77"
-  );
-
-  async function checkAuth() {
-    const { data, error } = await supabase.auth.getSession();
-
-    if (error || !data || !data.session) {
-      window.location.href = "/login/index.html";
-      return;
-    }
-
-    console.log("User authenticated:", data.session.user.email);
-  }
-
-  checkAuth();
-
-})();
+  return data.session.user;
+}
 
 
     /* ─────────────────────────────────────────
