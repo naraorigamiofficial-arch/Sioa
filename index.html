@@ -1162,46 +1162,29 @@
         </div>
     </footer>
 
-    <script>
-        /* ─────────────────────────────────────────────────────────────
-           renderProfiles(profiles)
-           Called externally (e.g. after fetching from your API/DB).
-           Each profile object: { id, username, full_name, city, state, specialty }
-        ───────────────────────────────────────────────────────────── */
-        function renderProfiles(profiles) {
-            const grid = document.getElementById('artist-grid-container');
-            grid.innerHTML = '';
+   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const sb = window.supabase.createClient(
+  "https://zbgvgzzaejaxrgcjjovc.supabase.co",
+  "sb_publishable_gCLTB6WM95Iw6Txcf2fjCA_5fnXPw77"
+);
 
-            if (!profiles || profiles.length === 0) {
-                grid.innerHTML = '<div class="artist-empty">No artists found.</div>';
-                return;
-            }
+(async () => {
+  const { data } = await sb.auth.getSession();
 
-            profiles.forEach(function(profile) {
-                const initials = (profile.full_name || profile.username || '?')
-                    .split(' ')
-                    .map(function(w) { return w[0]; })
-                    .slice(0, 2)
-                    .join('')
-                    .toUpperCase();
+  if (data.session) {
+    // Hide "Create Account"
+    const createBtn = document.getElementById("createAccountBtn");
+    if (createBtn) createBtn.style.display = "none";
 
-                const location = [profile.city, profile.state]
-                    .filter(Boolean).join(', ') || '—';
-
-                const card = document.createElement('div');
-                card.className = 'artist-card';
-                card.dataset.id = profile.id;
-
-                card.innerHTML =
-                    '<div class="artist-avatar">' + initials + '</div>' +
-                    '<div class="artist-name">' + (profile.full_name || profile.username || '—') + '</div>' +
-                    '<div class="artist-city">' + location + '</div>' +
-                    '<div class="artist-tag">' + (profile.specialty || '—') + '</div>';
-
-                grid.appendChild(card);
-            });
-        }
-
+    // Change main CTA
+    const mainBtn = document.getElementById("mainCtaBtn");
+    if (mainBtn) {
+      mainBtn.textContent = "Go to Dashboard";
+      mainBtn.href = "/login/app/loggedin.html";
+    }
+  }
+})();
         // On page load — show empty state until data arrives
         renderProfiles([]);
 
@@ -1237,6 +1220,15 @@
         /* ─────────────────────────────────────────────────────────────
            NAVBAR SCROLL BEHAVIOUR
         ───────────────────────────────────────────────────────────── */
+        // PROFILE ICON → DASHBOARD
+var navUser = document.getElementById('navUser');
+
+if (navUser) {
+    navUser.addEventListener('click', function () {
+        window.location.href = '/login/app/loggedin.html';
+    });
+}
+
         var navbar = document.querySelector('.navbar');
         var lastScrollY = window.scrollY;
         window.addEventListener('scroll', function() {
@@ -1344,10 +1336,6 @@
 
       if (!res || !res.data) return;
 
-      if (res.data.session) {
-        window.location.href = "/login/app/loggedin.html";
-      }
-
     })
     .catch(function (err) {
       console.error("Auth check failed:", err);
@@ -1355,7 +1343,6 @@
 
 })();
 </script>
-
 
 </body>
 </html>
