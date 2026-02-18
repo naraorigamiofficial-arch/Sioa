@@ -1357,6 +1357,38 @@ if (navUser) {
     .catch(function (err) {
       console.error("Auth check failed:", err);
     });
+const searchInput = document.getElementById('searchInput');
+const searchBtn = document.getElementById('searchBtn');
+const grid = document.getElementById('artist-grid-container');
+
+async function performSearch() {
+    const query = searchInput.value.trim();
+
+    if (!query) {
+        grid.innerHTML = '<div class="artist-empty">Type something to search.</div>';
+        return;
+    }
+
+    const { data, error } = await sb
+        .from('profiles')
+        .select('id, full_name, username, city, state, specialty, created_at')
+        .or(`full_name.ilike.%${query}%,username.ilike.%${query}%,city.ilike.%${query}%,specialty.ilike.%${query}%`)
+        .limit(20);
+
+    if (error) {
+        console.error(error);
+        grid.innerHTML = '<div class="artist-empty">Error loading artists.</div>';
+        return;
+    }
+
+    renderProfiles(data);
+}
+
+searchBtn.addEventListener('click', performSearch);
+
+searchInput.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') performSearch();
+});
 
 })();
 </script>
