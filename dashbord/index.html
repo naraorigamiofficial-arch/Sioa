@@ -682,21 +682,34 @@
         "sb_publishable_gCLTB6WM95Iw6Txcf2fjCA_5fnXPw77"
     );
 
-    let isEditMode = false;
-    let isFollowing = false;
-    let followerCount = 0; // Demo data
-    let followingCount = 0; // Demo data
-
     /* ── Auth gate ── */
-    (async () => {
-        const { data: { user } } = await sb.auth.getUser();
-        if (!user) {
-            window.location.href = "../login/login.html";
-            return;
-        }
-        loadProfile(user);
-        updateFollowStats();
-    })();
+  async function loadFollowCounts(userId) {
+    const { count: followers } = await sb
+        .from('follow')
+        .select('*', { count: 'exact', head: true })
+        .eq('following_id', userId);
+
+    const { count: following } = await sb
+        .from('follow')
+        .select('*', { count: 'exact', head: true })
+        .eq('follower_id', userId);
+
+    document.getElementById('follower-count').textContent = followers || 0;
+    document.getElementById('following-count').textContent = following || 0;
+}
+
+      (async () => {
+    const { data: { user } } = await sb.auth.getUser();
+
+    if (!user) {
+        window.location.href = "../login/login.html";
+        return;
+    }
+
+    await loadFollowCounts(user.id);
+    await loadProfile(user);
+})();
+
 
     /* ── Load profile ── */
     async function loadProfile(user) {
@@ -778,22 +791,7 @@
     }
 
     /* ── Follow button ── */
-    document.getElementById('follow-btn').addEventListener('click', function() {
-        isFollowing = !isFollowing;
-        const btn = this;
-        const text = document.getElementById('follow-text');
-        
-        if (isFollowing) {
-            btn.classList.add('following');
-            text.textContent = 'Following';
-            followerCount++;
-        } else {
-            btn.classList.remove('following');
-            text.textContent = 'Follow';
-            followerCount--;
-        }
-        updateFollowStats();
-    });
+
 
     /* ── Edit mode toggle ── */
     document.getElementById('edit-toggle-btn').addEventListener('click', function() {
