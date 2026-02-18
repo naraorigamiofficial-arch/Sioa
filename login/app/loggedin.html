@@ -640,12 +640,12 @@
        Replace with your Supabase auth check.
        Redirects to login if no session.
     ───────────────────────────────────────── */
-    const supabase = window.supabase.createClient(
-  "https://zbgvgzzaejaxrgcjjovc.supabase.co",
-  "sb_publishable_gCLTB6WM95Iw6Txcf2fjCA_5fnXPw77"
-);
+        const supabase = window.supabase.createClient(
+          "https://zbgvgzzaejaxrgcjjovc.supabase.co",
+          "sb_publishable_gCLTB6WM95Iw6Txcf2fjCA_5fnXPw77"
+           );
 
-    async function checkAuth() {
+      async function checkAuth() {
         const { data: { session }, error } = await supabase.auth.getSession();
 
         if (error || !session) {
@@ -654,27 +654,27 @@
       }
 
       return session.user;
-    }
+     }
 
     /* ─────────────────────────────────────────
        LOAD USER PROFILE
        Fetches profile row from backend.
        Expected fields: full_name, username, specialty, state, created_at, competition_count
     ───────────────────────────────────────── */
-   async function loadUserProfile(userId) {
-    const { data, error } = await supabase
+      async function loadUserProfile(userId) {
+       const { data, error } = await supabase
         .from('profiles')
         .select('full_name, username, specialty, state, role, bio, created_at, competition_count')
         .eq('id', userId)
         .single();
 
-    if (error) {
+       if (error) {
         console.error('Profile load failed:', error);
         return null;
-    }
+      }
 
-    return data;
-}
+        return data;
+      }
 
 
     

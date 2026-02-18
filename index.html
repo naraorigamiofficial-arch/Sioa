@@ -1332,25 +1332,30 @@
     </script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-const supabase = window.supabase.createClient(
-  "https://zbgvgzzaejaxrgcjjovc.supabase.co",
-  "sb_publishable_gCLTB6WM95Iw6Txcf2fjCA_5fnXPw77"
-);
+(function () {
 
-(async () => {
-  const { data, error } = await supabase.auth.getSession();
+  const client = window.supabase.createClient(
+    "https://zbgvgzzaejaxrgcjjovc.supabase.co",
+    "sb_publishable_gCLTB6WM95Iw6Txcf2fjCA_5fnXPw77"
+  );
 
-  if (error) {
-    console.error(error);
-    return;
-  }
+  client.auth.getSession()
+    .then(function (res) {
 
-  if (data.session) {
-    window.location.replace("/login/app/loggedin.html");
-  }
+      if (!res || !res.data) return;
+
+      if (res.data.session) {
+        window.location.href = "/login/app/loggedin.html";
+      }
+
+    })
+    .catch(function (err) {
+      console.error("Auth check failed:", err);
+    });
+
 })();
-
 </script>
+
 
 </body>
 </html>
