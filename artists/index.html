@@ -1,0 +1,1043 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIOA | Artist Profile</title>
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --black: #000000;
+            --deep-blue: #0a1628;
+            --navy-blue: #0f2847;
+            --cyan-blue: #1a5f7a;
+            --bright-cyan: #2d89b0;
+            --light-cyan: #57a6bb;
+            --white: #e8f4f8;
+            --light-grey: #c5d9e0;
+            --border: rgba(26,95,122,0.25);
+            --border-strong: rgba(45,137,176,0.4);
+            --card-bg: linear-gradient(135deg, rgba(10,22,40,0.75), rgba(15,40,71,0.5));
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: var(--black);
+            color: var(--white);
+            overflow-x: hidden;
+            visibility: hidden;
+        }
+        body.ready { visibility: visible; }
+
+        /* ── CANVAS ── */
+        #bg-canvas {
+            position: fixed; top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: 0; opacity: 0.3; pointer-events: none;
+        }
+
+        /* ── NAVBAR ── */
+        .navbar {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+            background: rgba(0,0,0,0.88);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+            padding: 18px 0;
+            transition: all 0.4s cubic-bezier(0.16,1,0.3,1);
+        }
+        .navbar.scrolled {
+            padding: 12px 0;
+            background: rgba(0,0,0,0.98);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5), 0 2px 10px rgba(26,95,122,0.2);
+            border-bottom: 1px solid var(--border-strong);
+        }
+        .nav-container {
+            max-width: 1300px; margin: 0 auto; padding: 0 40px;
+            display: flex; align-items: center; justify-content: space-between;
+        }
+        .nav-logo {
+            font-size: 24px; font-weight: 800; letter-spacing: 0.1em;
+            color: var(--white); text-decoration: none; transition: color 0.3s;
+        }
+        .nav-logo:hover { color: var(--bright-cyan); }
+        .nav-right { display: flex; align-items: center; gap: 28px; }
+        .nav-links { display: flex; gap: 28px; list-style: none; align-items: center; }
+        .nav-links a {
+            color: var(--light-grey); text-decoration: none; font-size: 13px;
+            font-weight: 400; letter-spacing: 0.06em;
+            position: relative; padding: 4px 0; transition: color 0.3s;
+        }
+        .nav-links a::after {
+            content: ''; position: absolute; bottom: 0; left: 50%;
+            transform: translateX(-50%); width: 0; height: 1.5px;
+            background: linear-gradient(90deg, var(--bright-cyan), var(--light-cyan));
+            transition: width 0.35s cubic-bezier(0.16,1,0.3,1);
+        }
+        .nav-links a:hover { color: var(--white); }
+        .nav-links a:hover::after { width: 100%; }
+        .nav-user { display: flex; align-items: center; gap: 12px; cursor: pointer; }
+        .nav-avatar {
+            width: 36px; height: 36px; border-radius: 50%;
+            background: linear-gradient(135deg, var(--cyan-blue), var(--bright-cyan));
+            border: 1.5px solid var(--border-strong);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 13px; font-weight: 700; color: var(--white);
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+        .nav-user:hover .nav-avatar { border-color: var(--bright-cyan); box-shadow: 0 0 14px rgba(45,137,176,0.3); }
+        .nav-username { font-size: 13px; font-weight: 500; color: var(--light-grey); }
+        .btn-signout {
+            padding: 8px 18px; background: transparent;
+            border: 1px solid rgba(26,95,122,0.45); border-radius: 4px;
+            color: var(--light-grey); font-family: 'Inter', sans-serif;
+            font-size: 12px; font-weight: 500; letter-spacing: 0.1em;
+            text-transform: uppercase; cursor: pointer; transition: all 0.3s;
+        }
+        .btn-signout:hover { border-color: var(--bright-cyan); color: var(--white); background: rgba(26,95,122,0.12); }
+
+        /* ── ANIMATIONS ── */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(24px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.2} }
+
+        /* ── PAGE WRAP ── */
+        .page {
+            position: relative; z-index: 1;
+            max-width: 1300px; margin: 0 auto;
+            padding: 100px 40px 80px;
+        }
+
+        /* ── LOADING / ERROR STATES ── */
+        .full-state {
+            display: flex; flex-direction: column; align-items: center;
+            justify-content: center; min-height: 60vh;
+            gap: 16px; text-align: center;
+        }
+        .spinner {
+            width: 36px; height: 36px;
+            border: 2px solid rgba(45,137,176,0.2);
+            border-top-color: var(--bright-cyan);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+        .state-title { font-size: 18px; font-weight: 600; color: var(--white); }
+        .state-sub   { font-size: 14px; font-weight: 300; color: rgba(197,217,224,0.5); }
+        .btn-back {
+            margin-top: 8px; padding: 10px 24px;
+            background: transparent;
+            border: 1px solid var(--border-strong); border-radius: 6px;
+            color: var(--light-grey); font-family: 'Inter', sans-serif;
+            font-size: 13px; font-weight: 500; letter-spacing: 0.08em;
+            cursor: pointer; text-decoration: none; display: inline-block;
+            transition: all 0.3s;
+        }
+        .btn-back:hover { border-color: var(--bright-cyan); color: var(--white); background: rgba(26,95,122,0.12); }
+
+        /* ── PROFILE HERO ── */
+        .profile-hero {
+            position: relative;
+            border-radius: 16px;
+            overflow: hidden;
+            margin-bottom: 28px;
+            opacity: 0; animation: fadeUp 0.7s ease forwards 0.1s;
+        }
+
+        /* Geometric banner */
+        .profile-banner {
+            height: 200px;
+            background:
+                linear-gradient(135deg, rgba(10,22,40,0.9) 0%, rgba(15,40,71,0.7) 50%, rgba(26,95,122,0.4) 100%);
+            position: relative; overflow: hidden;
+            border: 1px solid var(--border);
+            border-bottom: none;
+            border-radius: 16px 16px 0 0;
+        }
+        /* Origami-inspired geometric background shapes */
+        .profile-banner::before {
+            content: '';
+            position: absolute; inset: 0;
+            background:
+                radial-gradient(ellipse 60% 80% at 80% 20%, rgba(45,137,176,0.15) 0%, transparent 60%),
+                radial-gradient(ellipse 40% 60% at 20% 80%, rgba(26,95,122,0.12) 0%, transparent 50%);
+        }
+        .banner-geo {
+            position: absolute; inset: 0; overflow: hidden;
+        }
+        .banner-geo svg {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+        }
+
+        /* Avatar section */
+        .profile-identity {
+            background: linear-gradient(180deg, rgba(10,22,40,0.95), rgba(5,12,24,0.98));
+            border: 1px solid var(--border);
+            border-top: none;
+            border-radius: 0 0 16px 16px;
+            padding: 0 40px 36px;
+        }
+
+        .avatar-row {
+            display: flex; align-items: flex-end; justify-content: space-between;
+            transform: translateY(-40px);
+            margin-bottom: -20px;
+            flex-wrap: wrap; gap: 16px;
+        }
+        .profile-avatar-wrap { display: flex; align-items: flex-end; gap: 22px; }
+        .profile-avatar {
+            width: 100px; height: 100px; border-radius: 50%;
+            background: linear-gradient(135deg, rgba(26,95,122,0.7), rgba(45,137,176,0.6));
+            border: 3px solid rgba(45,137,176,0.6);
+            display: flex; align-items: center; justify-content: center;
+            font-family: 'DM Serif Display', serif;
+            font-size: 36px; color: var(--white);
+            box-shadow: 0 0 40px rgba(45,137,176,0.25), 0 8px 32px rgba(0,0,0,0.5);
+            flex-shrink: 0;
+        }
+        .profile-name-block { padding-bottom: 6px; }
+        .profile-fullname {
+            font-family: 'DM Serif Display', serif;
+            font-size: clamp(24px, 3.5vw, 36px);
+            font-weight: 400; color: var(--white);
+            letter-spacing: 0.01em; line-height: 1.15;
+        }
+        .profile-handle {
+            font-size: 13px; color: var(--bright-cyan);
+            letter-spacing: 0.1em; margin-top: 4px;
+        }
+
+        .avatar-actions {
+            display: flex; gap: 10px; align-items: center;
+            padding-bottom: 6px;
+        }
+        .btn-follow-hero {
+            padding: 11px 32px;
+            background: linear-gradient(135deg, var(--cyan-blue), var(--bright-cyan));
+            border: none; border-radius: 7px;
+            color: var(--white); font-family: 'Inter', sans-serif;
+            font-size: 13px; font-weight: 600; letter-spacing: 0.12em;
+            text-transform: uppercase; cursor: pointer;
+            transition: opacity 0.3s, transform 0.2s, box-shadow 0.3s;
+            white-space: nowrap;
+        }
+        .btn-follow-hero:hover { opacity: 0.9; transform: translateY(-1px); box-shadow: 0 6px 20px rgba(45,137,176,0.3); }
+        .btn-follow-hero.following {
+            background: transparent;
+            border: 1px solid var(--border-strong);
+            color: var(--light-grey);
+        }
+        .btn-follow-hero.following:hover { border-color: rgba(220,60,60,0.5); color: rgba(220,120,120,0.9); box-shadow: none; }
+        .btn-follow-hero:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+        .btn-own-edit {
+            padding: 11px 24px;
+            background: transparent;
+            border: 1px solid var(--border-strong); border-radius: 7px;
+            color: var(--light-grey); font-family: 'Inter', sans-serif;
+            font-size: 13px; font-weight: 500; letter-spacing: 0.08em;
+            cursor: pointer; text-decoration: none; display: inline-block;
+            transition: all 0.3s;
+        }
+        .btn-own-edit:hover { border-color: var(--bright-cyan); color: var(--white); background: rgba(26,95,122,0.12); }
+
+        /* Meta tags under name */
+        .profile-meta-tags {
+            display: flex; flex-wrap: wrap; gap: 8px;
+            margin-top: 20px;
+        }
+        .meta-tag {
+            display: inline-flex; align-items: center; gap: 6px;
+            padding: 5px 14px;
+            background: rgba(26,95,122,0.12);
+            border: 1px solid var(--border);
+            border-radius: 100px;
+            font-size: 11px; letter-spacing: 0.1em; color: var(--light-grey);
+        }
+        .meta-tag svg {
+            width: 12px; height: 12px; stroke: var(--bright-cyan);
+            stroke-width: 1.8; fill: none;
+            stroke-linecap: round; stroke-linejoin: round;
+            flex-shrink: 0;
+        }
+        .meta-tag.specialty {
+            background: rgba(45,137,176,0.12);
+            border-color: var(--border-strong);
+            color: var(--light-cyan);
+        }
+
+        /* ── STATS ROW ── */
+        .stats-row {
+            display: grid; grid-template-columns: repeat(4, 1fr);
+            gap: 16px; margin-bottom: 28px;
+            opacity: 0; animation: fadeUp 0.7s ease forwards 0.2s;
+        }
+        .stat-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border); border-radius: 10px;
+            padding: 22px 24px;
+            text-align: center;
+            transition: border-color 0.3s, transform 0.3s;
+        }
+        .stat-card:hover { border-color: var(--border-strong); transform: translateY(-2px); }
+        .stat-card-val {
+            font-size: 34px; font-weight: 800; color: var(--bright-cyan);
+            letter-spacing: -0.02em; line-height: 1;
+            font-family: 'DM Serif Display', serif;
+        }
+        .stat-card-key {
+            font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase;
+            color: rgba(197,217,224,0.45); margin-top: 8px;
+        }
+
+        /* ── MAIN CONTENT GRID ── */
+        .content-grid {
+            display: grid;
+            grid-template-columns: 320px 1fr;
+            gap: 24px;
+            opacity: 0; animation: fadeUp 0.7s ease forwards 0.3s;
+        }
+
+        /* ── CARDS ── */
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        .card-header {
+            padding: 20px 26px 16px;
+            border-bottom: 1px solid var(--border);
+            display: flex; align-items: center; gap: 10px;
+        }
+        .card-header-icon svg {
+            width: 15px; height: 15px; stroke: var(--bright-cyan);
+            stroke-width: 1.8; fill: none;
+            stroke-linecap: round; stroke-linejoin: round;
+        }
+        .card-title {
+            font-size: 10px; font-weight: 600; letter-spacing: 0.28em;
+            text-transform: uppercase; color: var(--light-grey);
+        }
+        .card-body { padding: 24px 26px; }
+
+        /* sidebar stack */
+        .sidebar { display: flex; flex-direction: column; gap: 20px; }
+
+        /* about / bio */
+        .bio-text {
+            font-size: 14px; font-weight: 300; color: var(--light-grey);
+            line-height: 1.75; letter-spacing: 0.02em;
+        }
+        .bio-empty {
+            font-size: 13px; font-style: italic;
+            color: rgba(197,217,224,0.25); letter-spacing: 0.04em;
+        }
+
+        /* detail list */
+        .detail-list { display: flex; flex-direction: column; gap: 0; }
+        .detail-row {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(26,95,122,0.1);
+        }
+        .detail-row:last-child { border-bottom: none; }
+        .detail-key {
+            display: flex; align-items: center; gap: 9px;
+            font-size: 12px; color: rgba(197,217,224,0.5); letter-spacing: 0.06em;
+        }
+        .detail-key svg {
+            width: 13px; height: 13px; stroke: rgba(45,137,176,0.55);
+            stroke-width: 1.7; fill: none;
+            stroke-linecap: round; stroke-linejoin: round;
+        }
+        .detail-val {
+            font-size: 13px; font-weight: 500; color: var(--white);
+            text-align: right; max-width: 55%;
+        }
+        .detail-val.empty { color: rgba(197,217,224,0.25); font-style: italic; font-weight: 300; }
+
+        /* follow lists */
+        .follow-counts {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 0;
+        }
+        .follow-item {
+            text-align: center; padding: 20px 10px;
+            border: 1px solid var(--border); border-radius: 8px;
+            cursor: pointer; transition: border-color 0.3s, background 0.3s;
+        }
+        .follow-item:hover { border-color: var(--border-strong); background: rgba(26,95,122,0.08); }
+        .follow-item:first-child { margin-right: 8px; }
+        .follow-count-val {
+            font-size: 30px; font-weight: 700; color: var(--bright-cyan);
+            font-family: 'DM Serif Display', serif; line-height: 1;
+        }
+        .follow-count-label {
+            font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase;
+            color: rgba(197,217,224,0.4); margin-top: 6px;
+        }
+
+        /* ── RECENT ACTIVITY / COMPETITIONS PANEL ── */
+        .competitions-empty {
+            padding: 40px 0; text-align: center;
+            font-size: 13px; color: rgba(197,217,224,0.25);
+            letter-spacing: 0.06em; font-style: italic;
+        }
+
+        /* competition entry */
+        .comp-item {
+            display: flex; align-items: center; gap: 16px;
+            padding: 16px 0; border-bottom: 1px solid rgba(26,95,122,0.1);
+        }
+        .comp-item:last-child { border-bottom: none; }
+        .comp-num {
+            width: 36px; height: 36px; border-radius: 8px; flex-shrink: 0;
+            background: rgba(26,95,122,0.15); border: 1px solid var(--border);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 14px; font-weight: 700; color: var(--bright-cyan);
+            font-family: 'DM Serif Display', serif;
+        }
+        .comp-info { flex: 1; min-width: 0; }
+        .comp-name {
+            font-size: 14px; font-weight: 600; color: var(--white);
+            letter-spacing: 0.02em; margin-bottom: 3px;
+        }
+        .comp-year { font-size: 11px; color: rgba(197,217,224,0.4); letter-spacing: 0.08em; }
+        .comp-badge {
+            padding: 4px 12px; border-radius: 100px;
+            font-size: 10px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase;
+            flex-shrink: 0;
+        }
+        .comp-badge.participated { background: rgba(26,95,122,0.15); border: 1px solid var(--border); color: var(--light-cyan); }
+        .comp-badge.winner { background: rgba(200,160,40,0.1); border: 1px solid rgba(200,160,40,0.3); color: #d4a832; }
+
+        /* member since ribbon */
+        .member-ribbon {
+            display: flex; align-items: center; gap: 8px;
+            padding: 12px 16px;
+            background: rgba(26,95,122,0.08);
+            border: 1px solid var(--border); border-radius: 8px;
+            font-size: 12px; color: rgba(197,217,224,0.5); letter-spacing: 0.06em;
+            margin-top: 20px;
+        }
+        .member-ribbon::before {
+            content: ''; width: 6px; height: 6px; border-radius: 50%;
+            background: var(--bright-cyan); flex-shrink: 0;
+            box-shadow: 0 0 6px rgba(45,137,176,0.5);
+            animation: blink 2s infinite;
+        }
+
+        /* ── TOAST ── */
+        .toast {
+            position: fixed; bottom: 32px; right: 32px; z-index: 9999;
+            padding: 14px 22px;
+            background: rgba(10,22,40,0.96);
+            border: 1px solid var(--border-strong);
+            border-radius: 8px;
+            font-size: 13px; color: var(--white); letter-spacing: 0.04em;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+            transform: translateY(20px); opacity: 0;
+            transition: all 0.35s cubic-bezier(0.16,1,0.3,1);
+            pointer-events: none;
+        }
+        .toast.show { transform: translateY(0); opacity: 1; }
+        .toast.error { border-color: rgba(200,60,60,0.5); }
+
+        /* ── FOOTER ── */
+        footer {
+            position: relative; z-index: 1;
+            border-top: 1px solid var(--border);
+            padding: 28px 40px;
+            display: flex; align-items: center; justify-content: space-between;
+            max-width: 1300px; margin: 0 auto;
+            font-size: 12px; color: rgba(197,217,224,0.4); letter-spacing: 0.06em;
+            flex-wrap: wrap; gap: 12px;
+        }
+        .footer-beta {
+            display: inline-flex; align-items: center; gap: 7px;
+            padding: 4px 12px; background: rgba(26,95,122,0.1);
+            border: 1px solid var(--border); border-radius: 100px;
+            font-size: 10px; letter-spacing: 0.14em; color: var(--bright-cyan);
+        }
+        .footer-beta::before {
+            content: ''; width: 5px; height: 5px; border-radius: 50%;
+            background: var(--bright-cyan); animation: blink 1.6s infinite;
+        }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 1024px) {
+            .stats-row { grid-template-columns: repeat(2, 1fr); }
+            .content-grid { grid-template-columns: 1fr; }
+            .sidebar { order: 2; }
+            .main-content { order: 1; }
+        }
+        @media (max-width: 768px) {
+            .profile-identity { padding: 0 24px 28px; }
+            .avatar-row { flex-direction: column; align-items: flex-start; }
+            .stats-row { grid-template-columns: repeat(2, 1fr); }
+            .avatar-actions { width: 100%; }
+            .btn-follow-hero { flex: 1; text-align: center; }
+        }
+        @media (max-width: 640px) {
+            .page { padding: 90px 20px 60px; }
+            .nav-container { padding: 0 20px; }
+            .nav-links { display: none; }
+            footer { padding: 24px 20px; }
+            .stats-row { grid-template-columns: 1fr 1fr; }
+            .profile-banner { height: 140px; }
+            .toast { bottom: 16px; right: 16px; left: 16px; }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="bg-canvas"></canvas>
+
+    <!-- NAVBAR -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="/" class="nav-logo">SIOA</a>
+            <div class="nav-right">
+                <ul class="nav-links">
+                    <li><a href="/index.html">Home</a></li>
+                    <li><a href="/net/index.html">Browse Artists</a></li>
+                    <li><a href="/competition/index.html">Competition</a></li>
+                </ul>
+                <div class="nav-user" id="navUser">
+                    <div class="nav-avatar" id="navAvatar">—</div>
+                    <span class="nav-username" id="navUsername">Loading…</span>
+                </div>
+                <button class="btn-signout" id="signOutBtn">Sign Out</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- MAIN PAGE CONTENT (dynamically rendered) -->
+    <main class="page" id="mainPage">
+        <!-- Initial loading state -->
+        <div class="full-state" id="loadingState">
+            <div class="spinner"></div>
+            <div class="state-title">Loading profile…</div>
+        </div>
+    </main>
+
+    <footer>
+        <span>© 2026 SIOA – Society of Indian Origami Artists</span>
+        <span class="footer-beta">BETA — platform in active development</span>
+        <span>विधान · अभ्यास · गौरव · हस्त</span>
+    </footer>
+
+    <div class="toast" id="toast"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+(function () {
+    'use strict';
+
+    // ── SUPABASE ──────────────────────────────────────────────────────────────
+    var sb = window.supabase.createClient(
+        'https://zbgvgzzaejaxrgcjjovc.supabase.co',
+        'sb_publishable_gCLTB6WM95Iw6Txcf2fjCA_5fnXPw77'
+    );
+
+    // ── STATE ─────────────────────────────────────────────────────────────────
+    var currentUserId  = null;
+    var profileUserId  = null;   // the artist being viewed
+    var isFollowingNow = false;
+    var followerCount  = 0;
+
+    // ── HELPERS ───────────────────────────────────────────────────────────────
+    function el(id) { return document.getElementById(id); }
+
+    function esc(str) {
+        if (!str) return '';
+        return String(str)
+            .replace(/&/g,'&amp;').replace(/</g,'&lt;')
+            .replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#039;');
+    }
+
+    function fmtNum(n) {
+        n = n || 0;
+        if (n >= 1000000) return (n/1000000).toFixed(1) + 'M';
+        if (n >= 1000)    return (n/1000).toFixed(1) + 'k';
+        return String(n);
+    }
+
+    function getInitials(fullName, username) {
+        if (fullName && fullName.trim()) {
+            return fullName.trim().split(/\s+/).map(function(w){ return w[0]; }).slice(0,2).join('').toUpperCase();
+        }
+        if (username && username[0]) return username[0].toUpperCase();
+        return '?';
+    }
+
+    function timeAgo(dateStr) {
+        var d = new Date(dateStr);
+        var now = Date.now();
+        var diff = Math.floor((now - d.getTime()) / 1000);
+        if (diff < 60)    return 'just now';
+        if (diff < 3600)  return Math.floor(diff/60) + 'm ago';
+        if (diff < 86400) return Math.floor(diff/3600) + 'h ago';
+        if (diff < 30*86400) return Math.floor(diff/86400) + 'd ago';
+        return d.toLocaleDateString('en-IN', { month: 'short', year: 'numeric' });
+    }
+
+    // ── AUTH ──────────────────────────────────────────────────────────────────
+    async function checkAuth() {
+        var res = await sb.auth.getUser();
+        if (!res.data.user) { window.location.href = '/login/login.html'; return null; }
+        return res.data.user;
+    }
+
+    // ── URL PARSING ───────────────────────────────────────────────────────────
+    // Expects URL like /artists/username  OR  /artists/?u=username
+    function getTargetUsername() {
+        // Try path segment: /artists/someuser
+        var parts = window.location.pathname.replace(/\/$/, '').split('/');
+        var last = parts[parts.length - 1];
+        if (last && last !== 'artists' && last !== 'index.html') return last;
+        // Try query string ?u=username or ?username=
+        var params = new URLSearchParams(window.location.search);
+        return params.get('u') || params.get('username') || null;
+    }
+
+    // ── LOAD PROFILE ─────────────────────────────────────────────────────────
+    async function loadProfile(username) {
+        var res = await sb.from('profiles')
+            .select('id, full_name, username, city, state, specialty, bio, created_at, competition_count, role')
+            .eq('username', username)
+            .single();
+        if (res.error) return null;
+        return res.data;
+    }
+
+    async function loadFollowerCount(userId) {
+        var res = await sb.from('follow')
+            .select('*', { count: 'exact', head: true })
+            .eq('following_id', userId);
+        return res.count || 0;
+    }
+
+    async function loadFollowingCount(userId) {
+        var res = await sb.from('follow')
+            .select('*', { count: 'exact', head: true })
+            .eq('follower_id', userId);
+        return res.count || 0;
+    }
+
+    async function checkIsFollowing(targetId) {
+        if (!currentUserId || currentUserId === targetId) return false;
+        var res = await sb.from('follow')
+            .select('follower_id', { count: 'exact', head: true })
+            .eq('follower_id', currentUserId)
+            .eq('following_id', targetId);
+        return (res.count || 0) > 0;
+    }
+
+    // ── TOGGLE FOLLOW ─────────────────────────────────────────────────────────
+    async function toggleFollow(btn) {
+        if (!currentUserId || !profileUserId) return;
+        btn.disabled = true;
+
+        if (isFollowingNow) {
+            var res = await sb.from('follow')
+                .delete()
+                .eq('follower_id', currentUserId)
+                .eq('following_id', profileUserId);
+            if (res.error) { showToast('Error. Please try again.', true); btn.disabled = false; return; }
+            isFollowingNow = false;
+            followerCount  = Math.max(0, followerCount - 1);
+            showToast('Unfollowed.');
+        } else {
+            var res2 = await sb.from('follow')
+                .insert({ follower_id: currentUserId, following_id: profileUserId });
+            if (res2.error) { showToast('Error. Please try again.', true); btn.disabled = false; return; }
+            isFollowingNow = true;
+            followerCount += 1;
+            showToast('Now following!');
+        }
+
+        // Update all follow buttons & count displays
+        document.querySelectorAll('.follow-btn-dynamic').forEach(function(b) {
+            if (isFollowingNow) {
+                b.textContent = 'Following'; b.classList.add('following');
+            } else {
+                b.textContent = 'Follow'; b.classList.remove('following');
+            }
+            b.disabled = false;
+        });
+        document.querySelectorAll('.live-follower-count').forEach(function(span) {
+            span.textContent = fmtNum(followerCount);
+        });
+    }
+
+    // ── RENDER PROFILE PAGE ───────────────────────────────────────────────────
+    function renderPage(profile, followingCount) {
+        var isOwn   = currentUserId === profile.id;
+        var initials = getInitials(profile.full_name, profile.username);
+        var location = [profile.city, profile.state].filter(Boolean).join(', ');
+        var memberYear = profile.created_at ? new Date(profile.created_at).getFullYear() : '—';
+
+        // Follow button HTML
+        var followBtnHtml = '';
+        if (!isOwn && currentUserId) {
+            followBtnHtml =
+                '<button class="btn-follow-hero follow-btn-dynamic' + (isFollowingNow ? ' following' : '') + '" id="heroFollowBtn">' +
+                    (isFollowingNow ? 'Following' : 'Follow') +
+                '</button>';
+        }
+        var editBtnHtml = isOwn
+            ? '<a href="/dashbord/index.html" class="btn-own-edit">Edit Profile</a>'
+            : '';
+
+        // Back button
+        var backHtml =
+            '<a href="/net/index.html" style="display:inline-flex;align-items:center;gap:8px;color:rgba(197,217,224,0.5);font-size:12px;letter-spacing:0.1em;text-decoration:none;margin-bottom:24px;transition:color 0.3s;" onmouseover="this.style.color=\'#57a6bb\'" onmouseout="this.style.color=\'rgba(197,217,224,0.5)\'">' +
+            '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>' +
+            'BACK TO BROWSE</a>';
+
+        // Meta tags
+        var metaTags = '';
+        if (profile.specialty) {
+            metaTags += '<span class="meta-tag specialty">' +
+                '<svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>' +
+                esc(profile.specialty) + '</span>';
+        }
+        if (location) {
+            metaTags += '<span class="meta-tag">' +
+                '<svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>' +
+                esc(location) + '</span>';
+        }
+        if (profile.role) {
+            metaTags += '<span class="meta-tag">' +
+                '<svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>' +
+                esc(profile.role) + '</span>';
+        }
+
+        var html =
+            backHtml +
+
+            // ── HERO ──
+            '<div class="profile-hero">' +
+                '<div class="profile-banner">' +
+                    '<div class="banner-geo">' +
+                        '<svg viewBox="0 0 1200 200" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">' +
+                            '<polygon points="0,200 200,0 400,200" fill="rgba(26,95,122,0.06)"/>' +
+                            '<polygon points="300,200 550,0 800,200" fill="rgba(45,137,176,0.04)"/>' +
+                            '<polygon points="700,200 900,50 1100,200" fill="rgba(26,95,122,0.05)"/>' +
+                            '<polygon points="900,200 1050,80 1200,200" fill="rgba(45,137,176,0.04)"/>' +
+                            '<line x1="0" y1="200" x2="200" y2="0" stroke="rgba(45,137,176,0.08)" stroke-width="1"/>' +
+                            '<line x1="200" y1="0" x2="400" y2="200" stroke="rgba(45,137,176,0.08)" stroke-width="1"/>' +
+                            '<line x1="300" y1="200" x2="550" y2="0" stroke="rgba(45,137,176,0.06)" stroke-width="1"/>' +
+                            '<line x1="550" y1="0" x2="800" y2="200" stroke="rgba(45,137,176,0.06)" stroke-width="1"/>' +
+                            '<line x1="700" y1="200" x2="900" y2="50" stroke="rgba(45,137,176,0.05)" stroke-width="1"/>' +
+                            '<line x1="900" y1="50" x2="1100" y2="200" stroke="rgba(45,137,176,0.05)" stroke-width="1"/>' +
+                            '<circle cx="550" cy="0" r="80" fill="none" stroke="rgba(45,137,176,0.05)" stroke-width="1"/>' +
+                            '<circle cx="900" cy="50" r="50" fill="none" stroke="rgba(45,137,176,0.06)" stroke-width="1"/>' +
+                        '</svg>' +
+                    '</div>' +
+                '</div>' +
+                '<div class="profile-identity">' +
+                    '<div class="avatar-row">' +
+                        '<div class="profile-avatar-wrap">' +
+                            '<div class="profile-avatar">' + esc(initials) + '</div>' +
+                            '<div class="profile-name-block">' +
+                                '<div class="profile-fullname">' + esc(profile.full_name || profile.username || '—') + '</div>' +
+                                (profile.username ? '<div class="profile-handle">@' + esc(profile.username) + '</div>' : '') +
+                            '</div>' +
+                        '</div>' +
+                        '<div class="avatar-actions">' +
+                            followBtnHtml +
+                            editBtnHtml +
+                        '</div>' +
+                    '</div>' +
+                    (metaTags ? '<div class="profile-meta-tags">' + metaTags + '</div>' : '') +
+                    '<div class="member-ribbon">SIOA Member · Joined ' + memberYear + '</div>' +
+                '</div>' +
+            '</div>' +
+
+            // ── STATS ROW ──
+            '<div class="stats-row">' +
+                '<div class="stat-card">' +
+                    '<div class="stat-card-val live-follower-count">' + fmtNum(followerCount) + '</div>' +
+                    '<div class="stat-card-key">Followers</div>' +
+                '</div>' +
+                '<div class="stat-card">' +
+                    '<div class="stat-card-val">' + fmtNum(followingCount) + '</div>' +
+                    '<div class="stat-card-key">Following</div>' +
+                '</div>' +
+                '<div class="stat-card">' +
+                    '<div class="stat-card-val">' + (profile.competition_count || 0) + '</div>' +
+                    '<div class="stat-card-key">Competitions</div>' +
+                '</div>' +
+                '<div class="stat-card">' +
+                    '<div class="stat-card-val">' + memberYear + '</div>' +
+                    '<div class="stat-card-key">Member Since</div>' +
+                '</div>' +
+            '</div>' +
+
+            // ── CONTENT GRID ──
+            '<div class="content-grid">' +
+
+                // SIDEBAR
+                '<div class="sidebar">' +
+
+                    // About
+                    '<div class="card">' +
+                        '<div class="card-header">' +
+                            '<div class="card-header-icon"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>' +
+                            '<span class="card-title">About</span>' +
+                        '</div>' +
+                        '<div class="card-body">' +
+                            (profile.bio
+                                ? '<p class="bio-text">' + esc(profile.bio).replace(/\n/g, '<br>') + '</p>'
+                                : '<p class="bio-empty">No bio added yet.</p>') +
+                        '</div>' +
+                    '</div>' +
+
+                    // Details
+                    '<div class="card">' +
+                        '<div class="card-header">' +
+                            '<div class="card-header-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg></div>' +
+                            '<span class="card-title">Details</span>' +
+                        '</div>' +
+                        '<div class="card-body">' +
+                            '<div class="detail-list">' +
+                                mkDetailRow(
+                                    '<svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>',
+                                    'Specialty', profile.specialty) +
+                                mkDetailRow(
+                                    '<svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>',
+                                    'City', profile.city) +
+                                mkDetailRow(
+                                    '<svg viewBox="0 0 24 24"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg>',
+                                    'State Chapter', profile.state) +
+                                mkDetailRow(
+                                    '<svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>',
+                                    'Member Since', memberYear) +
+                                mkDetailRow(
+                                    '<svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>',
+                                    'Role', profile.role) +
+                            '</div>' +
+                        '</div>' +
+                    '</div>' +
+
+                    // Follow counts
+                    '<div class="card">' +
+                        '<div class="card-header">' +
+                            '<div class="card-header-icon"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>' +
+                            '<span class="card-title">Network</span>' +
+                        '</div>' +
+                        '<div class="card-body">' +
+                            '<div class="follow-counts">' +
+                                '<div class="follow-item">' +
+                                    '<div class="follow-count-val live-follower-count">' + fmtNum(followerCount) + '</div>' +
+                                    '<div class="follow-count-label">Followers</div>' +
+                                '</div>' +
+                                '<div class="follow-item">' +
+                                    '<div class="follow-count-val">' + fmtNum(followingCount) + '</div>' +
+                                    '<div class="follow-count-label">Following</div>' +
+                                '</div>' +
+                            '</div>' +
+                        '</div>' +
+                    '</div>' +
+                '</div>' +
+
+                // MAIN CONTENT
+                '<div class="main-content">' +
+
+                    // Competitions
+                    '<div class="card">' +
+                        '<div class="card-header">' +
+                            '<div class="card-header-icon"><svg viewBox="0 0 24 24"><path d="M8 21h8M12 17v4M17 4h2a2 2 0 0 1 2 2v1a4 4 0 0 1-4 4h-1"/><path d="M7 4H5a2 2 0 0 0-2 2v1a4 4 0 0 0 4 4h1"/><path d="M7 4h10v8a5 5 0 0 1-10 0V4z"/></svg></div>' +
+                            '<span class="card-title">Competition History</span>' +
+                        '</div>' +
+                        '<div class="card-body">' +
+                            renderCompetitionHistory(profile.competition_count) +
+                        '</div>' +
+                    '</div>' +
+
+                '</div>' +
+            '</div>';
+
+        el('mainPage').innerHTML = html;
+
+        // Bind follow button
+        var heroBtn = el('heroFollowBtn');
+        if (heroBtn) {
+            heroBtn.addEventListener('click', function() { toggleFollow(heroBtn); });
+        }
+    }
+
+    function mkDetailRow(iconSvg, key, val) {
+        var isEmpty = !val || String(val).trim() === '';
+        return '<div class="detail-row">' +
+            '<span class="detail-key">' + iconSvg + key + '</span>' +
+            '<span class="detail-val' + (isEmpty ? ' empty' : '') + '">' + (isEmpty ? '—' : esc(String(val))) + '</span>' +
+        '</div>';
+    }
+
+    function renderCompetitionHistory(count) {
+        if (!count || count === 0) {
+            return '<div class="competitions-empty">No competition entries yet.</div>';
+        }
+        // We don't have a competitions table in the schema, so we show a summary.
+        // If a competitions table is added later, this can be replaced with real data.
+        var html = '';
+        for (var i = 1; i <= Math.min(count, 5); i++) {
+            html += '<div class="comp-item">' +
+                '<div class="comp-num">' + i + '</div>' +
+                '<div class="comp-info">' +
+                    '<div class="comp-name">SIOA Annual Competition</div>' +
+                    '<div class="comp-year">Entry #' + i + '</div>' +
+                '</div>' +
+                '<span class="comp-badge participated">Participated</span>' +
+            '</div>';
+        }
+        if (count > 5) {
+            html += '<div style="padding:14px 0 0;font-size:12px;color:rgba(197,217,224,0.35);letter-spacing:0.06em;">+' + (count - 5) + ' more entries</div>';
+        }
+        return html;
+    }
+
+    function renderError(msg) {
+        el('mainPage').innerHTML =
+            '<div class="full-state">' +
+                '<div class="state-title">' + esc(msg) + '</div>' +
+                '<div class="state-sub">The artist may not exist or the profile is unavailable.</div>' +
+                '<a href="/net/index.html" class="btn-back">← Browse Artists</a>' +
+            '</div>';
+    }
+
+    // ── TOAST ─────────────────────────────────────────────────────────────────
+    var toastTimer = null;
+    function showToast(msg, isError) {
+        var t = el('toast');
+        t.textContent = msg;
+        t.className = 'toast' + (isError ? ' error' : '');
+        void t.offsetWidth;
+        t.classList.add('show');
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(function(){ t.classList.remove('show'); }, 2800);
+    }
+
+    // ── NAV SCROLL ────────────────────────────────────────────────────────────
+    window.addEventListener('scroll', function() {
+        el('navbar').classList.toggle('scrolled', window.scrollY > 40);
+    });
+
+    // ── SIGN OUT ──────────────────────────────────────────────────────────────
+    el('signOutBtn').addEventListener('click', async function() {
+        await sb.auth.signOut();
+        window.location.href = '/';
+    });
+
+    // ── BACKGROUND CANVAS ─────────────────────────────────────────────────────
+    (function initCanvas() {
+        var canvas = el('bg-canvas');
+        var ctx = canvas.getContext('2d');
+        function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+        resize();
+        window.addEventListener('resize', resize);
+        function P() { this.reset(); this.y = Math.random() * canvas.height; }
+        P.prototype.reset = function() {
+            this.x = Math.random() * canvas.width; this.y = -10;
+            this.s = Math.random() * 2.5 + 0.8;
+            this.vy = Math.random() * 0.25 + 0.08;
+            this.vx = (Math.random() - 0.5) * 0.15;
+            this.o = Math.random() * 0.45 + 0.2;
+            this.h = Math.random() * 40 + 180;
+        };
+        P.prototype.update = function() {
+            this.y += this.vy; this.x += this.vx + Math.sin(this.y * 0.01) * 0.25;
+            if (this.y > canvas.height + 10) this.reset();
+            if (this.x < 0) this.x = canvas.width;
+            if (this.x > canvas.width) this.x = 0;
+        };
+        P.prototype.draw = function() {
+            ctx.save(); ctx.globalAlpha = this.o;
+            ctx.fillStyle = 'hsl(' + this.h + ',70%,50%)';
+            ctx.shadowBlur = 12; ctx.shadowColor = ctx.fillStyle;
+            ctx.beginPath(); ctx.arc(this.x, this.y, this.s, 0, Math.PI*2); ctx.fill();
+            ctx.restore();
+        };
+        var pts = []; for (var i = 0; i < 60; i++) pts.push(new P());
+        (function loop() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            for (var i = 0; i < pts.length; i++) {
+                for (var j = i+1; j < pts.length; j++) {
+                    var dx = pts[i].x-pts[j].x, dy = pts[i].y-pts[j].y;
+                    var d = Math.sqrt(dx*dx+dy*dy);
+                    if (d < 130) {
+                        ctx.save(); ctx.globalAlpha=(1-d/130)*0.12;
+                        ctx.strokeStyle='hsl(190,70%,50%)'; ctx.lineWidth=1;
+                        ctx.beginPath(); ctx.moveTo(pts[i].x,pts[i].y); ctx.lineTo(pts[j].x,pts[j].y); ctx.stroke();
+                        ctx.restore();
+                    }
+                }
+            }
+            pts.forEach(function(p){ p.update(); p.draw(); });
+            requestAnimationFrame(loop);
+        })();
+    })();
+
+    // ── BOOT ──────────────────────────────────────────────────────────────────
+    (async function boot() {
+        var user = await checkAuth();
+        if (!user) return;
+        currentUserId = user.id;
+        document.body.classList.add('ready');
+
+        // Navbar: load current user's name
+        try {
+            var navRes = await sb.from('profiles').select('full_name, username').eq('id', currentUserId).single();
+            if (!navRes.error && navRes.data) {
+                var np = navRes.data;
+                var ni = getInitials(np.full_name, np.username);
+                el('navAvatar').textContent = ni;
+                el('navUsername').textContent = np.full_name || np.username || 'Member';
+            }
+        } catch(e) {}
+
+        // Determine which artist to load
+        var targetUsername = getTargetUsername();
+        if (!targetUsername) {
+            renderError('No artist specified.');
+            return;
+        }
+
+        // Load artist profile
+        var profile = await loadProfile(targetUsername);
+        if (!profile) {
+            renderError('Artist not found.');
+            return;
+        }
+
+        profileUserId = profile.id;
+
+        // Parallel load of counts + follow status
+        var results = await Promise.all([
+            loadFollowerCount(profileUserId),
+            loadFollowingCount(profileUserId),
+            checkIsFollowing(profileUserId)
+        ]);
+
+        followerCount  = results[0];
+        var followingCount = results[1];
+        isFollowingNow = results[2];
+
+        // Update page title
+        document.title = 'SIOA | ' + (profile.full_name || profile.username || 'Artist');
+
+        renderPage(profile, followingCount);
+    })();
+
+})();
+</script>
+</body>
+</html>
