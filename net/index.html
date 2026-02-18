@@ -1112,8 +1112,8 @@
             }
             pts.forEach(function(p) { p.update(); p.draw(); });
             requestAnimationFrame(loop);
-        })();
-    })();
+        });
+    });
 
     // ─── BOOT ─────────────────────────────────────────────────────────────────
     (async function boot() {
@@ -1146,7 +1146,7 @@
         await performSearch(true);
     })();
 
-});
+})();
 </script>
 </body>
 </html>
