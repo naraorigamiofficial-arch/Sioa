@@ -627,34 +627,39 @@
     </footer>
 
 
-    <script>
-    /* ═══════════════════════════════════════════════════════════════
-       SIOA Member Home — JS
-       All dynamic fields populated here.
-       Backend: Supabase (connect via your supabase-js client).
-       This file contains only structural hooks — no sample data.
-    ═══════════════════════════════════════════════════════════════ */
+    <!-- SUPABASE CDN (MUST BE ABOVE AUTH SCRIPT) -->
 
-    /* ─────────────────────────────────────────
-       AUTH GUARD
-       Replace with your Supabase auth check.
-       Redirects to login if no session.
-    ───────────────────────────────────────── */
-        const supabase = window.supabase.createClient(
-          "https://zbgvgzzaejaxrgcjjovc.supabase.co",
-          "sb_publishable_gCLTB6WM95Iw6Txcf2fjCA_5fnXPw77"
-           );
 
-      async function checkAuth() {
-        const { data: { session }, error } = await supabase.auth.getSession();
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-        if (error || !session) {
-        window.location.href = '/login/index.html';
-        return null;
-      }
+<script>
+(function () {
 
-      return session.user;
-     }
+  if (!window.supabase) {
+    console.error("Supabase not loaded");
+    return;
+  }
+
+  const supabase = window.supabase.createClient(
+    "https://zbgvgzzaejaxrgcjjovc.supabase.co",
+    "sb_publishable_gCLTB6WM95Iw6Txcf2fjCA_5fnXPw77"
+  );
+
+  async function checkAuth() {
+    const { data, error } = await supabase.auth.getSession();
+
+    if (error || !data || !data.session) {
+      window.location.href = "/login/index.html";
+      return;
+    }
+
+    console.log("User authenticated:", data.session.user.email);
+  }
+
+  checkAuth();
+
+})();
+
 
     /* ─────────────────────────────────────────
        LOAD USER PROFILE
