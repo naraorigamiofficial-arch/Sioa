@@ -1,0 +1,1036 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIOA | Member Home</title>
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --black: #000000;
+            --deep-blue: #0a1628;
+            --navy-blue: #0f2847;
+            --cyan-blue: #1a5f7a;
+            --bright-cyan: #2d89b0;
+            --light-cyan: #57a6bb;
+            --white: #e8f4f8;
+            --light-grey: #c5d9e0;
+            --border: rgba(26,95,122,0.25);
+            --border-strong: rgba(45,137,176,0.4);
+            --card-bg: linear-gradient(135deg, rgba(10,22,40,0.75), rgba(15,40,71,0.5));
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--black);
+            color: var(--white);
+            overflow-x: hidden;
+            /* hidden until auth check passes */
+            visibility: hidden;
+        }
+        body.auth-ready { visibility: visible; }
+
+        /* ── CANVAS ── */
+        #bg-canvas {
+            position: fixed; top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: 0; opacity: 0.35; pointer-events: none;
+        }
+
+        /* ── NAVBAR ── */
+        .navbar {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+            background: rgba(0,0,0,0.88);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+            padding: 18px 0;
+            transition: all 0.4s cubic-bezier(0.16,1,0.3,1);
+        }
+        .navbar.scrolled {
+            padding: 12px 0;
+            background: rgba(0,0,0,0.98);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5), 0 2px 10px rgba(26,95,122,0.2);
+            border-bottom: 1px solid var(--border-strong);
+        }
+        .nav-container {
+            max-width: 1300px; margin: 0 auto; padding: 0 40px;
+            display: flex; align-items: center; justify-content: space-between;
+        }
+        .nav-logo {
+            font-size: 24px; font-weight: 800; letter-spacing: 0.1em;
+            color: var(--white); text-decoration: none;
+            transition: color 0.3s;
+        }
+        .nav-logo:hover { color: var(--bright-cyan); }
+
+        .nav-right {
+            display: flex; align-items: center; gap: 32px;
+        }
+        .nav-links {
+            display: flex; gap: 32px; list-style: none; align-items: center;
+        }
+        .nav-links a {
+            color: var(--light-grey); text-decoration: none; font-size: 13px;
+            font-weight: 400; letter-spacing: 0.06em;
+            position: relative; padding: 4px 0;
+            transition: color 0.3s;
+        }
+        .nav-links a::after {
+            content: ''; position: absolute; bottom: 0; left: 50%;
+            transform: translateX(-50%); width: 0; height: 1.5px;
+            background: linear-gradient(90deg, var(--bright-cyan), var(--light-cyan));
+            transition: width 0.35s cubic-bezier(0.16,1,0.3,1);
+        }
+        .nav-links a:hover { color: var(--white); }
+        .nav-links a:hover::after { width: 100%; }
+
+        /* User avatar in nav */
+        .nav-user {
+            display: flex; align-items: center; gap: 12px;
+            cursor: pointer;
+            position: relative;
+        }
+        .nav-avatar {
+            width: 36px; height: 36px; border-radius: 50%;
+            background: linear-gradient(135deg, var(--cyan-blue), var(--bright-cyan));
+            border: 1.5px solid var(--border-strong);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 13px; font-weight: 700; color: var(--white);
+            letter-spacing: 0.04em;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+        .nav-user:hover .nav-avatar {
+            border-color: var(--bright-cyan);
+            box-shadow: 0 0 14px rgba(45,137,176,0.3);
+        }
+        .nav-username {
+            font-size: 13px; font-weight: 500; color: var(--light-grey);
+            letter-spacing: 0.04em;
+        }
+
+        .btn-signout {
+            padding: 8px 18px; background: transparent;
+            border: 1px solid rgba(26,95,122,0.45); border-radius: 4px;
+            color: var(--light-grey); font-family: 'Inter', sans-serif;
+            font-size: 12px; font-weight: 500; letter-spacing: 0.1em;
+            text-transform: uppercase; cursor: pointer;
+            transition: all 0.3s;
+        }
+        .btn-signout:hover {
+            border-color: var(--bright-cyan); color: var(--white);
+            background: rgba(26,95,122,0.12);
+        }
+
+        /* ── PAGE WRAPPER ── */
+        .page {
+            position: relative; z-index: 1;
+            max-width: 1300px; margin: 0 auto;
+            padding: 110px 40px 80px;
+        }
+
+        /* ── WELCOME HEADER ── */
+        .welcome-header {
+            margin-bottom: 52px;
+            opacity: 0; animation: fadeUp 0.7s ease forwards 0.1s;
+        }
+        .welcome-eyebrow {
+            font-size: 11px; font-weight: 500; letter-spacing: 0.3em;
+            text-transform: uppercase; color: var(--bright-cyan); margin-bottom: 10px;
+        }
+        .welcome-title {
+            font-size: clamp(32px, 4.5vw, 54px); font-weight: 700;
+            color: var(--white); letter-spacing: 0.01em; line-height: 1.1;
+        }
+        .welcome-title span {
+            color: var(--bright-cyan);
+        }
+        .welcome-sub {
+            font-size: 15px; font-weight: 300; color: var(--light-grey);
+            letter-spacing: 0.04em; margin-top: 10px;
+        }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(22px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ── GRID LAYOUT ── */
+        .grid-main {
+            display: grid;
+            grid-template-columns: 340px 1fr;
+            grid-template-rows: auto auto;
+            gap: 24px;
+        }
+
+        /* ── SHARED CARD ── */
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            overflow: hidden;
+            opacity: 0;
+            animation: fadeUp 0.7s ease forwards;
+        }
+        .card-header {
+            padding: 22px 28px 18px;
+            border-bottom: 1px solid var(--border);
+            display: flex; align-items: center; justify-content: space-between;
+        }
+        .card-title {
+            font-size: 11px; font-weight: 600; letter-spacing: 0.28em;
+            text-transform: uppercase; color: var(--light-grey);
+        }
+        .card-header-action {
+            font-size: 11px; letter-spacing: 0.1em; color: var(--bright-cyan);
+            text-decoration: none; transition: color 0.3s;
+        }
+        .card-header-action:hover { color: var(--light-cyan); }
+        .card-body { padding: 28px; }
+
+        /* ── PROFILE SUMMARY CARD ── */
+        .profile-card { grid-column: 1; grid-row: 1 / 3; animation-delay: 0.15s; }
+
+        .profile-avatar-wrap { text-align: center; margin-bottom: 24px; }
+        .profile-avatar {
+            width: 84px; height: 84px; border-radius: 50%;
+            background: linear-gradient(135deg, rgba(26,95,122,0.55), rgba(45,137,176,0.45));
+            border: 2px solid var(--border-strong);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 30px; font-weight: 700; color: var(--white);
+            margin: 0 auto 16px; letter-spacing: 0.03em;
+            box-shadow: 0 0 30px rgba(45,137,176,0.15);
+        }
+        .profile-fullname {
+            font-size: 20px; font-weight: 600; color: var(--white);
+            letter-spacing: 0.02em; margin-bottom: 5px;
+        }
+        .profile-username {
+            font-size: 12px; color: var(--light-grey); letter-spacing: 0.1em;
+        }
+
+        .profile-divider {
+            height: 1px; background: var(--border); margin: 22px 0;
+        }
+
+        /* Follow counts */
+        .follow-row {
+            display: grid; grid-template-columns: 1fr 1fr;
+            gap: 0; margin-bottom: 22px;
+        }
+        .follow-item {
+            text-align: center; padding: 16px 10px;
+            border: 1px solid var(--border); border-radius: 6px;
+        }
+        .follow-item:first-child { margin-right: 8px; }
+        .follow-count {
+            font-size: 28px; font-weight: 700; color: var(--bright-cyan);
+            letter-spacing: -0.01em; line-height: 1;
+        }
+        .follow-label {
+            font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase;
+            color: var(--light-grey); margin-top: 6px;
+        }
+
+        /* Profile completion */
+        .completion-wrap { margin-bottom: 8px; }
+        .completion-header {
+            display: flex; justify-content: space-between;
+            font-size: 11px; letter-spacing: 0.1em; color: var(--light-grey);
+            margin-bottom: 10px;
+        }
+        .completion-pct { color: var(--bright-cyan); font-weight: 600; }
+        .completion-bar-bg {
+            height: 4px; background: rgba(26,95,122,0.25); border-radius: 100px;
+            overflow: hidden;
+        }
+        .completion-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--cyan-blue), var(--bright-cyan));
+            border-radius: 100px;
+            width: 0%;
+            transition: width 1s cubic-bezier(0.16,1,0.3,1) 0.6s;
+        }
+        .completion-hint {
+            font-size: 11px; color: rgba(197,217,224,0.4);
+            letter-spacing: 0.06em; margin-top: 8px;
+        }
+
+        /* Profile meta rows */
+        .meta-row {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 11px 0; border-bottom: 1px solid rgba(26,95,122,0.12);
+            font-size: 13px;
+        }
+        .meta-row:last-child { border-bottom: none; }
+        .meta-key { color: var(--light-grey); font-weight: 300; }
+        .meta-val { color: var(--white); font-weight: 500; }
+        .meta-empty { color: rgba(197,217,224,0.3); font-style: italic; font-weight: 300; }
+
+        /* ── QUICK ACTIONS ── */
+        .actions-card { grid-column: 2; grid-row: 1; animation-delay: 0.22s; }
+
+        .actions-grid {
+            display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px;
+        }
+        .action-btn {
+            display: flex; flex-direction: column; align-items: center;
+            gap: 14px; padding: 24px 16px;
+            background: rgba(10,22,40,0.6);
+            border: 1px solid var(--border); border-radius: 8px;
+            color: var(--light-grey); text-decoration: none;
+            font-family: 'Inter', sans-serif;
+            cursor: pointer; transition: all 0.35s cubic-bezier(0.16,1,0.3,1);
+            position: relative; overflow: hidden;
+        }
+        .action-btn::before {
+            content: ''; position: absolute; inset: 0;
+            background: linear-gradient(135deg, rgba(26,95,122,0.15), transparent);
+            opacity: 0; transition: opacity 0.35s;
+        }
+        .action-btn::after {
+            content: ''; position: absolute;
+            top: 0; left: 0; width: 100%; height: 2px;
+            background: linear-gradient(90deg, var(--cyan-blue), var(--bright-cyan));
+            transform: scaleX(0); transform-origin: left;
+            transition: transform 0.35s cubic-bezier(0.16,1,0.3,1);
+        }
+        .action-btn:hover { border-color: var(--border-strong); color: var(--white); transform: translateY(-3px); }
+        .action-btn:hover::before { opacity: 1; }
+        .action-btn:hover::after  { transform: scaleX(1); }
+
+        .action-icon {
+            width: 42px; height: 42px; border-radius: 50%;
+            border: 1px solid var(--border);
+            display: flex; align-items: center; justify-content: center;
+            background: rgba(26,95,122,0.1);
+            transition: all 0.35s;
+            position: relative; z-index: 1;
+        }
+        .action-icon svg {
+            width: 18px; height: 18px; stroke: var(--bright-cyan); fill: none;
+            stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round;
+            transition: stroke 0.35s;
+        }
+        .action-btn:hover .action-icon {
+            border-color: var(--bright-cyan); background: rgba(45,137,176,0.15);
+            box-shadow: 0 0 16px rgba(45,137,176,0.2);
+        }
+        .action-btn:hover .action-icon svg { stroke: var(--light-cyan); }
+        .action-label {
+            font-size: 12px; font-weight: 500; letter-spacing: 0.1em;
+            text-align: center; line-height: 1.3; position: relative; z-index: 1;
+            text-transform: uppercase;
+        }
+
+        /* ── ACTIVITY + ANNOUNCEMENTS ROW ── */
+        .bottom-row {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 24px;
+            margin-top: 0; /* already in grid gap */
+        }
+
+        /* These span under the right column */
+        .activity-card     { grid-column: 2; grid-row: 2; animation-delay: 0.3s; }
+
+        /* Announcements is below both, full width */
+        .announcements-card {
+            grid-column: 1 / -1; animation-delay: 0.38s;
+        }
+
+        /* Activity items */
+        #activity-container {
+            min-height: 80px;
+            display: flex; flex-direction: column; gap: 0;
+        }
+        .activity-empty {
+            padding: 24px 0;
+            text-align: center; font-size: 13px;
+            color: rgba(197,217,224,0.3); letter-spacing: 0.08em;
+        }
+        .activity-item {
+            display: flex; align-items: flex-start; gap: 16px;
+            padding: 16px 0;
+            border-bottom: 1px solid rgba(26,95,122,0.12);
+        }
+        .activity-item:last-child { border-bottom: none; }
+        .activity-dot {
+            width: 8px; height: 8px; border-radius: 50%;
+            background: var(--bright-cyan); flex-shrink: 0; margin-top: 5px;
+            box-shadow: 0 0 6px rgba(45,137,176,0.4);
+        }
+        .activity-text { font-size: 13px; color: var(--light-grey); line-height: 1.55; font-weight: 300; }
+        .activity-time { font-size: 10px; letter-spacing: 0.1em; color: rgba(197,217,224,0.3); margin-top: 3px; }
+
+        /* Announcements */
+        #announcements-container {
+            display: flex; flex-direction: column; gap: 0;
+            min-height: 60px;
+        }
+        .announcement-empty {
+            padding: 20px 0; text-align: center;
+            font-size: 13px; color: rgba(197,217,224,0.3); letter-spacing: 0.08em;
+        }
+        .announcement-item {
+            display: flex; align-items: flex-start; gap: 20px;
+            padding: 18px 0; border-bottom: 1px solid rgba(26,95,122,0.12);
+        }
+        .announcement-item:last-child { border-bottom: none; }
+        .announcement-badge {
+            flex-shrink: 0; padding: 4px 10px;
+            border: 1px solid var(--border-strong); border-radius: 100px;
+            font-size: 9px; letter-spacing: 0.18em; text-transform: uppercase;
+            color: var(--bright-cyan); white-space: nowrap; margin-top: 2px;
+        }
+        .announcement-badge.notice { border-color: rgba(197,217,224,0.25); color: rgba(197,217,224,0.45); }
+        .announcement-title { font-size: 14px; font-weight: 600; color: var(--white); margin-bottom: 4px; }
+        .announcement-body  { font-size: 13px; font-weight: 300; color: var(--light-grey); line-height: 1.6; }
+
+        /* ── LOADING STATE ── */
+        .skeleton {
+            background: linear-gradient(90deg, rgba(26,95,122,0.12) 25%, rgba(45,137,176,0.08) 50%, rgba(26,95,122,0.12) 75%);
+            background-size: 200% 100%;
+            animation: skelPulse 1.6s ease infinite;
+            border-radius: 4px; color: transparent !important;
+        }
+        @keyframes skelPulse {
+            0%   { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+        .skel-line { height: 14px; border-radius: 3px; margin-bottom: 8px; }
+        .skel-short { width: 45%; }
+        .skel-medium { width: 70%; }
+        .skel-full   { width: 100%; }
+
+        /* ── FOOTER ── */
+        footer {
+            position: relative; z-index: 1;
+            border-top: 1px solid var(--border);
+            padding: 28px 40px;
+            display: flex; align-items: center; justify-content: space-between;
+            max-width: 1300px; margin: 0 auto;
+            font-size: 12px; color: rgba(197,217,224,0.4); letter-spacing: 0.06em;
+            flex-wrap: wrap; gap: 12px;
+        }
+        .footer-beta {
+            display: inline-flex; align-items: center; gap: 7px;
+            padding: 4px 12px; background: rgba(26,95,122,0.1);
+            border: 1px solid var(--border); border-radius: 100px;
+            font-size: 10px; letter-spacing: 0.14em; color: var(--bright-cyan);
+        }
+        .footer-beta::before {
+            content: ''; width: 5px; height: 5px; border-radius: 50%;
+            background: var(--bright-cyan); animation: blink 1.6s infinite;
+        }
+        @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.2} }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 1024px) {
+            .grid-main { grid-template-columns: 1fr; }
+            .profile-card { grid-column: 1; grid-row: auto; }
+            .actions-card { grid-column: 1; grid-row: auto; }
+            .activity-card { grid-column: 1; grid-row: auto; }
+            .announcements-card { grid-column: 1; }
+            .actions-grid { grid-template-columns: repeat(2,1fr); }
+        }
+        @media (max-width: 640px) {
+            .page { padding: 90px 20px 60px; }
+            .nav-container { padding: 0 20px; }
+            .nav-links { display: none; }
+            footer { padding: 24px 20px; }
+            .actions-grid { grid-template-columns: repeat(2,1fr); }
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="bg-canvas"></canvas>
+
+    <!-- ══ NAVBAR ══ -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="/" class="nav-logo">SIOA</a>
+
+            <div class="nav-right">
+                <ul class="nav-links">
+                    <li><a href="#actions">Quick Actions</a></li>
+                    <li><a href="#activity">Activity</a></li>
+                    <li><a href="#announcements">Announcements</a></li>
+                </ul>
+                <div class="nav-user" id="navUser">
+                    <div class="nav-avatar" id="navAvatar">—</div>
+                    <span class="nav-username" id="navUsername">Loading…</span>
+                </div>
+                <button class="btn-signout" id="signOutBtn">Sign Out</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ══ PAGE ══ -->
+    <main class="page">
+
+        <!-- Welcome Header -->
+        <div class="welcome-header" id="welcomeHeader">
+            <p class="welcome-eyebrow">Member Home</p>
+            <h1 class="welcome-title">
+                Welcome, <span id="welcomeName">&nbsp;</span>
+            </h1>
+            <p class="welcome-sub" id="welcomeSub">&nbsp;</p>
+        </div>
+
+        <!-- Main Grid -->
+        <div class="grid-main">
+
+            <!-- ── 1. PROFILE SUMMARY ── -->
+            <div class="card profile-card" id="profileCard" style="animation-delay:0.15s">
+                <div class="card-header">
+                    <span class="card-title">Profile Summary</span>
+                    <a href="#" class="card-header-action" id="editProfileLink">Edit Profile</a>
+                </div>
+                <div class="card-body">
+                    <div class="profile-avatar-wrap">
+                        <div class="profile-avatar" id="profileAvatar">—</div>
+                        <div class="profile-fullname" id="profileFullName">
+                            <span class="skeleton skel-line skel-medium">&nbsp;</span>
+                        </div>
+                        <div class="profile-username" id="profileUsername">
+                            <span class="skeleton skel-line skel-short">&nbsp;</span>
+                        </div>
+                    </div>
+
+                    <div class="profile-divider"></div>
+
+                    <!-- Follow counts -->
+                    <div class="follow-row">
+                        <div class="follow-item">
+                            <div class="follow-count" id="followersCount">—</div>
+                            <div class="follow-label">Followers</div>
+                        </div>
+                        <div class="follow-item">
+                            <div class="follow-count" id="followingCount">—</div>
+                            <div class="follow-label">Following</div>
+                        </div>
+                    </div>
+
+                    <!-- Profile completion -->
+                    <div class="completion-wrap">
+                        <div class="completion-header">
+                            <span>Profile Completion</span>
+                            <span class="completion-pct" id="completionPct">—</span>
+                        </div>
+                        <div class="completion-bar-bg">
+                            <div class="completion-bar-fill" id="completionBar"></div>
+                        </div>
+                        <div class="completion-hint" id="completionHint">&nbsp;</div>
+                    </div>
+
+                    <div class="profile-divider"></div>
+
+                    <!-- Meta -->
+                    <div class="meta-row">
+                        <span class="meta-key">Specialty</span>
+                        <span class="meta-val meta-empty" id="metaSpecialty">—</span>
+                    </div>
+                    <div class="meta-row">
+                        <span class="meta-key">State Chapter</span>
+                        <span class="meta-val meta-empty" id="metaState">—</span>
+                    </div>
+                    <div class="meta-row">
+                        <span class="meta-key">Member Since</span>
+                        <span class="meta-val meta-empty" id="metaSince">—</span>
+                    </div>
+                    <div class="meta-row">
+                        <span class="meta-key">Competitions</span>
+                        <span class="meta-val meta-empty" id="metaCompetitions">—</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ── 2. QUICK ACTIONS ── -->
+            <div class="card actions-card" id="actionsCard" style="animation-delay:0.22s">
+                <div class="card-header">
+                    <span class="card-title">Quick Actions</span>
+                </div>
+                <div class="card-body" id="actions">
+                    <div class="actions-grid">
+
+                        <a href="#" class="action-btn" id="actionEditProfile">
+                            <div class="action-icon">
+                                <svg viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+                            </div>
+                            <span class="action-label">Edit Profile</span>
+                        </a>
+
+                        <a href="#" class="action-btn" id="actionViewProfile">
+                            <div class="action-icon">
+                                <svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                            </div>
+                            <span class="action-label">Public Profile</span>
+                        </a>
+
+                        <a href="#" class="action-btn" id="actionCompetition">
+                            <div class="action-icon">
+                                <svg viewBox="0 0 24 24"><path d="M8 21h8M12 17v4M17 4h2a2 2 0 0 1 2 2v1a4 4 0 0 1-4 4h-1"/><path d="M7 4H5a2 2 0 0 0-2 2v1a4 4 0 0 0 4 4h1"/><path d="M7 4h10v8a5 5 0 0 1-10 0V4z"/></svg>
+                            </div>
+                            <span class="action-label">Submit to Competition</span>
+                        </a>
+
+                        <a href="#" class="action-btn" id="actionBrowse">
+                            <div class="action-icon">
+                                <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                            </div>
+                            <span class="action-label">Browse Artists</span>
+                        </a>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- ── 3. RECENT ACTIVITY ── -->
+            <div class="card activity-card" id="activityCard" style="animation-delay:0.3s">
+                <div class="card-header" id="activity">
+                    <span class="card-title">Recent Activity</span>
+                    <a href="#" class="card-header-action" id="viewAllActivity">View All</a>
+                </div>
+                <div class="card-body">
+                    <!-- Populated by renderActivity() -->
+                    <div id="activity-container">
+                        <div class="activity-empty">No recent activity.</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ── 4. ANNOUNCEMENTS ── -->
+            <div class="card announcements-card" id="announcementsCard" style="animation-delay:0.38s">
+                <div class="card-header" id="announcements">
+                    <span class="card-title">Platform Announcements</span>
+                </div>
+                <div class="card-body">
+                    <!-- Populated by renderAnnouncements() -->
+                    <div id="announcements-container">
+                        <div class="announcement-empty">No announcements at this time.</div>
+                    </div>
+                </div>
+            </div>
+
+        </div><!-- /grid-main -->
+    </main>
+
+    <footer>
+        <span>© 2026 SIOA – Society of Indian Origami Artists</span>
+        <span class="footer-beta">BETA — platform in active development</span>
+        <span>विधान · अभ्यास · गौरव · हस्त</span>
+    </footer>
+
+
+    <script>
+    /* ═══════════════════════════════════════════════════════════════
+       SIOA Member Home — JS
+       All dynamic fields populated here.
+       Backend: Supabase (connect via your supabase-js client).
+       This file contains only structural hooks — no sample data.
+    ═══════════════════════════════════════════════════════════════ */
+
+    /* ─────────────────────────────────────────
+       AUTH GUARD
+       Replace with your Supabase auth check.
+       Redirects to login if no session.
+    ───────────────────────────────────────── */
+    const supabase = window.supabase.createClient(
+  "https://zbgvgzzaejaxrgcjjovc.supabase.co",
+  "sb_publishable_gCLTB6WM95Iw6Txcf2fjCA_5fnXPw77"
+);
+
+    async function checkAuth() {
+        const { data: { session }, error } = await supabase.auth.getSession();
+
+        if (error || !session) {
+        window.location.href = '/login/index.html';
+        return null;
+      }
+
+      return session.user;
+    }
+
+    /* ─────────────────────────────────────────
+       LOAD USER PROFILE
+       Fetches profile row from backend.
+       Expected fields: full_name, username, specialty, state, created_at, competition_count
+    ───────────────────────────────────────── */
+   async function loadUserProfile(userId) {
+    const { data, error } = await supabase
+        .from('profiles')
+        .select('full_name, username, specialty, state, role, bio, created_at, competition_count')
+        .eq('id', userId)
+        .single();
+
+    if (error) {
+        console.error('Profile load failed:', error);
+        return null;
+    }
+
+    return data;
+}
+
+
+    
+
+    /* ─────────────────────────────────────────
+       LOAD FOLLOW COUNTS
+       Fetches followers + following from backend.
+       Returns: { followers: Number, following: Number }
+    ───────────────────────────────────────── */
+    async function loadFollowCounts(userId) {
+    const [{ count: followers }, { count: following }] = await Promise.all([
+        supabase
+            .from('follow')
+            .select('*', { count: 'exact', head: true })
+            .eq('following_id', userId),
+
+        supabase
+            .from('follow')
+            .select('*', { count: 'exact', head: true })
+            .eq('follower_id', userId)
+    ]);
+
+    return {
+        followers: followers || 0,
+        following: following || 0
+    };
+}
+
+    /* ─────────────────────────────────────────
+       LOAD RECENT ACTIVITY
+       Fetches activity feed items for this user.
+       Each item: { id, type, message, created_at }
+    ───────────────────────────────────────── */
+   async function loadRecentActivity(userId) {
+    // No activity system yet
+    return [];
+}
+
+
+    /* ─────────────────────────────────────────
+       LOAD ANNOUNCEMENTS
+       Fetches platform-wide announcements.
+       Each item: { id, badge_label, title, body, created_at }
+    ───────────────────────────────────────── */
+    async function loadAnnouncements() {
+    const { data, error } = await supabase
+        .from('announcements')
+        .select('id, badge_label, title, body, created_at')
+        .eq('published', true)
+        .order('created_at', { ascending: false })
+        .limit(5);
+
+    if (error) {
+        console.error('Announcements load failed:', error);
+        return [];
+    }
+
+    return data || [];
+}
+
+
+    /* ─────────────────────────────────────────
+       RENDER — PROFILE FIELDS
+    ───────────────────────────────────────── */
+    function renderProfile(profile) {
+        if (!profile) return;
+
+        var fullName   = profile.full_name   || '';
+        var username   = profile.username    || '';
+        var specialty  = profile.specialty   || '';
+        var state      = profile.state       || '';
+        var since      = profile.created_at
+            ? new Date(profile.created_at).getFullYear()
+            : '';
+       var competitions = profile.competition_count ?? 0;
+
+
+
+        // Initials
+        var initials = fullName.trim()
+            .split(/\s+/)
+            .map(function(w) { return w[0]; })
+            .slice(0, 2).join('').toUpperCase() || (username[0] || '?').toUpperCase();
+
+        // Avatar
+        el('profileAvatar').textContent = initials;
+        el('navAvatar').textContent     = initials;
+
+        // Names
+        el('profileFullName').textContent  = fullName  || '—';
+        el('profileUsername').textContent  = username ? '@' + username : '—';
+        el('navUsername').textContent      = fullName  || username || '—';
+        el('welcomeName').textContent      = (fullName || username || 'Member').split(' ')[0];
+        el('welcomeSub').textContent       = username ? '@' + username + ' · SIOA Member' : 'SIOA Member';
+
+        // Meta
+        setText('metaSpecialty',   specialty   || null);
+        setText('metaState',       state       || null);
+        setText('metaSince',       since       ? since + '' : null);
+        setText('metaCompetitions', competitions.toString());
+
+        // Profile completion
+        renderCompletion(profile);
+    }
+
+    /* ─────────────────────────────────────────
+       RENDER — PROFILE COMPLETION
+    ───────────────────────────────────────── */
+    function renderCompletion(profile) {
+        var fields = ['full_name','username','specialty','state','bio'];
+        var filled = fields.filter(function(f) {
+            return profile[f] && profile[f].toString().trim() !== '';
+        }).length;
+        var pct = Math.round((filled / fields.length) * 100);
+
+        el('completionPct').textContent = pct + '%';
+        el('completionHint').textContent = pct < 100
+            ? (100 - pct) + '% remaining — complete your profile to get discovered'
+            : 'Your profile is complete';
+
+        // Animate bar (slight delay so transition fires)
+        setTimeout(function() {
+            el('completionBar').style.width = pct + '%';
+        }, 100);
+    }
+
+    /* ─────────────────────────────────────────
+       RENDER — FOLLOW COUNTS
+    ───────────────────────────────────────── */
+    function renderFollowCounts(counts) {
+        if (!counts) return;
+        el('followersCount').textContent = formatCount(counts.followers);
+        el('followingCount').textContent = formatCount(counts.following);
+    }
+
+    /* ─────────────────────────────────────────
+       RENDER — ACTIVITY
+       items: Array<{ id, type, message, created_at }>
+    ───────────────────────────────────────── */
+    function renderActivity(items) {
+        var container = el('activity-container');
+        container.innerHTML = '';
+
+        if (!items || items.length === 0) {
+            container.innerHTML = '<div class="activity-empty">No recent activity.</div>';
+            return;
+        }
+
+        items.forEach(function(item) {
+            var div = document.createElement('div');
+            div.className = 'activity-item';
+            div.innerHTML =
+                '<div class="activity-dot"></div>' +
+                '<div>' +
+                    '<div class="activity-text">' + escHtml(item.message || '') + '</div>' +
+                    '<div class="activity-time">' + formatRelativeTime(item.created_at) + '</div>' +
+                '</div>';
+            container.appendChild(div);
+        });
+    }
+
+    /* ─────────────────────────────────────────
+       RENDER — ANNOUNCEMENTS
+       items: Array<{ id, badge_label, title, body, created_at }>
+    ───────────────────────────────────────── */
+    function renderAnnouncements(items) {
+        var container = el('announcements-container');
+        container.innerHTML = '';
+
+        if (!items || items.length === 0) {
+            container.innerHTML = '<div class="announcement-empty">No announcements at this time.</div>';
+            return;
+        }
+
+        items.forEach(function(item) {
+            var div = document.createElement('div');
+            div.className = 'announcement-item';
+            div.innerHTML =
+                '<div class="announcement-badge">' + escHtml(item.badge_label || 'Update') + '</div>' +
+                '<div>' +
+                    '<div class="announcement-title">' + escHtml(item.title || '') + '</div>' +
+                    '<div class="announcement-body">'  + escHtml(item.body  || '') + '</div>' +
+                '</div>';
+            container.appendChild(div);
+        });
+    }
+
+    /* ─────────────────────────────────────────
+       WIRE QUICK ACTION HREFS
+       Call this once you know the user's username.
+    ───────────────────────────────────────── */
+    function wireActionButtons(username) {
+        el('actionEditProfile').href   = '/dashbord/index.html';
+        el('actionViewProfile').href   = '/artists/' + (username || '');
+        el('actionCompetition').href   = '/competition/submit.html';
+        el('actionBrowse').href        = '/Network/index.html';
+        el('editProfileLink').href     = '/dashbord/index.html';
+        el('actionViewProfile').href   = '/membes/' + (username || '');
+    }
+
+    /* ─────────────────────────────────────────
+       SIGN OUT
+    ───────────────────────────────────────── */
+    el('signOutBtn').addEventListener('click', async function() {
+        /*
+         * Supabase:
+         * await supabase.auth.signOut();
+         */
+        window.location.href = '/';
+    });
+
+    /* ─────────────────────────────────────────
+       NAVBAR SCROLL
+    ───────────────────────────────────────── */
+    var navbar = el('navbar');
+    window.addEventListener('scroll', function() {
+        navbar.classList.toggle('scrolled', window.scrollY > 40);
+    });
+
+    /* ─────────────────────────────────────────
+       SMOOTH SCROLL
+    ───────────────────────────────────────── */
+    document.querySelectorAll('a[href^="#"]').forEach(function(link) {
+        link.addEventListener('click', function(e) {
+            var href = link.getAttribute('href');
+            if (href === '#') return;
+            var target = document.querySelector(href);
+            if (target) {
+                e.preventDefault();
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        });
+    });
+
+    /* ─────────────────────────────────────────
+       UTILS
+    ───────────────────────────────────────── */
+    function el(id) { return document.getElementById(id); }
+
+    function setText(id, value) {
+        var node = el(id);
+        if (value) {
+            node.textContent = value;
+            node.classList.remove('meta-empty');
+        } else {
+            node.textContent = '—';
+            node.classList.add('meta-empty');
+        }
+    }
+
+    function formatCount(n) {
+        if (n == null) return '—';
+        if (n >= 1000) return (n / 1000).toFixed(1) + 'k';
+        return String(n);
+    }
+
+    function formatRelativeTime(iso) {
+        if (!iso) return '';
+        var diff = (Date.now() - new Date(iso)) / 1000;
+        if (diff < 60)     return 'Just now';
+        if (diff < 3600)   return Math.floor(diff / 60) + 'm ago';
+        if (diff < 86400)  return Math.floor(diff / 3600) + 'h ago';
+        return Math.floor(diff / 86400) + 'd ago';
+    }
+
+    function escHtml(str) {
+        return str
+            .replace(/&/g,'&amp;')
+            .replace(/</g,'&lt;')
+            .replace(/>/g,'&gt;')
+            .replace(/"/g,'&quot;');
+    }
+
+    /* ─────────────────────────────────────────
+       PARTICLE CANVAS
+    ───────────────────────────────────────── */
+    (function initCanvas() {
+        var canvas = document.getElementById('bg-canvas');
+        var ctx = canvas.getContext('2d');
+        function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+        resize(); window.addEventListener('resize', resize);
+
+        function P() { this.reset(); this.y = Math.random() * canvas.height; }
+        P.prototype.reset = function() {
+            this.x = Math.random() * canvas.width; this.y = -10;
+            this.s = Math.random() * 2.5 + 0.8;
+            this.vy = Math.random() * 0.25 + 0.08;
+            this.vx = (Math.random() - 0.5) * 0.15;
+            this.o  = Math.random() * 0.45 + 0.2;
+            this.h  = Math.random() * 40 + 180;
+        };
+        P.prototype.update = function() {
+            this.y += this.vy; this.x += this.vx + Math.sin(this.y * 0.01) * 0.25;
+            if (this.y > canvas.height + 10) this.reset();
+            if (this.x < 0) this.x = canvas.width;
+            if (this.x > canvas.width) this.x = 0;
+        };
+        P.prototype.draw = function() {
+            ctx.save(); ctx.globalAlpha = this.o;
+            ctx.fillStyle = 'hsl(' + this.h + ',70%,50%)';
+            ctx.shadowBlur = 12; ctx.shadowColor = ctx.fillStyle;
+            ctx.beginPath(); ctx.arc(this.x, this.y, this.s, 0, Math.PI*2); ctx.fill(); ctx.restore();
+        };
+
+        var pts = [];
+        for (var i = 0; i < 60; i++) pts.push(new P());
+
+        (function loop() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            for (var i = 0; i < pts.length; i++) {
+                for (var j = i+1; j < pts.length; j++) {
+                    var dx = pts[i].x - pts[j].x, dy = pts[i].y - pts[j].y;
+                    var d = Math.sqrt(dx*dx + dy*dy);
+                    if (d < 130) {
+                        ctx.save(); ctx.globalAlpha = (1 - d/130) * 0.12;
+                        ctx.strokeStyle = 'hsl(190,70%,50%)'; ctx.lineWidth = 1;
+                        ctx.beginPath(); ctx.moveTo(pts[i].x, pts[i].y);
+                        ctx.lineTo(pts[j].x, pts[j].y); ctx.stroke(); ctx.restore();
+                    }
+                }
+            }
+            pts.forEach(function(p) { p.update(); p.draw(); });
+            requestAnimationFrame(loop);
+        })();
+    })();
+
+    /* ─────────────────────────────────────────
+       BOOT — AUTH + DATA
+    ───────────────────────────────────────── */
+    (async function boot() {
+        // 1. Auth check — redirects away if not logged in
+        var user = await checkAuth();
+        if (!user) return;
+
+        // 2. Show page now that auth passed
+        document.body.classList.add('auth-ready');
+
+        // 3. Load all data in parallel
+        var userId = user.id;
+        var [profile, counts, activity, announcements] = await Promise.all([
+            loadUserProfile(userId),
+            loadFollowCounts(userId),
+            loadRecentActivity(userId),
+            loadAnnouncements()
+        ]);
+
+        // 4. Render
+        renderProfile(profile);
+        renderFollowCounts(counts);
+        renderActivity(activity);
+        renderAnnouncements(announcements);
+
+        // 5. Wire action buttons with username
+        wireActionButtons(profile ? profile.username : '');
+    })();
+
+    </script>
+</body>
+</html>

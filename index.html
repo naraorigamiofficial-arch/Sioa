@@ -1330,5 +1330,27 @@
         }, { threshold: 0.1, rootMargin: '0px 0px -60px 0px' });
         document.querySelectorAll('.fade-in-section').forEach(function(el) { io.observe(el); });
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const supabase = window.supabase.createClient(
+  "https://zbgvgzzaejaxrgcjjovc.supabase.co",
+  "sb_publishable_gCLTB6WM95Iw6Txcf2fjCA_5fnXPw77"
+);
+
+(async () => {
+  const { data, error } = await supabase.auth.getSession();
+
+  if (error) {
+    console.error(error);
+    return;
+  }
+
+  if (data.session) {
+    window.location.replace("/login/app/loggedin.html");
+  }
+})();
+
+</script>
+
 </body>
 </html>
