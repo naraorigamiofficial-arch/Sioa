@@ -337,7 +337,7 @@
             <li><a onclick="authGate('/net/index.html')">Find Artists</a></li>
             <li><a href="#competition">Competition</a></li>
             <li><a href="#connect">Connect</a></li>
-            <li id="navAuthItem"><a href="/login/index.html" class="nav-btn">Login</a></li>
+            <li id="navAuthItem"><a href="/login/login.html" class="nav-btn">Login</a></li>
         </ul>
         <div class="menu-toggle" id="menuToggle"><span></span><span></span><span></span></div>
     </div>
@@ -360,7 +360,7 @@
             <div class="hero-pill"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>Connect</div>
         </div>
         <div class="hero-actions">
-            <a id="mainCtaBtn" href="/login/index.html" class="btn-primary-hero">Create Your Profile</a>
+            <a id="mainCtaBtn" href="/login/login.html" class="btn-primary-hero">Create Your Profile</a>
             <a href="#offerings" class="btn-ghost-hero">Explore Platform</a>
         </div>
     </div>
@@ -512,7 +512,7 @@
                 <p class="section-label">Your Identity</p>
                 <h2>Build your professional origami profile</h2>
                 <p>Create your page on SIOA — link your Instagram, YouTube, and social handles. List your specialties, competition history, and teaching credentials. Be discovered by the community and the world.</p>
-                <a id="profileCtaBtn" href="/login/index.html" class="btn-members">
+                <a id="profileCtaBtn" href="/login/login.html" class="btn-members">
                     <span>Create Your Profile</span>
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
                 </a>
@@ -633,7 +633,7 @@ const sb = window.supabase.createClient(
 var isLoggedIn = false;
 
 function authGate(dest) {
-    window.location.href = isLoggedIn ? dest : '/login/index.html';
+    window.location.href = isLoggedIn ? dest : '/login/login.html';
 }
 
 /* ── INIT AUTH ── */
@@ -656,9 +656,9 @@ function authGate(dest) {
         var lb = document.getElementById('logoutBtn');
         if (lb) lb.addEventListener('click', async function (e) { e.preventDefault(); await sb.auth.signOut(); window.location.href = '/'; });
     } else {
-        if (mainBtn)    { mainBtn.textContent = 'Create Your Profile'; mainBtn.href = '/login/index.html'; }
-        if (profileBtn) { profileBtn.querySelector('span').textContent = 'Create Your Profile'; profileBtn.href = '/login/index.html'; }
-        if (navItem)    { navItem.innerHTML = '<a href="/login/index.html" class="nav-btn">Login</a>'; }
+        if (mainBtn)    { mainBtn.textContent = 'Create Your Profile'; mainBtn.href = '/login/login.html'; }
+        if (profileBtn) { profileBtn.querySelector('span').textContent = 'Create Your Profile'; profileBtn.href = '/login/login.html'; }
+        if (navItem)    { navItem.innerHTML = '<a href="/login/login.html" class="nav-btn">Login</a>'; }
     }
 })();
 
