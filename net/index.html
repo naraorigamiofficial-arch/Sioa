@@ -1160,7 +1160,7 @@
                 var p = profileRes.data;
                 var initials = getInitials(p.full_name, p.username);
                 el('navAvatar').textContent = initials;
-                el('navUsername').textContent = p.full_name || p.username || 'Member';
+                el.href = '/artists/index.html?u=' + (username || '');
             }
         } catch (e) {
             console.error('Nav profile error:', e);
