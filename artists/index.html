@@ -677,17 +677,9 @@
     /* ── ROUTE: get username from URL ── */
     // URL structure: /artists/username  OR  /artists/index.html?u=username
     function getTargetUsername() {
-        // Try path-based: /artists/someusername
-        const pathParts = window.location.pathname.split('/').filter(Boolean);
-        // e.g. ['artists', 'someusername'] or just ['someusername'] if deployed differently
-        const artistsIdx = pathParts.indexOf('artists');
-        if (artistsIdx !== -1 && pathParts[artistsIdx + 1]) {
-            return pathParts[artistsIdx + 1];
-        }
-        // Try query string: ?u=someusername or ?username=someusername
-        const params = new URLSearchParams(window.location.search);
-        return params.get('u') || params.get('username') || null;
-    }
+    const params = new URLSearchParams(window.location.search);
+    return params.get('u') || params.get('username') || null;
+}
 
     /* ── MAIN ── */
     let currentUser = null;
