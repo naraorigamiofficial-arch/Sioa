@@ -1346,10 +1346,9 @@
         updateBioCount(p.bio?.length || 0);
 
         // Public profile links
-        const profileUrl = username ? '/artists/'+username : '#';
-        el('view-public-link').href = profileUrl;
-        el('ql-public-profile').href = profileUrl;
-
+        const profileUrl = username ? '/artists/index.html?u='+username : '#';
+          el('view-public-link').href = profileUrl;
+          el('ql-public-profile').href = profileUrl;
         // Completion
         updateCompletion(p);
 
@@ -1781,6 +1780,7 @@
 
         renderStreakDots();
     })();
+    
 
 
 })();
