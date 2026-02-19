@@ -625,8 +625,8 @@
         setTimeout(function() { el('completionBar').style.width = pct + '%'; }, 100);
         
         el('actionEditProfile').href = '/dashbord/index.html';
-        el('actionViewProfile').href = '/artists/index.html' + (username || '');
-        el('actionCompetition').href = '/competition/submit.html';
+        el('actionViewProfile').href = '/artists/index.html?u=' + (username || '');
+        el('actionCompetition').href = '/dashbord/competition.html';
         el('actionBrowse').href = '/net/index.html';
         el('editProfileLink').href = '/dashbord/index.html';
     }
