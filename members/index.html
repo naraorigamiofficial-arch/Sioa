@@ -198,12 +198,12 @@ body {
 
 /* ─ Photo ─ */
 .card-photo {
-  position:relative; width:100%; aspect-ratio:16/9;
+  position:relative; width:100%; aspect-ratio:4/3;
   overflow:hidden;
   background:linear-gradient(145deg, var(--deep-blue), var(--navy-blue));
 }
 .card-photo img {
-  width:100%; height:100%; object-fit:cover; display:block;
+  width:100%; height:100%; object-fit:cover; object-position:top center; display:block;
   filter:grayscale(15%) contrast(1.05) brightness(.9);
   transition:transform .7s cubic-bezier(.16,1,.3,1), filter .5s ease;
 }
@@ -214,7 +214,7 @@ body {
 
 /* placeholder */
 .photo-placeholder {
-  width:100%; aspect-ratio:16/9;
+  width:100%; aspect-ratio:4/3;
   display:flex; flex-direction:column;
   align-items:center; justify-content:center; gap:10px;
   background:linear-gradient(145deg, var(--deep-blue), rgba(26,95,122,.25));
@@ -474,6 +474,7 @@ const MEMBERS = [
     location: 'Bareilly, Uttar Pradesh',
     bio:      'I am an Indian origami artist and educator focused on treating origami as a serious art and discipline rather than just a hobby. My work involves original folding, teaching, and experimentation with paper preparation and structure. I strongly believe in proper crediting of designs and preserving the integrity of authorship within the origami community.\n\nI founded SIOA to build a dedicated space where artists can connect, learn, and be recognized — especially within India. Along with leading the organization, I also develop and maintain the platform myself, working on the website and its systems.',
     photo:    '/assets/Screenshot%202026-02-20%20001948.png',
+    photoPos: 'center 20%',
     tags:     ['Founder', 'Developer', 'Educator'],
   },
   {
@@ -483,6 +484,7 @@ const MEMBERS = [
     location: 'Kolkata, West Bengal',
     bio:      'I\'m Sampreet Manna, a self-taught origami artist and designer originally from Kolkata, India. My passion for origami began when I was just 12 years old, and since then the art of paper folding has become a central part of my creative life. I\'m fascinated by the intersection of creativity, structure, science, and mathematics in origami; especially advanced techniques like circle packing and box-pleating in animal and bird figures. My work focuses on bringing expressive, lifelike forms out of paper through thoughtful design and intricate folds.\n\nI am also the co-founder of Kãgazee India — a community of origami creators dedicated to expanding the origami scene across India and beyond. Along with fellow founders, I help publish Origamaze, a bi-yearly digital magazine that showcases original fold diagrams, crease patterns, and creative designs by Indian origamists. Through this platform, we aim to inspire, connect, and grow the origami community.\n\nI\'m also the author of "Origami Life: Wings & Tails", a book featuring 16 original bird and animal models with clear step-by-step instructions, creative insights, and design philosophies aimed at intermediate to advanced folders. This work reflects my belief that origami is not just an art or hobby, but a way to explore creativity, patience, and the beauty of transforming the simple into the extraordinary.\n\nOrigami isn\'t just what I do — it\'s who I am. I love connecting with fellow folders around the world and helping others discover the joy and wonder of paper art.',
     photo:    '/assets/photo_Sampreet_Manna.jpg',
+    photoPos: 'center 15%',
     tags:     ['Co-Founder', 'Designer', 'Author'],
   },
   {
@@ -492,6 +494,7 @@ const MEMBERS = [
     location: 'Kolkata, West Bengal',
     bio:      'My name is Protik, and I am a Computer Engineer from Kolkata. I accidentally discovered origami content in 2013 while scrolling on YouTube. I folded for about a year, then took a long hiatus before returning to the hobby in 2023.\n\nWhile I don\'t design my own models, I enjoy folding animals, especially mammals and dinosaurs. Origami is not just a hobby to me — it is a therapeutic experience, an artistic outlet, and most importantly, a way of making long-lasting friendships.\n\nMy favourite paper to fold with is banana fibre paper. I am still terrible at cutting squares, and I hate folding grids!',
     photo:    null,
+    photoPos: 'center top',
     tags:     ['Co-Founder', 'Folder'],
   },
 ];
@@ -535,7 +538,7 @@ function buildCard(m) {
 
   const photoBlock = m.photo
     ? `<div class="card-photo">
-         <img src="${m.photo}" alt="${m.name}" loading="lazy">
+         <img src="${m.photo}" alt="${m.name}" loading="lazy" style="object-position:${m.photoPos || 'top center'}">
          <div class="photo-overlay"></div>
          <span class="admin-badge">${m.role}</span>
          <div class="card-socials" id="soc-${m.username}">
