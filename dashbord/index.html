@@ -1777,7 +1777,11 @@
             loadFollowCounts(),
             loadBlogPosts()
         ]);
-
+if (currentProfile?.username) {
+        const u = currentProfile.username;
+        el('view-public-link').href = '/artists/index.html?u=' + u;
+        el('ql-public-profile').href = '/artists/index.html?u=' + u;
+    }
         renderStreakDots();
     })();
     
