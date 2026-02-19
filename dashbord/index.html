@@ -659,6 +659,71 @@
             .topbar-nav { display: none; }
             .right-panel { padding: 24px 18px; }
         }
+        /* ── SPECIALTY PILL PICKER ───────────────────────────────────────────── */
+        .specialty-picker {
+            display: flex; flex-wrap: wrap; gap: 8px;
+            padding: 12px; border-radius: 8px;
+            border: 1px solid var(--border);
+            background: rgba(255,255,255,0.025);
+            min-height: 52px;
+            transition: border-color 0.2s, background 0.2s;
+        }
+        .specialty-picker[data-disabled="true"] {
+            opacity: 0.5; pointer-events: none;
+            background: rgba(255,255,255,0.01);
+        }
+        .specialty-picker[data-disabled="false"] {
+            border-color: rgba(45,137,176,0.22);
+            background: rgba(255,255,255,0.03);
+        }
+        .specialty-picker[data-disabled="false"]:hover {
+            border-color: rgba(45,137,176,0.4);
+        }
+
+        .spec-pill {
+            display: inline-flex; align-items: center; gap: 5px;
+            padding: 5px 13px;
+            border-radius: 100px;
+            font-size: 12px; font-weight: 500; letter-spacing: 0.04em;
+            border: 1px solid var(--border-mid);
+            color: var(--muted);
+            background: rgba(255,255,255,0.03);
+            cursor: default;
+            transition: all 0.18s ease;
+            user-select: none;
+        }
+        .specialty-picker[data-disabled="false"] .spec-pill {
+            cursor: pointer;
+        }
+        .specialty-picker[data-disabled="false"] .spec-pill:hover {
+            border-color: rgba(45,137,176,0.4);
+            color: var(--text);
+            background: rgba(45,137,176,0.08);
+        }
+        .spec-pill.active {
+            background: rgba(45,137,176,0.18);
+            border-color: rgba(45,137,176,0.55);
+            color: var(--cyan-light);
+        }
+        .spec-pill.active::before {
+            content: '';
+            display: inline-block;
+            width: 5px; height: 5px;
+            border-radius: 50%;
+            background: var(--cyan-light);
+            box-shadow: 0 0 5px rgba(87,166,187,0.6);
+            flex-shrink: 0;
+        }
+        .specialty-picker[data-disabled="false"] .spec-pill.active:hover {
+            background: rgba(201,96,96,0.1);
+            border-color: rgba(201,96,96,0.4);
+            color: #d97070;
+        }
+        .specialty-picker[data-disabled="false"] .spec-pill.active:hover::before {
+            background: #d97070;
+            box-shadow: none;
+        }
+
     </style>
 </head>
 <body>
@@ -670,7 +735,7 @@
 <header class="topbar">
     <a href="/" class="topbar-logo">SIO<span>A</span></a>
     <nav class="topbar-nav">
-        <a href="/index.html">Home</a>
+        <a href="/home/index.html">Home</a>
         <a href="/network/index.html">Browse Artists</a>
         <a href="/competition/index.html">Competition</a>
         <a href="/dashbord/index.html" class="active">Dashboard</a>
@@ -803,17 +868,17 @@
                                             <div class="username-status" id="username-status"></div>
                                         </div>
 
-                                        <div class="field">
-                                            <label for="specialty">Specialty</label>
-                                            <select id="specialty" multiple>
-  <option value="22.5 designer">22.5 Designer</option>
-  <option value="box pleating designer">Box Pleating Designer</option>
-  <option value="casual folder">Casual Folder</option>
-  <option value="serious folder">Serious Folder</option>
-  <option value="casual designer">Casual Designer</option>
-  <option value="serious designer">Serious Designer</option>
-</select>
-
+                                        <div class="field full">
+                                            <label>Specialties <span style="color:var(--muted-2);font-weight:300;letter-spacing:0;text-transform:none;font-size:10px;">— select all that apply</span></label>
+                                            <div class="specialty-picker" id="specialty-picker" data-disabled="true">
+                                                <span class="spec-pill" data-value="22.5 Designer">22.5 Designer</span>
+                                                <span class="spec-pill" data-value="Box Pleating">Box Pleating</span>
+                                                <span class="spec-pill" data-value="Casual Folder">Casual Folder</span>
+                                                <span class="spec-pill" data-value="Serious Folder">Serious Folder</span>
+                                                <span class="spec-pill" data-value="Casual Designer">Casual Designer</span>
+                                                <span class="spec-pill" data-value="Serious Designer">Serious Designer</span>
+                                            </div>
+                                            <input type="hidden" id="specialty">
                                         </div>
 
                                         <div class="field">
@@ -1100,7 +1165,7 @@
                             </div>
                             <span class="ql-arrow">›</span>
                         </a>
-                        <a href="/index.html" class="quick-link">
+                        <a href="/home/index.html" class="quick-link">
                             <div class="ql-icon">
                                 <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
                             </div>
@@ -1166,6 +1231,29 @@
         return '—';
     }
 
+    // Parse specialty from stored string (comma-separated) or array
+    function parseSpecialties(val) {
+        if (!val) return [];
+        if (Array.isArray(val)) return val.filter(Boolean);
+        return val.split(',').map(s => s.trim()).filter(Boolean);
+    }
+
+    // Get currently selected specialties from pills
+    function getSelectedSpecialties() {
+        return Array.from(document.querySelectorAll('.spec-pill.active'))
+            .map(p => p.dataset.value);
+    }
+
+    // Init pill click events
+    document.querySelectorAll('.spec-pill').forEach(pill => {
+        pill.addEventListener('click', () => {
+            const picker = document.getElementById('specialty-picker');
+            if (picker.dataset.disabled === 'true') return;
+            pill.classList.toggle('active');
+            el('specialty').value = getSelectedSpecialties().join(',');
+        });
+    });
+
     let toastTimer;
     function showToast(msg, isErr) {
         const t = el('toast');
@@ -1225,7 +1313,12 @@
         // Form fields
         el('full_name').value = name;
         el('username').value  = username;
-        if (p.specialty) el('specialty').value = p.specialty;
+        // Specialty pills — p.specialty may be a comma-separated string or array
+        const selectedSpecs = parseSpecialties(p.specialty);
+        document.querySelectorAll('.spec-pill').forEach(pill => {
+            pill.classList.toggle('active', selectedSpecs.includes(pill.dataset.value));
+        });
+        el('specialty').value = selectedSpecs.join(',');
         el('city').value  = p.city  || '';
         el('state').value = p.state || '';
         el('bio').value   = p.bio   || '';
@@ -1262,9 +1355,12 @@
     }
 
     function updateCompletion(p) {
-        const fields = ['full_name','username','specialty','city','state','bio'];
+        const fields = ['full_name','username','city','state','bio'];
         const filled = fields.filter(f => p[f] && String(p[f]).trim() !== '').length;
-        const pct    = Math.round((filled / fields.length) * 100);
+        // Count specialty separately (comma-separated or array)
+        const specFilled = parseSpecialties(p.specialty).length > 0 ? 1 : 0;
+        const total = fields.length + 1;
+        const pct = Math.round(((filled + specFilled) / total) * 100);
 
         el('completion-pct').textContent = pct + '%';
         setTimeout(() => { el('completion-fill').style.width = pct + '%'; }, 100);
@@ -1273,6 +1369,7 @@
             el('completion-hint').textContent = '✓ Your profile is complete — you\'re fully discoverable!';
         } else {
             const missing = fields.filter(f => !p[f] || String(p[f]).trim() === '');
+            if (specFilled === 0) missing.push('specialty');
             el('completion-hint').textContent = 'Add ' + missing.join(', ') + ' to complete your profile.';
         }
     }
@@ -1300,13 +1397,15 @@
     });
 
     function enableEdit() {
-        ['full_name','username','specialty','city','state','bio'].forEach(id => el(id).disabled = false);
+        ['full_name','username','city','state','bio'].forEach(id => el(id).disabled = false);
+        document.getElementById('specialty-picker').dataset.disabled = 'false';
         el('form-footer').style.display = 'flex';
         el('edit-toggle-btn').style.display = 'none';
     }
 
     function disableEdit() {
-        ['full_name','username','specialty','city','state','bio'].forEach(id => el(id).disabled = true);
+        ['full_name','username','city','state','bio'].forEach(id => el(id).disabled = true);
+        document.getElementById('specialty-picker').dataset.disabled = 'true';
         el('form-footer').style.display = 'none';
         el('edit-toggle-btn').style.display = 'inline-flex';
         el('save-msg').textContent = ''; el('save-msg').className = 'save-msg';
@@ -1387,7 +1486,7 @@
             id:        currentUser.id,
             full_name: el('full_name').value.trim(),
             username:  el('username').value.trim() || null,
-            specialty: el('specialty').value || null,
+            specialty: getSelectedSpecialties().join(',') || null,
             city:      el('city').value.trim(),
             state:     el('state').value,
             bio:       el('bio').value.trim(),
