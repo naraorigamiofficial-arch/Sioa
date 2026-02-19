@@ -10,466 +10,125 @@
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,300&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg:          #04080f;
-            --surface:     #070d1a;
-            --surface-2:   #0b1220;
-            --border:      rgba(255,255,255,0.065);
-            --border-mid:  rgba(255,255,255,0.11);
-            --border-cyan: rgba(45,137,176,0.28);
-            --cyan:        #2d89b0;
-            --cyan-light:  #57a6bb;
-            --cyan-dim:    rgba(45,137,176,0.15);
-            --text:        #dce8ed;
-            --muted:       rgba(220,232,237,0.40);
-            --muted-2:     rgba(220,232,237,0.22);
-            --danger:      #c96060;
-            --gold:        #c9a84c;
-            --green:       #5bbf7a;
+            --bg:#04080f; --surface:#070d1a; --surface-2:#0b1220;
+            --border:rgba(255,255,255,0.065); --border-mid:rgba(255,255,255,0.11);
+            --border-cyan:rgba(45,137,176,0.28); --cyan:#2d89b0; --cyan-light:#57a6bb;
+            --cyan-dim:rgba(45,137,176,0.15); --text:#dce8ed;
+            --muted:rgba(220,232,237,0.40); --muted-2:rgba(220,232,237,0.22);
         }
-
-        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-
-        html, body {
-            min-height: 100%;
-            background: var(--bg);
-            color: var(--text);
-            font-family: 'DM Sans', sans-serif;
-            -webkit-font-smoothing: antialiased;
-        }
-
-        body::before {
-            content: '';
-            position: fixed; inset: 0;
-            background-image:
-                linear-gradient(rgba(45,137,176,0.025) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(45,137,176,0.025) 1px, transparent 1px);
-            background-size: 52px 52px;
-            pointer-events: none; z-index: 0;
-        }
-
-        .glow-orb {
-            position: fixed; top: -200px; left: 30%;
-            width: 600px; height: 600px;
-            background: radial-gradient(circle, rgba(45,137,176,0.07) 0%, transparent 68%);
-            pointer-events: none; z-index: 0;
-        }
-        .glow-orb-2 {
-            position: fixed; bottom: -100px; right: 10%;
-            width: 400px; height: 400px;
-            background: radial-gradient(circle, rgba(26,95,122,0.05) 0%, transparent 65%);
-            pointer-events: none; z-index: 0;
-        }
-
-        /* ── TOPBAR ── */
-        .topbar {
-            position: fixed; top: 0; left: 0; right: 0; z-index: 200;
-            height: 58px;
-            background: rgba(4,8,15,0.92);
-            backdrop-filter: blur(16px);
-            border-bottom: 1px solid var(--border);
-            display: flex; align-items: center; padding: 0 28px; gap: 8px;
-        }
-        .topbar-logo {
-            font-family: 'DM Serif Display', serif;
-            font-size: 20px; letter-spacing: 0.14em;
-            color: var(--text); text-decoration: none; margin-right: auto;
-        }
-        .topbar-logo span { color: var(--cyan-light); }
-        .topbar-nav { display: flex; gap: 2px; }
-        .topbar-nav a {
-            font-size: 12.5px; font-weight: 400;
-            color: var(--muted); text-decoration: none;
-            padding: 5px 13px; border-radius: 6px;
-            transition: all 0.18s ease;
-        }
-        .topbar-nav a:hover { color: var(--text); background: rgba(255,255,255,0.05); }
-        .topbar-nav a.active { color: var(--cyan-light); background: var(--cyan-dim); }
-        .topbar-user {
-            display: flex; align-items: center; gap: 10px;
-            padding: 5px 12px 5px 5px;
-            border-radius: 8px; border: 1px solid var(--border);
-            background: rgba(255,255,255,0.02);
-            font-size: 13px; color: var(--muted); margin-left: 10px;
-        }
-        .topbar-avatar {
-            width: 28px; height: 28px; border-radius: 50%;
-            background: linear-gradient(135deg, #1a5f7a, #2d89b0);
-            display: flex; align-items: center; justify-content: center;
-            font-size: 11px; font-weight: 700; color: #fff; flex-shrink: 0;
-        }
-        .topbar-auth-links { display: flex; gap: 8px; margin-left: 10px; }
-        .btn-topbar {
-            font-size: 12px; font-weight: 500; padding: 6px 14px;
-            border-radius: 6px; text-decoration: none; cursor: pointer;
-            border: none; font-family: 'DM Sans', sans-serif;
-            transition: all 0.18s;
-        }
-        .btn-topbar-ghost {
-            color: var(--muted); background: transparent;
-            border: 1px solid var(--border-mid);
-        }
-        .btn-topbar-ghost:hover { color: var(--text); border-color: var(--border-cyan); }
-        .btn-topbar-solid {
-            color: #fff; background: var(--cyan);
-        }
-        .btn-topbar-solid:hover { background: #3899c4; }
-
-        /* ── SHELL ── */
-        .shell { position: relative; z-index: 1; padding-top: 58px; min-height: 100vh; }
-
-        /* ── HERO BANNER ── */
-        .profile-hero-banner {
-            position: relative; overflow: hidden;
-            background: linear-gradient(180deg, rgba(8,18,36,0.9) 0%, rgba(4,8,15,1) 100%);
-            border-bottom: 1px solid var(--border);
-            padding: 60px 0 0;
-        }
-
-        /* subtle shimmer lines */
-        .profile-hero-banner::before {
-            content: '';
-            position: absolute; inset: 0;
-            background:
-                repeating-linear-gradient(
-                    -35deg,
-                    transparent 0px,
-                    transparent 60px,
-                    rgba(45,137,176,0.018) 60px,
-                    rgba(45,137,176,0.018) 61px
-                );
-            pointer-events: none;
-        }
-
-        .hero-inner {
-            max-width: 900px; margin: 0 auto;
-            padding: 0 40px 0;
-            display: flex; align-items: flex-end; gap: 28px;
-            position: relative; z-index: 1;
-        }
-
-        /* Avatar */
-        .avatar-hero {
-            width: 100px; height: 100px; border-radius: 50%; flex-shrink: 0;
-            background: linear-gradient(135deg, #1a5f7a 0%, #2d89b0 100%);
-            border: 3px solid rgba(45,137,176,0.4);
-            display: flex; align-items: center; justify-content: center;
-            font-family: 'DM Serif Display', serif;
-            font-size: 36px; color: #fff;
-            box-shadow: 0 0 40px rgba(45,137,176,0.25), 0 0 80px rgba(45,137,176,0.08);
-            position: relative; bottom: -20px;
-            animation: fadeUp 0.5s cubic-bezier(0.16,1,0.3,1) both;
-        }
-
-        .hero-meta-col {
-            flex: 1; min-width: 0;
-            padding-bottom: 28px;
-            animation: fadeUp 0.5s cubic-bezier(0.16,1,0.3,1) 0.06s both;
-        }
-
-        .hero-eyebrow {
-            font-size: 10px; font-weight: 600; letter-spacing: 0.24em;
-            text-transform: uppercase; color: var(--cyan); margin-bottom: 6px;
-        }
-        .hero-name {
-            font-family: 'DM Serif Display', serif;
-            font-size: 32px; letter-spacing: 0.02em; color: var(--text);
-            line-height: 1.15; margin-bottom: 4px;
-        }
-        .hero-handle {
-            font-size: 14px; color: var(--cyan-light); margin-bottom: 10px;
-            letter-spacing: 0.04em;
-        }
-        .hero-location {
-            font-size: 12px; color: var(--muted-2);
-            display: flex; align-items: center; gap: 5px; margin-bottom: 10px;
-        }
-        .hero-location svg { width: 12px; height: 12px; flex-shrink: 0; }
-
-        .specialty-row { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
-        .spec-tag {
-            display: inline-flex; align-items: center; gap: 4px;
-            padding: 3px 10px; border-radius: 100px;
-            background: rgba(45,137,176,0.12); border: 1px solid rgba(45,137,176,0.3);
-            font-size: 11px; font-weight: 500; color: var(--cyan-light);
-            letter-spacing: 0.05em;
-        }
-        .spec-tag::before {
-            content: ''; width: 4px; height: 4px; border-radius: 50%;
-            background: var(--cyan-light); opacity: 0.7;
-        }
-
-        .hero-actions-col {
-            display: flex; flex-direction: column; align-items: flex-end; gap: 10px;
-            padding-bottom: 28px;
-            animation: fadeUp 0.5s cubic-bezier(0.16,1,0.3,1) 0.1s both;
-        }
-
-        /* Follow Button */
-        .btn-follow {
-            display: inline-flex; align-items: center; gap: 8px;
-            padding: 10px 24px; border-radius: 8px;
-            background: var(--cyan); color: #fff;
-            font-family: 'DM Sans', sans-serif;
-            font-size: 13px; font-weight: 600; letter-spacing: 0.06em;
-            border: none; cursor: pointer;
-            transition: all 0.2s ease;
-        }
-        .btn-follow:hover { background: #3899c4; transform: translateY(-1px); box-shadow: 0 6px 20px rgba(45,137,176,0.35); }
-        .btn-follow.following {
-            background: transparent;
-            border: 1px solid rgba(45,137,176,0.4);
-            color: var(--cyan-light);
-        }
-        .btn-follow.following:hover {
-            background: rgba(201,96,96,0.1);
-            border-color: rgba(201,96,96,0.4);
-            color: #d97070;
-        }
-
-        .badge-active {
-            display: inline-flex; align-items: center; gap: 5px;
-            padding: 4px 12px; border-radius: 100px;
-            background: var(--cyan-dim); border: 1px solid var(--border-cyan);
-            font-size: 10px; font-weight: 500; letter-spacing: 0.1em;
-            color: var(--cyan-light); text-transform: uppercase;
-        }
-        .badge-dot {
-            width: 5px; height: 5px; border-radius: 50%;
-            background: var(--cyan-light);
-            animation: blink 2.2s ease-in-out infinite;
-        }
-        @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.2} }
-
-        /* Stats strip */
-        .stats-strip {
-            max-width: 900px; margin: 0 auto;
-            padding: 0 40px;
-            position: relative; z-index: 1;
-            border-top: 1px solid var(--border);
-            margin-top: 20px;
-            display: flex; gap: 0;
-            animation: fadeUp 0.5s cubic-bezier(0.16,1,0.3,1) 0.14s both;
-        }
-        .stat-cell {
-            flex: 1; padding: 18px 0;
-            display: flex; flex-direction: column; align-items: center;
-            border-right: 1px solid var(--border);
-        }
-        .stat-cell:last-child { border-right: none; }
-        .stat-n {
-            font-family: 'DM Serif Display', serif;
-            font-size: 24px; color: var(--text); margin-bottom: 2px;
-        }
-        .stat-l { font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted-2); }
-
-        @keyframes fadeUp {
-            from { opacity: 0; transform: translateY(16px); }
-            to   { opacity: 1; transform: translateY(0); }
-        }
-
-        /* ── BODY LAYOUT ── */
-        .page-body {
-            max-width: 900px; margin: 0 auto;
-            padding: 40px 40px 80px;
-            display: grid;
-            grid-template-columns: 1fr 280px;
-            gap: 28px;
-            align-items: start;
-        }
-
-        /* ── CARDS ── */
-        .card {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 12px; overflow: hidden;
-            animation: fadeUp 0.5s cubic-bezier(0.16,1,0.3,1) both;
-        }
-        .card:nth-child(1) { animation-delay: 0.18s; }
-        .card:nth-child(2) { animation-delay: 0.22s; }
-        .card:nth-child(3) { animation-delay: 0.26s; }
-
-        .card-header {
-            display: flex; align-items: center; gap: 10px;
-            padding: 16px 22px; border-bottom: 1px solid var(--border);
-        }
-        .card-icon {
-            width: 28px; height: 28px; border-radius: 7px;
-            background: var(--cyan-dim); border: 1px solid var(--border-cyan);
-            display: flex; align-items: center; justify-content: center; flex-shrink: 0;
-        }
-        .card-icon svg { width: 13px; height: 13px; stroke: var(--cyan-light); fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
-        .card-title { font-size: 12px; font-weight: 600; color: var(--text); letter-spacing: 0.04em; }
-        .card-subtitle { font-size: 10px; color: var(--muted-2); margin-top: 1px; }
-        .card-body { padding: 22px; }
-
-        /* ── BIO CARD ── */
-        .bio-text {
-            font-size: 14px; font-weight: 300; line-height: 1.8;
-            color: var(--text); white-space: pre-wrap;
-        }
-        .bio-empty {
-            font-size: 13px; color: var(--muted-2); font-style: italic;
-        }
-
-        /* ── BLOG POSTS ── */
-        .post-item {
-            padding: 20px 22px; border-bottom: 1px solid var(--border);
-            transition: background 0.15s; cursor: pointer;
-        }
-        .post-item:last-child { border-bottom: none; }
-        .post-item:hover { background: rgba(255,255,255,0.02); }
-
-        .post-title {
-            font-size: 16px; font-weight: 600; color: var(--text);
-            margin-bottom: 7px; line-height: 1.4;
-        }
-        .post-preview {
-            font-size: 13px; font-weight: 300; color: var(--muted);
-            line-height: 1.65; margin-bottom: 12px;
-        }
-        .post-meta {
-            display: flex; align-items: center; gap: 14px;
-            font-size: 10.5px; color: var(--muted-2); letter-spacing: 0.04em;
-        }
-        .post-meta-dot { width: 3px; height: 3px; border-radius: 50%; background: var(--muted-2); }
-
-        .post-expand {
-            display: none; padding: 16px 22px 22px;
-            border-top: 1px solid var(--border);
-            background: rgba(255,255,255,0.012);
-        }
-        .post-expand.open { display: block; }
-        .post-expand-body {
-            font-size: 14px; font-weight: 300; line-height: 1.8;
-            color: var(--text); white-space: pre-wrap;
-        }
-
-        .posts-empty {
-            padding: 48px 22px; text-align: center;
-            font-size: 13px; color: var(--muted-2); font-style: italic;
-        }
-
-        /* ── SIDEBAR CARDS ── */
-        .side-card {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 12px; overflow: hidden;
-            animation: fadeUp 0.5s cubic-bezier(0.16,1,0.3,1) both;
-        }
-        .side-card:nth-child(1) { animation-delay: 0.2s; }
-        .side-card:nth-child(2) { animation-delay: 0.25s; }
-        .side-card:nth-child(3) { animation-delay: 0.3s; }
-
-        .side-card-header {
-            padding: 13px 18px; border-bottom: 1px solid var(--border);
-            font-size: 10px; font-weight: 600; letter-spacing: 0.2em;
-            text-transform: uppercase; color: var(--muted-2);
-        }
-        .side-card-body { padding: 16px 18px; }
-
-        /* Social links */
-        .social-link-item {
-            display: flex; align-items: center; gap: 11px;
-            padding: 9px 0; border-bottom: 1px solid var(--border);
-            text-decoration: none; transition: all 0.16s;
-        }
-        .social-link-item:last-child { border-bottom: none; }
-        .social-link-item:hover .sl-title { color: var(--cyan-light); }
-        .social-link-item:hover .sl-arrow { color: var(--cyan-light); transform: translateX(2px); }
-
-        .sl-icon {
-            width: 30px; height: 30px; border-radius: 7px; flex-shrink: 0;
-            background: var(--cyan-dim); border: 1px solid var(--border-cyan);
-            display: flex; align-items: center; justify-content: center;
-        }
-        .sl-icon svg { width: 13px; height: 13px; stroke: var(--cyan-light); fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
-        .sl-title { flex: 1; font-size: 13px; font-weight: 500; color: var(--text); transition: color 0.16s; }
-        .sl-handle { font-size: 10px; color: var(--muted-2); }
-        .sl-arrow { color: var(--muted-2); font-size: 14px; transition: all 0.16s; }
-
-        .socials-empty {
-            font-size: 12px; color: var(--muted-2); font-style: italic; text-align: center; padding: 8px 0;
-        }
-
-        /* Member info card */
-        .info-row {
-            display: flex; align-items: flex-start; gap: 10px;
-            padding: 9px 0; border-bottom: 1px solid var(--border);
-        }
-        .info-row:last-child { border-bottom: none; }
-        .info-icon { width: 14px; height: 14px; flex-shrink: 0; margin-top: 2px; }
-        .info-icon svg { width: 14px; height: 14px; stroke: var(--cyan-light); fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
-        .info-label { font-size: 9.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted-2); margin-bottom: 2px; }
-        .info-value { font-size: 13px; color: var(--text); }
-
-        /* Back link */
-        .back-link {
-            display: inline-flex; align-items: center; gap: 6px;
-            font-size: 12px; color: var(--muted); text-decoration: none;
-            max-width: 900px; margin: 20px auto 0; padding: 0 40px;
-            display: flex; width: fit-content;
-            transition: color 0.18s;
-        }
-        .back-link:hover { color: var(--cyan-light); }
-        .back-link svg { width: 13px; height: 13px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
-
-        /* ── NOT FOUND ── */
-        .not-found-wrap {
-            display: flex; flex-direction: column; align-items: center;
-            justify-content: center; padding: 100px 40px; text-align: center;
-        }
-        .not-found-icon { opacity: 0.2; margin-bottom: 24px; }
-        .not-found-title { font-family: 'DM Serif Display', serif; font-size: 28px; color: var(--text); margin-bottom: 10px; }
-        .not-found-sub { font-size: 14px; color: var(--muted-2); }
-
-        /* ── LOADING ── */
-        .loading-wrap {
-            display: flex; flex-direction: column; align-items: center;
-            justify-content: center; padding: 100px 40px;
-        }
-        .loading-pulse {
-            width: 40px; height: 40px; border-radius: 50%;
-            border: 2px solid rgba(45,137,176,0.15);
-            border-top-color: var(--cyan-light);
-            animation: spin 0.8s linear infinite; margin-bottom: 18px;
-        }
-        @keyframes spin { to { transform: rotate(360deg); } }
-        .loading-text { font-size: 13px; color: var(--muted-2); }
-
-        /* Toast */
-        .toast {
-            position: fixed; bottom: 28px; right: 28px; z-index: 9999;
-            padding: 12px 20px;
-            background: rgba(8,14,26,0.97);
-            border: 1px solid var(--border-cyan);
-            border-radius: 8px; font-size: 13px; color: var(--text);
-            box-shadow: 0 8px 28px rgba(0,0,0,0.5);
-            transform: translateY(16px); opacity: 0;
-            transition: all 0.3s cubic-bezier(0.16,1,0.3,1); pointer-events: none;
-        }
-        .toast.show { transform: translateY(0); opacity: 1; }
-
-        /* ── RESPONSIVE ── */
-        @media (max-width: 760px) {
-            .page-body { grid-template-columns: 1fr; padding: 28px 20px 60px; }
-            .hero-inner { padding: 0 20px; flex-wrap: wrap; }
-            .stats-strip { padding: 0 20px; }
-            .back-link { padding: 0 20px; }
-            .hero-actions-col { align-items: flex-start; }
-            .hero-name { font-size: 24px; }
-            .avatar-hero { width: 80px; height: 80px; font-size: 28px; }
-        }
-        @media (max-width: 540px) {
-            .topbar-nav { display: none; }
-            .stat-n { font-size: 18px; }
-        }
+        *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+        html,body{min-height:100%;background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;-webkit-font-smoothing:antialiased}
+        body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(45,137,176,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(45,137,176,0.025) 1px,transparent 1px);background-size:52px 52px;pointer-events:none;z-index:0}
+        .glow-orb{position:fixed;top:-200px;left:30%;width:600px;height:600px;background:radial-gradient(circle,rgba(45,137,176,0.07) 0%,transparent 68%);pointer-events:none;z-index:0}
+        .glow-orb-2{position:fixed;bottom:-100px;right:10%;width:400px;height:400px;background:radial-gradient(circle,rgba(26,95,122,0.05) 0%,transparent 65%);pointer-events:none;z-index:0}
+        /* TOPBAR */
+        .topbar{position:fixed;top:0;left:0;right:0;z-index:200;height:58px;background:rgba(4,8,15,0.92);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 28px;gap:8px}
+        .topbar-logo{font-family:'DM Serif Display',serif;font-size:20px;letter-spacing:0.14em;color:var(--text);text-decoration:none;margin-right:auto}
+        .topbar-logo span{color:var(--cyan-light)}
+        .topbar-nav{display:flex;gap:2px}
+        .topbar-nav a{font-size:12.5px;font-weight:400;color:var(--muted);text-decoration:none;padding:5px 13px;border-radius:6px;transition:all 0.18s}
+        .topbar-nav a:hover{color:var(--text);background:rgba(255,255,255,0.05)}
+        .topbar-nav a.active{color:var(--cyan-light);background:var(--cyan-dim)}
+        .topbar-user{display:flex;align-items:center;gap:10px;padding:5px 12px 5px 5px;border-radius:8px;border:1px solid var(--border);background:rgba(255,255,255,0.02);font-size:13px;color:var(--muted);margin-left:10px}
+        .topbar-avatar{width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#1a5f7a,#2d89b0);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;flex-shrink:0}
+        .btn-topbar{font-size:12px;font-weight:500;padding:6px 14px;border-radius:6px;text-decoration:none;cursor:pointer;border:none;font-family:'DM Sans',sans-serif;transition:all 0.18s}
+        .btn-topbar-ghost{color:var(--muted);background:transparent;border:1px solid var(--border-mid)}
+        .btn-topbar-ghost:hover{color:var(--text);border-color:var(--border-cyan)}
+        .btn-topbar-solid{color:#fff;background:var(--cyan)}
+        .btn-topbar-solid:hover{background:#3899c4}
+        /* SHELL */
+        .shell{position:relative;z-index:1;padding-top:58px;min-height:100vh}
+        /* HERO */
+        .profile-hero-banner{position:relative;overflow:hidden;background:linear-gradient(180deg,rgba(8,18,36,0.9) 0%,rgba(4,8,15,1) 100%);border-bottom:1px solid var(--border);padding:60px 0 0}
+        .profile-hero-banner::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(-35deg,transparent 0px,transparent 60px,rgba(45,137,176,0.018) 60px,rgba(45,137,176,0.018) 61px);pointer-events:none}
+        .hero-inner{max-width:900px;margin:0 auto;padding:0 40px;display:flex;align-items:flex-end;gap:28px;position:relative;z-index:1}
+        .avatar-hero{width:100px;height:100px;border-radius:50%;flex-shrink:0;background:linear-gradient(135deg,#1a5f7a 0%,#2d89b0 100%);border:3px solid rgba(45,137,176,0.4);display:flex;align-items:center;justify-content:center;font-family:'DM Serif Display',serif;font-size:36px;color:#fff;box-shadow:0 0 40px rgba(45,137,176,0.25),0 0 80px rgba(45,137,176,0.08);position:relative;bottom:-20px;animation:fadeUp 0.5s cubic-bezier(0.16,1,0.3,1) both}
+        .hero-meta-col{flex:1;min-width:0;padding-bottom:28px;animation:fadeUp 0.5s cubic-bezier(0.16,1,0.3,1) 0.06s both}
+        .hero-eyebrow{font-size:10px;font-weight:600;letter-spacing:0.24em;text-transform:uppercase;color:var(--cyan);margin-bottom:6px}
+        .hero-name{font-family:'DM Serif Display',serif;font-size:32px;letter-spacing:0.02em;color:var(--text);line-height:1.15;margin-bottom:4px}
+        .hero-handle{font-size:14px;color:var(--cyan-light);margin-bottom:10px;letter-spacing:0.04em}
+        .hero-location{font-size:12px;color:var(--muted-2);display:flex;align-items:center;gap:5px;margin-bottom:10px}
+        .hero-location svg{width:12px;height:12px;flex-shrink:0}
+        .specialty-row{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}
+        .spec-tag{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:100px;background:rgba(45,137,176,0.12);border:1px solid rgba(45,137,176,0.3);font-size:11px;font-weight:500;color:var(--cyan-light);letter-spacing:0.05em}
+        .spec-tag::before{content:'';width:4px;height:4px;border-radius:50%;background:var(--cyan-light);opacity:0.7}
+        .hero-actions-col{display:flex;flex-direction:column;align-items:flex-end;gap:10px;padding-bottom:28px;animation:fadeUp 0.5s cubic-bezier(0.16,1,0.3,1) 0.1s both}
+        .btn-follow{display:inline-flex;align-items:center;gap:8px;padding:10px 24px;border-radius:8px;background:var(--cyan);color:#fff;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;letter-spacing:0.06em;border:none;cursor:pointer;transition:all 0.2s}
+        .btn-follow:hover{background:#3899c4;transform:translateY(-1px);box-shadow:0 6px 20px rgba(45,137,176,0.35)}
+        .btn-follow.following{background:transparent;border:1px solid rgba(45,137,176,0.4);color:var(--cyan-light)}
+        .btn-follow.following:hover{background:rgba(201,96,96,0.1);border-color:rgba(201,96,96,0.4);color:#d97070}
+        .badge-active{display:inline-flex;align-items:center;gap:5px;padding:4px 12px;border-radius:100px;background:var(--cyan-dim);border:1px solid var(--border-cyan);font-size:10px;font-weight:500;letter-spacing:0.1em;color:var(--cyan-light);text-transform:uppercase}
+        .badge-dot{width:5px;height:5px;border-radius:50%;background:var(--cyan-light);animation:blink 2.2s ease-in-out infinite}
+        @keyframes blink{0%,100%{opacity:1}50%{opacity:0.2}}
+        .stats-strip{max-width:900px;margin:20px auto 0;padding:0 40px;position:relative;z-index:1;border-top:1px solid var(--border);display:flex;animation:fadeUp 0.5s cubic-bezier(0.16,1,0.3,1) 0.14s both}
+        .stat-cell{flex:1;padding:18px 0;display:flex;flex-direction:column;align-items:center;border-right:1px solid var(--border)}
+        .stat-cell:last-child{border-right:none}
+        .stat-n{font-family:'DM Serif Display',serif;font-size:24px;color:var(--text);margin-bottom:2px}
+        .stat-l{font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:var(--muted-2)}
+        @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+        /* BODY */
+        .page-body{max-width:900px;margin:0 auto;padding:40px 40px 80px;display:grid;grid-template-columns:1fr 280px;gap:28px;align-items:start}
+        .card{background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden;animation:fadeUp 0.5s cubic-bezier(0.16,1,0.3,1) both}
+        .card:nth-child(1){animation-delay:0.18s}.card:nth-child(2){animation-delay:0.22s}
+        .card-header{display:flex;align-items:center;gap:10px;padding:16px 22px;border-bottom:1px solid var(--border)}
+        .card-icon{width:28px;height:28px;border-radius:7px;background:var(--cyan-dim);border:1px solid var(--border-cyan);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+        .card-icon svg{width:13px;height:13px;stroke:var(--cyan-light);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+        .card-title{font-size:12px;font-weight:600;color:var(--text);letter-spacing:0.04em}
+        .card-subtitle{font-size:10px;color:var(--muted-2);margin-top:1px}
+        .card-body{padding:22px}
+        .bio-text{font-size:14px;font-weight:300;line-height:1.8;color:var(--text);white-space:pre-wrap}
+        .bio-empty{font-size:13px;color:var(--muted-2);font-style:italic}
+        .post-item{padding:20px 22px;border-bottom:1px solid var(--border);cursor:pointer;transition:background 0.15s}
+        .post-item:last-child{border-bottom:none}
+        .post-item:hover{background:rgba(255,255,255,0.02)}
+        .post-title{font-size:16px;font-weight:600;color:var(--text);margin-bottom:7px;line-height:1.4}
+        .post-preview{font-size:13px;font-weight:300;color:var(--muted);line-height:1.65;margin-bottom:12px}
+        .post-meta{display:flex;align-items:center;gap:14px;font-size:10.5px;color:var(--muted-2);letter-spacing:0.04em}
+        .post-meta-dot{width:3px;height:3px;border-radius:50%;background:var(--muted-2)}
+        .post-expand{display:none;padding:16px 22px 22px;border-top:1px solid var(--border);background:rgba(255,255,255,0.012)}
+        .post-expand.open{display:block}
+        .post-expand-body{font-size:14px;font-weight:300;line-height:1.8;color:var(--text);white-space:pre-wrap}
+        .posts-empty{padding:48px 22px;text-align:center;font-size:13px;color:var(--muted-2);font-style:italic}
+        .side-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden;animation:fadeUp 0.5s cubic-bezier(0.16,1,0.3,1) both}
+        .side-card:nth-child(1){animation-delay:0.2s}.side-card:nth-child(2){animation-delay:0.25s}
+        .side-card-header{padding:13px 18px;border-bottom:1px solid var(--border);font-size:10px;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;color:var(--muted-2)}
+        .side-card-body{padding:16px 18px}
+        .social-link-item{display:flex;align-items:center;gap:11px;padding:9px 0;border-bottom:1px solid var(--border);text-decoration:none;transition:all 0.16s}
+        .social-link-item:last-child{border-bottom:none}
+        .social-link-item:hover .sl-title{color:var(--cyan-light)}
+        .social-link-item:hover .sl-arrow{color:var(--cyan-light);transform:translateX(2px)}
+        .sl-icon{width:30px;height:30px;border-radius:7px;flex-shrink:0;background:var(--cyan-dim);border:1px solid var(--border-cyan);display:flex;align-items:center;justify-content:center}
+        .sl-icon svg{width:13px;height:13px;stroke:var(--cyan-light);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+        .sl-title{flex:1;font-size:13px;font-weight:500;color:var(--text);transition:color 0.16s}
+        .sl-handle{font-size:10px;color:var(--muted-2)}
+        .sl-arrow{color:var(--muted-2);font-size:14px;transition:all 0.16s}
+        .socials-empty{font-size:12px;color:var(--muted-2);font-style:italic;text-align:center;padding:8px 0}
+        .info-row{display:flex;align-items:flex-start;gap:10px;padding:9px 0;border-bottom:1px solid var(--border)}
+        .info-row:last-child{border-bottom:none}
+        .info-icon{width:14px;height:14px;flex-shrink:0;margin-top:2px}
+        .info-icon svg{width:14px;height:14px;stroke:var(--cyan-light);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+        .info-label{font-size:9.5px;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted-2);margin-bottom:2px}
+        .info-value{font-size:13px;color:var(--text)}
+        .back-link{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:var(--muted);text-decoration:none;transition:color 0.18s}
+        .back-link:hover{color:var(--cyan-light)}
+        .back-link svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+        .not-found-wrap{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:100px 40px;text-align:center}
+        .not-found-icon{opacity:0.2;margin-bottom:24px}
+        .not-found-title{font-family:'DM Serif Display',serif;font-size:28px;color:var(--text);margin-bottom:10px}
+        .not-found-sub{font-size:14px;color:var(--muted-2)}
+        .loading-wrap{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:100px 40px}
+        .loading-pulse{width:40px;height:40px;border-radius:50%;border:2px solid rgba(45,137,176,0.15);border-top-color:var(--cyan-light);animation:spin 0.8s linear infinite;margin-bottom:18px}
+        @keyframes spin{to{transform:rotate(360deg)}}
+        .loading-text{font-size:13px;color:var(--muted-2)}
+        .toast{position:fixed;bottom:28px;right:28px;z-index:9999;padding:12px 20px;background:rgba(8,14,26,0.97);border:1px solid var(--border-cyan);border-radius:8px;font-size:13px;color:var(--text);box-shadow:0 8px 28px rgba(0,0,0,0.5);transform:translateY(16px);opacity:0;transition:all 0.3s cubic-bezier(0.16,1,0.3,1);pointer-events:none}
+        .toast.show{transform:translateY(0);opacity:1}
+        @media(max-width:760px){.page-body{grid-template-columns:1fr;padding:28px 20px 60px}.hero-inner{padding:0 20px;flex-wrap:wrap}.stats-strip{padding:0 20px}.hero-actions-col{align-items:flex-start}.hero-name{font-size:24px}.avatar-hero{width:80px;height:80px;font-size:28px}}
+        @media(max-width:540px){.topbar-nav{display:none}.stat-n{font-size:18px}}
     </style>
 </head>
 <body>
-<div class="glow-orb"></div>
-<div class="glow-orb-2"></div>
+<div class="glow-orb"></div><div class="glow-orb-2"></div>
 
-<!-- TOPBAR -->
 <header class="topbar">
     <a href="/" class="topbar-logo">SIO<span>A</span></a>
     <nav class="topbar-nav">
@@ -481,38 +140,21 @@
     <div id="topbar-auth-area" style="display:flex;align-items:center;gap:8px;margin-left:10px;"></div>
 </header>
 
-<div class="shell" id="main-shell">
-    <!-- Loading state -->
+<div class="shell">
     <div class="loading-wrap" id="loading-state">
         <div class="loading-pulse"></div>
         <div class="loading-text">Loading profile…</div>
     </div>
-
-    <!-- Not found -->
     <div class="not-found-wrap" id="not-found-state" style="display:none;">
-        <div class="not-found-icon">
-            <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="var(--text)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
-                <line x1="8" y1="11" x2="14" y2="11"/>
-            </svg>
-        </div>
+        <div class="not-found-icon"><svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="var(--text)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="8" y1="11" x2="14" y2="11"/></svg></div>
         <h2 class="not-found-title">Artist Not Found</h2>
         <p class="not-found-sub">This profile doesn't exist or may have been removed.</p>
-        <a href="/network/index.html" style="margin-top:24px; display:inline-flex; align-items:center; gap:7px; padding:10px 22px; border-radius:8px; background:var(--cyan); color:#fff; text-decoration:none; font-size:13px; font-weight:600;">Browse Artists →</a>
+        <a href="/network/index.html" style="margin-top:24px;display:inline-flex;align-items:center;gap:7px;padding:10px 22px;border-radius:8px;background:var(--cyan);color:#fff;text-decoration:none;font-size:13px;font-weight:600;">Browse Artists →</a>
     </div>
-
-    <!-- Profile content (hidden until loaded) -->
     <div id="profile-content" style="display:none;">
-
-        <!-- Back nav -->
-        <div style="position:relative;z-index:1;">
-            <a href="/network/index.html" class="back-link" style="display:inline-flex; margin-top:20px; margin-left:max(40px, calc((100% - 900px)/2));">
-                <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
-                All Artists
-            </a>
+        <div style="position:relative;z-index:1;padding:20px 40px 0;max-width:900px;margin:0 auto;">
+            <a href="/network/index.html" class="back-link"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg> All Artists</a>
         </div>
-
-        <!-- HERO BANNER -->
         <section class="profile-hero-banner">
             <div class="hero-inner">
                 <div class="avatar-hero" id="avatar-hero">—</div>
@@ -534,518 +176,186 @@
                     </button>
                 </div>
             </div>
-
             <div class="stats-strip">
-                <div class="stat-cell">
-                    <div class="stat-n" id="stat-followers">0</div>
-                    <div class="stat-l">Followers</div>
-                </div>
-                <div class="stat-cell">
-                    <div class="stat-n" id="stat-following">0</div>
-                    <div class="stat-l">Following</div>
-                </div>
-                <div class="stat-cell">
-                    <div class="stat-n" id="stat-posts">0</div>
-                    <div class="stat-l">Posts</div>
-                </div>
-                <div class="stat-cell">
-                    <div class="stat-n" id="stat-entries">0</div>
-                    <div class="stat-l">Competition Entries</div>
-                </div>
+                <div class="stat-cell"><div class="stat-n" id="stat-followers">0</div><div class="stat-l">Followers</div></div>
+                <div class="stat-cell"><div class="stat-n" id="stat-following">0</div><div class="stat-l">Following</div></div>
+                <div class="stat-cell"><div class="stat-n" id="stat-posts">0</div><div class="stat-l">Posts</div></div>
+                <div class="stat-cell"><div class="stat-n" id="stat-entries">0</div><div class="stat-l">Competition Entries</div></div>
             </div>
         </section>
-
-        <!-- BODY -->
         <div class="page-body">
-
-            <!-- LEFT COLUMN -->
-            <div style="display:flex; flex-direction:column; gap:22px;">
-
-                <!-- Bio -->
-                <div class="card" id="bio-card">
-                    <div class="card-header">
-                        <div class="card-icon">
-                            <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-                        </div>
-                        <div>
-                            <div class="card-title">About</div>
-                            <div class="card-subtitle">Artist biography</div>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <div class="bio-text" id="bio-text"></div>
-                    </div>
+            <div style="display:flex;flex-direction:column;gap:22px;">
+                <div class="card">
+                    <div class="card-header"><div class="card-icon"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div><div><div class="card-title">About</div><div class="card-subtitle">Artist biography</div></div></div>
+                    <div class="card-body"><div class="bio-text" id="bio-text"></div></div>
                 </div>
-
-                <!-- Blog Posts -->
-                <div class="card" id="posts-card">
-                    <div class="card-header">
-                        <div class="card-icon">
-                            <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
-                        </div>
-                        <div>
-                            <div class="card-title">Posts</div>
-                            <div class="card-subtitle" id="post-count-sub">Loading…</div>
-                        </div>
-                    </div>
-                    <div id="posts-container">
-                        <div class="posts-empty">Loading posts…</div>
-                    </div>
+                <div class="card">
+                    <div class="card-header"><div class="card-icon"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></div><div><div class="card-title">Posts</div><div class="card-subtitle" id="post-count-sub">Loading…</div></div></div>
+                    <div id="posts-container"><div class="posts-empty">Loading posts…</div></div>
                 </div>
-
             </div>
-
-            <!-- RIGHT SIDEBAR -->
-            <div style="display:flex; flex-direction:column; gap:18px;">
-
-                <!-- Member Info -->
-                <div class="side-card" id="info-card">
-                    <div class="side-card-header">Member Info</div>
-                    <div class="side-card-body" id="info-body">
-                        <!-- Rendered by JS -->
-                    </div>
-                </div>
-
-                <!-- Social Links -->
-                <div class="side-card" id="socials-card">
-                    <div class="side-card-header">Links &amp; Socials</div>
-                    <div class="side-card-body" id="socials-body">
-                        <div class="socials-empty">Loading…</div>
-                    </div>
-                </div>
-
+            <div style="display:flex;flex-direction:column;gap:18px;">
+                <div class="side-card"><div class="side-card-header">Member Info</div><div class="side-card-body" id="info-body"></div></div>
+                <div class="side-card"><div class="side-card-header">Links &amp; Socials</div><div class="side-card-body" id="socials-body"><div class="socials-empty">Loading…</div></div></div>
             </div>
-
         </div>
     </div>
 </div>
-
 <div class="toast" id="toast"></div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-(function () {
+(function(){
     'use strict';
+    const sb=window.supabase.createClient('https://zbgvgzzaejaxrgcjjovc.supabase.co','sb_publishable_gCLTB6WM95Iw6Txcf2fjCA_5fnXPw77');
+    const el=id=>document.getElementById(id);
+    const esc=s=>!s?'':String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 
-    const sb = window.supabase.createClient(
-        'https://zbgvgzzaejaxrgcjjovc.supabase.co',
-        'sb_publishable_gCLTB6WM95Iw6Txcf2fjCA_5fnXPw77'
-    );
-
-    /* ── HELPERS ── */
-    const el = id => document.getElementById(id);
-    const esc = s => !s ? '' : String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-
-    function getInitials(name, username) {
-        if (name && name.trim()) {
-            const p = name.trim().split(/\s+/);
-            return p.length >= 2 ? (p[0][0]+p[p.length-1][0]).toUpperCase() : p[0].substring(0,2).toUpperCase();
-        }
-        if (username) return username[0].toUpperCase();
-        return '—';
-    }
-
-    function parseSpecialties(val) {
-        if (!val) return [];
-        if (Array.isArray(val)) return val.filter(Boolean);
-        return val.split(',').map(s => s.trim()).filter(Boolean);
-    }
-
-    function extractHandle(url, platform) {
-        try {
-            const u = new URL(url);
-            const path = u.pathname.replace(/^\/+/, '').replace(/\/$/, '');
-            const parts = path.split('/');
-            const handle = parts[parts.length - 1] || url;
-            // Clean @ prefix if any
-            return '@' + handle.replace(/^@/, '');
-        } catch {
-            return url;
-        }
-    }
+    function getInitials(n,u){if(n&&n.trim()){const p=n.trim().split(/\s+/);return p.length>=2?(p[0][0]+p[p.length-1][0]).toUpperCase():p[0].substring(0,2).toUpperCase()}if(u)return u[0].toUpperCase();return'—'}
+    function parseSpecialties(v){if(!v)return[];if(Array.isArray(v))return v.filter(Boolean);return v.split(',').map(s=>s.trim()).filter(Boolean)}
+    function extractHandle(url){try{const u=new URL(url);const p=u.pathname.replace(/^\/+/,'').replace(/\/$/,'').split('/');return'@'+(p[p.length-1]||url).replace(/^@/,'')}catch{return url}}
 
     let toastTimer;
-    function showToast(msg, isErr) {
-        const t = el('toast');
-        t.textContent = msg;
-        t.style.borderColor = isErr ? 'rgba(201,96,96,0.45)' : 'var(--border-cyan)';
-        void t.offsetWidth; t.classList.add('show');
-        clearTimeout(toastTimer);
-        toastTimer = setTimeout(() => t.classList.remove('show'), 2800);
-    }
+    function showToast(msg,isErr){const t=el('toast');t.textContent=msg;t.style.borderColor=isErr?'rgba(201,96,96,0.45)':'var(--border-cyan)';void t.offsetWidth;t.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.classList.remove('show'),2800)}
 
-    /* ── ROUTE: get username from URL ── */
-    // URL structure: /artists/username  OR  /artists/index.html?u=username
-    function getTargetUsername() {
-    const params = new URLSearchParams(window.location.search);
-    return params.get('u') || params.get('username') || null;
-}
+    function getTargetUsername(){const p=new URLSearchParams(window.location.search);return p.get('u')||p.get('username')||null}
 
-    /* ── MAIN ── */
-    let currentUser = null;
-    let profileUserId = null;
-    let isFollowing = false;
+    let currentUser=null,profileUserId=null,isFollowing=false;
 
-    async function boot() {
-        // Get current logged-in user (optional — profile is public)
-        try {
-            const { data: { user } } = await sb.auth.getUser();
-            currentUser = user;
-        } catch(e) { currentUser = null; }
-
-        // Render topbar
+    async function boot(){
+        try{const{data:{user}}=await sb.auth.getUser();currentUser=user}catch(e){currentUser=null}
         renderTopbar();
-
-        // Get target username
-        const targetUsername = getTargetUsername();
-        if (!targetUsername) {
-            showNotFound();
-            return;
-        }
-
-        // Load profile
-        const { data: profile, error } = await sb.from('profiles')
-    .select('id, full_name, username, specialty, city, state, bio, created_at, competition_count, socials, custom_links')
-    .eq('username', targetUsername)
-    .maybeSingle();
-
-console.log('Profile lookup result:', profile, 'Error:', error);
-
-if (error) {
-    console.error('Supabase error:', error);
-    showNotFound();
-    return;
-}
-
-if (!profile) {
-    console.warn('No profile found for username:', targetUsername);
-    showNotFound();
-    return;
-}
-        profileUserId = profile.id;
-        document.title = `${profile.full_name || profile.username} | SIOA Artist`;
-
-        // Load follow counts, blog posts, and follow status in parallel
-        const [followerRes, followingRes, postsRes, followCheckRes] = await Promise.all([
-            sb.from('follow').select('*', { count:'exact', head:true }).eq('following_id', profileUserId),
-            sb.from('follow').select('*', { count:'exact', head:true }).eq('follower_id', profileUserId),
-            sb.from('blogs').select('id, title, body, created_at').eq('author_id', profileUserId).eq('published', true).order('created_at', { ascending: false }).limit(20),
-            currentUser
-                ? sb.from('follow').select('*', { count:'exact', head:true }).eq('follower_id', currentUser.id).eq('following_id', profileUserId)
-                : Promise.resolve({ count: 0 })
+        const u=getTargetUsername();
+        if(!u){showNotFound();return}
+        const{data:profile,error}=await sb.from('profiles').select('id,full_name,username,specialty,city,state,bio,created_at,competition_count,socials,custom_links').eq('username',u).maybeSingle();
+        if(error||!profile){showNotFound();return}
+        profileUserId=profile.id;
+        document.title=`${profile.full_name||profile.username} | SIOA Artist`;
+        const[fr,fgr,pr,fcr]=await Promise.all([
+            sb.from('follow').select('*',{count:'exact',head:true}).eq('following_id',profileUserId),
+            sb.from('follow').select('*',{count:'exact',head:true}).eq('follower_id',profileUserId),
+            sb.from('blogs').select('id,title,body,created_at').eq('author_id',profileUserId).eq('published',true).order('created_at',{ascending:false}).limit(20),
+            currentUser?sb.from('follow').select('*',{count:'exact',head:true}).eq('follower_id',currentUser.id).eq('following_id',profileUserId):Promise.resolve({count:0})
         ]);
-
-        const followers  = followerRes.count  || 0;
-        const following  = followingRes.count || 0;
-        const posts      = postsRes.data      || [];
-        isFollowing      = (followCheckRes.count || 0) > 0;
-
-        // Render
-        renderHero(profile, followers, following, posts.length);
-        renderBio(profile);
-        renderPosts(posts);
-        renderSidebar(profile);
-        renderFollowButton(profile);
-
-        // Show content
-        el('loading-state').style.display = 'none';
-        el('profile-content').style.display = 'block';
+        isFollowing=(fcr.count||0)>0;
+        renderHero(profile,fr.count||0,fgr.count||0,(pr.data||[]).length);
+        renderBio(profile);renderPosts(pr.data||[]);renderSidebar(profile);renderFollowButton(profile);
+        el('loading-state').style.display='none';el('profile-content').style.display='block';
     }
 
-    function renderTopbar() {
-        const area = el('topbar-auth-area');
-        if (currentUser) {
-            // Show avatar
-            const { data: { user } } = { data: { user: currentUser } };
-            area.innerHTML = `
-                <div class="topbar-user">
-                    <div class="topbar-avatar" id="topbar-av">—</div>
-                    <span style="font-size:13px;color:var(--muted);" id="topbar-name">—</span>
-                </div>`;
-            // Load name async
-            sb.from('profiles').select('full_name, username').eq('id', currentUser.id).maybeSingle().then(({ data }) => {
-                if (!data) return;
-                const name = data.full_name || data.username || 'Me';
-                el('topbar-av').textContent = getInitials(data.full_name, data.username);
-                el('topbar-name').textContent = name.split(' ')[0];
+    function renderTopbar(){
+        const area=el('topbar-auth-area');
+        if(currentUser){
+            area.innerHTML=`<div class="topbar-user"><div class="topbar-avatar" id="topbar-av">—</div><span style="font-size:13px;color:var(--muted);" id="topbar-name">—</span></div>`;
+            sb.from('profiles').select('full_name,username').eq('id',currentUser.id).maybeSingle().then(({data})=>{
+                if(!data)return;
+                el('topbar-av').textContent=getInitials(data.full_name,data.username);
+                el('topbar-name').textContent=(data.full_name||data.username||'Me').split(' ')[0];
             });
         } else {
-            area.innerHTML = `
-                <a href="/login/index.html" class="btn-topbar btn-topbar-ghost">Sign In</a>
-                <a href="/signup/index.html" class="btn-topbar btn-topbar-solid">Join SIOA</a>`;
+            // ── Guest: Sign In and Join SIOA both go to /login/login.html ──
+            area.innerHTML=`
+                <a href="/login/login.html" class="btn-topbar btn-topbar-ghost">Sign In</a>
+                <a href="/login/login.html" class="btn-topbar btn-topbar-solid">Join SIOA</a>`;
         }
     }
 
-    function renderHero(p, followers, following, postCount) {
-        const name     = p.full_name || p.username || 'Unknown Artist';
-        const initials = getInitials(p.full_name, p.username);
-        const loc      = [p.city, p.state].filter(Boolean).join(', ');
-        const specs    = parseSpecialties(p.specialty);
-        const joined   = new Date(p.created_at).toLocaleDateString('en-IN', { month: 'long', year: 'numeric' });
-
-        el('avatar-hero').textContent = initials;
-        el('hero-name').textContent   = name;
-        el('hero-handle').textContent = p.username ? '@' + p.username : '';
-
-        if (loc) {
-            el('hero-location').style.display = 'flex';
-            el('location-text').textContent = loc;
-        }
-
-        // Specialty pills
-        const row = el('specialty-row');
-        if (specs.length) {
-            row.innerHTML = specs.map(s => `<span class="spec-tag">${esc(s)}</span>`).join('');
-        }
-
-        // Stats
-        el('stat-followers').textContent  = followers;
-        el('stat-following').textContent  = following;
-        el('stat-posts').textContent      = postCount;
-        el('stat-entries').textContent    = p.competition_count || 0;
+    function renderHero(p,followers,following,postCount){
+        const loc=([p.city,p.state].filter(Boolean).join(', '));
+        const specs=parseSpecialties(p.specialty);
+        el('avatar-hero').textContent=getInitials(p.full_name,p.username);
+        el('hero-name').textContent=p.full_name||p.username||'Unknown Artist';
+        el('hero-handle').textContent=p.username?'@'+p.username:'';
+        if(loc){el('hero-location').style.display='flex';el('location-text').textContent=loc}
+        if(specs.length)el('specialty-row').innerHTML=specs.map(s=>`<span class="spec-tag">${esc(s)}</span>`).join('');
+        el('stat-followers').textContent=followers;el('stat-following').textContent=following;
+        el('stat-posts').textContent=postCount;el('stat-entries').textContent=p.competition_count||0;
     }
 
-    function renderFollowButton(p) {
-        const btn = el('follow-btn');
-        const txt = el('follow-btn-text');
-
-        // Only show follow button if viewing someone else's profile
-        const isOwnProfile = currentUser && currentUser.id === p.id;
-        if (isOwnProfile) {
-            // Replace with "Edit Profile" link
-            btn.style.display = 'none';
-            const editBtn = document.createElement('a');
-            editBtn.href = '/dashbord/index.html';
-            editBtn.className = 'btn-follow';
-            editBtn.style.textDecoration = 'none';
-            editBtn.innerHTML = `
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
-                Edit Profile`;
-            btn.parentNode.insertBefore(editBtn, btn.nextSibling);
-            return;
+    function renderFollowButton(p){
+        const btn=el('follow-btn');
+        if(currentUser&&currentUser.id===p.id){
+            btn.style.display='none';
+            const a=document.createElement('a');a.href='/dashbord/index.html';a.className='btn-follow';a.style.textDecoration='none';
+            a.innerHTML=`<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg> Edit Profile`;
+            btn.parentNode.insertBefore(a,btn.nextSibling);return;
         }
-
-        // Not logged in — clicking follow redirects to login
-        btn.style.display = 'inline-flex';
+        btn.style.display='inline-flex';
         updateFollowBtnUI();
-
-        btn.addEventListener('click', async () => {
-            if (!currentUser) {
-                window.location.href = '/login/index.html?redirect=' + encodeURIComponent(window.location.pathname + window.location.search);
-                return;
-            }
-
-            if (isFollowing) {
-                // Unfollow
-                const { error } = await sb.from('follow').delete()
-                    .eq('follower_id', currentUser.id)
-                    .eq('following_id', profileUserId);
-                if (!error) {
-                    isFollowing = false;
-                    updateFollowBtnUI();
-                    const cur = parseInt(el('stat-followers').textContent) || 0;
-                    el('stat-followers').textContent = Math.max(0, cur - 1);
-                    showToast('Unfollowed');
-                }
+        btn.addEventListener('click',async()=>{
+            // ── Not logged in → redirect to /login/login.html ──
+            if(!currentUser){window.location.href='/login/login.html';return}
+            if(isFollowing){
+                const{error}=await sb.from('follow').delete().eq('follower_id',currentUser.id).eq('following_id',profileUserId);
+                if(!error){isFollowing=false;updateFollowBtnUI();el('stat-followers').textContent=Math.max(0,(parseInt(el('stat-followers').textContent)||0)-1);showToast('Unfollowed')}
             } else {
-                // Follow
-                const { error } = await sb.from('follow').insert({
-                    follower_id:  currentUser.id,
-                    following_id: profileUserId
-                });
-                if (!error) {
-                    isFollowing = true;
-                    updateFollowBtnUI();
-                    const cur = parseInt(el('stat-followers').textContent) || 0;
-                    el('stat-followers').textContent = cur + 1;
-                    showToast('Now following ' + (el('hero-name').textContent.split(' ')[0]));
-                } else {
-                    showToast('Could not follow. Please try again.', true);
-                }
+                const{error}=await sb.from('follow').insert({follower_id:currentUser.id,following_id:profileUserId});
+                if(!error){isFollowing=true;updateFollowBtnUI();el('stat-followers').textContent=(parseInt(el('stat-followers').textContent)||0)+1;showToast('Now following '+el('hero-name').textContent.split(' ')[0])}
+                else showToast('Could not follow. Please try again.',true);
             }
         });
     }
 
-    function updateFollowBtnUI() {
-        const btn = el('follow-btn');
-        const txt = el('follow-btn-text');
-        if (isFollowing) {
-            btn.classList.add('following');
-            btn.innerHTML = `
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><polyline points="16 11 18 13 22 9"/></svg>
-                <span>Following</span>`;
-            btn.title = 'Click to unfollow';
-        } else {
-            btn.classList.remove('following');
-            btn.innerHTML = `
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" y1="8" x2="19" y2="14"/><line x1="22" y1="11" x2="16" y2="11"/></svg>
-                <span>Follow</span>`;
-            btn.title = 'Follow this artist';
-        }
+    function updateFollowBtnUI(){
+        const btn=el('follow-btn');
+        if(isFollowing){btn.classList.add('following');btn.innerHTML=`<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><polyline points="16 11 18 13 22 9"/></svg><span>Following</span>`;btn.title='Click to unfollow'}
+        else{btn.classList.remove('following');btn.innerHTML=`<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" y1="8" x2="19" y2="14"/><line x1="22" y1="11" x2="16" y2="11"/></svg><span>Follow</span>`;btn.title='Follow this artist'}
     }
 
-    function renderBio(p) {
-        const bioEl = el('bio-text');
-        if (p.bio && p.bio.trim()) {
-            bioEl.textContent = p.bio;
-        } else {
-            bioEl.innerHTML = '<span class="bio-empty">This artist hasn\'t added a bio yet.</span>';
-        }
+    function renderBio(p){
+        const b=el('bio-text');
+        if(p.bio&&p.bio.trim())b.textContent=p.bio;
+        else b.innerHTML='<span class="bio-empty">This artist hasn\'t added a bio yet.</span>';
     }
 
-    function renderPosts(posts) {
-        const container = el('posts-container');
-        const sub       = el('post-count-sub');
-        sub.textContent = posts.length + ' published post' + (posts.length !== 1 ? 's' : '');
-
-        if (!posts.length) {
-            container.innerHTML = '<div class="posts-empty">No posts yet. Check back soon!</div>';
-            el('stat-posts').textContent = 0;
-            return;
-        }
-
-        container.innerHTML = posts.map((p, idx) => {
-            const date    = new Date(p.created_at).toLocaleDateString('en-IN', { day:'numeric', month:'short', year:'numeric' });
-            const words   = p.body.trim().split(/\s+/).filter(Boolean).length;
-            const preview = p.body.length > 160 ? p.body.substring(0, 160) + '…' : p.body;
-            const readTime = Math.max(1, Math.round(words / 200));
-            return `
-                <div class="post-item" onclick="togglePost(${idx}, this)">
-                    <a href="/Blog/blog.html?id=${p.id}" class="post-title" style="text-decoration:none; cursor:pointer;">${esc(p.title)}</a>
-                    <div class="post-preview" id="post-preview-${idx}">${esc(preview)}</div>
-                    <div class="post-meta">
-                        <span>${date}</span>
-                        <span class="post-meta-dot"></span>
-                        <span>${words} words</span>
-                        <span class="post-meta-dot"></span>
-                        <span>${readTime} min read</span>
-                    </div>
-                </div>
-                <div class="post-expand" id="post-expand-${idx}">
-                    <div class="post-expand-body">${esc(p.body)}</div>
-                </div>`;
+    function renderPosts(posts){
+        el('post-count-sub').textContent=posts.length+' published post'+(posts.length!==1?'s':'');
+        if(!posts.length){el('posts-container').innerHTML='<div class="posts-empty">No posts yet. Check back soon!</div>';el('stat-posts').textContent=0;return}
+        el('posts-container').innerHTML=posts.map((p,i)=>{
+            const date=new Date(p.created_at).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'});
+            const words=p.body.trim().split(/\s+/).filter(Boolean).length;
+            const prev=p.body.length>160?p.body.substring(0,160)+'…':p.body;
+            return`<div class="post-item" onclick="togglePost(${i})"><div class="post-title">${esc(p.title)}</div><div class="post-preview" id="pp-${i}">${esc(prev)}</div><div class="post-meta"><span>${date}</span><span class="post-meta-dot"></span><span>${words} words</span><span class="post-meta-dot"></span><span>${Math.max(1,Math.round(words/200))} min read</span></div></div><div class="post-expand" id="pe-${i}"><div class="post-expand-body">${esc(p.body)}</div></div>`;
         }).join('');
     }
 
-    window.togglePost = function(idx, itemEl) {
-        const expand  = el('post-expand-' + idx);
-        const preview = el('post-preview-' + idx);
-        const isOpen  = expand.classList.contains('open');
-        // Close all
-        document.querySelectorAll('.post-expand').forEach(e => e.classList.remove('open'));
-        document.querySelectorAll('.post-preview').forEach(e => e.style.display = '');
-        // Toggle this one
-        if (!isOpen) {
-            expand.classList.add('open');
-            preview.style.display = 'none';
-        }
+    window.togglePost=function(i){
+        const e=el('pe-'+i),p=el('pp-'+i),o=e.classList.contains('open');
+        document.querySelectorAll('.post-expand').forEach(x=>x.classList.remove('open'));
+        document.querySelectorAll('.post-preview').forEach(x=>x.style.display='');
+        if(!o){e.classList.add('open');p.style.display='none'}
     };
 
-    function renderSidebar(p) {
-        // Member Info card
-        const joined = new Date(p.created_at).toLocaleDateString('en-IN', { month: 'long', year: 'numeric' });
-        const loc    = [p.city, p.state].filter(Boolean).join(', ');
-        const specs  = parseSpecialties(p.specialty);
+    function renderSidebar(p){
+        const joined=new Date(p.created_at).toLocaleDateString('en-IN',{month:'long',year:'numeric'});
+        const loc=[p.city,p.state].filter(Boolean).join(', ');
+        const specs=parseSpecialties(p.specialty);
+        let h='';
+        if(loc)h+=`<div class="info-row"><div class="info-icon"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg></div><div><div class="info-label">Location</div><div class="info-value">${esc(loc)}</div></div></div>`;
+        h+=`<div class="info-row"><div class="info-icon"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div><div><div class="info-label">Member Since</div><div class="info-value">${esc(joined)}</div></div></div>`;
+        if(specs.length)h+=`<div class="info-row"><div class="info-icon"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div><div><div class="info-label">Specialties</div><div class="info-value" style="font-size:12px;">${specs.map(s=>esc(s)).join(' · ')}</div></div></div>`;
+        if(p.competition_count)h+=`<div class="info-row"><div class="info-icon"><svg viewBox="0 0 24 24"><path d="M8 21h8M12 17v4M17 4h2a2 2 0 0 1 2 2v1a4 4 0 0 1-4 4h-1"/><path d="M7 4H5a2 2 0 0 0-2 2v1a4 4 0 0 0 4 4h1"/><path d="M7 4h10v8a5 5 0 0 1-10 0V4z"/></svg></div><div><div class="info-label">Competition Entries</div><div class="info-value">${p.competition_count}</div></div></div>`;
+        el('info-body').innerHTML=h||'<div class="socials-empty">No info added yet.</div>';
 
-        let infoHtml = '';
-
-        if (loc) {
-            infoHtml += `<div class="info-row">
-                <div class="info-icon"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg></div>
-                <div><div class="info-label">Location</div><div class="info-value">${esc(loc)}</div></div>
-            </div>`;
-        }
-
-        infoHtml += `<div class="info-row">
-            <div class="info-icon"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div>
-            <div><div class="info-label">Member Since</div><div class="info-value">${esc(joined)}</div></div>
-        </div>`;
-
-        if (specs.length) {
-            infoHtml += `<div class="info-row">
-                <div class="info-icon"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
-                <div>
-                    <div class="info-label">Specialties</div>
-                    <div class="info-value" style="font-size:12px;">${specs.map(s => esc(s)).join(' · ')}</div>
-                </div>
-            </div>`;
-        }
-
-        if (p.competition_count) {
-            infoHtml += `<div class="info-row">
-                <div class="info-icon"><svg viewBox="0 0 24 24"><path d="M8 21h8M12 17v4M17 4h2a2 2 0 0 1 2 2v1a4 4 0 0 1-4 4h-1"/><path d="M7 4H5a2 2 0 0 0-2 2v1a4 4 0 0 0 4 4h1"/><path d="M7 4h10v8a5 5 0 0 1-10 0V4z"/></svg></div>
-                <div><div class="info-label">Competition Entries</div><div class="info-value">${p.competition_count}</div></div>
-            </div>`;
-        }
-
-        el('info-body').innerHTML = infoHtml || '<div class="socials-empty">No info added yet.</div>';
-
-        // Socials
-        renderSocials(p);
-    }
-
-    function renderSocials(p) {
-        const body = el('socials-body');
-        let html = '';
-
-        const SOCIAL_DEFS = [
-            { key: 'instagram', label: 'Instagram', icon: `<svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>` },
-            { key: 'twitter',   label: 'X / Twitter', icon: `<svg viewBox="0 0 24 24"><path d="M4 4l16 16M4 20L20 4" stroke-linecap="round"/></svg>` },
-            { key: 'youtube',   label: 'YouTube', icon: `<svg viewBox="0 0 24 24"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 0 0 1.46 6.42 29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.95 1.96C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.96A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="var(--surface)"/></svg>` },
-            { key: 'linkedin',  label: 'LinkedIn', icon: `<svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>` },
-            { key: 'pinterest', label: 'Pinterest', icon: `<svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12c0 4.24 2.65 7.86 6.39 9.29-.09-.78-.17-1.98.04-2.83.18-.77 1.22-5.16 1.22-5.16s-.31-.62-.31-1.55c0-1.45.84-2.54 1.89-2.54.89 0 1.32.67 1.32 1.47 0 .9-.57 2.24-.87 3.48-.25 1.04.52 1.88 1.54 1.88 1.85 0 3.09-2.37 3.09-5.18 0-2.14-1.44-3.74-4.04-3.74-2.94 0-4.77 2.2-4.77 4.64 0 .84.24 1.43.62 1.89.17.2.19.28.13.51-.04.17-.14.57-.18.73-.06.23-.24.31-.44.23-1.23-.5-1.8-1.84-1.8-3.35 0-2.48 2.09-5.47 6.22-5.47 3.32 0 5.51 2.4 5.51 4.98 0 3.41-1.89 5.96-4.67 5.96-.93 0-1.81-.5-2.11-1.07l-.58 2.22c-.21.81-.77 1.82-1.15 2.44.87.27 1.79.41 2.74.41 5.52 0 10-4.48 10-10S17.52 2 12 2z"/></svg>` },
-            { key: 'tiktok',    label: 'TikTok', icon: `<svg viewBox="0 0 24 24"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>` },
+        const DEFS=[
+            {key:'instagram',label:'Instagram',icon:`<svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>`},
+            {key:'twitter',label:'X / Twitter',icon:`<svg viewBox="0 0 24 24"><path d="M4 4l16 16M4 20L20 4" stroke-linecap="round"/></svg>`},
+            {key:'youtube',label:'YouTube',icon:`<svg viewBox="0 0 24 24"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 0 0 1.46 6.42 29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.95 1.96C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.96A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="var(--surface)"/></svg>`},
+            {key:'linkedin',label:'LinkedIn',icon:`<svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>`},
+            {key:'pinterest',label:'Pinterest',icon:`<svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12c0 4.24 2.65 7.86 6.39 9.29-.09-.78-.17-1.98.04-2.83.18-.77 1.22-5.16 1.22-5.16s-.31-.62-.31-1.55c0-1.45.84-2.54 1.89-2.54.89 0 1.32.67 1.32 1.47 0 .9-.57 2.24-.87 3.48-.25 1.04.52 1.88 1.54 1.88 1.85 0 3.09-2.37 3.09-5.18 0-2.14-1.44-3.74-4.04-3.74-2.94 0-4.77 2.2-4.77 4.64 0 .84.24 1.43.62 1.89.17.2.19.28.13.51l-.18.73c-.06.23-.24.31-.44.23-1.23-.5-1.8-1.84-1.8-3.35 0-2.48 2.09-5.47 6.22-5.47 3.32 0 5.51 2.4 5.51 4.98 0 3.41-1.89 5.96-4.67 5.96-.93 0-1.81-.5-2.11-1.07l-.58 2.22c-.21.81-.77 1.82-1.15 2.44.87.27 1.79.41 2.74.41 5.52 0 10-4.48 10-10S17.52 2 12 2z"/></svg>`},
+            {key:'tiktok',label:'TikTok',icon:`<svg viewBox="0 0 24 24"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>`},
         ];
-
-        if (p.socials && typeof p.socials === 'object') {
-            SOCIAL_DEFS.forEach(def => {
-                const url = p.socials[def.key];
-                if (!url || !url.trim()) return;
-                const handle = extractHandle(url, def.key);
-                html += `
-                    <a href="${esc(url)}" target="_blank" rel="noopener noreferrer" class="social-link-item">
-                        <div class="sl-icon">${def.icon}</div>
-                        <div>
-                            <div class="sl-title">${esc(def.label)}</div>
-                            <div class="sl-handle">${esc(handle)}</div>
-                        </div>
-                        <span class="sl-arrow">›</span>
-                    </a>`;
-            });
+        let sh='';
+        if(p.socials&&typeof p.socials==='object'){
+            DEFS.forEach(d=>{const url=p.socials[d.key];if(!url||!url.trim())return;sh+=`<a href="${esc(url)}" target="_blank" rel="noopener noreferrer" class="social-link-item"><div class="sl-icon">${d.icon}</div><div><div class="sl-title">${esc(d.label)}</div><div class="sl-handle">${esc(extractHandle(url))}</div></div><span class="sl-arrow">›</span></a>`});
         }
-
-        // Custom links
-        if (Array.isArray(p.custom_links)) {
-            p.custom_links.forEach(link => {
-                if (!link.title || !link.url) return;
-                html += `
-                    <a href="${esc(link.url)}" target="_blank" rel="noopener noreferrer" class="social-link-item">
-                        <div class="sl-icon">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="var(--cyan-light)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
-                                <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
-                            </svg>
-                        </div>
-                        <div>
-                            <div class="sl-title">${esc(link.title)}</div>
-                            <div class="sl-handle">External link</div>
-                        </div>
-                        <span class="sl-arrow">›</span>
-                    </a>`;
-            });
+        if(Array.isArray(p.custom_links)){
+            p.custom_links.forEach(lnk=>{if(!lnk.title||!lnk.url)return;sh+=`<a href="${esc(lnk.url)}" target="_blank" rel="noopener noreferrer" class="social-link-item"><div class="sl-icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--cyan-light)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></div><div><div class="sl-title">${esc(lnk.title)}</div><div class="sl-handle">External link</div></div><span class="sl-arrow">›</span></a>`});
         }
-
-        if (!html) {
-            html = '<div class="socials-empty">No links added yet.</div>';
-        }
-
-        body.innerHTML = html;
+        el('socials-body').innerHTML=sh||'<div class="socials-empty">No links added yet.</div>';
     }
 
-    function showNotFound() {
-        el('loading-state').style.display = 'none';
-        el('not-found-state').style.display = 'flex';
-    }
+    function showNotFound(){el('loading-state').style.display='none';el('not-found-state').style.display='flex'}
 
     boot();
 })();
