@@ -740,7 +740,7 @@
     <div class="beta-banner">
         <span class="beta-badge">BETA</span>
         This platform is in active development — you may encounter occasional bugs or incomplete features. &nbsp;
-        <a href="mailto:sioa.paper@gmail.com">Report an issue →</a>
+        <a href="/cdn-cgi/l/email-protection#96e5fff9f7b8e6f7e6f3e4d6f1fbf7fffab8f5f9fb">Report an issue →</a>
     </div>
 
     <!-- NAVBAR -->
@@ -750,7 +750,7 @@
             <ul class="nav-menu" id="navMenu">
                 <li><a href="#about">About</a></li>
                 <li><a href="#offerings">Platform</a></li>
-                <li><a href="/net/index.html">Find Artists</a></li>
+                <li><a href="javascript:void(0)" onclick="authGate('/net/index.html')">Find Artists</a></li>
                 <li><a href="#competition">Competition</a></li>
                 <li><a href="#connect">Connect</a></li>
                 <!-- auth nav item — filled by JS -->
@@ -918,8 +918,8 @@
                     </div>
                 </a>
 
-                <!-- 05 Community Network — public -->
-                <a href="/net/index.html" class="platform-btn">
+                <!-- 05 Community Network — requires login -->
+                <div class="platform-btn" onclick="authGate('/net/index.html')" style="cursor:pointer;">
                     <div class="pb-left">
                         <span class="pb-number">05</span>
                         <div>
@@ -936,7 +936,7 @@
                             <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
                         </div>
                     </div>
-                </a>
+                </div>
 
             </div>
         </div>
@@ -956,7 +956,7 @@
                         <input type="text" id="searchInput" placeholder="Search by name, city, or specialty…" />
                         <button id="searchBtn">Search</button>
                     </div>
-                    <a href="/net/index.html" class="view-all-link">View full artist directory &nbsp;→</a>
+                    <a href="javascript:void(0)" onclick="authGate('/net/index.html')" class="view-all-link">View full artist directory &nbsp;→</a>
                 </div>
                 <div id="artist-grid-container" class="artist-grid">
                     <div class="artist-empty">Search for artists above to see results.</div>
@@ -1078,14 +1078,14 @@
                     <span class="connect-tag">Live Now</span>
                 </a>
 
-                <a href="/net/index.html" class="connect-card">
+                <div class="connect-card" onclick="authGate('/net/index.html')" style="cursor:pointer;">
                     <div class="connect-icon-wrap">
                         <svg viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
                     </div>
                     <div class="connect-title">Community Network</div>
                     <p class="connect-desc">Find your state chapter, discover upcoming events, and connect with artists who share your passion for paper folding across India.</p>
                     <span class="connect-tag">Live Now</span>
-                </a>
+                </div>
 
             </div>
         </div>
@@ -1098,7 +1098,7 @@
                 <div class="footer-brand">
                     <span class="logo">SIOA</span>
                     <p>India's premier platform for origami artists — compete, learn, teach, publish, and connect with a national community united by the art of paper folding.</p>
-                    <a href="mailto:sioa.paper@gmail.com">sioa.paper@gmail.com</a>
+                    <a href="/cdn-cgi/l/email-protection#3043595f511e405140554270575d51595c1e535f5d"><span class="__cf_email__" data-cfemail="53203a3c327d233223362113343e323a3f7d303c3e">[email&#160;protected]</span></a>
                 </div>
                 <div class="footer-col">
                     <h4>Platform</h4>
@@ -1112,9 +1112,9 @@
                 <div class="footer-col">
                     <h4>Community</h4>
                     <ul>
-                        <li><a href="/net/index.html">Network</a></li>
+                        <li><a href="javascript:void(0)" onclick="authGate('/net/index.html')">Network</a></li>
                         <li><a href="#search-artists">Find Artists</a></li>
-                        <li><a href="javascript:void(0)" onclick="authGate('/dashbord/competition.html')">Competition</a></li>
+                        <li><a href="#competition">Competition</a></li>
                     </ul>
                 </div>
                 <div class="footer-col">
@@ -1122,7 +1122,7 @@
                     <ul>
                         <li><a href="#about">About SIOA</a></li>
                         <li><a href="/members/index.html">Members</a></li>
-                        <li><a href="mailto:sioa.paper@gmail.com">Contact</a></li>
+                        <li><a href="/cdn-cgi/l/email-protection#83f0eaece2adf3e2f3e6f1c3e4eee2eaefade0ecee">Contact</a></li>
                     </ul>
                 </div>
             </div>
@@ -1135,7 +1135,7 @@
     </footer>
 
     <!-- ══ SUPABASE (single instance) ══ -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
     /* ================================================================
        AUTH STATE — single source of truth
@@ -1344,14 +1344,4 @@
                 if (d < 150) {
                     ctx.save(); ctx.globalAlpha = (1-d/150)*0.15;
                     ctx.strokeStyle = 'hsl(190,70%,50%)'; ctx.lineWidth = 1;
-                    ctx.beginPath(); ctx.moveTo(particles[i].x, particles[i].y);
-                    ctx.lineTo(particles[j].x, particles[j].y); ctx.stroke(); ctx.restore();
-                }
-            }
-        }
-        particles.forEach(function(p) { p.update(); p.draw(); });
-        requestAnimationFrame(animate);
-    })();
-    </script>
-</body>
-</html>
+                    ctx.beginPa
