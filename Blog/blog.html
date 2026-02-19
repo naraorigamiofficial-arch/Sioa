@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIOA | Blog Post</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,300&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg:          #04080f;
+            --surface:     #070d1a;
+            --border:      rgba(255,255,255,0.065);
+            --border-cyan: rgba(45,137,176,0.28);
+            --cyan:        #2d89b0;
+            --cyan-light:  #57a6bb;
+            --cyan-dim:    rgba(45,137,176,0.15);
+            --text:        #dce8ed;
+            --muted:       rgba(220,232,237,0.40);
+            --muted-2:     rgba(220,232,237,0.22);
+        }
+
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html, body {
+            min-height: 100%;
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'DM Sans', sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body::before {
+            content: '';
+            position: fixed; inset: 0;
+            background-image:
+                linear-gradient(rgba(45,137,176,0.025) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(45,137,176,0.025) 1px, transparent 1px);
+            background-size: 52px 52px;
+            pointer-events: none; z-index: 0;
+        }
+
+        .glow-orb {
+            position: fixed; top: -200px; left: 30%;
+            width: 600px; height: 600px;
+            background: radial-gradient(circle, rgba(45,137,176,0.07) 0%, transparent 68%);
+            pointer-events: none; z-index: 0;
+        }
+
+        /* ── TOPBAR ── */
+        .topbar {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+            height: 58px;
+            background: rgba(4,8,15,0.92);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border);
+            display: flex; align-items: center; padding: 0 28px; gap: 8px;
+        }
+        .topbar-logo {
+            font-family: 'DM Serif Display', serif;
+            font-size: 20px; letter-spacing: 0.14em;
+            color: var(--text); text-decoration: none; margin-right: auto;
+        }
+        .topbar-logo span { color: var(--cyan-light); }
+        .topbar-nav { display: flex; gap: 2px; }
+        .topbar-nav a {
+            font-size: 12.5px; color: var(--muted); text-decoration: none;
+            padding: 5px 13px; border-radius: 6px; transition: all 0.18s;
+        }
+        .topbar-nav a:hover { color: var(--text); background: rgba(255,255,255,0.05); }
+
+        /* ── SHELL ── */
+        .shell { position: relative; z-index: 1; padding-top: 58px; min-height: 100vh; }
+
+        /* ── LOADING / ERROR ── */
+        .center-wrap {
+            display: flex; flex-direction: column; align-items: center;
+            justify-content: center; padding: 100px 40px; text-align: center;
+        }
+        .loading-pulse {
+            width: 36px; height: 36px; border-radius: 50%;
+            border: 2px solid rgba(45,137,176,0.15);
+            border-top-color: var(--cyan-light);
+            animation: spin 0.8s linear infinite; margin-bottom: 16px;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .center-text { font-size: 13px; color: var(--muted-2); }
+        .error-icon { font-size: 40px; opacity: 0.2; margin-bottom: 16px; }
+        .error-title {
+            font-family: 'DM Serif Display', serif;
+            font-size: 26px; color: var(--text); margin-bottom: 8px;
+        }
+        .error-sub { font-size: 13px; color: var(--muted-2); }
+
+        /* ── ARTICLE ── */
+        .article-wrap {
+            max-width: 680px; margin: 0 auto;
+            padding: 50px 40px 100px;
+            animation: fadeUp 0.5s cubic-bezier(0.16,1,0.3,1) both;
+        }
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(16px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Back link */
+        .back-link {
+            display: inline-flex; align-items: center; gap: 6px;
+            font-size: 12px; color: var(--muted-2); text-decoration: none;
+            margin-bottom: 36px; transition: color 0.18s;
+            border: 1px solid var(--border);
+            padding: 6px 14px; border-radius: 6px;
+            background: rgba(255,255,255,0.02);
+        }
+        .back-link:hover { color: var(--cyan-light); border-color: var(--border-cyan); }
+        .back-link svg { width: 13px; height: 13px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; flex-shrink: 0; }
+
+        /* Author strip */
+        .author-strip {
+            display: flex; align-items: center; gap: 12px;
+            margin-bottom: 28px;
+        }
+        .author-avatar {
+            width: 38px; height: 38px; border-radius: 50%; flex-shrink: 0;
+            background: linear-gradient(135deg, #1a5f7a, #2d89b0);
+            border: 1px solid rgba(45,137,176,0.3);
+            display: flex; align-items: center; justify-content: center;
+            font-family: 'DM Serif Display', serif;
+            font-size: 14px; color: #fff;
+        }
+        .author-info { flex: 1; }
+        .author-name {
+            font-size: 13px; font-weight: 600; color: var(--text);
+            text-decoration: none; transition: color 0.16s;
+        }
+        .author-name:hover { color: var(--cyan-light); }
+        .author-meta { font-size: 11px; color: var(--muted-2); margin-top: 2px; }
+
+        /* Post title */
+        .post-title {
+            font-family: 'DM Serif Display', serif;
+            font-size: 36px; line-height: 1.25; letter-spacing: 0.01em;
+            color: var(--text); margin-bottom: 16px;
+        }
+
+        /* Post meta row */
+        .post-meta {
+            display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
+            font-size: 11px; color: var(--muted-2); letter-spacing: 0.06em;
+            margin-bottom: 36px; padding-bottom: 28px;
+            border-bottom: 1px solid var(--border);
+        }
+        .post-meta-dot { width: 3px; height: 3px; border-radius: 50%; background: var(--muted-2); }
+
+        /* Post body */
+        .post-body {
+            font-size: 16px; font-weight: 300; line-height: 1.85;
+            color: rgba(220,232,237,0.85);
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+
+        /* Footer */
+        .post-footer {
+            margin-top: 60px; padding-top: 28px;
+            border-top: 1px solid var(--border);
+            display: flex; align-items: center; justify-content: space-between;
+            flex-wrap: wrap; gap: 14px;
+        }
+        .btn-back-footer {
+            display: inline-flex; align-items: center; gap: 7px;
+            padding: 9px 20px; border-radius: 7px;
+            background: transparent; border: 1px solid rgba(255,255,255,0.11);
+            color: var(--muted); font-family: 'DM Sans', sans-serif;
+            font-size: 12px; font-weight: 500; text-decoration: none;
+            cursor: pointer; transition: all 0.18s;
+        }
+        .btn-back-footer:hover { border-color: var(--border-cyan); color: var(--cyan-light); }
+        .btn-back-footer svg { width: 13px; height: 13px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+        .btn-view-profile {
+            display: inline-flex; align-items: center; gap: 7px;
+            padding: 9px 20px; border-radius: 7px;
+            background: var(--cyan); color: #fff;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 12px; font-weight: 600; text-decoration: none;
+            transition: all 0.18s;
+        }
+        .btn-view-profile:hover { background: #3899c4; transform: translateY(-1px); box-shadow: 0 5px 16px rgba(45,137,176,0.3); }
+
+        @media (max-width: 600px) {
+            .article-wrap { padding: 32px 20px 60px; }
+            .post-title { font-size: 26px; }
+            .topbar-nav { display: none; }
+        }
+    </style>
+</head>
+<body>
+<div class="glow-orb"></div>
+
+<!-- TOPBAR -->
+<header class="topbar">
+    <a href="/" class="topbar-logo">SIO<span>A</span></a>
+    <nav class="topbar-nav">
+        <a href="/home/index.html">Home</a>
+        <a href="/network/index.html">Browse Artists</a>
+        <a href="/competition/index.html">Competition</a>
+        <a href="/dashbord/index.html">Dashboard</a>
+    </nav>
+</header>
+
+<div class="shell">
+
+    <!-- Loading -->
+    <div class="center-wrap" id="loading-state">
+        <div class="loading-pulse"></div>
+        <div class="center-text">Loading post…</div>
+    </div>
+
+    <!-- Error -->
+    <div class="center-wrap" id="error-state" style="display:none;">
+        <div class="error-icon">📄</div>
+        <div class="error-title">Post Not Found</div>
+        <div class="error-sub">This post may have been deleted or doesn't exist.</div>
+        <a href="javascript:history.back()" style="margin-top:24px; display:inline-flex; align-items:center; gap:7px; padding:10px 22px; border-radius:8px; background:var(--cyan); color:#fff; text-decoration:none; font-size:13px; font-weight:600;">← Go Back</a>
+    </div>
+
+    <!-- Article -->
+    <div class="article-wrap" id="article" style="display:none;">
+
+        <a href="javascript:history.back()" class="back-link">
+            <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+            Back
+        </a>
+
+        <!-- Author -->
+        <div class="author-strip">
+            <div class="author-avatar" id="author-avatar">—</div>
+            <div class="author-info">
+                <a class="author-name" id="author-name" href="#">—</a>
+                <div class="author-meta" id="author-meta">SIOA Member</div>
+            </div>
+        </div>
+
+        <!-- Title -->
+        <h1 class="post-title" id="post-title">—</h1>
+
+        <!-- Meta -->
+        <div class="post-meta">
+            <span id="post-date">—</span>
+            <span class="post-meta-dot"></span>
+            <span id="post-words">—</span>
+            <span class="post-meta-dot"></span>
+            <span id="post-read-time">—</span>
+        </div>
+
+        <!-- Body -->
+        <div class="post-body" id="post-body"></div>
+
+        <!-- Footer -->
+        <div class="post-footer">
+            <a href="javascript:history.back()" class="btn-back-footer">
+                <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+                Back to Profile
+            </a>
+            <a href="#" class="btn-view-profile" id="view-profile-btn">
+                View Artist Profile →
+            </a>
+        </div>
+
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+(function () {
+    'use strict';
+
+    const sb = window.supabase.createClient(
+        'https://zbgvgzzaejaxrgcjjovc.supabase.co',
+        'sb_publishable_gCLTB6WM95Iw6Txcf2fjCA_5fnXPw77'
+    );
+
+    const el = id => document.getElementById(id);
+
+    function getInitials(name, username) {
+        if (name && name.trim()) {
+            const p = name.trim().split(/\s+/);
+            return p.length >= 2 ? (p[0][0]+p[p.length-1][0]).toUpperCase() : p[0].substring(0,2).toUpperCase();
+        }
+        if (username) return username[0].toUpperCase();
+        return '?';
+    }
+
+    async function boot() {
+        const params = new URLSearchParams(window.location.search);
+        const postId = params.get('id');
+
+        if (!postId) { showError(); return; }
+
+        // Load post
+        const { data: post, error } = await sb.from('blogs')
+            .select('id, title, body, created_at, published, author_id')
+            .eq('id', postId)
+            .eq('published', true)
+            .maybeSingle();
+
+        if (error || !post) { showError(); return; }
+
+        // Load author profile
+        const { data: author } = await sb.from('profiles')
+            .select('full_name, username, city, state')
+            .eq('id', post.author_id)
+            .maybeSingle();
+
+        renderPost(post, author);
+    }
+
+    function renderPost(post, author) {
+        const name     = author?.full_name || author?.username || 'SIOA Member';
+        const username = author?.username || null;
+        const loc      = [author?.city, author?.state].filter(Boolean).join(', ');
+        const initials = getInitials(author?.full_name, author?.username);
+        const date     = new Date(post.created_at).toLocaleDateString('en-IN', { day:'numeric', month:'long', year:'numeric' });
+        const words    = post.body.trim().split(/\s+/).filter(Boolean).length;
+        const readTime = Math.max(1, Math.round(words / 200));
+        const profileUrl = username ? '/artists/index.html?u=' + username : '#';
+
+        document.title = post.title + ' | SIOA';
+
+        el('author-avatar').textContent   = initials;
+        el('author-name').textContent     = name;
+        el('author-name').href            = profileUrl;
+        el('author-meta').textContent     = loc || 'SIOA Member';
+        el('post-title').textContent      = post.title;
+        el('post-date').textContent       = date;
+        el('post-words').textContent      = words + ' words';
+        el('post-read-time').textContent  = readTime + ' min read';
+        el('post-body').textContent       = post.body;
+        el('view-profile-btn').href       = profileUrl;
+
+        el('loading-state').style.display = 'none';
+        el('article').style.display       = 'block';
+    }
+
+    function showError() {
+        el('loading-state').style.display = 'none';
+        el('error-state').style.display   = 'flex';
+    }
+
+    boot();
+})();
+</script>
+</body>
+</html>
