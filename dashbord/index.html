@@ -1270,7 +1270,28 @@
         const { data: { user } } = await sb.auth.getUser();
         if (!user) { window.location.href = '../login/index.html'; return null; }
         return user;
+        
     }
+    async function init() {
+  const user = await checkAuth();
+  if (!user) return;
+
+  // 🔹 Set Public Profile Quick Link
+  const { data: profile } = await sb
+    .from('profiles')
+    .select('username')
+    .eq('id', user.id)
+    .single();
+
+  if (profile && profile.username) {
+    const link = document.getElementById('ql-public-profile');
+    if (link) {
+      link.href = '/artists/index.html?u=' + profile.username;
+    }
+  }
+
+  await loadProfile();
+}
 
     /* ── LOAD PROFILE ──────────────────────────────────────────────────────── */
     async function loadProfile() {
@@ -1760,6 +1781,7 @@
 
         renderStreakDots();
     })();
+
 
 })();
 </script>
