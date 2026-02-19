@@ -212,7 +212,6 @@
             opacity: 0; animation: fadeInUp 1.2s ease forwards 0.7s;
         }
 
-        /* Hero pills — symbols only, no emoji */
         .hero-pills {
             display: flex; flex-wrap: wrap; gap: 10px; justify-content: center;
             margin-bottom: 46px;
@@ -231,13 +230,11 @@
             border-color: var(--bright-cyan); color: var(--white);
             background: rgba(45,137,176,0.12);
         }
-        /* SVG icon inside pill */
         .hero-pill svg {
             width: 13px; height: 13px;
             stroke: var(--bright-cyan); fill: none;
             stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round;
-            flex-shrink: 0;
-            transition: stroke 0.3s;
+            flex-shrink: 0; transition: stroke 0.3s;
         }
         .hero-pill:hover svg { stroke: var(--light-cyan); }
 
@@ -251,7 +248,7 @@
             color: var(--white); font-family: 'Inter', sans-serif;
             font-size: 14px; font-weight: 600; letter-spacing: 0.1em;
             text-transform: uppercase; text-decoration: none; border-radius: 4px;
-            transition: all 0.3s ease;
+            transition: all 0.3s ease; cursor: pointer; border: none; display: inline-block;
         }
         .btn-primary-hero:hover { transform: translateY(-2px); box-shadow: 0 12px 40px rgba(45,137,176,0.35); }
         .btn-ghost-hero {
@@ -259,7 +256,7 @@
             font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 500;
             letter-spacing: 0.08em; text-transform: uppercase; text-decoration: none;
             border-radius: 4px; border: 1.5px solid rgba(26,95,122,0.6);
-            transition: all 0.3s ease;
+            transition: all 0.3s ease; display: inline-block;
         }
         .btn-ghost-hero:hover { border-color: var(--bright-cyan); transform: translateY(-2px); }
 
@@ -344,6 +341,7 @@
             color: var(--white); text-decoration: none;
             position: relative; overflow: hidden;
             transition: all 0.45s cubic-bezier(0.16,1,0.3,1);
+            cursor: pointer;
         }
         .platform-btn:last-child { border-bottom: none; }
         .platform-btn::before {
@@ -459,7 +457,6 @@
             background: rgba(45,137,176,0.08);
         }
 
-        /* Artist grid — empty, populated via JS */
         .artist-grid {
             display: grid; grid-template-columns: repeat(3,1fr); gap: 12px;
             min-height: 100px;
@@ -489,16 +486,10 @@
             padding: 3px 10px; border-radius: 100px;
             border: 1px solid rgba(45,137,176,0.35); color: var(--bright-cyan); display: inline-block;
         }
-        /* Empty state */
         .artist-empty {
-            grid-column: 1 / -1;
-            padding: 40px 20px;
-            text-align: center;
-            color: rgba(197,217,224,0.3);
-            font-size: 13px;
-            letter-spacing: 0.1em;
-            border: 1px dashed rgba(26,95,122,0.25);
-            border-radius: 8px;
+            grid-column: 1 / -1; padding: 40px 20px; text-align: center;
+            color: rgba(197,217,224,0.3); font-size: 13px; letter-spacing: 0.1em;
+            border: 1px dashed rgba(26,95,122,0.25); border-radius: 8px;
         }
 
         .view-all-link {
@@ -646,7 +637,6 @@
             border-color: rgba(45,137,176,0.6); transform: translateY(-8px);
             box-shadow: 0 20px 60px rgba(26,95,122,0.25);
         }
-        /* Icon containers for connect cards — SVG based */
         .connect-icon-wrap {
             width: 52px; height: 52px; margin: 0 auto 22px;
             border: 1px solid rgba(26,95,122,0.45); border-radius: 50%;
@@ -763,7 +753,8 @@
                 <li><a href="/net/index.html">Find Artists</a></li>
                 <li><a href="#competition">Competition</a></li>
                 <li><a href="#connect">Connect</a></li>
-                <li><a href="#" id="logoutBtn">Logout</a></li>
+                <!-- auth nav item — filled by JS -->
+                <li id="navAuthItem"><a href="/login/index.html" class="nav-btn">Login</a></li>
             </ul>
             <div class="menu-toggle" id="menuToggle">
                 <span></span><span></span><span></span>
@@ -781,7 +772,6 @@
             <p class="hero-subtitle">Society of Indian Origami Artists</p>
             <p class="hero-tagline-bottom">विधान · अभ्यास · गौरव · हस्त</p>
 
-            <!-- Pills — SVG symbols, no emoji -->
             <div class="hero-pills">
                 <div class="hero-pill">
                     <svg viewBox="0 0 24 24"><polyline points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
@@ -806,17 +796,12 @@
             </div>
 
             <div class="hero-actions">
-    <a href="dashbord/index.html"
-       id="mainCtaBtn"
-       class="btn-primary-hero">
-       Create Your Profile
-    </a>
-
-    <a href="#offerings"
-       class="btn-ghost-hero">
-       Explore Platform
-    </a>
-</div>
+                <!-- default: send to login. JS updates for logged-in users -->
+                <a href="/login/index.html" id="mainCtaBtn" class="btn-primary-hero">
+                    Create Your Profile
+                </a>
+                <a href="#offerings" class="btn-ghost-hero">Explore Platform</a>
+            </div>
         </div>
     </section>
 
@@ -853,8 +838,8 @@
             </p>
             <div class="platform-nav fade-in-section">
 
-                <!-- 01 Artist Profiles -->
-                <a href="/dashbord/index.html" class="platform-btn">
+                <!-- 01 Artist Profiles — requires login -->
+                <div class="platform-btn" onclick="authGate('/dashbord/index.html')">
                     <div class="pb-left">
                         <span class="pb-number">01</span>
                         <div>
@@ -865,17 +850,16 @@
                     <div class="pb-right">
                         <span class="pb-tag">Live</span>
                         <div class="pb-icon">
-                            <!-- person / id card icon -->
                             <svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><circle cx="9" cy="11" r="2"/><path d="M13 11h4M13 14h4M7 14c0-1.1.9-2 2-2s2 .9 2 2"/></svg>
                         </div>
                         <div class="pb-arrow">
                             <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
                         </div>
                     </div>
-                </a>
+                </div>
 
-                <!-- 02 Competitions -->
-                <a href="/dashbord/competition.html" class="platform-btn">
+                <!-- 02 Competitions — requires login -->
+                <div class="platform-btn" onclick="authGate('/dashbord/competition.html')">
                     <div class="pb-left">
                         <span class="pb-number">02</span>
                         <div>
@@ -886,16 +870,15 @@
                     <div class="pb-right">
                         <span class="pb-tag">Live</span>
                         <div class="pb-icon">
-                            <!-- trophy icon -->
                             <svg viewBox="0 0 24 24"><path d="M8 21h8M12 17v4M17 4h2a2 2 0 0 1 2 2v1a4 4 0 0 1-4 4h-1"/><path d="M7 4H5a2 2 0 0 0-2 2v1a4 4 0 0 0 4 4h1"/><path d="M7 4h10v8a5 5 0 0 1-10 0V4z"/></svg>
                         </div>
                         <div class="pb-arrow">
                             <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
                         </div>
                     </div>
-                </a>
+                </div>
 
-                <!-- 03 Educational Blog -->
+                <!-- 03 Educational Blog — public -->
                 <a href="/Blog/index.html" class="platform-btn">
                     <div class="pb-left">
                         <span class="pb-number">03</span>
@@ -907,7 +890,6 @@
                     <div class="pb-right">
                         <span class="pb-tag dev">In Development</span>
                         <div class="pb-icon">
-                            <!-- open book icon -->
                             <svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
                         </div>
                         <div class="pb-arrow">
@@ -916,7 +898,7 @@
                     </div>
                 </a>
 
-                <!-- 04 Resources -->
+                <!-- 04 Resources — public -->
                 <a href="/resources/index.html" class="platform-btn">
                     <div class="pb-left">
                         <span class="pb-number">04</span>
@@ -928,7 +910,6 @@
                     <div class="pb-right">
                         <span class="pb-tag">Live</span>
                         <div class="pb-icon">
-                            <!-- layers icon -->
                             <svg viewBox="0 0 24 24"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
                         </div>
                         <div class="pb-arrow">
@@ -937,7 +918,7 @@
                     </div>
                 </a>
 
-                <!-- 05 Community Network -->
+                <!-- 05 Community Network — public -->
                 <a href="/net/index.html" class="platform-btn">
                     <div class="pb-left">
                         <span class="pb-number">05</span>
@@ -949,7 +930,6 @@
                     <div class="pb-right">
                         <span class="pb-tag">Live</span>
                         <div class="pb-icon">
-                            <!-- globe / network icon -->
                             <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
                         </div>
                         <div class="pb-arrow">
@@ -978,10 +958,8 @@
                     </div>
                     <a href="/net/index.html" class="view-all-link">View full artist directory &nbsp;→</a>
                 </div>
-
-                <!-- Empty container — populated by renderProfiles() -->
                 <div id="artist-grid-container" class="artist-grid">
-                    <!-- JS will inject cards here -->
+                    <div class="artist-empty">Search for artists above to see results.</div>
                 </div>
             </div>
         </div>
@@ -1018,7 +996,8 @@
                     <p class="section-label">Your Identity</p>
                     <h2>Build your professional origami profile</h2>
                     <p>Create your page on SIOA — link your Instagram, YouTube, and social handles. List your specialties, competition history, and teaching credentials. Be discovered by the community and the world.</p>
-                    <a href="/dashbord/index.html" class="btn-members">
+                    <!-- routes to login for guests, dashboard for logged-in -->
+                    <a href="/login/index.html" id="profileCtaBtn" class="btn-members">
                         <span>Create Your Profile</span>
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
                     </a>
@@ -1083,7 +1062,6 @@
 
                 <a href="/Blog/index.html" class="connect-card">
                     <div class="connect-icon-wrap">
-                        <!-- pen / article icon -->
                         <svg viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
                     </div>
                     <div class="connect-title">Educational Blog</div>
@@ -1093,7 +1071,6 @@
 
                 <a href="/resources/index.html" class="connect-card">
                     <div class="connect-icon-wrap">
-                        <!-- download / resource icon -->
                         <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
                     </div>
                     <div class="connect-title">Resources</div>
@@ -1103,7 +1080,6 @@
 
                 <a href="/net/index.html" class="connect-card">
                     <div class="connect-icon-wrap">
-                        <!-- network / share icon -->
                         <svg viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
                     </div>
                     <div class="connect-title">Community Network</div>
@@ -1127,8 +1103,8 @@
                 <div class="footer-col">
                     <h4>Platform</h4>
                     <ul>
-                        <li><a href="dashbord/index.html">Dashboard</a></li>
-                        <li><a href="#profiles">Artist Profiles</a></li>
+                        <li><a href="javascript:void(0)" onclick="authGate('/dashbord/index.html')">Dashboard</a></li>
+                        <li><a href="javascript:void(0)" onclick="authGate('/dashbord/index.html')">Artist Profiles</a></li>
                         <li><a href="/resources/index.html">Resources</a></li>
                         <li><a href="/Blog/index.html">Blog</a></li>
                     </ul>
@@ -1138,14 +1114,14 @@
                     <ul>
                         <li><a href="/net/index.html">Network</a></li>
                         <li><a href="#search-artists">Find Artists</a></li>
-                        <li><a href="#competition">Competition</a></li>
+                        <li><a href="javascript:void(0)" onclick="authGate('/dashbord/competition.html')">Competition</a></li>
                     </ul>
                 </div>
                 <div class="footer-col">
                     <h4>Organisation</h4>
                     <ul>
                         <li><a href="#about">About SIOA</a></li>
-                        <li><a href="/membes/index.html">Members</a></li>
+                        <li><a href="/members/index.html">Members</a></li>
                         <li><a href="mailto:sioa.paper@gmail.com">Contact</a></li>
                     </ul>
                 </div>
@@ -1158,228 +1134,224 @@
         </div>
     </footer>
 
-   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script>
-const sb = window.supabase.createClient(
-  "https://zbgvgzzaejaxrgcjjovc.supabase.co",
-  "sb_publishable_gCLTB6WM95Iw6Txcf2fjCA_5fnXPw77"
-);
-
-(async function () {
-  const { data } = await sb.auth.getUser();
-
-  if (data.user) {
-    const createBtn = document.getElementById("createAccountBtn");
-    if (createBtn) createBtn.style.display = "none";
-
-    const mainBtn = document.getElementById("mainCtaBtn");
-    if (mainBtn) {
-      mainBtn.textContent = "Go to Dashboard";
-      mainBtn.href = "/login/app/loggedin.html";
-    }
-  }
-})();
-        // On page load — show empty state until data arrives
-    const logoutBtn = document.getElementById('logoutBtn');
-
-if (logoutBtn) {
-    logoutBtn.addEventListener('click', async function (e) {
-        e.preventDefault();
-
-        await sb.auth.signOut();
-
-        window.location.href = '/';
-    });
-}
-
-
-
-        /* ─────────────────────────────────────────────────────────────
-           SMOOTH SCROLL
-        ───────────────────────────────────────────────────────────── */
-        document.querySelectorAll('a[href^="#"]').forEach(function(link) {
-            link.addEventListener('click', function(e) {
-                var href = link.getAttribute('href');
-                if (href === '#') return;
-                e.preventDefault();
-                var target = document.querySelector(href);
-                if (target) {
-                    var offset = document.querySelector('.navbar').offsetHeight + 20;
-                    window.scrollTo({ top: target.offsetTop - offset, behavior: 'smooth' });
-                    document.getElementById('navMenu').classList.remove('active');
-                    document.getElementById('menuToggle').classList.remove('active');
-                }
-            });
-        });
-
-        /* ─────────────────────────────────────────────────────────────
-           MOBILE MENU
-        ───────────────────────────────────────────────────────────── */
-        var menuToggle = document.getElementById('menuToggle');
-        var navMenu    = document.getElementById('navMenu');
-        menuToggle.addEventListener('click', function() {
-            navMenu.classList.toggle('active');
-            menuToggle.classList.toggle('active');
-        });
-
-        /* ─────────────────────────────────────────────────────────────
-           NAVBAR SCROLL BEHAVIOUR
-        ───────────────────────────────────────────────────────────── */
-        // PROFILE ICON → DASHBOARD
-var navUser = document.getElementById('navUser');
-
-if (navUser) {
-    navUser.addEventListener('click', function () {
-        window.location.href = '/login/app/loggedin.html';
-    });
-}
-
-        var navbar = document.querySelector('.navbar');
-        var lastScrollY = window.scrollY;
-        window.addEventListener('scroll', function() {
-            var curr = window.scrollY;
-            navbar.classList.toggle('scrolled', curr > 50);
-            if (curr > lastScrollY && curr > 200) navbar.classList.add('hidden');
-            else navbar.classList.remove('hidden');
-            if (curr < 10) navbar.classList.remove('hidden');
-            lastScrollY = curr;
-        });
-
-        /* ─────────────────────────────────────────────────────────────
-           FILTER CHIPS
-        ───────────────────────────────────────────────────────────── */
-        document.querySelectorAll('.filter-chip').forEach(function(chip) {
-            chip.addEventListener('click', function() {
-                document.querySelectorAll('.filter-chip').forEach(function(c) { c.classList.remove('active'); });
-                chip.classList.add('active');
-                // Expose active filter to external code: window.currentFilter = chip.dataset.filter
-                window.currentFilter = chip.dataset.filter;
-            });
-        });
-
-        /* ─────────────────────────────────────────────────────────────
-           SEARCH INPUT — wire to external handler if needed
-        ───────────────────────────────────────────────────────────── */
-        document.getElementById('searchBtn').addEventListener('click', function() {
-            var query = document.getElementById('searchInput').value.trim();
-            if (typeof window.onProfileSearch === 'function') {
-                window.onProfileSearch(query);
-            }
-        });
-        document.getElementById('searchInput').addEventListener('keydown', function(e) {
-            if (e.key === 'Enter') document.getElementById('searchBtn').click();
-        });
-
-        /* ─────────────────────────────────────────────────────────────
-           PARTICLE CANVAS
-        ───────────────────────────────────────────────────────────── */
-        var canvas = document.getElementById('bg-canvas');
-        var ctx = canvas.getContext('2d');
-        function resize() { canvas.width = window.innerWidth; canvas.height = document.documentElement.scrollHeight; }
-        resize(); window.addEventListener('resize', resize);
-
-        function Particle() { this.reset(); this.y = Math.random() * canvas.height; }
-        Particle.prototype.reset = function() {
-            this.x = Math.random() * canvas.width; this.y = -10;
-            this.size = Math.random() * 3 + 1; this.speedY = Math.random() * 0.3 + 0.1;
-            this.speedX = (Math.random() - 0.5) * 0.2; this.opacity = Math.random() * 0.5 + 0.3;
-            this.hue = Math.random() * 40 + 180;
-        };
-        Particle.prototype.update = function() {
-            this.y += this.speedY; this.x += this.speedX + Math.sin(this.y * 0.01) * 0.3;
-            if (this.y > canvas.height + 10) this.reset();
-            if (this.x < 0) this.x = canvas.width;
-            if (this.x > canvas.width) this.x = 0;
-        };
-        Particle.prototype.draw = function() {
-            ctx.save(); ctx.globalAlpha = this.opacity;
-            ctx.fillStyle = 'hsl(' + this.hue + ',70%,50%)'; ctx.shadowBlur = 15;
-            ctx.shadowColor = 'hsl(' + this.hue + ',70%,50%)';
-            ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI*2); ctx.fill(); ctx.restore();
-        };
-
-        var particles = [];
-        for (var i = 0; i < 80; i++) particles.push(new Particle());
-
-        (function animate() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            for (var i = 0; i < particles.length; i++) {
-                for (var j = i+1; j < particles.length; j++) {
-                    var dx = particles[i].x - particles[j].x, dy = particles[i].y - particles[j].y;
-                    var d = Math.sqrt(dx*dx + dy*dy);
-                    if (d < 150) {
-                        ctx.save(); ctx.globalAlpha = (1-d/150)*0.15;
-                        ctx.strokeStyle = 'hsl(190,70%,50%)'; ctx.lineWidth = 1;
-                        ctx.beginPath(); ctx.moveTo(particles[i].x, particles[i].y);
-                        ctx.lineTo(particles[j].x, particles[j].y); ctx.stroke(); ctx.restore();
-                    }
-                }
-            }
-            particles.forEach(function(p) { p.update(); p.draw(); });
-            requestAnimationFrame(animate);
-        })();
-
-        /* ─────────────────────────────────────────────────────────────
-           SCROLL REVEAL
-        ───────────────────────────────────────────────────────────── */
-        var io = new IntersectionObserver(function(entries) {
-            entries.forEach(function(e) { if (e.isIntersecting) e.target.classList.add('visible'); });
-        }, { threshold: 0.1, rootMargin: '0px 0px -60px 0px' });
-        document.querySelectorAll('.fade-in-section').forEach(function(el) { io.observe(el); });
-    </script>
+    <!-- ══ SUPABASE (single instance) ══ -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script>
-(function () {
+    <script>
+    /* ================================================================
+       AUTH STATE — single source of truth
+       isLoggedIn is set once after the session check resolves.
+       All buttons/gates read from this flag.
+    ================================================================ */
+    const SUPABASE_URL = "https://zbgvgzzaejaxrgcjjovc.supabase.co";
+    const SUPABASE_KEY = "sb_publishable_gCLTB6WM95Iw6Txcf2fjCA_5fnXPw77";
+    const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-  const client = window.supabase.createClient(
-    "https://zbgvgzzaejaxrgcjjovc.supabase.co",
-    "sb_publishable_gCLTB6WM95Iw6Txcf2fjCA_5fnXPw77"
-  );
+    let isLoggedIn = false;   // updated after auth resolves
 
-  client.auth.getSession()
-    .then(function (res) {
+    /* Gate: redirect logged-out users to login, logged-in to destination */
+    function authGate(destination) {
+        if (isLoggedIn) {
+            window.location.href = destination;
+        } else {
+            window.location.href = '/login/index.html';
+        }
+    }
 
-      if (!res || !res.data) return;
+    /* Run auth check immediately */
+    (async function initAuth() {
+        try {
+            const { data } = await sb.auth.getSession();
+            isLoggedIn = !!(data && data.session && data.session.user);
+        } catch (e) {
+            isLoggedIn = false;
+        }
 
-    })
-    .catch(function (err) {
-      console.error("Auth check failed:", err);
+        /* ── Update UI based on auth state ── */
+        const mainCtaBtn   = document.getElementById('mainCtaBtn');
+        const profileCtaBtn = document.getElementById('profileCtaBtn');
+        const navAuthItem  = document.getElementById('navAuthItem');
+
+        if (isLoggedIn) {
+            /* Hero CTA → dashboard */
+            if (mainCtaBtn) {
+                mainCtaBtn.textContent = 'Go to Dashboard';
+                mainCtaBtn.href = '/login/app/loggedin.html';
+            }
+            /* Profile section CTA → dashboard */
+            if (profileCtaBtn) {
+                profileCtaBtn.querySelector('span').textContent = 'Go to Dashboard';
+                profileCtaBtn.href = '/login/app/loggedin.html';
+            }
+            /* Nav: show Logout */
+            if (navAuthItem) {
+                navAuthItem.innerHTML = '<a href="#" id="logoutBtn" class="nav-btn">Logout</a>';
+                document.getElementById('logoutBtn').addEventListener('click', async function(e) {
+                    e.preventDefault();
+                    await sb.auth.signOut();
+                    window.location.href = '/';
+                });
+            }
+        } else {
+            /* Guest: hero CTA → login */
+            if (mainCtaBtn) {
+                mainCtaBtn.textContent = 'Create Your Profile';
+                mainCtaBtn.href = '/login/index.html';
+            }
+            /* Profile section CTA → login */
+            if (profileCtaBtn) {
+                profileCtaBtn.querySelector('span').textContent = 'Create Your Profile';
+                profileCtaBtn.href = '/login/index.html';
+            }
+            /* Nav: show Login */
+            if (navAuthItem) {
+                navAuthItem.innerHTML = '<a href="/login/index.html" class="nav-btn">Login</a>';
+            }
+        }
+    })();
+
+    /* ================================================================
+       SEARCH
+    ================================================================ */
+    const searchInput = document.getElementById('searchInput');
+    const searchBtn   = document.getElementById('searchBtn');
+    const grid        = document.getElementById('artist-grid-container');
+
+    function renderProfiles(data) {
+        if (!data || data.length === 0) {
+            grid.innerHTML = '<div class="artist-empty">No artists found. Try a different search.</div>';
+            return;
+        }
+        grid.innerHTML = data.map(function(p) {
+            var initials = (p.full_name || p.username || '?').split(' ').map(function(w){ return w[0]; }).join('').slice(0,2).toUpperCase();
+            var city = [p.city, p.state].filter(Boolean).join(', ') || '—';
+            return '<div class="artist-card" onclick="window.location.href=\'/artists/index.html?u=' + encodeURIComponent(p.username || '') + '\'">'
+                + '<div class="artist-avatar">' + initials + '</div>'
+                + '<div class="artist-name">' + (p.full_name || p.username || '—') + '</div>'
+                + '<div class="artist-city">' + city + '</div>'
+                + '<span class="artist-tag">' + (p.specialty || 'Origami') + '</span>'
+                + '</div>';
+        }).join('');
+    }
+
+    async function performSearch() {
+        var query = searchInput.value.trim();
+        if (!query) {
+            grid.innerHTML = '<div class="artist-empty">Type something to search.</div>';
+            return;
+        }
+        grid.innerHTML = '<div class="artist-empty">Searching…</div>';
+        try {
+            var res = await sb
+                .from('profiles')
+                .select('id, full_name, username, city, state, specialty')
+                .or('full_name.ilike.%' + query + '%,username.ilike.%' + query + '%,city.ilike.%' + query + '%,specialty.ilike.%' + query + '%')
+                .limit(20);
+            if (res.error) throw res.error;
+            renderProfiles(res.data);
+        } catch(err) {
+            console.error(err);
+            grid.innerHTML = '<div class="artist-empty">Error loading results. Please try again.</div>';
+        }
+    }
+
+    searchBtn.addEventListener('click', performSearch);
+    searchInput.addEventListener('keydown', function(e) { if (e.key === 'Enter') performSearch(); });
+
+    /* ================================================================
+       NAV SCROLL
+    ================================================================ */
+    var navbar   = document.querySelector('.navbar');
+    var lastY    = window.scrollY;
+    window.addEventListener('scroll', function() {
+        var y = window.scrollY;
+        navbar.classList.toggle('scrolled', y > 50);
+        navbar.classList.toggle('hidden', y > lastY && y > 200);
+        if (y < 10) navbar.classList.remove('hidden');
+        lastY = y;
     });
-const searchInput = document.getElementById('searchInput');
-const searchBtn = document.getElementById('searchBtn');
-const grid = document.getElementById('artist-grid-container');
 
-async function performSearch() {
-    const query = searchInput.value.trim();
+    /* ================================================================
+       MOBILE MENU
+    ================================================================ */
+    var menuToggle = document.getElementById('menuToggle');
+    var navMenu    = document.getElementById('navMenu');
+    menuToggle.addEventListener('click', function() {
+        navMenu.classList.toggle('active');
+        menuToggle.classList.toggle('active');
+    });
 
-    if (!query) {
-        grid.innerHTML = '<div class="artist-empty">Type something to search.</div>';
-        return;
-    }
+    /* ================================================================
+       SMOOTH SCROLL
+    ================================================================ */
+    document.querySelectorAll('a[href^="#"]').forEach(function(link) {
+        link.addEventListener('click', function(e) {
+            var href = link.getAttribute('href');
+            if (href === '#') return;
+            e.preventDefault();
+            var target = document.querySelector(href);
+            if (target) {
+                var offset = navbar.offsetHeight + 20;
+                window.scrollTo({ top: target.offsetTop - offset, behavior: 'smooth' });
+                navMenu.classList.remove('active');
+                menuToggle.classList.remove('active');
+            }
+        });
+    });
 
-    const { data, error } = await sb
-        .from('profiles')
-        .select('id, full_name, username, city, state, specialty, created_at')
-        .or(`full_name.ilike.%${query}%,username.ilike.%${query}%,city.ilike.%${query}%,specialty.ilike.%${query}%`)
-        .limit(20);
+    /* ================================================================
+       SCROLL REVEAL
+    ================================================================ */
+    var io = new IntersectionObserver(function(entries) {
+        entries.forEach(function(e) { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.1, rootMargin: '0px 0px -60px 0px' });
+    document.querySelectorAll('.fade-in-section, .section-header').forEach(function(el) { io.observe(el); });
 
-    if (error) {
-        console.error(error);
-        grid.innerHTML = '<div class="artist-empty">Error loading artists.</div>';
-        return;
-    }
+    /* ================================================================
+       PARTICLE CANVAS
+    ================================================================ */
+    var canvas = document.getElementById('bg-canvas');
+    var ctx    = canvas.getContext('2d');
+    function resize() { canvas.width = window.innerWidth; canvas.height = document.documentElement.scrollHeight; }
+    resize(); window.addEventListener('resize', resize);
 
-    renderProfiles(data);
-}
-
-searchBtn.addEventListener('click', performSearch);
-
-searchInput.addEventListener('keydown', function(e) {
-    if (e.key === 'Enter') performSearch();
-});
-
-})();
-</script>
-
+    function Particle() { this.reset(); this.y = Math.random() * canvas.height; }
+    Particle.prototype.reset = function() {
+        this.x = Math.random() * canvas.width; this.y = -10;
+        this.size = Math.random() * 3 + 1; this.speedY = Math.random() * 0.3 + 0.1;
+        this.speedX = (Math.random() - 0.5) * 0.2; this.opacity = Math.random() * 0.5 + 0.3;
+        this.hue = Math.random() * 40 + 180;
+    };
+    Particle.prototype.update = function() {
+        this.y += this.speedY; this.x += this.speedX + Math.sin(this.y * 0.01) * 0.3;
+        if (this.y > canvas.height + 10) this.reset();
+        if (this.x < 0) this.x = canvas.width;
+        if (this.x > canvas.width) this.x = 0;
+    };
+    Particle.prototype.draw = function() {
+        ctx.save(); ctx.globalAlpha = this.opacity;
+        ctx.fillStyle = 'hsl(' + this.hue + ',70%,50%)'; ctx.shadowBlur = 15;
+        ctx.shadowColor = 'hsl(' + this.hue + ',70%,50%)';
+        ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI*2); ctx.fill(); ctx.restore();
+    };
+    var particles = [];
+    for (var i = 0; i < 80; i++) particles.push(new Particle());
+    (function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        for (var i = 0; i < particles.length; i++) {
+            for (var j = i+1; j < particles.length; j++) {
+                var dx = particles[i].x - particles[j].x, dy = particles[i].y - particles[j].y;
+                var d = Math.sqrt(dx*dx + dy*dy);
+                if (d < 150) {
+                    ctx.save(); ctx.globalAlpha = (1-d/150)*0.15;
+                    ctx.strokeStyle = 'hsl(190,70%,50%)'; ctx.lineWidth = 1;
+                    ctx.beginPath(); ctx.moveTo(particles[i].x, particles[i].y);
+                    ctx.lineTo(particles[j].x, particles[j].y); ctx.stroke(); ctx.restore();
+                }
+            }
+        }
+        particles.forEach(function(p) { p.update(); p.draw(); });
+        requestAnimationFrame(animate);
+    })();
+    </script>
 </body>
 </html>
