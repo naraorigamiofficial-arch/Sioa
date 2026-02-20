@@ -21,6 +21,7 @@
         body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(45,137,176,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(45,137,176,0.025) 1px,transparent 1px);background-size:52px 52px;pointer-events:none;z-index:0}
         .glow-orb{position:fixed;top:-200px;left:30%;width:600px;height:600px;background:radial-gradient(circle,rgba(45,137,176,0.07) 0%,transparent 68%);pointer-events:none;z-index:0}
         .glow-orb-2{position:fixed;bottom:-100px;right:10%;width:400px;height:400px;background:radial-gradient(circle,rgba(26,95,122,0.05) 0%,transparent 65%);pointer-events:none;z-index:0}
+
         /* TOPBAR */
         .topbar{position:fixed;top:0;left:0;right:0;z-index:200;height:58px;background:rgba(4,8,15,0.92);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 28px;gap:8px}
         .topbar-logo{font-family:'DM Serif Display',serif;font-size:20px;letter-spacing:0.14em;color:var(--text);text-decoration:none;margin-right:auto}
@@ -36,23 +37,40 @@
         .btn-topbar-ghost:hover{color:var(--text);border-color:var(--border-cyan)}
         .btn-topbar-solid{color:#fff;background:var(--cyan)}
         .btn-topbar-solid:hover{background:#3899c4}
+
         /* SHELL */
         .shell{position:relative;z-index:1;padding-top:58px;min-height:100vh}
+
         /* HERO */
-        .profile-hero-banner{position:relative;overflow:hidden;background:linear-gradient(180deg,rgba(8,18,36,0.9) 0%,rgba(4,8,15,1) 100%);border-bottom:1px solid var(--border);padding:60px 0 0}
+        .profile-hero-banner{position:relative;overflow:hidden;background:linear-gradient(180deg,rgba(8,18,36,0.9) 0%,rgba(4,8,15,1) 100%);border-bottom:1px solid var(--border);padding:48px 0 0}
         .profile-hero-banner::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(-35deg,transparent 0px,transparent 60px,rgba(45,137,176,0.018) 60px,rgba(45,137,176,0.018) 61px);pointer-events:none}
-        .hero-inner{max-width:900px;margin:0 auto;padding:0 40px;display:flex;align-items:flex-end;gap:28px;position:relative;z-index:1}
-        .avatar-hero{width:100px;height:100px;border-radius:50%;flex-shrink:0;background:linear-gradient(135deg,#1a5f7a 0%,#2d89b0 100%);border:3px solid rgba(45,137,176,0.4);display:flex;align-items:center;justify-content:center;font-family:'DM Serif Display',serif;font-size:36px;color:#fff;box-shadow:0 0 40px rgba(45,137,176,0.25),0 0 80px rgba(45,137,176,0.08);position:relative;bottom:-20px;animation:fadeUp 0.5s cubic-bezier(0.16,1,0.3,1) both}
-        .hero-meta-col{flex:1;min-width:0;padding-bottom:28px;animation:fadeUp 0.5s cubic-bezier(0.16,1,0.3,1) 0.06s both}
+
+        /* FIX: hero-inner uses center alignment, avatar no longer uses bottom offset */
+        .hero-inner{max-width:900px;margin:0 auto;padding:0 40px;display:flex;align-items:center;gap:28px;position:relative;z-index:1;padding-bottom:28px}
+        .avatar-hero{
+            width:100px;height:100px;
+            border-radius:50%;
+            flex-shrink:0;
+            background:linear-gradient(135deg,#1a5f7a 0%,#2d89b0 100%);
+            border:3px solid rgba(45,137,176,0.4);
+            display:flex;align-items:center;justify-content:center;
+            font-family:'DM Serif Display',serif;font-size:36px;color:#fff;
+            box-shadow:0 0 40px rgba(45,137,176,0.25),0 0 80px rgba(45,137,176,0.08);
+            animation:fadeUp 0.5s cubic-bezier(0.16,1,0.3,1) both;
+            /* FIX: removed position:relative; bottom:-20px */
+        }
+        .hero-meta-col{flex:1;min-width:0;animation:fadeUp 0.5s cubic-bezier(0.16,1,0.3,1) 0.06s both}
         .hero-eyebrow{font-size:10px;font-weight:600;letter-spacing:0.24em;text-transform:uppercase;color:var(--cyan);margin-bottom:6px}
         .hero-name{font-family:'DM Serif Display',serif;font-size:32px;letter-spacing:0.02em;color:var(--text);line-height:1.15;margin-bottom:4px}
         .hero-handle{font-size:14px;color:var(--cyan-light);margin-bottom:10px;letter-spacing:0.04em}
         .hero-location{font-size:12px;color:var(--muted-2);display:flex;align-items:center;gap:5px;margin-bottom:10px}
         .hero-location svg{width:12px;height:12px;flex-shrink:0}
-        .specialty-row{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}
+        .specialty-row{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:4px}
         .spec-tag{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:100px;background:rgba(45,137,176,0.12);border:1px solid rgba(45,137,176,0.3);font-size:11px;font-weight:500;color:var(--cyan-light);letter-spacing:0.05em}
         .spec-tag::before{content:'';width:4px;height:4px;border-radius:50%;background:var(--cyan-light);opacity:0.7}
-        .hero-actions-col{display:flex;flex-direction:column;align-items:flex-end;gap:10px;padding-bottom:28px;animation:fadeUp 0.5s cubic-bezier(0.16,1,0.3,1) 0.1s both}
+
+        /* FIX: actions col no longer needs padding-bottom compensation */
+        .hero-actions-col{display:flex;flex-direction:column;align-items:flex-end;gap:10px;animation:fadeUp 0.5s cubic-bezier(0.16,1,0.3,1) 0.1s both}
         .btn-follow{display:inline-flex;align-items:center;gap:8px;padding:10px 24px;border-radius:8px;background:var(--cyan);color:#fff;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;letter-spacing:0.06em;border:none;cursor:pointer;transition:all 0.2s}
         .btn-follow:hover{background:#3899c4;transform:translateY(-1px);box-shadow:0 6px 20px rgba(45,137,176,0.35)}
         .btn-follow.following{background:transparent;border:1px solid rgba(45,137,176,0.4);color:var(--cyan-light)}
@@ -60,12 +78,18 @@
         .badge-active{display:inline-flex;align-items:center;gap:5px;padding:4px 12px;border-radius:100px;background:var(--cyan-dim);border:1px solid var(--border-cyan);font-size:10px;font-weight:500;letter-spacing:0.1em;color:var(--cyan-light);text-transform:uppercase}
         .badge-dot{width:5px;height:5px;border-radius:50%;background:var(--cyan-light);animation:blink 2.2s ease-in-out infinite}
         @keyframes blink{0%,100%{opacity:1}50%{opacity:0.2}}
-        .stats-strip{max-width:900px;margin:20px auto 0;padding:0 40px;position:relative;z-index:1;border-top:1px solid var(--border);display:flex;animation:fadeUp 0.5s cubic-bezier(0.16,1,0.3,1) 0.14s both}
-        .stat-cell{flex:1;padding:18px 0;display:flex;flex-direction:column;align-items:center;border-right:1px solid var(--border)}
+
+        /* STATS STRIP */
+        .stats-strip{max-width:900px;margin:0 auto;padding:0 40px;position:relative;z-index:1;border-top:1px solid var(--border);display:flex;animation:fadeUp 0.5s cubic-bezier(0.16,1,0.3,1) 0.14s both}
+        .stat-cell{flex:1;padding:18px 0;display:flex;flex-direction:column;align-items:center;border-right:1px solid var(--border);transition:background 0.15s}
         .stat-cell:last-child{border-right:none}
-        .stat-n{font-family:'DM Serif Display',serif;font-size:24px;color:var(--text);margin-bottom:2px}
+        .stat-cell.clickable{cursor:pointer}
+        .stat-cell.clickable:hover{background:rgba(45,137,176,0.06)}
+        .stat-cell.clickable:hover .stat-n{color:var(--cyan-light)}
+        .stat-n{font-family:'DM Serif Display',serif;font-size:24px;color:var(--text);margin-bottom:2px;transition:color 0.15s}
         .stat-l{font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:var(--muted-2)}
         @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+
         /* BODY */
         .page-body{max-width:900px;margin:0 auto;padding:40px 40px 80px;display:grid;grid-template-columns:1fr 280px;gap:28px;align-items:start}
         .card{background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden;animation:fadeUp 0.5s cubic-bezier(0.16,1,0.3,1) both}
@@ -122,7 +146,31 @@
         .loading-text{font-size:13px;color:var(--muted-2)}
         .toast{position:fixed;bottom:28px;right:28px;z-index:9999;padding:12px 20px;background:rgba(8,14,26,0.97);border:1px solid var(--border-cyan);border-radius:8px;font-size:13px;color:var(--text);box-shadow:0 8px 28px rgba(0,0,0,0.5);transform:translateY(16px);opacity:0;transition:all 0.3s cubic-bezier(0.16,1,0.3,1);pointer-events:none}
         .toast.show{transform:translateY(0);opacity:1}
-        @media(max-width:760px){.page-body{grid-template-columns:1fr;padding:28px 20px 60px}.hero-inner{padding:0 20px;flex-wrap:wrap}.stats-strip{padding:0 20px}.hero-actions-col{align-items:flex-start}.hero-name{font-size:24px}.avatar-hero{width:80px;height:80px;font-size:28px}}
+
+        /* MODAL */
+        .modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,0.65);backdrop-filter:blur(4px);z-index:500;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity 0.22s}
+        .modal-backdrop.open{opacity:1;pointer-events:all}
+        .modal-tile{background:var(--surface);border:1px solid var(--border-mid);border-radius:16px;width:100%;max-width:400px;max-height:80vh;display:flex;flex-direction:column;box-shadow:0 24px 64px rgba(0,0,0,0.6),0 0 0 1px rgba(45,137,176,0.08);transform:translateY(12px) scale(0.98);transition:transform 0.22s cubic-bezier(0.16,1,0.3,1);overflow:hidden}
+        .modal-backdrop.open .modal-tile{transform:translateY(0) scale(1)}
+        .modal-head{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid var(--border);flex-shrink:0}
+        .modal-title{font-family:'DM Serif Display',serif;font-size:18px;color:var(--text)}
+        .modal-close{width:30px;height:30px;border-radius:50%;border:1px solid var(--border-mid);background:rgba(255,255,255,0.04);color:var(--muted);font-size:16px;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.16s;flex-shrink:0}
+        .modal-close:hover{border-color:var(--border-cyan);color:var(--text);background:rgba(45,137,176,0.1)}
+        .modal-list{overflow-y:auto;flex:1;padding:8px 0}
+        .modal-list::-webkit-scrollbar{width:4px}
+        .modal-list::-webkit-scrollbar-track{background:transparent}
+        .modal-list::-webkit-scrollbar-thumb{background:rgba(45,137,176,0.25);border-radius:4px}
+        .modal-user-item{display:flex;align-items:center;gap:14px;padding:12px 20px;text-decoration:none;transition:background 0.14s;cursor:pointer}
+        .modal-user-item:hover{background:rgba(255,255,255,0.035)}
+        .modal-user-avatar{width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,#1a5f7a,#2d89b0);border:2px solid rgba(45,137,176,0.3);display:flex;align-items:center;justify-content:center;font-family:'DM Serif Display',serif;font-size:15px;color:#fff;flex-shrink:0}
+        .modal-user-name{font-size:14px;font-weight:500;color:var(--text)}
+        .modal-user-handle{font-size:12px;color:var(--cyan-light);margin-top:1px}
+        .modal-empty{padding:40px 20px;text-align:center;font-size:13px;color:var(--muted-2);font-style:italic}
+        .modal-loading{padding:32px 20px;text-align:center}
+        .modal-loading-pulse{width:28px;height:28px;border-radius:50%;border:2px solid rgba(45,137,176,0.15);border-top-color:var(--cyan-light);animation:spin 0.8s linear infinite;margin:0 auto 10px}
+        .modal-loading-text{font-size:12px;color:var(--muted-2)}
+
+        @media(max-width:760px){.page-body{grid-template-columns:1fr;padding:28px 20px 60px}.hero-inner{padding:0 20px 28px;flex-wrap:wrap}.stats-strip{padding:0 20px}.hero-actions-col{align-items:flex-start}.hero-name{font-size:24px}.avatar-hero{width:80px;height:80px;font-size:28px}.modal-tile{max-width:92vw;margin:0 16px}}
         @media(max-width:540px){.topbar-nav{display:none}.stat-n{font-size:18px}}
     </style>
 </head>
@@ -139,6 +187,22 @@
     </nav>
     <div id="topbar-auth-area" style="display:flex;align-items:center;gap:8px;margin-left:10px;"></div>
 </header>
+
+<!-- FOLLOWERS / FOLLOWING MODAL -->
+<div class="modal-backdrop" id="modal-backdrop" role="dialog" aria-modal="true">
+    <div class="modal-tile">
+        <div class="modal-head">
+            <span class="modal-title" id="modal-title">Followers</span>
+            <button class="modal-close" id="modal-close" aria-label="Close">✕</button>
+        </div>
+        <div class="modal-list" id="modal-list">
+            <div class="modal-loading">
+                <div class="modal-loading-pulse"></div>
+                <div class="modal-loading-text">Loading…</div>
+            </div>
+        </div>
+    </div>
+</div>
 
 <div class="shell">
     <div class="loading-wrap" id="loading-state">
@@ -177,8 +241,14 @@
                 </div>
             </div>
             <div class="stats-strip">
-                <div class="stat-cell"><div class="stat-n" id="stat-followers">0</div><div class="stat-l">Followers</div></div>
-                <div class="stat-cell"><div class="stat-n" id="stat-following">0</div><div class="stat-l">Following</div></div>
+                <div class="stat-cell clickable" id="cell-followers" title="View followers">
+                    <div class="stat-n" id="stat-followers">0</div>
+                    <div class="stat-l">Followers</div>
+                </div>
+                <div class="stat-cell clickable" id="cell-following" title="View following">
+                    <div class="stat-n" id="stat-following">0</div>
+                    <div class="stat-l">Following</div>
+                </div>
                 <div class="stat-cell"><div class="stat-n" id="stat-posts">0</div><div class="stat-l">Posts</div></div>
                 <div class="stat-cell"><div class="stat-n" id="stat-entries">0</div><div class="stat-l">Competition Entries</div></div>
             </div>
@@ -222,6 +292,66 @@
 
     let currentUser=null,profileUserId=null,isFollowing=false;
 
+    /* ── MODAL ── */
+    const backdrop=el('modal-backdrop');
+    const modalList=el('modal-list');
+    const modalTitle=el('modal-title');
+
+    function openModal(type){
+        modalTitle.textContent=type==='followers'?'Followers':'Following';
+        modalList.innerHTML=`<div class="modal-loading"><div class="modal-loading-pulse"></div><div class="modal-loading-text">Loading…</div></div>`;
+        backdrop.classList.add('open');
+        document.body.style.overflow='hidden';
+        loadModalUsers(type);
+    }
+    function closeModal(){
+        backdrop.classList.remove('open');
+        document.body.style.overflow='';
+    }
+    el('modal-close').addEventListener('click',closeModal);
+    backdrop.addEventListener('click',e=>{if(e.target===backdrop)closeModal()});
+    document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal()});
+
+    async function loadModalUsers(type){
+        try{
+            let userIds=[];
+            if(type==='followers'){
+                // people who follow this profile
+                const{data}=await sb.from('follow').select('follower_id').eq('following_id',profileUserId).limit(100);
+                userIds=(data||[]).map(r=>r.follower_id);
+            } else {
+                // people this profile follows
+                const{data}=await sb.from('follow').select('following_id').eq('follower_id',profileUserId).limit(100);
+                userIds=(data||[]).map(r=>r.following_id);
+            }
+            if(!userIds.length){
+                modalList.innerHTML=`<div class="modal-empty">No ${type} yet.</div>`;
+                return;
+            }
+            const{data:profiles}=await sb.from('profiles').select('full_name,username').in('id',userIds);
+            if(!profiles||!profiles.length){
+                modalList.innerHTML=`<div class="modal-empty">No ${type} yet.</div>`;
+                return;
+            }
+            modalList.innerHTML=profiles.map(p=>{
+                const initials=getInitials(p.full_name,p.username);
+                const name=esc(p.full_name||p.username||'Artist');
+                const handle=p.username?'@'+esc(p.username):'';
+                const href=p.username?`/artist/index.html?u=${encodeURIComponent(p.username)}`:'#';
+                return`<a href="${href}" class="modal-user-item">
+                    <div class="modal-user-avatar">${initials}</div>
+                    <div>
+                        <div class="modal-user-name">${name}</div>
+                        ${handle?`<div class="modal-user-handle">${handle}</div>`:''}
+                    </div>
+                </a>`;
+            }).join('');
+        } catch(err){
+            modalList.innerHTML=`<div class="modal-empty">Could not load users.</div>`;
+        }
+    }
+
+    /* ── BOOT ── */
     async function boot(){
         try{const{data:{user}}=await sb.auth.getUser();currentUser=user}catch(e){currentUser=null}
         renderTopbar();
@@ -240,6 +370,11 @@
         isFollowing=(fcr.count||0)>0;
         renderHero(profile,fr.count||0,fgr.count||0,(pr.data||[]).length);
         renderBio(profile);renderPosts(pr.data||[]);renderSidebar(profile);renderFollowButton(profile);
+
+        // Wire up clickable stat cells
+        el('cell-followers').addEventListener('click',()=>openModal('followers'));
+        el('cell-following').addEventListener('click',()=>openModal('following'));
+
         el('loading-state').style.display='none';el('profile-content').style.display='block';
     }
 
@@ -253,7 +388,6 @@
                 el('topbar-name').textContent=(data.full_name||data.username||'Me').split(' ')[0];
             });
         } else {
-            // ── Guest: Sign In and Join SIOA both go to /login/login.html ──
             area.innerHTML=`
                 <a href="/login/login.html" class="btn-topbar btn-topbar-ghost">Sign In</a>
                 <a href="/login/login.html" class="btn-topbar btn-topbar-solid">Join SIOA</a>`;
@@ -283,7 +417,6 @@
         btn.style.display='inline-flex';
         updateFollowBtnUI();
         btn.addEventListener('click',async()=>{
-            // ── Not logged in → redirect to /login/login.html ──
             if(!currentUser){window.location.href='/login/login.html';return}
             if(isFollowing){
                 const{error}=await sb.from('follow').delete().eq('follower_id',currentUser.id).eq('following_id',profileUserId);
