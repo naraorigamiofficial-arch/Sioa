@@ -337,7 +337,7 @@
                 const initials=getInitials(p.full_name,p.username);
                 const name=esc(p.full_name||p.username||'Artist');
                 const handle=p.username?'@'+esc(p.username):'';
-                const href=p.username?`/artist/index.html?u=${encodeURIComponent(p.username)}`:'#';
+                const href=p.username?`/artists/index.html?u=${encodeURIComponent(p.username)}`:'#';
                 return`<a href="${href}" class="modal-user-item">
                     <div class="modal-user-avatar">${initials}</div>
                     <div>
