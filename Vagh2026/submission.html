@@ -1,0 +1,1036 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VAGH 2026 — Submit Your Entry | SIOA</title>
+<meta name="description" content="Submit your origami entry for VAGH 2026 — India's National Origami Competition by the Society of Indian Origami Artists.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --black: #000000;
+  --deep-blue: #0a1628;
+  --navy-blue: #0f2847;
+  --cyan-blue: #1a5f7a;
+  --bright-cyan: #2d89b0;
+  --metallic-blue: #4a90a4;
+  --light-cyan: #57a6bb;
+  --white: #e8f4f8;
+  --light-grey: #c5d9e0;
+  --step-active: var(--bright-cyan);
+  --step-done: #1a5f7a;
+  --step-idle: rgba(26,95,122,0.3);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Inter',-apple-system,sans-serif;background:var(--black);color:var(--white);overflow-x:hidden;padding-top:116px;}
+
+/* BETA BANNER */
+.beta-banner{position:fixed;top:0;left:0;right:0;z-index:1100;background:linear-gradient(90deg,rgba(15,40,71,0.98),rgba(26,95,122,0.95),rgba(15,40,71,0.98));border-bottom:1px solid rgba(45,137,176,0.35);padding:9px 20px;text-align:center;font-size:12px;letter-spacing:0.1em;color:var(--light-grey);display:flex;align-items:center;justify-content:center;gap:12px;}
+.beta-badge{background:var(--bright-cyan);color:var(--black);font-size:9px;font-weight:800;letter-spacing:0.2em;padding:3px 9px;border-radius:3px;}
+
+/* NAVBAR */
+.navbar{position:fixed;top:36px;left:0;right:0;z-index:1000;background:rgba(0,0,0,0.85);backdrop-filter:blur(10px);border-bottom:1px solid rgba(26,95,122,0.15);padding:25px 0;transition:all 0.4s cubic-bezier(0.16,1,0.3,1);}
+.navbar.scrolled{top:0;padding:12px 0;background:rgba(0,0,0,0.98);box-shadow:0 10px 40px rgba(0,0,0,0.5),0 2px 10px rgba(26,95,122,0.2);border-bottom:1px solid rgba(26,95,122,0.3);}
+.nav-container{max-width:1400px;margin:0 auto;padding:0 40px;display:flex;justify-content:space-between;align-items:center;}
+.nav-logo{font-size:28px;font-weight:800;letter-spacing:0.1em;color:var(--white);text-decoration:none;transition:all 0.3s ease;}
+.nav-logo:hover{color:var(--bright-cyan);}
+.nav-back{display:inline-flex;align-items:center;gap:8px;color:var(--light-grey);text-decoration:none;font-size:13px;letter-spacing:0.08em;transition:all 0.3s ease;}
+.nav-back svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;transition:transform 0.3s ease;}
+.nav-back:hover{color:var(--white);}
+.nav-back:hover svg{transform:translateX(-4px);}
+
+/* CANVAS */
+#bg-canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;opacity:0.35;pointer-events:none;}
+
+.container{position:relative;z-index:1;max-width:900px;margin:0 auto;padding:0 40px;}
+.container-wide{position:relative;z-index:1;max-width:1200px;margin:0 auto;padding:0 40px;}
+
+/* ── HERO ── */
+.hero{padding:100px 0 80px;text-align:center;position:relative;}
+.hero-eyebrow{font-size:11px;font-weight:600;letter-spacing:0.3em;color:var(--bright-cyan);text-transform:uppercase;margin-bottom:20px;opacity:0;animation:fadeInUp 0.9s ease forwards 0.1s;}
+.hero-title{font-size:clamp(48px,8vw,96px);font-weight:800;letter-spacing:0.04em;color:var(--white);line-height:1.05;margin-bottom:18px;opacity:0;animation:fadeInUp 0.9s ease forwards 0.25s;}
+.hero-title span{color:var(--bright-cyan);}
+.hero-sub{font-size:clamp(15px,1.8vw,19px);font-weight:300;color:var(--light-grey);line-height:1.7;max-width:600px;margin:0 auto 36px;opacity:0;animation:fadeInUp 0.9s ease forwards 0.4s;}
+.hero-meta{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:50px;opacity:0;animation:fadeInUp 0.9s ease forwards 0.55s;}
+.meta-pill{display:inline-flex;align-items:center;gap:8px;padding:8px 18px;border:1px solid rgba(26,95,122,0.5);border-radius:100px;font-size:11px;letter-spacing:0.12em;color:var(--light-grey);background:rgba(26,95,122,0.08);}
+.meta-pill svg{width:12px;height:12px;stroke:var(--bright-cyan);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;}
+.deadline-pill{border-color:rgba(45,137,176,0.5);background:rgba(45,137,176,0.08);color:var(--white);}
+
+@keyframes fadeInUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── PROGRESS BAR ── */
+.progress-wrapper{margin-bottom:60px;opacity:0;animation:fadeInUp 0.9s ease forwards 0.65s;}
+.progress-track{display:flex;align-items:center;justify-content:center;gap:0;position:relative;}
+.progress-track::before{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:70%;height:1px;background:rgba(26,95,122,0.3);z-index:0;}
+.step-item{display:flex;flex-direction:column;align-items:center;gap:10px;position:relative;z-index:1;flex:1;max-width:140px;}
+.step-line{flex:1;height:1px;background:rgba(26,95,122,0.3);position:relative;}
+.step-line.done{background:var(--step-done);}
+.step-dot{width:36px;height:36px;border-radius:50%;border:1.5px solid var(--step-idle);background:var(--black);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;color:rgba(197,217,224,0.3);transition:all 0.4s cubic-bezier(0.16,1,0.3,1);position:relative;}
+.step-dot.active{border-color:var(--bright-cyan);color:var(--bright-cyan);box-shadow:0 0 18px rgba(45,137,176,0.3);}
+.step-dot.done{border-color:var(--step-done);background:var(--step-done);color:var(--white);}
+.step-dot.done::after{content:'✓';font-size:14px;font-weight:600;}
+.step-dot.done .step-num{display:none;}
+.step-label{font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:rgba(197,217,224,0.3);text-align:center;transition:color 0.4s;white-space:nowrap;}
+.step-item.active .step-label{color:var(--bright-cyan);}
+.step-item.done .step-label{color:var(--light-cyan);}
+
+/* ── GUIDELINES ── */
+.guidelines-wrap{margin-bottom:60px;}
+.guidelines-toggle{width:100%;background:linear-gradient(135deg,rgba(10,22,40,0.7),rgba(15,40,71,0.5));border:1px solid rgba(26,95,122,0.35);border-radius:8px;padding:22px 30px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;transition:all 0.35s ease;color:var(--white);font-family:'Inter',sans-serif;}
+.guidelines-toggle:hover{border-color:rgba(45,137,176,0.5);background:linear-gradient(135deg,rgba(10,22,40,0.9),rgba(15,40,71,0.7));}
+.gt-left{display:flex;align-items:center;gap:16px;}
+.gt-icon{width:40px;height:40px;border:1px solid rgba(26,95,122,0.5);border-radius:50%;display:flex;align-items:center;justify-content:center;background:rgba(26,95,122,0.1);}
+.gt-icon svg{width:18px;height:18px;stroke:var(--bright-cyan);fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;}
+.gt-text h3{font-size:15px;font-weight:600;color:var(--white);}
+.gt-text p{font-size:12px;color:var(--light-grey);margin-top:2px;font-weight:300;}
+.gt-arrow{width:30px;height:30px;border:1px solid rgba(26,95,122,0.35);border-radius:50%;display:flex;align-items:center;justify-content:center;transition:all 0.35s ease;}
+.gt-arrow svg{width:14px;height:14px;stroke:var(--light-grey);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;transition:transform 0.35s cubic-bezier(0.16,1,0.3,1);}
+.guidelines-toggle.open .gt-arrow svg{transform:rotate(180deg);}
+.guidelines-toggle.open{border-radius:8px 8px 0 0;border-bottom-color:transparent;}
+.guidelines-body{background:rgba(10,22,40,0.5);border:1px solid rgba(26,95,122,0.35);border-top:none;border-radius:0 0 8px 8px;overflow:hidden;max-height:0;transition:max-height 0.5s cubic-bezier(0.16,1,0.3,1);}
+.guidelines-body.open{max-height:800px;}
+.guidelines-inner{padding:36px 30px;}
+.guideline-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+.guideline-item{padding:20px;background:rgba(26,95,122,0.06);border:1px solid rgba(26,95,122,0.2);border-radius:8px;display:flex;gap:14px;align-items:flex-start;}
+.gi-dot{width:8px;height:8px;border-radius:50%;background:var(--bright-cyan);flex-shrink:0;margin-top:6px;}
+.gi-content h4{font-size:13px;font-weight:600;color:var(--white);margin-bottom:5px;}
+.gi-content p{font-size:12px;font-weight:300;color:var(--light-grey);line-height:1.6;}
+.guideline-special{grid-column:1/-1;padding:20px 24px;background:linear-gradient(135deg,rgba(26,95,122,0.12),rgba(45,137,176,0.08));border:1px solid rgba(45,137,176,0.25);border-radius:8px;display:flex;align-items:center;gap:16px;}
+.gs-badge{padding:4px 12px;background:rgba(45,137,176,0.15);border:1px solid rgba(45,137,176,0.35);border-radius:100px;font-size:9px;font-weight:600;letter-spacing:0.2em;color:var(--bright-cyan);white-space:nowrap;}
+.gs-text{font-size:13px;font-weight:300;color:var(--light-grey);line-height:1.6;}
+
+/* ── FORM WRAPPER ── */
+.form-pages{position:relative;}
+.form-page{display:none;animation:pageIn 0.5s cubic-bezier(0.16,1,0.3,1) forwards;}
+.form-page.active{display:block;}
+@keyframes pageIn{from{opacity:0;transform:translateX(20px)}to{opacity:1;transform:translateX(0)}}
+
+/* ── CARD ── */
+.form-card{background:linear-gradient(135deg,rgba(10,22,40,0.8),rgba(15,40,71,0.5));border:1px solid rgba(26,95,122,0.35);border-radius:12px;padding:48px;margin-bottom:24px;}
+.card-header{margin-bottom:36px;padding-bottom:24px;border-bottom:1px solid rgba(26,95,122,0.2);}
+.card-header-row{display:flex;align-items:center;gap:16px;}
+.card-icon{width:48px;height:48px;border:1px solid rgba(26,95,122,0.5);border-radius:50%;display:flex;align-items:center;justify-content:center;background:rgba(26,95,122,0.1);flex-shrink:0;}
+.card-icon svg{width:20px;height:20px;stroke:var(--bright-cyan);fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;}
+.card-title{font-size:22px;font-weight:700;color:var(--white);}
+.card-subtitle{font-size:13px;font-weight:300;color:var(--light-grey);margin-top:4px;}
+
+/* ── FIELDS ── */
+.field-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+.field-group{display:flex;flex-direction:column;gap:8px;}
+.field-group.full{grid-column:1/-1;}
+label{font-size:11px;font-weight:500;letter-spacing:0.18em;text-transform:uppercase;color:var(--light-grey);}
+label .opt{font-weight:300;letter-spacing:0.1em;color:rgba(197,217,224,0.4);text-transform:none;font-size:10px;margin-left:6px;}
+input[type=text],input[type=email],input[type=number],select,textarea{width:100%;background:rgba(10,22,40,0.7);border:1px solid rgba(26,95,122,0.4);border-radius:6px;padding:13px 16px;font-family:'Inter',sans-serif;font-size:14px;color:var(--white);outline:none;transition:all 0.3s ease;-webkit-appearance:none;appearance:none;}
+input::placeholder,textarea::placeholder{color:rgba(197,217,224,0.25);}
+input:focus,select:focus,textarea:focus{border-color:var(--bright-cyan);box-shadow:0 0 0 3px rgba(45,137,176,0.1);}
+input.error,select.error,textarea.error{border-color:rgba(220,80,80,0.6);}
+select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2357a6bb' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 16px center;padding-right:42px;cursor:pointer;}
+select option{background:#0a1628;color:var(--white);}
+textarea{resize:vertical;min-height:100px;line-height:1.6;}
+.field-hint{font-size:11px;color:rgba(197,217,224,0.35);margin-top:4px;font-weight:300;}
+.error-msg{font-size:11px;color:rgba(220,100,100,0.9);margin-top:4px;display:none;}
+.error-msg.show{display:block;}
+
+/* DIFFICULTY GRID */
+.diff-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;}
+.diff-card{padding:16px 12px;background:rgba(10,22,40,0.6);border:1.5px solid rgba(26,95,122,0.3);border-radius:8px;text-align:center;cursor:pointer;transition:all 0.3s cubic-bezier(0.16,1,0.3,1);position:relative;}
+.diff-card:hover{border-color:rgba(45,137,176,0.5);background:rgba(26,95,122,0.12);}
+.diff-card.selected{border-color:var(--bright-cyan);background:rgba(45,137,176,0.1);box-shadow:0 0 18px rgba(45,137,176,0.15);}
+.diff-card.selected::before{content:'';position:absolute;inset:-1px;border-radius:8px;border:1.5px solid var(--bright-cyan);pointer-events:none;}
+.diff-name{font-size:13px;font-weight:600;color:var(--white);margin-bottom:4px;}
+.diff-desc{font-size:10px;color:var(--light-grey);letter-spacing:0.06em;line-height:1.4;}
+.diff-check{width:18px;height:18px;border:1.5px solid rgba(45,137,176,0.4);border-radius:50%;margin:0 auto 10px;display:flex;align-items:center;justify-content:center;transition:all 0.3s ease;}
+.diff-card.selected .diff-check{background:var(--bright-cyan);border-color:var(--bright-cyan);}
+.diff-check::after{content:'';width:6px;height:6px;border-radius:50%;background:var(--black);opacity:0;transition:opacity 0.2s;}
+.diff-card.selected .diff-check::after{opacity:1;}
+
+/* CHECKBOX */
+.checkbox-row{display:flex;align-items:flex-start;gap:14px;padding:18px;background:rgba(26,95,122,0.06);border:1px solid rgba(26,95,122,0.25);border-radius:8px;cursor:pointer;transition:all 0.3s;}
+.checkbox-row:hover{border-color:rgba(45,137,176,0.4);}
+.custom-checkbox{width:20px;height:20px;border:1.5px solid rgba(45,137,176,0.5);border-radius:4px;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all 0.3s;margin-top:1px;}
+.custom-checkbox.checked{background:var(--bright-cyan);border-color:var(--bright-cyan);}
+.custom-checkbox.checked::after{content:'✓';font-size:12px;color:var(--black);font-weight:700;}
+.checkbox-text{font-size:13px;font-weight:400;color:var(--light-grey);line-height:1.6;}
+.checkbox-text strong{color:var(--white);font-weight:500;}
+
+/* UPLOAD ZONE */
+.upload-zone{border:2px dashed rgba(26,95,122,0.45);border-radius:10px;padding:48px 32px;text-align:center;cursor:pointer;transition:all 0.35s ease;position:relative;background:rgba(10,22,40,0.4);}
+.upload-zone:hover,.upload-zone.dragover{border-color:var(--bright-cyan);background:rgba(26,95,122,0.08);}
+.upload-zone input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;}
+.upload-icon{width:56px;height:56px;border:1.5px solid rgba(26,95,122,0.5);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;background:rgba(26,95,122,0.08);}
+.upload-icon svg{width:24px;height:24px;stroke:var(--bright-cyan);fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;}
+.upload-title{font-size:15px;font-weight:500;color:var(--white);margin-bottom:6px;}
+.upload-sub{font-size:12px;color:var(--light-grey);font-weight:300;}
+.upload-types{margin-top:12px;font-size:10px;letter-spacing:0.12em;color:rgba(197,217,224,0.35);}
+
+.file-previews{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:12px;margin-top:20px;}
+.file-card{border:1px solid rgba(26,95,122,0.35);border-radius:8px;overflow:hidden;background:rgba(10,22,40,0.6);position:relative;transition:all 0.3s ease;}
+.file-card:hover{border-color:rgba(45,137,176,0.5);}
+.file-preview-img{width:100%;height:100px;object-fit:cover;display:block;}
+.file-info{padding:8px 10px;}
+.file-name{font-size:10px;color:var(--white);font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.file-size{font-size:9px;color:rgba(197,217,224,0.4);margin-top:2px;}
+.file-remove{position:absolute;top:6px;right:6px;width:22px;height:22px;background:rgba(0,0,0,0.7);border-radius:50%;border:1px solid rgba(197,217,224,0.2);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all 0.2s;color:var(--light-grey);font-size:11px;line-height:1;}
+.file-remove:hover{background:rgba(180,50,50,0.8);border-color:transparent;}
+.file-count-badge{display:inline-flex;align-items:center;gap:6px;padding:5px 12px;background:rgba(26,95,122,0.15);border:1px solid rgba(26,95,122,0.3);border-radius:100px;font-size:11px;color:var(--bright-cyan);margin-top:12px;}
+.upload-progress{height:3px;background:rgba(26,95,122,0.2);border-radius:2px;margin-top:12px;overflow:hidden;display:none;}
+.upload-progress.show{display:block;}
+.progress-bar{height:100%;background:linear-gradient(90deg,var(--cyan-blue),var(--bright-cyan));width:0%;transition:width 0.4s ease;border-radius:2px;}
+
+/* ── REVIEW PAGE ── */
+.review-section{margin-bottom:28px;}
+.review-section-label{font-size:10px;font-weight:600;letter-spacing:0.22em;text-transform:uppercase;color:var(--bright-cyan);margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid rgba(26,95,122,0.2);}
+.review-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.review-row{display:flex;flex-direction:column;gap:4px;}
+.review-row.full{grid-column:1/-1;}
+.review-key{font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:rgba(197,217,224,0.4);}
+.review-val{font-size:14px;color:var(--white);font-weight:400;line-height:1.5;}
+.review-edit-btn{display:inline-flex;align-items:center;gap:6px;font-size:11px;letter-spacing:0.1em;color:var(--bright-cyan);background:none;border:1px solid rgba(45,137,176,0.3);border-radius:4px;padding:4px 12px;cursor:pointer;transition:all 0.3s;font-family:'Inter',sans-serif;margin-top:4px;}
+.review-edit-btn:hover{background:rgba(45,137,176,0.1);border-color:var(--bright-cyan);}
+.review-diff-badge{display:inline-block;padding:4px 12px;background:rgba(26,95,122,0.15);border:1px solid rgba(26,95,122,0.35);border-radius:100px;font-size:11px;color:var(--bright-cyan);letter-spacing:0.1em;}
+.review-images-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:8px;}
+.review-img-thumb{width:72px;height:72px;border-radius:6px;object-fit:cover;border:1px solid rgba(26,95,122,0.35);}
+
+/* ── SUCCESS PAGE ── */
+.success-page{text-align:center;padding:80px 0;}
+.success-animation{width:100px;height:100px;margin:0 auto 36px;position:relative;}
+.success-circle{width:100px;height:100px;border-radius:50%;border:2px solid var(--bright-cyan);display:flex;align-items:center;justify-content:center;position:relative;animation:successPulse 2s ease-in-out infinite;}
+.success-circle::before{content:'';position:absolute;inset:-8px;border-radius:50%;border:1px solid rgba(45,137,176,0.2);animation:successRing 2s ease-in-out infinite;}
+@keyframes successPulse{0%,100%{box-shadow:0 0 0 0 rgba(45,137,176,0.3)}50%{box-shadow:0 0 0 20px rgba(45,137,176,0)}}
+@keyframes successRing{0%,100%{transform:scale(1);opacity:0.5}50%{transform:scale(1.1);opacity:0.2}}
+.success-check{font-size:40px;color:var(--bright-cyan);}
+.success-title{font-size:clamp(32px,5vw,52px);font-weight:700;color:var(--white);margin-bottom:16px;}
+.success-sub{font-size:clamp(15px,1.8vw,18px);font-weight:300;color:var(--light-grey);line-height:1.7;max-width:520px;margin:0 auto 40px;}
+.submission-id-card{display:inline-flex;align-items:center;gap:16px;padding:18px 32px;background:rgba(26,95,122,0.12);border:1px solid rgba(26,95,122,0.35);border-radius:8px;margin-bottom:50px;}
+.sid-label{font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:rgba(197,217,224,0.5);}
+.sid-value{font-size:20px;font-weight:600;color:var(--bright-cyan);letter-spacing:0.15em;font-variant-numeric:tabular-nums;}
+.success-timeline{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;max-width:640px;margin:0 auto 50px;text-align:left;}
+.timeline-item{padding:20px;background:rgba(10,22,40,0.6);border:1px solid rgba(26,95,122,0.25);border-radius:8px;}
+.tl-num{font-size:24px;font-weight:800;color:rgba(45,137,176,0.25);letter-spacing:0.05em;}
+.tl-label{font-size:11px;font-weight:500;color:var(--white);margin-top:6px;}
+.tl-desc{font-size:11px;font-weight:300;color:var(--light-grey);margin-top:4px;line-height:1.5;}
+.success-home-btn{display:inline-flex;align-items:center;gap:12px;padding:14px 32px;background:transparent;color:var(--white);font-family:'Inter',sans-serif;font-size:14px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;text-decoration:none;border-radius:4px;border:1.5px solid rgba(26,95,122,0.6);transition:all 0.3s ease;}
+.success-home-btn:hover{border-color:var(--bright-cyan);transform:translateY(-2px);}
+
+/* ── NAVIGATION BUTTONS ── */
+.form-nav{display:flex;justify-content:space-between;align-items:center;margin-top:10px;}
+.btn-back-step{display:inline-flex;align-items:center;gap:8px;padding:13px 24px;background:transparent;color:var(--light-grey);font-family:'Inter',sans-serif;font-size:13px;font-weight:400;letter-spacing:0.08em;border:1.5px solid rgba(26,95,122,0.35);border-radius:4px;cursor:pointer;transition:all 0.3s ease;}
+.btn-back-step:hover{border-color:rgba(26,95,122,0.6);color:var(--white);}
+.btn-back-step svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;}
+.btn-next-step{display:inline-flex;align-items:center;gap:10px;padding:15px 38px;background:linear-gradient(135deg,var(--cyan-blue),var(--bright-cyan));color:var(--white);font-family:'Inter',sans-serif;font-size:14px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;border:none;border-radius:4px;cursor:pointer;transition:all 0.3s ease;}
+.btn-next-step:hover{transform:translateY(-2px);box-shadow:0 12px 40px rgba(45,137,176,0.3);}
+.btn-next-step:disabled{opacity:0.5;cursor:not-allowed;transform:none;}
+.btn-next-step svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+.step-count{font-size:11px;color:rgba(197,217,224,0.35);letter-spacing:0.12em;}
+
+/* AUTOSAVE */
+.autosave-indicator{display:inline-flex;align-items:center;gap:6px;font-size:10px;letter-spacing:0.12em;color:rgba(197,217,224,0.3);transition:all 0.5s;}
+.autosave-indicator.saving{color:var(--bright-cyan);}
+.autosave-dot{width:5px;height:5px;border-radius:50%;background:currentColor;}
+.autosave-indicator.saving .autosave-dot{animation:blinkSave 0.8s ease infinite;}
+@keyframes blinkSave{0%,100%{opacity:1}50%{opacity:0.2}}
+
+/* RESPONSIVE */
+@media(max-width:780px){
+  body{padding-top:80px;}
+  .container,.container-wide{padding:0 20px;}
+  .form-card{padding:28px 20px;}
+  .field-grid{grid-template-columns:1fr;}
+  .diff-grid{grid-template-columns:1fr 1fr;}
+  .review-grid{grid-template-columns:1fr;}
+  .success-timeline{grid-template-columns:1fr;max-width:100%;}
+  .guideline-grid{grid-template-columns:1fr;}
+  .nav-container{padding:0 20px;}
+  .progress-track::before{width:80%;}
+}
+@media(max-width:520px){
+  .hero-title{font-size:52px;}
+  .diff-grid{grid-template-columns:1fr 1fr;}
+  .hero-meta{gap:6px;}
+  .meta-pill{font-size:10px;padding:6px 12px;}
+}
+
+/* PAPER FOLD DECORATION */
+.paper-corner{position:absolute;opacity:0.04;pointer-events:none;}
+.paper-corner svg{fill:var(--bright-cyan);}
+</style>
+</head>
+<body>
+
+<div class="beta-banner">
+  <span class="beta-badge">VAGH 2026</span>
+  National Origami Competition &mdash; Submissions Open &nbsp;·&nbsp; Powered by SIOA
+</div>
+
+<nav class="navbar" id="navbar">
+  <div class="nav-container">
+    <a href="/" class="nav-logo">SIOA</a>
+    <a href="/" class="nav-back">
+      <svg viewBox="0 0 24 24"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+      Back to Home
+    </a>
+  </div>
+</nav>
+
+<canvas id="bg-canvas"></canvas>
+
+<!-- ── HERO ── -->
+<section class="hero">
+  <div class="container">
+    <p class="hero-eyebrow">Society of Indian Origami Artists · 2026</p>
+    <h1 class="hero-title">VAGH <span>2026</span></h1>
+    <p class="hero-sub">India's National Origami Competition. A celebration of precision, creativity, and the quiet mastery of paper folding — open to every practitioner across the nation.</p>
+    <div class="hero-meta">
+      <div class="meta-pill">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        Open to All Skill Levels
+      </div>
+      <div class="meta-pill deadline-pill">
+        <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        Submissions Close: 31 July 2026
+      </div>
+      <div class="meta-pill">
+        <svg viewBox="0 0 24 24"><path d="M8 21h8M12 17v4M17 4h2a2 2 0 0 1 2 2v1a4 4 0 0 1-4 4h-1"/><path d="M7 4H5a2 2 0 0 0-2 2v1a4 4 0 0 0 4 4h1"/><path d="M7 4h10v8a5 5 0 0 1-10 0V4z"/></svg>
+        Trophies &amp; Certificates
+      </div>
+      <div class="meta-pill">
+        <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        Any Model Permitted
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── MAIN FORM AREA ── -->
+<div id="form-area">
+<div class="container">
+
+  <!-- PROGRESS -->
+  <div class="progress-wrapper">
+    <div class="progress-track">
+      <div class="step-item active" id="step-item-1">
+        <div class="step-dot active"><span class="step-num">1</span></div>
+        <div class="step-label">Participant</div>
+      </div>
+      <div class="step-item" id="step-item-2">
+        <div class="step-dot"><span class="step-num">2</span></div>
+        <div class="step-label">Submission</div>
+      </div>
+      <div class="step-item" id="step-item-3">
+        <div class="step-dot"><span class="step-num">3</span></div>
+        <div class="step-label">Uploads</div>
+      </div>
+      <div class="step-item" id="step-item-4">
+        <div class="step-dot"><span class="step-num">4</span></div>
+        <div class="step-label">Review</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- GUIDELINES -->
+  <div class="guidelines-wrap">
+    <button class="guidelines-toggle" id="guidelinesToggle" type="button">
+      <div class="gt-left">
+        <div class="gt-icon"><svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg></div>
+        <div class="gt-text"><h3>Competition Guidelines</h3><p>Click to read rules and judging criteria</p></div>
+      </div>
+      <div class="gt-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div>
+    </button>
+    <div class="guidelines-body" id="guidelinesBody">
+      <div class="guidelines-inner">
+        <div class="guideline-grid">
+          <div class="guideline-item">
+            <div class="gi-dot"></div>
+            <div class="gi-content"><h4>Open to Everyone</h4><p>Any person from any background may participate. There are no prerequisites or qualifications required.</p></div>
+          </div>
+          <div class="guideline-item">
+            <div class="gi-dot"></div>
+            <div class="gi-content"><h4>Any Model</h4><p>Fold any model you like — traditional, modular, wet-fold, or original. Complexity is not a judging criterion.</p></div>
+          </div>
+          <div class="guideline-item">
+            <div class="gi-dot"></div>
+            <div class="gi-content"><h4>Judging Criteria</h4><p>Entries are evaluated on cleanliness, precision, shaping quality, and overall presentation — not complexity.</p></div>
+          </div>
+          <div class="guideline-item">
+            <div class="gi-dot"></div>
+            <div class="gi-content"><h4>Original Work Only</h4><p>Submitted models must be folded by the participant. Entries using automated tools or pre-folded bases will be disqualified.</p></div>
+          </div>
+          <div class="guideline-item">
+            <div class="gi-dot"></div>
+            <div class="gi-content"><h4>Constructive Feedback</h4><p>Participants may opt in to receive personalised feedback from our panel of expert judges.</p></div>
+          </div>
+          <div class="guideline-item">
+            <div class="gi-dot"></div>
+            <div class="gi-content"><h4>Awards &amp; Recognition</h4><p>Category winners receive physical trophies, national certificates, and are featured on the SIOA platform.</p></div>
+          </div>
+          <div class="guideline-special">
+            <span class="gs-badge">IMPORTANT</span>
+            <p class="gs-text">Submit a minimum of three clear photographs showing the model from multiple angles. Ensure good lighting and a clean background for best evaluation results.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── FORM PAGES ── -->
+  <div class="form-pages">
+
+    <!-- PAGE 1: PARTICIPANT INFO -->
+    <div class="form-page active" id="page-1">
+      <div class="form-card">
+        <div class="card-header">
+          <div class="card-header-row">
+            <div class="card-icon"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+            <div><p class="card-title">Participant Information</p><p class="card-subtitle">Tell us about yourself. This will appear on your competition entry.</p></div>
+          </div>
+        </div>
+        <div class="field-grid">
+          <div class="field-group">
+            <label for="fullName">Full Name</label>
+            <input type="text" id="fullName" placeholder="As on your official ID" autocomplete="name">
+            <span class="error-msg" id="err-fullName">Please enter your full name.</span>
+          </div>
+          <div class="field-group">
+            <label for="artistName">Artist / Display Name <span class="opt">optional</span></label>
+            <input type="text" id="artistName" placeholder="How you'd like to be credited">
+          </div>
+          <div class="field-group">
+            <label for="email">Email Address</label>
+            <input type="email" id="email" placeholder="For submission confirmation" autocomplete="email">
+            <span class="error-msg" id="err-email">Please enter a valid email address.</span>
+          </div>
+          <div class="field-group">
+            <label for="age">Age <span class="opt">optional</span></label>
+            <input type="number" id="age" placeholder="Your age" min="4" max="120">
+          </div>
+          <div class="field-group">
+            <label for="country">Country</label>
+            <select id="country">
+              <option value="" disabled selected>Select your country</option>
+              <option value="India" selected>India</option>
+              <option value="Other">Other</option>
+            </select>
+            <span class="error-msg" id="err-country">Please select your country.</span>
+          </div>
+          <div class="field-group">
+            <label for="state">State / Region</label>
+            <select id="state">
+              <option value="" disabled selected>Select your state</option>
+              <option>Andhra Pradesh</option><option>Arunachal Pradesh</option><option>Assam</option>
+              <option>Bihar</option><option>Chhattisgarh</option><option>Delhi (NCT)</option>
+              <option>Goa</option><option>Gujarat</option><option>Haryana</option>
+              <option>Himachal Pradesh</option><option>Jharkhand</option><option>Karnataka</option>
+              <option>Kerala</option><option>Madhya Pradesh</option><option>Maharashtra</option>
+              <option>Manipur</option><option>Meghalaya</option><option>Mizoram</option>
+              <option>Nagaland</option><option>Odisha</option><option>Punjab</option>
+              <option>Rajasthan</option><option>Sikkim</option><option>Tamil Nadu</option>
+              <option>Telangana</option><option>Tripura</option><option>Uttar Pradesh</option>
+              <option>Uttarakhand</option><option>West Bengal</option><option>Outside India</option>
+            </select>
+            <span class="error-msg" id="err-state">Please select your state.</span>
+          </div>
+          <div class="field-group">
+            <label for="instagram">Instagram / Social Link <span class="opt">optional</span></label>
+            <input type="text" id="instagram" placeholder="@username or profile URL">
+          </div>
+          <div class="field-group">
+            <label for="discord">Discord Username <span class="opt">optional</span></label>
+            <input type="text" id="discord" placeholder="username#0000 or just username">
+          </div>
+          <div class="field-group full">
+            <div class="checkbox-row" id="feedbackRow" onclick="toggleCheckbox('wantsFeedback')">
+              <div class="custom-checkbox" id="cb-wantsFeedback"></div>
+              <span class="checkbox-text">I would like to receive <strong>constructive feedback</strong> from the judges on my entry.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="form-nav">
+        <div class="autosave-indicator" id="autosave1"><div class="autosave-dot"></div><span>Draft saved</span></div>
+        <div style="display:flex;align-items:center;gap:20px;">
+          <span class="step-count">Step 1 of 4</span>
+          <button class="btn-next-step" onclick="goToPage(2)">
+            Continue <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- PAGE 2: SUBMISSION INFO -->
+    <div class="form-page" id="page-2">
+      <div class="form-card">
+        <div class="card-header">
+          <div class="card-header-row">
+            <div class="card-icon"><svg viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg></div>
+            <div><p class="card-title">Your Submission</p><p class="card-subtitle">Details about the model you are entering for competition.</p></div>
+          </div>
+        </div>
+        <div class="field-grid">
+          <div class="field-group">
+            <label for="modelName">Model Name</label>
+            <input type="text" id="modelName" placeholder="e.g. Koi Fish, Modular Star…">
+            <span class="error-msg" id="err-modelName">Please enter your model's name.</span>
+          </div>
+          <div class="field-group">
+            <label for="designer">Designer Credit</label>
+            <input type="text" id="designer" placeholder="e.g. Traditional, Robert Lang, Your Name">
+            <span class="error-msg" id="err-designer">Please credit the designer.</span>
+          </div>
+          <div class="field-group">
+            <label for="paper">Paper Used</label>
+            <input type="text" id="paper" placeholder="e.g. Washi, Kami, tissue foil…">
+          </div>
+          <div class="field-group">
+            <label for="timeTaken">Time Taken</label>
+            <input type="text" id="timeTaken" placeholder="e.g. 3 hours, 45 minutes…">
+          </div>
+          <div class="field-group full">
+            <label>Difficulty Level <span class="opt">choose one</span></label>
+            <div class="diff-grid" id="diffGrid">
+              <div class="diff-card" onclick="selectDiff(this,'Beginner')">
+                <div class="diff-check"></div>
+                <div class="diff-name">Beginner</div>
+                <div class="diff-desc">Simple folds, clear steps, fewer layers</div>
+              </div>
+              <div class="diff-card" onclick="selectDiff(this,'Intermediate')">
+                <div class="diff-check"></div>
+                <div class="diff-name">Intermediate</div>
+                <div class="diff-desc">Some complex sequences, moderate layers</div>
+              </div>
+              <div class="diff-card" onclick="selectDiff(this,'Advanced')">
+                <div class="diff-check"></div>
+                <div class="diff-name">Advanced</div>
+                <div class="diff-desc">Complex, high step-count, fine detail</div>
+              </div>
+              <div class="diff-card" onclick="selectDiff(this,'Open')">
+                <div class="diff-check"></div>
+                <div class="diff-name">Open</div>
+                <div class="diff-desc">Prefer not to specify a level</div>
+              </div>
+            </div>
+            <span class="error-msg" id="err-difficulty">Please select a difficulty level.</span>
+          </div>
+          <div class="field-group full">
+            <label for="statement">Artistic Statement <span class="opt">optional</span></label>
+            <textarea id="statement" rows="4" placeholder="Describe your model, the inspiration behind it, or what you hoped to convey. This may be shared with judges."></textarea>
+          </div>
+          <div class="field-group full">
+            <div class="checkbox-row" id="confirmFoldRow" onclick="toggleCheckbox('confirmedFolded')">
+              <div class="custom-checkbox" id="cb-confirmedFolded"></div>
+              <span class="checkbox-text">I confirm that <strong>this model was folded entirely by me</strong> and that the submitted photographs accurately represent my work.</span>
+            </div>
+            <span class="error-msg" id="err-confirmedFolded">You must confirm this to continue.</span>
+          </div>
+        </div>
+      </div>
+      <div class="form-nav">
+        <button class="btn-back-step" onclick="goToPage(1)"><svg viewBox="0 0 24 24"><path d="M19 12H5M12 5l-7 7 7 7"/></svg> Back</button>
+        <div style="display:flex;align-items:center;gap:20px;">
+          <span class="step-count">Step 2 of 4</span>
+          <button class="btn-next-step" onclick="goToPage(3)">
+            Continue <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- PAGE 3: FILE UPLOADS -->
+    <div class="form-page" id="page-3">
+      <div class="form-card">
+        <div class="card-header">
+          <div class="card-header-row">
+            <div class="card-icon"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg></div>
+            <div><p class="card-title">Upload Your Work</p><p class="card-subtitle">Minimum 3 photographs from different angles. Good lighting recommended.</p></div>
+          </div>
+        </div>
+
+        <label style="margin-bottom:14px;display:block;">Photographs <span class="opt">minimum 3, max 10</span></label>
+        <div class="upload-zone" id="imageDropZone" ondragover="handleDrag(event,'imageDropZone')" ondragleave="handleDragLeave(event,'imageDropZone')" ondrop="handleDrop(event,'images')">
+          <input type="file" id="imageInput" accept="image/*" multiple onchange="handleFiles(event,'images')">
+          <div class="upload-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></div>
+          <div class="upload-title">Drag &amp; drop images here</div>
+          <div class="upload-sub">or click to browse your files</div>
+          <div class="upload-types">JPG · PNG · WEBP · HEIC — Max 10 MB per file</div>
+        </div>
+        <div class="upload-progress" id="imgProgress"><div class="progress-bar" id="imgProgressBar"></div></div>
+        <div id="imagePreviewGrid" class="file-previews"></div>
+        <span class="error-msg" id="err-images">Please upload at least 3 photographs.</span>
+
+        <div style="margin-top:36px;padding-top:28px;border-top:1px solid rgba(26,95,122,0.2);">
+          <label style="margin-bottom:14px;display:block;">Video <span class="opt">optional — fold process or turntable</span></label>
+          <div class="upload-zone" id="videoDropZone" ondragover="handleDrag(event,'videoDropZone')" ondragleave="handleDragLeave(event,'videoDropZone')" ondrop="handleDrop(event,'video')">
+            <input type="file" id="videoInput" accept="video/*" onchange="handleFiles(event,'video')">
+            <div class="upload-icon"><svg viewBox="0 0 24 24"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg></div>
+            <div class="upload-title">Upload a video <span style="font-weight:300;color:rgba(197,217,224,0.4);">— optional</span></div>
+            <div class="upload-sub">MP4 · MOV · up to 200 MB</div>
+          </div>
+          <div id="videoPreviewGrid" class="file-previews"></div>
+        </div>
+      </div>
+      <div class="form-nav">
+        <button class="btn-back-step" onclick="goToPage(2)"><svg viewBox="0 0 24 24"><path d="M19 12H5M12 5l-7 7 7 7"/></svg> Back</button>
+        <div style="display:flex;align-items:center;gap:20px;">
+          <span class="step-count">Step 3 of 4</span>
+          <button class="btn-next-step" onclick="goToPage(4)">
+            Review Entry <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- PAGE 4: REVIEW -->
+    <div class="form-page" id="page-4">
+      <div class="form-card">
+        <div class="card-header">
+          <div class="card-header-row">
+            <div class="card-icon"><svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></div>
+            <div><p class="card-title">Review Your Entry</p><p class="card-subtitle">Check all details carefully before final submission.</p></div>
+          </div>
+        </div>
+
+        <div class="review-section">
+          <div class="review-section-label">Participant</div>
+          <div class="review-grid">
+            <div class="review-row"><span class="review-key">Full Name</span><span class="review-val" id="rv-fullName">—</span></div>
+            <div class="review-row"><span class="review-key">Artist Name</span><span class="review-val" id="rv-artistName">—</span></div>
+            <div class="review-row"><span class="review-key">Email</span><span class="review-val" id="rv-email">—</span></div>
+            <div class="review-row"><span class="review-key">Age</span><span class="review-val" id="rv-age">—</span></div>
+            <div class="review-row"><span class="review-key">Country</span><span class="review-val" id="rv-country">—</span></div>
+            <div class="review-row"><span class="review-key">State / Region</span><span class="review-val" id="rv-state">—</span></div>
+            <div class="review-row"><span class="review-key">Instagram</span><span class="review-val" id="rv-instagram">—</span></div>
+            <div class="review-row"><span class="review-key">Discord</span><span class="review-val" id="rv-discord">—</span></div>
+          </div>
+          <button class="review-edit-btn" onclick="goToPage(1)">
+            <svg style="width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+            Edit Participant Details
+          </button>
+        </div>
+
+        <div class="review-section" style="margin-top:28px;padding-top:28px;border-top:1px solid rgba(26,95,122,0.15);">
+          <div class="review-section-label">Submission</div>
+          <div class="review-grid">
+            <div class="review-row"><span class="review-key">Model Name</span><span class="review-val" id="rv-modelName">—</span></div>
+            <div class="review-row"><span class="review-key">Designer</span><span class="review-val" id="rv-designer">—</span></div>
+            <div class="review-row"><span class="review-key">Paper Used</span><span class="review-val" id="rv-paper">—</span></div>
+            <div class="review-row"><span class="review-key">Time Taken</span><span class="review-val" id="rv-timeTaken">—</span></div>
+            <div class="review-row full"><span class="review-key">Difficulty Level</span><span class="review-val" id="rv-difficulty">—</span></div>
+            <div class="review-row full"><span class="review-key">Artistic Statement</span><span class="review-val" id="rv-statement" style="white-space:pre-wrap;">—</span></div>
+          </div>
+          <button class="review-edit-btn" onclick="goToPage(2)">
+            <svg style="width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+            Edit Submission Details
+          </button>
+        </div>
+
+        <div class="review-section" style="margin-top:28px;padding-top:28px;border-top:1px solid rgba(26,95,122,0.15);">
+          <div class="review-section-label">Uploaded Files</div>
+          <div id="rv-images" class="review-images-row"></div>
+          <div id="rv-video" style="margin-top:10px;font-size:12px;color:var(--light-grey);"></div>
+        </div>
+
+        <div style="margin-top:32px;padding-top:24px;border-top:1px solid rgba(26,95,122,0.2);">
+          <div class="checkbox-row" id="finalConfirmRow" onclick="toggleCheckbox('finalConfirmed')">
+            <div class="custom-checkbox" id="cb-finalConfirmed"></div>
+            <span class="checkbox-text">I confirm that all details above are correct and that I agree to the <strong>SIOA competition terms</strong>. I understand that my submission may be disqualified if any information is found to be inaccurate.</span>
+          </div>
+          <span class="error-msg" id="err-finalConfirmed">Please confirm to submit your entry.</span>
+        </div>
+      </div>
+      <div class="form-nav">
+        <button class="btn-back-step" onclick="goToPage(3)"><svg viewBox="0 0 24 24"><path d="M19 12H5M12 5l-7 7 7 7"/></svg> Back</button>
+        <div style="display:flex;align-items:center;gap:20px;">
+          <span class="step-count">Step 4 of 4</span>
+          <button class="btn-next-step" id="submitBtn" onclick="handleSubmit()">
+            Submit Entry <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /form-pages -->
+
+</div><!-- /container -->
+</div><!-- /form-area -->
+
+<!-- ── SUCCESS PAGE ── -->
+<div id="success-area" style="display:none;" class="container">
+  <div class="success-page">
+    <div class="success-animation">
+      <div class="success-circle">
+        <span class="success-check">✓</span>
+      </div>
+    </div>
+    <h2 class="success-title">Entry Received</h2>
+    <p class="success-sub">Your origami submission for VAGH 2026 has been successfully received. Thank you for being part of India's national origami community.</p>
+    <div class="submission-id-card">
+      <div>
+        <div class="sid-label">Submission ID</div>
+        <div class="sid-value" id="submissionId">VAGH-2026-XXXX</div>
+      </div>
+    </div>
+    <p style="font-size:13px;color:rgba(197,217,224,0.45);margin-bottom:30px;letter-spacing:0.08em;">Save this ID for your records. A confirmation will be sent to your email.</p>
+    <div class="success-timeline">
+      <div class="timeline-item">
+        <div class="tl-num">01</div>
+        <div class="tl-label">Initial Review</div>
+        <div class="tl-desc">Submissions are reviewed within 2–3 weeks of the closing date.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="tl-num">02</div>
+        <div class="tl-label">Judging</div>
+        <div class="tl-desc">Panel evaluation takes place through August 2026.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="tl-num">03</div>
+        <div class="tl-label">Results</div>
+        <div class="tl-desc">Winners announced in September 2026 on the SIOA platform.</div>
+      </div>
+    </div>
+    <a href="/" class="success-home-btn">Return to SIOA Home</a>
+  </div>
+</div>
+
+<footer style="padding:60px 0 40px;border-top:1px solid rgba(10,22,40,0.8);margin-top:80px;position:relative;z-index:1;">
+  <div class="container" style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;">
+    <span style="font-size:13px;color:rgba(197,217,224,0.3);letter-spacing:0.06em;">© 2026 SIOA — Society of Indian Origami Artists</span>
+    <span style="font-size:12px;color:rgba(197,217,224,0.2);letter-spacing:0.18em;">विधान · अभ्यास · गौरव · हस्त</span>
+    <a href="mailto:sioa.paper@gmail.com" style="font-size:13px;color:rgba(45,137,176,0.6);text-decoration:none;transition:color 0.3s;" onmouseover="this.style.color='var(--bright-cyan)'" onmouseout="this.style.color='rgba(45,137,176,0.6)'">sioa.paper@gmail.com</a>
+  </div>
+</footer>
+
+<script>
+/* ── STATE ── */
+var state = {
+  currentPage: 1,
+  difficulty: '',
+  checkboxes: { wantsFeedback: false, confirmedFolded: false, finalConfirmed: false },
+  images: [],
+  video: null
+};
+
+/* ── NAVBAR ── */
+var navbar = document.getElementById('navbar');
+window.addEventListener('scroll', function(){
+  navbar.classList.toggle('scrolled', window.scrollY > 50);
+});
+
+/* ── GUIDELINES TOGGLE ── */
+document.getElementById('guidelinesToggle').addEventListener('click', function(){
+  this.classList.toggle('open');
+  document.getElementById('guidelinesBody').classList.toggle('open');
+});
+
+/* ── CHECKBOXES ── */
+function toggleCheckbox(name) {
+  state.checkboxes[name] = !state.checkboxes[name];
+  var cb = document.getElementById('cb-' + name);
+  cb.classList.toggle('checked', state.checkboxes[name]);
+  var em = document.getElementById('err-' + name);
+  if (em) em.classList.remove('show');
+}
+
+/* ── DIFFICULTY ── */
+function selectDiff(el, val) {
+  document.querySelectorAll('.diff-card').forEach(function(c){ c.classList.remove('selected'); });
+  el.classList.add('selected');
+  state.difficulty = val;
+  document.getElementById('err-difficulty').classList.remove('show');
+}
+
+/* ── FILE UPLOADS ── */
+function handleDrag(e, zoneId) {
+  e.preventDefault();
+  document.getElementById(zoneId).classList.add('dragover');
+}
+function handleDragLeave(e, zoneId) {
+  document.getElementById(zoneId).classList.remove('dragover');
+}
+function handleDrop(e, type) {
+  e.preventDefault();
+  document.getElementById(type === 'images' ? 'imageDropZone' : 'videoDropZone').classList.remove('dragover');
+  processFiles(e.dataTransfer.files, type);
+}
+function handleFiles(e, type) {
+  processFiles(e.target.files, type);
+}
+function processFiles(files, type) {
+  if (type === 'images') {
+    var prog = document.getElementById('imgProgress');
+    var bar = document.getElementById('imgProgressBar');
+    prog.classList.add('show'); bar.style.width = '0%';
+    setTimeout(function(){ bar.style.width = '40%'; }, 50);
+    Array.from(files).forEach(function(f){
+      if (state.images.length >= 10) return;
+      if (!f.type.startsWith('image/')) return;
+      state.images.push(f);
+    });
+    setTimeout(function(){ bar.style.width = '100%'; }, 300);
+    setTimeout(function(){ prog.classList.remove('show'); bar.style.width = '0%'; renderImagePreviews(); }, 700);
+    document.getElementById('err-images').classList.remove('show');
+  } else {
+    var f = files[0];
+    if (!f || !f.type.startsWith('video/')) return;
+    state.video = f;
+    renderVideoPreviews();
+  }
+}
+function renderImagePreviews() {
+  var grid = document.getElementById('imagePreviewGrid');
+  grid.innerHTML = '';
+  state.images.forEach(function(f, i){
+    var url = URL.createObjectURL(f);
+    var card = document.createElement('div');
+    card.className = 'file-card';
+    card.innerHTML = '<img class="file-preview-img" src="'+url+'" alt="'+f.name+'">'
+      + '<div class="file-info"><div class="file-name">'+f.name+'</div><div class="file-size">'+formatSize(f.size)+'</div></div>'
+      + '<div class="file-remove" onclick="removeImage('+i+')">✕</div>';
+    grid.appendChild(card);
+  });
+  if (state.images.length > 0) {
+    var badge = document.createElement('div');
+    badge.style.gridColumn = '1/-1';
+    badge.innerHTML = '<span class="file-count-badge"><svg style="width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>'+state.images.length+' image'+(state.images.length===1?'':'s')+' added</span>';
+    grid.appendChild(badge);
+  }
+}
+function removeImage(i) {
+  state.images.splice(i, 1);
+  renderImagePreviews();
+}
+function renderVideoPreviews() {
+  var grid = document.getElementById('videoPreviewGrid');
+  if (!state.video) { grid.innerHTML = ''; return; }
+  grid.innerHTML = '<div class="file-card" style="max-width:200px;">'
+    + '<div style="height:100px;display:flex;align-items:center;justify-content:center;background:rgba(26,95,122,0.1);">'
+    + '<svg style="width:32px;height:32px;stroke:rgba(87,166,187,0.6);fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;" viewBox="0 0 24 24"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg></div>'
+    + '<div class="file-info"><div class="file-name">'+state.video.name+'</div><div class="file-size">'+formatSize(state.video.size)+'</div></div>'
+    + '<div class="file-remove" onclick="removeVideo()">✕</div></div>';
+}
+function removeVideo() { state.video = null; renderVideoPreviews(); }
+function formatSize(bytes) {
+  if (bytes < 1024) return bytes + ' B';
+  if (bytes < 1048576) return Math.round(bytes/1024) + ' KB';
+  return (bytes/1048576).toFixed(1) + ' MB';
+}
+
+/* ── STEP NAVIGATION ── */
+function goToPage(n) {
+  if (n > state.currentPage && !validatePage(state.currentPage)) return;
+  var old = state.currentPage;
+  state.currentPage = n;
+  document.getElementById('page-' + old).classList.remove('active');
+  document.getElementById('page-' + n).classList.add('active');
+  updateStepIndicator(n);
+  if (n === 4) populateReview();
+  window.scrollTo({ top: document.getElementById('form-area').offsetTop - 130, behavior: 'smooth' });
+  triggerAutosave();
+}
+
+function updateStepIndicator(active) {
+  for (var i = 1; i <= 4; i++) {
+    var item = document.getElementById('step-item-' + i);
+    var dot = item.querySelector('.step-dot');
+    item.classList.remove('active', 'done');
+    dot.classList.remove('active', 'done');
+    if (i < active) { item.classList.add('done'); dot.classList.add('done'); }
+    else if (i === active) { item.classList.add('active'); dot.classList.add('active'); }
+  }
+}
+
+/* ── VALIDATION ── */
+function validatePage(n) {
+  var ok = true;
+  function reqField(id, errId) {
+    var el = document.getElementById(id);
+    var val = el.value.trim();
+    var valid = val.length > 0;
+    el.classList.toggle('error', !valid);
+    document.getElementById(errId).classList.toggle('show', !valid);
+    if (!valid) ok = false;
+  }
+  if (n === 1) {
+    reqField('fullName', 'err-fullName');
+    var email = document.getElementById('email').value.trim();
+    var emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    document.getElementById('email').classList.toggle('error', !emailOk);
+    document.getElementById('err-email').classList.toggle('show', !emailOk);
+    if (!emailOk) ok = false;
+    reqField('country', 'err-country');
+    reqField('state', 'err-state');
+  }
+  if (n === 2) {
+    reqField('modelName', 'err-modelName');
+    reqField('designer', 'err-designer');
+    if (!state.difficulty) {
+      document.getElementById('err-difficulty').classList.add('show');
+      ok = false;
+    }
+    if (!state.checkboxes.confirmedFolded) {
+      document.getElementById('err-confirmedFolded').classList.add('show');
+      ok = false;
+    }
+  }
+  if (n === 3) {
+    if (state.images.length < 3) {
+      document.getElementById('err-images').classList.add('show');
+      ok = false;
+    }
+  }
+  return ok;
+}
+
+/* ── REVIEW POPULATION ── */
+function populateReview() {
+  function rv(id, val) { document.getElementById('rv-' + id).textContent = val || '—'; }
+  rv('fullName', document.getElementById('fullName').value.trim());
+  rv('artistName', document.getElementById('artistName').value.trim());
+  rv('email', document.getElementById('email').value.trim());
+  rv('age', document.getElementById('age').value.trim());
+  rv('country', document.getElementById('country').value);
+  rv('state', document.getElementById('state').value);
+  rv('instagram', document.getElementById('instagram').value.trim());
+  rv('discord', document.getElementById('discord').value.trim());
+  rv('modelName', document.getElementById('modelName').value.trim());
+  rv('designer', document.getElementById('designer').value.trim());
+  rv('paper', document.getElementById('paper').value.trim());
+  rv('timeTaken', document.getElementById('timeTaken').value.trim());
+  var diffEl = document.getElementById('rv-difficulty');
+  diffEl.innerHTML = state.difficulty ? '<span class="review-diff-badge">' + state.difficulty + '</span>' : '—';
+  rv('statement', document.getElementById('statement').value.trim());
+
+  var imgRow = document.getElementById('rv-images');
+  imgRow.innerHTML = '';
+  state.images.forEach(function(f){
+    var img = document.createElement('img');
+    img.className = 'review-img-thumb';
+    img.src = URL.createObjectURL(f);
+    img.alt = f.name;
+    imgRow.appendChild(img);
+  });
+  if (!state.images.length) imgRow.textContent = 'No images uploaded.';
+
+  var vidEl = document.getElementById('rv-video');
+  vidEl.textContent = state.video ? 'Video: ' + state.video.name + ' (' + formatSize(state.video.size) + ')' : '';
+}
+
+/* ── SUBMIT ── */
+function handleSubmit() {
+  if (!validatePage(4)) return;
+  if (!state.checkboxes.finalConfirmed) {
+    document.getElementById('err-finalConfirmed').classList.add('show');
+    return;
+  }
+  var btn = document.getElementById('submitBtn');
+  btn.disabled = true;
+  btn.innerHTML = '<span style="opacity:0.7;letter-spacing:0.06em;font-size:12px;">Submitting…</span>';
+
+  setTimeout(function(){
+    document.getElementById('form-area').style.display = 'none';
+    var successArea = document.getElementById('success-area');
+    successArea.style.display = 'block';
+    var id = 'VAGH-2026-' + Math.floor(1000 + Math.random() * 9000);
+    document.getElementById('submissionId').textContent = id;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    localStorage.removeItem('sioa_draft');
+  }, 1800);
+}
+
+/* ── AUTOSAVE ── */
+function triggerAutosave() {
+  var ind = document.getElementById('autosave1');
+  if (!ind) return;
+  ind.classList.add('saving');
+  ind.querySelector('span').textContent = 'Saving…';
+  var draft = {
+    fullName: document.getElementById('fullName').value,
+    artistName: document.getElementById('artistName').value,
+    email: document.getElementById('email').value,
+    age: document.getElementById('age').value,
+    country: document.getElementById('country').value,
+    state: document.getElementById('state').value,
+    instagram: document.getElementById('instagram').value,
+    discord: document.getElementById('discord').value,
+    modelName: document.getElementById('modelName').value,
+    designer: document.getElementById('designer').value,
+    paper: document.getElementById('paper').value,
+    timeTaken: document.getElementById('timeTaken').value,
+    difficulty: state.difficulty,
+    statement: document.getElementById('statement').value
+  };
+  try { localStorage.setItem('sioa_draft', JSON.stringify(draft)); } catch(e){}
+  setTimeout(function(){
+    ind.classList.remove('saving');
+    ind.querySelector('span').textContent = 'Draft saved';
+  }, 1000);
+}
+
+/* ── RESTORE DRAFT ── */
+(function restoreDraft(){
+  try {
+    var raw = localStorage.getItem('sioa_draft');
+    if (!raw) return;
+    var d = JSON.parse(raw);
+    var fields = ['fullName','artistName','email','age','country','state','instagram','discord','modelName','designer','paper','timeTaken','statement'];
+    fields.forEach(function(k){ if (d[k] && document.getElementById(k)) document.getElementById(k).value = d[k]; });
+    if (d.difficulty) {
+      document.querySelectorAll('.diff-card').forEach(function(c){
+        if (c.querySelector('.diff-name').textContent === d.difficulty) selectDiff(c, d.difficulty);
+      });
+    }
+  } catch(e){}
+})();
+
+/* Auto-save on input */
+var saveTimer;
+document.querySelectorAll('input,textarea,select').forEach(function(el){
+  el.addEventListener('input', function(){ clearTimeout(saveTimer); saveTimer = setTimeout(triggerAutosave, 1200); });
+});
+
+/* ── PARTICLE CANVAS ── */
+var canvas = document.getElementById('bg-canvas');
+var ctx = canvas.getContext('2d');
+function resize(){ canvas.width = window.innerWidth; canvas.height = document.documentElement.scrollHeight; }
+resize(); window.addEventListener('resize', resize);
+function Particle(){ this.reset(); this.y = Math.random() * canvas.height; }
+Particle.prototype.reset = function(){
+  this.x = Math.random() * canvas.width; this.y = -10;
+  this.size = Math.random() * 2.5 + 0.5; this.speedY = Math.random() * 0.25 + 0.08;
+  this.speedX = (Math.random() - 0.5) * 0.15; this.opacity = Math.random() * 0.45 + 0.2;
+  this.hue = Math.random() * 40 + 180;
+};
+Particle.prototype.update = function(){
+  this.y += this.speedY; this.x += this.speedX + Math.sin(this.y * 0.01) * 0.25;
+  if (this.y > canvas.height + 10) this.reset();
+  if (this.x < 0) this.x = canvas.width;
+  if (this.x > canvas.width) this.x = 0;
+};
+Particle.prototype.draw = function(){
+  ctx.save(); ctx.globalAlpha = this.opacity;
+  ctx.fillStyle = 'hsl(' + this.hue + ',70%,50%)';
+  ctx.shadowBlur = 12; ctx.shadowColor = 'hsl(' + this.hue + ',70%,50%)';
+  ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fill(); ctx.restore();
+};
+var particles = [];
+for (var i = 0; i < 60; i++) particles.push(new Particle());
+(function animate(){
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  for (var i = 0; i < particles.length; i++){
+    for (var j = i + 1; j < particles.length; j++){
+      var dx = particles[i].x - particles[j].x, dy = particles[i].y - particles[j].y;
+      var d = Math.sqrt(dx*dx + dy*dy);
+      if (d < 130){
+        ctx.save(); ctx.globalAlpha = (1 - d/130) * 0.12;
+        ctx.strokeStyle = 'hsl(190,70%,50%)'; ctx.lineWidth = 0.8;
+        ctx.beginPath(); ctx.moveTo(particles[i].x, particles[i].y);
+        ctx.lineTo(particles[j].x, particles[j].y); ctx.stroke(); ctx.restore();
+      }
+    }
+  }
+  particles.forEach(function(p){ p.update(); p.draw(); });
+  requestAnimationFrame(animate);
+})();
+</script>
+</body>
+</html>
