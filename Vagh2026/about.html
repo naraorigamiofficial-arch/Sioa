@@ -1,0 +1,968 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VAGH 2026 — National Origami Competition | SIOA</title>
+<meta name="description" content="Everything about VAGH 2026 — India's National Origami Competition. Stages, prizes, judges, philosophy and how to enter.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+/* ─────────────────────────────────────────
+   VARIABLES & RESET
+───────────────────────────────────────── */
+:root{
+  --black:#000000;
+  --deep-blue:#0a1628;
+  --navy-blue:#0f2847;
+  --cyan-blue:#1a5f7a;
+  --bright-cyan:#2d89b0;
+  --metallic-blue:#4a90a4;
+  --light-cyan:#57a6bb;
+  --white:#e8f4f8;
+  --light-grey:#c5d9e0;
+  --gold:#c8963a;
+  --silver:#8090a4;
+  --bronze:#a06030;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;
+  background:var(--black);
+  color:var(--white);
+  overflow-x:hidden;
+  padding-top:116px;
+}
+
+/* ─────────────────────────────────────────
+   BETA BANNER
+───────────────────────────────────────── */
+.beta-banner{
+  position:fixed;top:0;left:0;right:0;z-index:1100;
+  background:linear-gradient(90deg,rgba(15,40,71,0.98),rgba(26,95,122,0.95),rgba(15,40,71,0.98));
+  border-bottom:1px solid rgba(45,137,176,0.35);
+  padding:9px 20px;text-align:center;font-size:12px;
+  letter-spacing:0.1em;color:var(--light-grey);
+  display:flex;align-items:center;justify-content:center;gap:12px;
+}
+.beta-badge{
+  background:var(--bright-cyan);color:var(--black);
+  font-size:9px;font-weight:800;letter-spacing:0.2em;
+  padding:3px 9px;border-radius:3px;
+}
+
+/* ─────────────────────────────────────────
+   NAVBAR
+───────────────────────────────────────── */
+.navbar{
+  position:fixed;top:36px;left:0;right:0;z-index:1000;
+  background:rgba(0,0,0,0.85);backdrop-filter:blur(10px);
+  border-bottom:1px solid rgba(26,95,122,0.15);
+  padding:20px 0;transition:all 0.4s cubic-bezier(0.16,1,0.3,1);
+}
+.navbar.scrolled{
+  top:0;padding:12px 0;background:rgba(0,0,0,0.98);
+  box-shadow:0 10px 40px rgba(0,0,0,0.5),0 2px 10px rgba(26,95,122,0.2);
+  border-bottom:1px solid rgba(26,95,122,0.3);
+}
+.nav-container{max-width:1400px;margin:0 auto;padding:0 40px;display:flex;justify-content:space-between;align-items:center;}
+.nav-logo{font-size:26px;font-weight:800;letter-spacing:0.1em;color:var(--white);text-decoration:none;transition:color 0.3s;}
+.nav-logo:hover{color:var(--bright-cyan);}
+.nav-right{display:flex;align-items:center;gap:20px;}
+.nav-link{
+  color:var(--light-grey);text-decoration:none;font-size:13px;
+  font-weight:400;letter-spacing:0.05em;transition:color 0.3s;
+  display:flex;align-items:center;gap:6px;
+}
+.nav-link svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;}
+.nav-link:hover{color:var(--white);}
+.nav-cta{
+  padding:9px 22px;background:linear-gradient(135deg,var(--cyan-blue),var(--bright-cyan));
+  color:var(--white);font-family:'Inter',sans-serif;font-size:12px;font-weight:600;
+  letter-spacing:0.1em;text-transform:uppercase;text-decoration:none;
+  border-radius:4px;transition:all 0.3s;
+}
+.nav-cta:hover{transform:translateY(-1px);box-shadow:0 8px 24px rgba(45,137,176,0.3);}
+
+/* ─────────────────────────────────────────
+   CANVAS BG
+───────────────────────────────────────── */
+#bg-canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;opacity:0.28;pointer-events:none;}
+
+/* ─────────────────────────────────────────
+   CONTAINERS
+───────────────────────────────────────── */
+.container{position:relative;z-index:1;max-width:1100px;margin:0 auto;padding:0 40px;}
+.container-sm{position:relative;z-index:1;max-width:760px;margin:0 auto;padding:0 40px;}
+
+/* ─────────────────────────────────────────
+   SHARED SECTION RHYTHM
+───────────────────────────────────────── */
+section{padding:100px 0;position:relative;}
+.section-divider{height:1px;background:linear-gradient(90deg,transparent,rgba(26,95,122,0.4),transparent);margin:0;}
+.section-eyebrow{
+  font-size:10px;font-weight:600;letter-spacing:0.3em;
+  text-transform:uppercase;color:var(--bright-cyan);margin-bottom:14px;
+}
+.section-title{
+  font-size:clamp(36px,5vw,58px);font-weight:800;letter-spacing:0.02em;
+  color:var(--white);line-height:1.1;margin-bottom:20px;
+}
+.section-lead{
+  font-size:clamp(15px,1.8vw,18px);font-weight:300;
+  color:var(--light-grey);line-height:1.85;max-width:680px;
+}
+
+.fade-up{opacity:0;transform:translateY(36px);transition:opacity 0.8s cubic-bezier(0.16,1,0.3,1),transform 0.8s cubic-bezier(0.16,1,0.3,1);}
+.fade-up.visible{opacity:1;transform:translateY(0);}
+.fade-up-d1{transition-delay:0.1s;}
+.fade-up-d2{transition-delay:0.18s;}
+.fade-up-d3{transition-delay:0.26s;}
+.fade-up-d4{transition-delay:0.34s;}
+.fade-up-d5{transition-delay:0.42s;}
+
+/* ─────────────────────────────────────────
+   HERO
+───────────────────────────────────────── */
+.hero{
+  min-height:92vh;display:flex;align-items:center;justify-content:center;
+  text-align:center;padding:80px 0 60px;
+  position:relative;overflow:hidden;
+}
+.hero-ghost{
+  position:absolute;top:50%;left:50%;transform:translate(-50%,-56%);
+  font-size:clamp(140px,22vw,340px);font-weight:900;letter-spacing:0.06em;
+  color:transparent;-webkit-text-stroke:1px rgba(45,137,176,0.07);
+  pointer-events:none;white-space:nowrap;user-select:none;z-index:0;
+  animation:ghostFloat 8s ease-in-out infinite;
+  font-family:'Inter',sans-serif;
+}
+@keyframes ghostFloat{0%,100%{transform:translate(-50%,-56%) translateY(0)}50%{transform:translate(-50%,-56%) translateY(-16px)}}
+.hero-inner{position:relative;z-index:1;}
+.hero-eyebrow{
+  display:inline-flex;align-items:center;gap:10px;
+  font-size:10px;font-weight:600;letter-spacing:0.28em;text-transform:uppercase;
+  color:var(--bright-cyan);margin-bottom:24px;
+  opacity:0;animation:heroIn 1s ease forwards 0.1s;
+}
+.hero-eyebrow-dot{width:4px;height:4px;border-radius:50%;background:var(--bright-cyan);}
+.hero-title{
+  font-size:clamp(68px,14vw,180px);font-weight:900;letter-spacing:0.04em;
+  line-height:0.92;color:var(--white);margin-bottom:14px;
+  font-family:'Inter',sans-serif;
+  opacity:0;animation:heroIn 1s ease forwards 0.2s;
+}
+.hero-title span{color:var(--bright-cyan);}
+.hero-year{
+  font-family:'Inter',sans-serif;
+  font-size:clamp(14px,2.2vw,24px);font-weight:300;
+  color:rgba(197,217,224,0.5);letter-spacing:0.22em;
+  display:block;margin-bottom:36px;text-transform:uppercase;
+  opacity:0;animation:heroIn 1s ease forwards 0.32s;
+}
+.hero-desc{
+  font-size:clamp(14px,1.6vw,18px);font-weight:300;color:var(--light-grey);
+  line-height:1.8;max-width:560px;margin:0 auto 44px;
+  opacity:0;animation:heroIn 1s ease forwards 0.44s;
+}
+.hero-pills{
+  display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:48px;
+  opacity:0;animation:heroIn 1s ease forwards 0.56s;
+}
+.hero-pill{
+  padding:7px 16px;border:1px solid rgba(26,95,122,0.45);border-radius:100px;
+  font-size:11px;letter-spacing:0.1em;color:var(--light-grey);
+  background:rgba(26,95,122,0.07);transition:all 0.3s;
+}
+.hero-pill:hover{border-color:var(--bright-cyan);color:var(--white);background:rgba(45,137,176,0.1);}
+.hero-actions{
+  display:flex;gap:14px;justify-content:center;flex-wrap:wrap;
+  opacity:0;animation:heroIn 1s ease forwards 0.68s;
+}
+.btn-primary{
+  padding:14px 36px;background:linear-gradient(135deg,var(--cyan-blue),var(--bright-cyan));
+  color:var(--white);font-family:'Inter',sans-serif;font-size:13px;font-weight:700;
+  letter-spacing:0.12em;text-transform:uppercase;text-decoration:none;
+  border-radius:4px;border:none;cursor:pointer;display:inline-block;
+  transition:all 0.3s ease;
+}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 12px 40px rgba(45,137,176,0.35);}
+.btn-ghost{
+  padding:14px 36px;background:transparent;color:var(--white);
+  font-family:'Inter',sans-serif;font-size:13px;font-weight:500;
+  letter-spacing:0.08em;text-transform:uppercase;text-decoration:none;
+  border-radius:4px;border:1.5px solid rgba(26,95,122,0.55);
+  display:inline-block;transition:all 0.3s ease;
+}
+.btn-ghost:hover{border-color:var(--bright-cyan);transform:translateY(-2px);}
+.hero-scroll-cue{
+  position:absolute;bottom:32px;left:50%;transform:translateX(-50%);
+  display:flex;flex-direction:column;align-items:center;gap:6px;
+  opacity:0;animation:heroIn 1.2s ease forwards 1s;
+}
+.hero-scroll-cue span{font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:rgba(197,217,224,0.25);}
+.scroll-arrow{width:20px;height:20px;border-right:1.5px solid rgba(45,137,176,0.3);border-bottom:1.5px solid rgba(45,137,176,0.3);transform:rotate(45deg);animation:scrollBounce 1.8s ease-in-out infinite;}
+@keyframes scrollBounce{0%,100%{transform:rotate(45deg) translateY(0);opacity:0.4}50%{transform:rotate(45deg) translateY(5px);opacity:0.9}}
+@keyframes heroIn{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+
+/* ─────────────────────────────────────────
+   ABOUT SECTION
+───────────────────────────────────────── */
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:start;}
+.about-text p{
+  font-family:'Inter',sans-serif;
+  font-size:clamp(16px,1.8vw,20px);font-weight:300;
+  line-height:1.8;color:var(--light-grey);margin-bottom:24px;
+}
+.about-text p strong{color:var(--white);font-weight:600;}
+.about-stats{display:grid;grid-template-columns:1fr 1fr;gap:16px;padding-top:10px;}
+.about-stat{
+  padding:24px 20px;
+  background:linear-gradient(135deg,rgba(10,22,40,0.8),rgba(15,40,71,0.6));
+  border:1px solid rgba(26,95,122,0.3);border-radius:10px;
+  text-align:center;transition:border-color 0.3s,transform 0.3s;
+}
+.about-stat:hover{border-color:rgba(45,137,176,0.5);transform:translateY(-4px);}
+.as-num{font-size:36px;font-weight:800;color:var(--white);letter-spacing:0.02em;line-height:1;font-family:'Inter',sans-serif;}
+.as-num em{font-family:'Inter',sans-serif;font-size:22px;color:var(--bright-cyan);font-style:normal;}
+.as-label{font-size:10px;letter-spacing:0.18em;text-transform:uppercase;color:rgba(197,217,224,0.35);margin-top:6px;}
+.philosophy-box{
+  padding:36px 40px;
+  background:linear-gradient(135deg,rgba(26,95,122,0.1),rgba(45,137,176,0.06));
+  border:1px solid rgba(45,137,176,0.25);
+  border-radius:12px;margin-top:50px;
+  position:relative;overflow:hidden;
+}
+.philosophy-box::before{
+  content:'"';position:absolute;top:-20px;left:16px;
+  font-family:'Inter',sans-serif;font-size:200px;font-weight:900;
+  color:rgba(45,137,176,0.05);line-height:1;pointer-events:none;
+}
+.philosophy-box blockquote{
+  font-family:'Inter',sans-serif;
+  font-size:clamp(16px,1.8vw,20px);font-weight:300;
+  color:var(--light-grey);line-height:1.8;
+  position:relative;z-index:1;
+}
+.philosophy-box cite{
+  display:block;margin-top:16px;font-family:'Inter',sans-serif;
+  font-size:10px;font-style:normal;letter-spacing:0.2em;text-transform:uppercase;
+  color:var(--bright-cyan);
+}
+
+/* ─────────────────────────────────────────
+   STAGES SECTION
+───────────────────────────────────────── */
+.stages-section{
+  background:linear-gradient(180deg,var(--black) 0%,var(--deep-blue) 50%,var(--black) 100%);
+  padding:120px 0;
+}
+.stages-section::before,.stages-section::after{
+  content:'';position:absolute;left:0;width:100%;height:2px;
+  background:linear-gradient(90deg,transparent,var(--cyan-blue),transparent);
+}
+.stages-section::before{top:0;}.stages-section::after{bottom:0;}
+.stages-header{text-align:center;margin-bottom:80px;}
+.stages-track{display:flex;flex-direction:column;gap:0;max-width:880px;margin:0 auto;position:relative;}
+.stages-track::before{
+  content:'';position:absolute;left:52px;top:0;bottom:0;width:1px;
+  background:linear-gradient(180deg,transparent,rgba(45,137,176,0.4) 10%,rgba(45,137,176,0.4) 90%,transparent);
+}
+.stage-item{display:flex;gap:36px;align-items:flex-start;padding:40px 0;}
+.stage-item+.stage-item{border-top:1px solid rgba(26,95,122,0.12);}
+.stage-num-col{flex-shrink:0;width:64px;display:flex;flex-direction:column;align-items:center;gap:0;position:relative;z-index:1;}
+.stage-circle{
+  width:36px;height:36px;border-radius:50%;
+  background:var(--deep-blue);border:2px solid var(--bright-cyan);
+  display:flex;align-items:center;justify-content:center;
+  font-size:11px;font-weight:700;color:var(--bright-cyan);
+  letter-spacing:0.08em;transition:all 0.4s;
+  box-shadow:0 0 0 4px rgba(45,137,176,0.1);
+  font-family:'Inter',sans-serif;
+}
+.stage-item:hover .stage-circle{background:rgba(45,137,176,0.15);box-shadow:0 0 0 8px rgba(45,137,176,0.08),0 0 20px rgba(45,137,176,0.2);}
+.stage-content{flex:1;padding-top:6px;}
+.stage-label{font-size:9px;font-weight:600;letter-spacing:0.24em;text-transform:uppercase;color:var(--bright-cyan);margin-bottom:6px;}
+.stage-title{font-size:clamp(20px,2.4vw,28px);font-weight:700;color:var(--white);margin-bottom:14px;line-height:1.2;}
+.stage-body{font-size:14px;font-weight:300;color:var(--light-grey);line-height:1.8;margin-bottom:16px;}
+.stage-list{list-style:none;display:flex;flex-direction:column;gap:8px;}
+.stage-list li{
+  display:flex;align-items:flex-start;gap:12px;
+  font-size:13px;font-weight:300;color:var(--light-grey);line-height:1.6;
+}
+.stage-list li::before{
+  content:'';width:5px;height:5px;border-radius:50%;background:var(--bright-cyan);
+  flex-shrink:0;margin-top:7px;
+}
+.stage-list li strong{color:var(--white);font-weight:500;}
+.stage-note{
+  margin-top:16px;padding:14px 18px;
+  background:rgba(45,137,176,0.07);border-left:3px solid var(--bright-cyan);
+  border-radius:0 6px 6px 0;
+  font-size:13px;font-weight:300;color:var(--light-grey);line-height:1.6;
+}
+
+/* ─────────────────────────────────────────
+   PRIZES SECTION
+───────────────────────────────────────── */
+.prizes-section{padding:120px 0;}
+.prizes-header{text-align:center;margin-bottom:70px;}
+.prizes-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:24px;max-width:980px;margin:0 auto;}
+.prize-card{
+  border-radius:14px;overflow:hidden;
+  transition:transform 0.4s cubic-bezier(0.16,1,0.3,1),box-shadow 0.4s;
+  position:relative;
+}
+.prize-card:hover{transform:translateY(-8px);}
+.prize-card.gold-card{box-shadow:0 0 0 1.5px rgba(200,150,58,0.4);}
+.prize-card.gold-card:hover{box-shadow:0 20px 60px rgba(200,150,58,0.2),0 0 0 1.5px rgba(200,150,58,0.6);}
+.prize-card.silver-card{box-shadow:0 0 0 1.5px rgba(128,144,164,0.3);}
+.prize-card.silver-card:hover{box-shadow:0 20px 60px rgba(128,144,164,0.15),0 0 0 1.5px rgba(128,144,164,0.5);}
+.prize-card.bronze-card{box-shadow:0 0 0 1.5px rgba(160,96,48,0.3);}
+.prize-card.bronze-card:hover{box-shadow:0 20px 60px rgba(160,96,48,0.15),0 0 0 1.5px rgba(160,96,48,0.5);}
+.pc-header{padding:28px 28px 22px;border-bottom:1px solid rgba(26,95,122,0.15);}
+.pc-medal{font-size:40px;margin-bottom:10px;display:block;line-height:1;}
+.pc-place{font-size:11px;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;margin-bottom:6px;}
+.gold-card .pc-place{color:var(--gold);}
+.silver-card .pc-place{color:var(--silver);}
+.bronze-card .pc-place{color:var(--bronze);}
+.pc-title{font-size:20px;font-weight:700;color:var(--white);}
+.pc-body{padding:22px 28px;background:linear-gradient(135deg,rgba(10,22,40,0.85),rgba(15,40,71,0.65));}
+.pc-item{display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:1px solid rgba(26,95,122,0.1);font-size:13px;color:var(--light-grey);font-weight:300;line-height:1.5;}
+.pc-item:last-child{border-bottom:none;}
+.pc-item-icon{flex-shrink:0;margin-top:2px;}
+.gold-card .pc-item-icon{color:var(--gold);}
+.silver-card .pc-item-icon{color:var(--silver);}
+.bronze-card .pc-item-icon{color:var(--bronze);}
+.prize-card.gold-card{transform:translateY(-12px) scale(1.02);}
+.prize-card.gold-card:hover{transform:translateY(-20px) scale(1.02);}
+.gold-crown{
+  position:absolute;top:-14px;left:50%;transform:translateX(-50%);
+  background:var(--black);border:1px solid rgba(200,150,58,0.4);
+  border-radius:100px;padding:3px 14px;
+  font-size:9px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;
+  color:var(--gold);white-space:nowrap;
+}
+
+/* ─────────────────────────────────────────
+   IMAGE POLICY SECTION
+───────────────────────────────────────── */
+.policy-section{
+  padding:100px 0;
+  background:linear-gradient(180deg,var(--black) 0%,var(--deep-blue) 50%,var(--black) 100%);
+}
+.policy-section::before,.policy-section::after{
+  content:'';position:absolute;left:0;width:100%;height:2px;
+  background:linear-gradient(90deg,transparent,var(--cyan-blue),transparent);
+}
+.policy-section::before{top:0;}.policy-section::after{bottom:0;}
+.policy-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:start;}
+.policy-allowed,.policy-prohibited{padding:32px;border-radius:12px;}
+.policy-allowed{background:rgba(50,160,100,0.06);border:1px solid rgba(50,160,100,0.2);}
+.policy-prohibited{background:rgba(200,60,60,0.06);border:1px solid rgba(200,60,60,0.3);}
+.policy-heading{display:flex;align-items:center;gap:12px;margin-bottom:20px;}
+.policy-heading-icon{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;}
+.allowed-icon{background:rgba(50,160,100,0.15);}
+.prohibited-icon{background:rgba(200,60,60,0.15);}
+.policy-heading h4{font-size:14px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;}
+.policy-allowed .policy-heading h4{color:#4cc990;}
+.policy-prohibited .policy-heading h4{color:#e06060;}
+.policy-list{list-style:none;display:flex;flex-direction:column;gap:10px;}
+.policy-list li{font-size:13px;font-weight:300;color:var(--light-grey);line-height:1.6;display:flex;align-items:flex-start;gap:10px;}
+.policy-list li span.dot{flex-shrink:0;width:5px;height:5px;border-radius:50%;margin-top:7px;}
+.policy-allowed .policy-list li span.dot{background:#4cc990;}
+.policy-prohibited .policy-list li span.dot{background:#e06060;}
+.policy-warning{
+  margin-top:24px;padding:16px 18px;
+  background:rgba(200,60,60,0.08);
+  border-left:3px solid rgba(220,80,80,0.7);
+  border-radius:0 6px 6px 0;
+  font-size:12px;font-weight:400;
+  color:rgba(240,160,160,0.9);line-height:1.6;
+}
+
+/* ─────────────────────────────────────────
+   JUDGES SECTION
+───────────────────────────────────────── */
+.judges-section{padding:120px 0;}
+.judges-header{text-align:center;margin-bottom:70px;}
+.judges-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;max-width:980px;margin:0 auto;}
+.judge-card{
+  background:linear-gradient(135deg,rgba(10,22,40,0.85),rgba(15,40,71,0.6));
+  border:1px solid rgba(26,95,122,0.3);border-radius:14px;overflow:hidden;
+  transition:all 0.4s cubic-bezier(0.16,1,0.3,1);position:relative;
+}
+.judge-card:hover{border-color:rgba(45,137,176,0.5);transform:translateY(-6px);box-shadow:0 20px 50px rgba(0,0,0,0.4);}
+.judge-card-top{
+  padding:32px 24px 24px;text-align:center;
+  border-bottom:1px solid rgba(26,95,122,0.15);
+  background:linear-gradient(180deg,rgba(26,95,122,0.08) 0%,transparent 100%);
+}
+.judge-avatar-wrap{position:relative;display:inline-block;margin-bottom:16px;}
+.judge-avatar{
+  width:80px;height:80px;border-radius:50%;
+  border:2px solid rgba(45,137,176,0.4);
+  display:flex;align-items:center;justify-content:center;
+  font-size:24px;font-weight:800;color:var(--bright-cyan);
+  font-family:'Inter',sans-serif;letter-spacing:0.05em;
+  background:linear-gradient(135deg,rgba(10,22,40,0.9),rgba(26,95,122,0.3));
+  transition:border-color 0.4s;overflow:hidden;
+}
+.judge-card:hover .judge-avatar{border-color:var(--bright-cyan);}
+.judge-avatar img{width:100%;height:100%;object-fit:cover;border-radius:50%;}
+.judge-role-badge{
+  position:absolute;bottom:-6px;left:50%;transform:translateX(-50%);
+  padding:2px 10px;background:linear-gradient(135deg,var(--cyan-blue),var(--bright-cyan));
+  border-radius:100px;font-size:8px;font-weight:700;letter-spacing:0.14em;
+  text-transform:uppercase;color:var(--white);white-space:nowrap;
+}
+.judge-name{font-size:16px;font-weight:700;color:var(--white);margin-bottom:4px;}
+.judge-title{font-size:11px;font-weight:300;color:var(--light-grey);letter-spacing:0.06em;line-height:1.5;margin-bottom:12px;}
+.judge-tags{display:flex;flex-wrap:wrap;gap:5px;justify-content:center;}
+.judge-tag{font-size:8px;letter-spacing:0.12em;text-transform:uppercase;padding:2px 8px;border-radius:100px;border:1px solid rgba(26,95,122,0.35);color:rgba(197,217,224,0.4);}
+.judge-card-body{padding:20px 24px;}
+.judge-bio{font-size:12px;font-weight:300;color:var(--light-grey);line-height:1.7;}
+.judge-socials{display:flex;gap:8px;margin-top:14px;}
+.judge-social-btn{
+  flex:1;padding:7px;border:1px solid rgba(26,95,122,0.3);border-radius:5px;
+  text-align:center;font-size:9px;letter-spacing:0.1em;color:rgba(197,217,224,0.35);
+  text-decoration:none;transition:all 0.25s;cursor:pointer;display:block;
+}
+.judge-social-btn:hover{border-color:rgba(45,137,176,0.5);color:var(--bright-cyan);}
+.judge-card.chief{grid-column:1/-1;border-color:rgba(45,137,176,0.4);}
+.judge-card.chief .judge-avatar{width:96px;height:96px;font-size:30px;}
+.chief-inner{display:grid;grid-template-columns:auto 1fr;gap:0;align-items:stretch;}
+.chief-left{
+  padding:36px 32px;border-right:1px solid rgba(26,95,122,0.15);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;
+  background:linear-gradient(180deg,rgba(26,95,122,0.08) 0%,transparent 100%);
+}
+.chief-right{padding:32px 36px;}
+.chief-right .judge-name{font-size:20px;margin-bottom:6px;}
+.chief-right .judge-title{font-size:13px;margin-bottom:16px;}
+.chief-right .judge-bio{font-size:13px;}
+
+/* ─────────────────────────────────────────
+   SUBMIT YOUR FOLD — LARGE CLOSING SECTION
+───────────────────────────────────────── */
+.submit-section{
+  padding:160px 0;
+  position:relative;overflow:hidden;
+  background:linear-gradient(180deg,var(--black) 0%,var(--deep-blue) 55%,var(--black) 100%);
+}
+.submit-section::before,.submit-section::after{
+  content:'';position:absolute;left:0;width:100%;height:2px;
+  background:linear-gradient(90deg,transparent,var(--cyan-blue),transparent);
+}
+.submit-section::before{top:0;}.submit-section::after{bottom:0;}
+
+/* radial glow behind */
+.submit-section .glow-orb{
+  position:absolute;top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  width:800px;height:800px;border-radius:50%;
+  background:radial-gradient(circle,rgba(26,95,122,0.14) 0%,transparent 65%);
+  pointer-events:none;
+}
+
+.submit-inner{
+  position:relative;z-index:1;
+  display:flex;flex-direction:column;align-items:center;text-align:center;
+}
+
+.submit-label{
+  font-size:10px;font-weight:600;letter-spacing:0.35em;text-transform:uppercase;
+  color:var(--bright-cyan);margin-bottom:28px;
+  display:inline-flex;align-items:center;gap:12px;
+}
+.submit-label::before,.submit-label::after{
+  content:'';width:40px;height:1px;background:linear-gradient(90deg,transparent,var(--bright-cyan));
+}
+.submit-label::after{background:linear-gradient(90deg,var(--bright-cyan),transparent);}
+
+.submit-title{
+  font-family:'Inter',sans-serif;
+  font-size:clamp(48px,8vw,100px);font-weight:800;
+  letter-spacing:0.02em;line-height:1.0;
+  color:var(--white);margin-bottom:30px;
+}
+.submit-title .accent{color:var(--bright-cyan);}
+
+.submit-sub{
+  font-size:clamp(15px,1.8vw,20px);font-weight:300;
+  color:var(--light-grey);line-height:1.85;
+  max-width:580px;margin:0 auto 60px;
+}
+
+.submit-deadline{
+  display:inline-flex;align-items:center;gap:12px;
+  padding:12px 28px;
+  border:1px solid rgba(45,137,176,0.35);border-radius:100px;
+  font-size:12px;font-weight:500;letter-spacing:0.15em;text-transform:uppercase;
+  color:var(--light-grey);margin-bottom:50px;
+  background:rgba(26,95,122,0.08);
+}
+.submit-deadline-dot{
+  width:6px;height:6px;border-radius:50%;background:var(--bright-cyan);
+  animation:blinkDot 1.8s ease infinite;
+}
+@keyframes blinkDot{0%,100%{opacity:1}50%{opacity:0.15}}
+
+.submit-actions{display:flex;gap:18px;justify-content:center;flex-wrap:wrap;}
+
+.btn-submit-main{
+  padding:18px 52px;
+  background:linear-gradient(135deg,var(--cyan-blue),var(--bright-cyan));
+  color:var(--white);font-family:'Inter',sans-serif;
+  font-size:15px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;
+  text-decoration:none;border-radius:4px;border:none;cursor:pointer;
+  display:inline-flex;align-items:center;gap:12px;
+  transition:all 0.35s cubic-bezier(0.16,1,0.3,1);
+  position:relative;overflow:hidden;
+}
+.btn-submit-main::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,var(--bright-cyan),var(--light-cyan));
+  opacity:0;transition:opacity 0.35s;
+}
+.btn-submit-main:hover::before{opacity:1;}
+.btn-submit-main:hover{transform:translateY(-3px);box-shadow:0 16px 50px rgba(45,137,176,0.4);}
+.btn-submit-main span,.btn-submit-main svg{position:relative;z-index:1;}
+.btn-submit-main svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;transition:transform 0.3s;}
+.btn-submit-main:hover svg{transform:translateX(4px);}
+
+.btn-submit-ghost{
+  padding:18px 44px;background:transparent;color:var(--white);
+  font-family:'Inter',sans-serif;font-size:14px;font-weight:500;
+  letter-spacing:0.08em;text-transform:uppercase;text-decoration:none;
+  border-radius:4px;border:1.5px solid rgba(26,95,122,0.6);
+  display:inline-block;transition:all 0.3s ease;
+}
+.btn-submit-ghost:hover{border-color:var(--bright-cyan);transform:translateY(-3px);}
+
+.submit-footnote{
+  margin-top:50px;font-size:11px;letter-spacing:0.1em;
+  color:rgba(197,217,224,0.2);
+}
+
+/* ─────────────────────────────────────────
+   FOOTER
+───────────────────────────────────────── */
+footer{padding:60px 0 36px;border-top:1px solid rgba(26,95,122,0.15);position:relative;z-index:1;}
+.footer-inner{max-width:1100px;margin:0 auto;padding:0 40px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;}
+.footer-logo{font-size:22px;font-weight:800;letter-spacing:0.1em;color:rgba(197,217,224,0.4);}
+.footer-copy{font-size:12px;color:rgba(197,217,224,0.2);letter-spacing:0.06em;}
+.footer-hin{font-size:11px;color:rgba(197,217,224,0.15);letter-spacing:0.2em;}
+
+/* ─────────────────────────────────────────
+   RESPONSIVE
+───────────────────────────────────────── */
+@media(max-width:960px){
+  body{padding-top:90px;}
+  .nav-container{padding:0 20px;}
+  .container,.container-sm{padding:0 20px;}
+  section{padding:80px 0;}
+  .about-grid{grid-template-columns:1fr;gap:40px;}
+  .prizes-grid{grid-template-columns:1fr;max-width:400px;}
+  .prize-card.gold-card{transform:none;}
+  .prize-card.gold-card:hover{transform:translateY(-8px);}
+  .gold-crown{display:none;}
+  .policy-grid{grid-template-columns:1fr;gap:20px;}
+  .judges-grid{grid-template-columns:1fr 1fr;}
+  .judge-card.chief{grid-column:1/-1;}
+  .chief-inner{grid-template-columns:1fr;}
+  .chief-left{padding:24px;border-right:none;border-bottom:1px solid rgba(26,95,122,0.15);}
+  .footer-inner{padding:0 20px;justify-content:center;text-align:center;}
+  .submit-section{padding:120px 0;}
+  .submit-title{font-size:clamp(42px,10vw,80px);}
+}
+@media(max-width:600px){
+  .hero-title{font-size:64px;}
+  .judges-grid{grid-template-columns:1fr;}
+  .hero-actions{flex-direction:column;align-items:center;}
+  .prizes-grid{max-width:100%;}
+  .submit-actions{flex-direction:column;align-items:center;}
+}
+</style>
+</head>
+<body>
+
+<!-- BETA BANNER -->
+<div class="beta-banner">
+  <span class="beta-badge">VAGH 2026</span>
+  National Origami Competition — Official Competition Page &nbsp;·&nbsp; SIOA
+</div>
+
+<!-- NAVBAR -->
+<nav class="navbar" id="navbar">
+  <div class="nav-container">
+    <a href="/" class="nav-logo">SIOA</a>
+    <div class="nav-right">
+      <a href="/competition.html" class="nav-link">
+        <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+        View Entries
+      </a>
+      <a href="/submit.html" class="nav-cta">Submit Entry</a>
+    </div>
+  </div>
+</nav>
+
+<canvas id="bg-canvas"></canvas>
+
+<!-- ══════════════════════════════════════
+     HERO
+══════════════════════════════════════ -->
+<section class="hero">
+  <div class="hero-ghost">VAGH</div>
+  <div class="container">
+    <div class="hero-inner">
+      <div class="hero-eyebrow">
+        <span class="hero-eyebrow-dot"></span>
+        Society of Indian Origami Artists
+        <span class="hero-eyebrow-dot"></span>
+      </div>
+      <h1 class="hero-title">VAGH<span>.</span></h1>
+      <span class="hero-year">National Origami Competition · 2026</span>
+      <p class="hero-desc">India's premier paper folding competition — open to every folder, at every level. Any model. Any style. Pure craft.</p>
+      <div class="hero-pills">
+        <span class="hero-pill">Open to All Levels</span>
+        <span class="hero-pill">Any Origami Model</span>
+        <span class="hero-pill">4 Judging Criteria</span>
+        <span class="hero-pill">Physical Trophies</span>
+        <span class="hero-pill">Submissions Close 31 July 2026</span>
+      </div>
+      <div class="hero-actions">
+        <a href="/submit.html" class="btn-primary">Opening soon</a>
+        <a href="/competition.html" class="btn-ghost">Browse All Entries</a>
+      </div>
+    </div>
+  </div>
+  <div class="hero-scroll-cue">
+    <span>Scroll</span>
+    <div class="scroll-arrow"></div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ══════════════════════════════════════
+     ABOUT THE COMPETITION
+══════════════════════════════════════ -->
+<section id="about">
+  <div class="container">
+    <div class="about-grid">
+      <div class="about-text fade-up">
+        <p class="section-eyebrow">About VAGH 2026</p>
+        <p><strong>VAGH 2026</strong> is India's National Origami Competition, organized by the Society of Indian Origami Artists.</p>
+        <p>This competition is designed to remain <strong>accessible to folders of all skill levels</strong> while maintaining a professional and respectful competitive environment.</p>
+        <p>Rather than rewarding complexity alone, VAGH recognizes <strong>thoughtful, refined, and well-executed folding</strong> across all styles and experience levels.</p>
+        <div class="philosophy-box">
+          <blockquote>
+            "A simple model folded exceptionally well may rank higher than a more complex model with weaker execution. Complexity alone does not determine winners."
+            <cite>— VAGH 2026 Competition Philosophy</cite>
+          </blockquote>
+        </div>
+      </div>
+      <div class="fade-up fade-up-d2">
+        <p class="section-eyebrow" style="margin-bottom:22px;">At a Glance</p>
+        <div class="about-stats">
+          <div class="about-stat"><div class="as-num">4<em>+</em></div><div class="as-label">Stages</div></div>
+          <div class="about-stat"><div class="as-num">3</div><div class="as-label">Award Tiers</div></div>
+          <div class="about-stat"><div class="as-num">∞</div><div class="as-label">Skill Levels Welcome</div></div>
+          <div class="about-stat"><div class="as-num">1<em>st</em></div><div class="as-label">Edition</div></div>
+          <div class="about-stat" style="grid-column:1/-1;"><div class="as-num" style="font-size:22px;color:var(--bright-cyan);">31 July 2026</div><div class="as-label">Submission Deadline</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ══════════════════════════════════════
+     COMPETITION STAGES
+══════════════════════════════════════ -->
+<section id="stages" class="stages-section">
+  <div class="container">
+    <div class="stages-header fade-up">
+      <p class="section-eyebrow">How It Works</p>
+      <h2 class="section-title">Competition Structure</h2>
+      <p class="section-lead" style="margin:0 auto;">Four carefully designed stages — from registration to recognition. Here is exactly what to expect.</p>
+    </div>
+
+    <div class="stages-track">
+
+      <div class="stage-item fade-up fade-up-d1">
+        <div class="stage-num-col"><div class="stage-circle">01</div></div>
+        <div class="stage-content">
+          <p class="stage-label">Stage One</p>
+          <h3 class="stage-title">Registration &amp; Submission Opening</h3>
+          <p class="stage-body">Participants may register and submit their entries through the official submission portal once applications open. All competition rules, judging criteria, and submission guidelines will be available before submission begins — ensuring every participant can prepare with full clarity.</p>
+        </div>
+      </div>
+
+      <div class="stage-item fade-up fade-up-d2">
+        <div class="stage-num-col"><div class="stage-circle">02</div></div>
+        <div class="stage-content">
+          <p class="stage-label">Stage Two</p>
+          <h3 class="stage-title">Submission Period</h3>
+          <p class="stage-body">Participants are free to fold any origami model of their choice. The competition focuses on <strong>quality of folding</strong> rather than complexity alone.</p>
+          <ul class="stage-list">
+            <li>Both simple and complex models are allowed</li>
+            <li>Previously folded works are permitted</li>
+            <li>Participants may also create new works specifically for the competition</li>
+            <li>Multiple image submissions are supported</li>
+            <li>Optional video submissions may be allowed</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="stage-item fade-up fade-up-d3">
+        <div class="stage-num-col"><div class="stage-circle">03</div></div>
+        <div class="stage-content">
+          <p class="stage-label">Stage Three</p>
+          <h3 class="stage-title">Judging Process</h3>
+          <p class="stage-body">Entries will be reviewed by our panel of expert judges against six core criteria:</p>
+          <ul class="stage-list">
+            <li><strong>Cleanliness</strong> — how neat and precise the fold lines are</li>
+            <li><strong>Precision</strong> — accuracy of alignment and proportion</li>
+            <li><strong>Shaping</strong> — three-dimensional form and sculptural quality</li>
+            <li><strong>Presentation</strong> — how the model is photographed and shown</li>
+            <li><strong>Folding maturity</strong> — command of technique and intention</li>
+            <li><strong>Overall execution</strong> — holistic impression of the finished work</li>
+          </ul>
+          <div class="stage-note">Optional constructive criticism may also be provided to participants who choose to receive feedback — a chance to grow from every submission regardless of result.</div>
+        </div>
+      </div>
+
+      <div class="stage-item fade-up fade-up-d4">
+        <div class="stage-num-col"><div class="stage-circle">04</div></div>
+        <div class="stage-content">
+          <p class="stage-label">Stage Four</p>
+          <h3 class="stage-title">Results &amp; Recognition</h3>
+          <p class="stage-body">Final results will be announced officially after the judging period. The top three participants will be officially awarded. All participants will be celebrated as part of SIOA's growing national community.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ══════════════════════════════════════
+     PRIZES
+══════════════════════════════════════ -->
+<section id="prizes" class="prizes-section">
+  <div class="container">
+    <div class="prizes-header fade-up">
+      <p class="section-eyebrow">Awards</p>
+      <h2 class="section-title">What You Can Win</h2>
+      <p class="section-lead" style="margin:0 auto;">Three tiers of recognition for the finest folders in India.</p>
+    </div>
+
+    <div class="prizes-grid">
+
+      <div class="prize-card gold-card fade-up fade-up-d2">
+        <div class="gold-crown">⭐ Top Prize</div>
+        <div class="pc-header" style="background:linear-gradient(135deg,rgba(200,150,58,0.1),rgba(10,22,40,0.9));">
+          <span class="pc-medal">🥇</span>
+          <p class="pc-place">First Place</p>
+          <p class="pc-title">Champion</p>
+        </div>
+        <div class="pc-body">
+          <div class="pc-item"><span class="pc-item-icon">📖</span><span>A copy of <strong>Sampreet Manna's new book</strong></span></div>
+          <div class="pc-item"><span class="pc-item-icon">📦</span><span>Multiple large-size <strong>DT papers</strong> from Nara Origami Shop</span></div>
+          <div class="pc-item"><span class="pc-item-icon">📜</span><span><strong>Signed certificate</strong> from SIOA</span></div>
+          <div class="pc-item"><span class="pc-item-icon">🏆</span><span>Official recognition &amp; featured showcase on the platform</span></div>
+        </div>
+      </div>
+
+      <div class="prize-card silver-card fade-up fade-up-d3">
+        <div class="pc-header" style="background:linear-gradient(135deg,rgba(128,144,164,0.08),rgba(10,22,40,0.9));">
+          <span class="pc-medal">🥈</span>
+          <p class="pc-place">Second Place</p>
+          <p class="pc-title">Runner-Up</p>
+        </div>
+        <div class="pc-body">
+          <div class="pc-item"><span class="pc-item-icon">📜</span><span><strong>Signed certificate</strong> from SIOA</span></div>
+          <div class="pc-item"><span class="pc-item-icon">📦</span><span><strong>Papers</strong> from Nara Origami Shop</span></div>
+          <div class="pc-item"><span class="pc-item-icon">🌟</span><span>Official recognition &amp; featured showcase on the platform</span></div>
+        </div>
+      </div>
+
+      <div class="prize-card bronze-card fade-up fade-up-d4">
+        <div class="pc-header" style="background:linear-gradient(135deg,rgba(160,96,48,0.08),rgba(10,22,40,0.9));">
+          <span class="pc-medal">🥉</span>
+          <p class="pc-place">Third Place</p>
+          <p class="pc-title">Merit</p>
+        </div>
+        <div class="pc-body">
+          <div class="pc-item"><span class="pc-item-icon">📜</span><span><strong>Signed certificate</strong> from SIOA</span></div>
+          <div class="pc-item"><span class="pc-item-icon">🌟</span><span>Official recognition &amp; featured showcase on the platform</span></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ══════════════════════════════════════
+     JUDGES
+══════════════════════════════════════ -->
+<!-- ══════════════════════════════════════
+     IMAGE & EDITING POLICY
+══════════════════════════════════════ -->
+<section id="policy" class="policy-section">
+  <div class="container">
+    <div class="fade-up" style="text-align:center;margin-bottom:60px;">
+      <p class="section-eyebrow">Image &amp; Editing Policy</p>
+      <h2 class="section-title">Authenticity First</h2>
+      <p class="section-lead" style="margin:0 auto;">As this is an art competition, submitted images must represent the actual folded work as accurately as possible.</p>
+    </div>
+    <div class="policy-grid fade-up fade-up-d1">
+      <div class="policy-allowed">
+        <div class="policy-heading">
+          <div class="policy-heading-icon allowed-icon">✓</div>
+          <h4>Permitted Adjustments</h4>
+        </div>
+        <ul class="policy-list">
+          <li><span class="dot"></span>Cropping to frame the model</li>
+          <li><span class="dot"></span>Brightness or exposure correction</li>
+          <li><span class="dot"></span>Minor color correction that does not misrepresent the fold</li>
+          <li><span class="dot"></span>Straightening or perspective correction</li>
+          <li><span class="dot"></span>Multiple photographs from different angles</li>
+          <li><span class="dot"></span>Clean, neutral backgrounds (physical)</li>
+        </ul>
+      </div>
+      <div class="policy-prohibited">
+        <div class="policy-heading">
+          <div class="policy-heading-icon prohibited-icon">✕</div>
+          <h4>Strictly Prohibited</h4>
+        </div>
+        <ul class="policy-list">
+          <li><span class="dot"></span>AI-generated images or backgrounds</li>
+          <li><span class="dot"></span>AI tools to alter folds or enhance shaping</li>
+          <li><span class="dot"></span>AI editing that modifies the appearance of the model</li>
+          <li><span class="dot"></span>Digital manipulation of crease lines or form</li>
+          <li><span class="dot"></span>Generating synthetic presentations of real work</li>
+        </ul>
+        <div class="policy-warning">
+          ⚠ Violation may result in immediate disqualification, removal of submissions, and potential ban from future SIOA competitions.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ══════════════════════════════════════
+     SUBMIT YOUR FOLD — LARGE CLOSING SECTION
+══════════════════════════════════════ -->
+<section class="submit-section">
+  <div class="glow-orb"></div>
+  <div class="container">
+    <div class="submit-inner fade-up">
+
+      <span class="submit-label">Soon</span>
+
+      <h2 class="submit-title">
+        Submit Your<br><span class="accent">Fold.</span>
+      </h2>
+
+      <p class="submit-sub">
+        Every fold counts. Open to all levels, all styles, all corners of India. No prerequisites — just paper, intention, and craft.
+      </p>
+
+      <div class="submit-deadline">
+        <span class="submit-deadline-dot"></span>
+        Deadline is yet to be decided
+      </div>
+
+      <div class="submit-actions">
+        <a href="/submission.html" class="btn-submit-main">
+          <span>Opening Soon</span>
+          <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+        <a href="/competition.html" class="btn-submit-ghost">Browse Entries</a>
+      </div>
+
+      <p class="submit-footnote">Free to enter · Open to all Indian residents · SIOA membership not required</p>
+
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <span class="footer-logo">SIOA</span>
+    <span class="footer-copy">© 2026 Society of Indian Origami Artists. All rights reserved.</span>
+    <span class="footer-hin">विधान · अभ्यास · गौरव · हस्त</span>
+  </div>
+</footer>
+
+<script>
+/* ── NAVBAR ── */
+var navbar = document.getElementById('navbar');
+window.addEventListener('scroll', function(){
+  navbar.classList.toggle('scrolled', window.scrollY > 50);
+});
+
+/* ── SCROLL REVEAL ── */
+var io = new IntersectionObserver(function(entries){
+  entries.forEach(function(e){ if(e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.08, rootMargin: '0px 0px -50px 0px' });
+document.querySelectorAll('.fade-up').forEach(function(el){ io.observe(el); });
+
+/* ── PARTICLE CANVAS ── */
+var canvas = document.getElementById('bg-canvas');
+var ctx = canvas.getContext('2d');
+function resize(){ canvas.width = window.innerWidth; canvas.height = document.documentElement.scrollHeight; }
+resize(); window.addEventListener('resize', function(){ resize(); });
+function Particle(){ this.reset(); this.y = Math.random() * canvas.height; }
+Particle.prototype.reset = function(){
+  this.x = Math.random() * canvas.width; this.y = -10;
+  this.size = Math.random() * 2.2 + 0.4; this.speedY = Math.random() * 0.2 + 0.07;
+  this.speedX = (Math.random() - 0.5) * 0.12; this.opacity = Math.random() * 0.35 + 0.12;
+  this.hue = Math.random() * 40 + 180;
+};
+Particle.prototype.update = function(){
+  this.y += this.speedY; this.x += this.speedX + Math.sin(this.y * 0.01) * 0.2;
+  if(this.y > canvas.height + 10) this.reset();
+  if(this.x < 0) this.x = canvas.width;
+  if(this.x > canvas.width) this.x = 0;
+};
+Particle.prototype.draw = function(){
+  ctx.save(); ctx.globalAlpha = this.opacity;
+  ctx.fillStyle = 'hsl(' + this.hue + ',70%,50%)';
+  ctx.shadowBlur = 10; ctx.shadowColor = 'hsl(' + this.hue + ',70%,50%)';
+  ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fill(); ctx.restore();
+};
+var particles = [];
+for(var i = 0; i < 55; i++) particles.push(new Particle());
+(function animate(){
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  for(var i = 0; i < particles.length; i++){
+    for(var j = i + 1; j < particles.length; j++){
+      var dx = particles[i].x - particles[j].x, dy = particles[i].y - particles[j].y;
+      var d = Math.sqrt(dx * dx + dy * dy);
+      if(d < 120){
+        ctx.save(); ctx.globalAlpha = (1 - d / 120) * 0.1;
+        ctx.strokeStyle = 'hsl(190,70%,50%)'; ctx.lineWidth = 0.7;
+        ctx.beginPath(); ctx.moveTo(particles[i].x, particles[i].y);
+        ctx.lineTo(particles[j].x, particles[j].y); ctx.stroke(); ctx.restore();
+      }
+    }
+  }
+  particles.forEach(function(p){ p.update(); p.draw(); });
+  requestAnimationFrame(animate);
+})();
+</script>
+</body>
+</html>
