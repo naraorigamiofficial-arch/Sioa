@@ -557,6 +557,8 @@ textarea{resize:vertical;min-height:100px;line-height:1.6;}
         <div class="upload-progress" id="imgProgress"><div class="progress-bar" id="imgProgressBar"></div></div>
         <div id="imagePreviewGrid" class="file-previews"></div>
         <span class="error-msg" id="err-images">Please upload at least 3 photographs.</span>
+
+
       </div>
       <div class="form-nav">
         <button class="btn-back-step" onclick="goToPage(2)"><svg viewBox="0 0 24 24"><path d="M19 12H5M12 5l-7 7 7 7"/></svg> Back</button>
@@ -616,6 +618,7 @@ textarea{resize:vertical;min-height:100px;line-height:1.6;}
         <div class="review-section" style="margin-top:28px;padding-top:28px;border-top:1px solid rgba(26,95,122,0.15);">
           <div class="review-section-label">Uploaded Files</div>
           <div id="rv-images" class="review-images-row"></div>
+          <div id="rv-video" style="margin-top:10px;font-size:12px;color:var(--light-grey);"></div>
         </div>
 
         <div style="margin-top:32px;padding-top:24px;border-top:1px solid rgba(26,95,122,0.2);">
@@ -688,8 +691,12 @@ textarea{resize:vertical;min-height:100px;line-height:1.6;}
   </div>
 </footer>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-/* ── STATE ── */
+    const sb = window.supabase.createClient(
+        "https://zbgvgzzaejaxrgcjjovc.supabase.co",
+        "sb_publishable_gCLTB6WM95Iw6Txcf2fjCA_5fnXPw77"
+    );
 var state = {
   currentPage: 1,
   difficulty: '',
