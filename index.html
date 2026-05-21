@@ -794,6 +794,9 @@ var searchBtn   = document.getElementById('searchBtn');
 var grid        = document.getElementById('artist-grid-container');
 
 async function performSearch() {
+    // SAFETY NET: If the search bar is hidden or deleted, stop the function right here!
+    if (!searchInput) return;
+
     var q = searchInput.value.trim();
     if (!q) { grid.innerHTML = '<div class="artist-empty">Type something to search.</div>'; return; }
     grid.innerHTML = '<div class="artist-empty">Searching…</div>';
