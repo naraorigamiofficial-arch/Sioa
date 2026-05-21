@@ -757,9 +757,11 @@
         var to   = from + pageSize - 1;
 
         var q = sb.from('profiles')
-            .select('id, full_name, username, city, state, specialty, bio, created_at, competition_count', { count: 'exact' })
-            .neq('id', currentUserId);
+    .select('id, full_name, username, city, state, specialty, bio, created_at, competition_count', { count: 'exact' });
 
+if (currentUserId) {
+    q = q.neq('id', currentUserId);
+}
         if (search.trim()) {
             q = q.or('full_name.ilike.%' + search.trim() + '%,username.ilike.%' + search.trim() + '%');
         }
@@ -814,10 +816,11 @@
     // ─── TOGGLE FOLLOW ────────────────────────────────────────────────────────
     async function toggleFollow(targetId, btn) {
     if (!currentUserId) {
-        window.location.href = '/login/login.html';  // prompt guests to log in
+        window.location.href = '/login/login.html';
         return;
     }
-    // ... rest of follow logic unchanged
+    btn.disabled = true;
+    
         btn.disabled = true;
 
         var already = isFollowing(targetId);
