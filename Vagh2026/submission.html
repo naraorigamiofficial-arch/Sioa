@@ -915,28 +915,101 @@ function populateReview() {
   vidEl.textContent = state.video ? 'Video: ' + state.video.name + ' (' + formatSize(state.video.size) + ')' : '';
 }
 
-/* ── SUBMIT ── */
-function handleSubmit() {
+/* ── SUBMIT TO SUPABASE ── */
+async function handleSubmit() {
   if (!validatePage(4)) return;
   if (!state.checkboxes.finalConfirmed) {
     document.getElementById('err-finalConfirmed').classList.add('show');
     return;
   }
+  
   var btn = document.getElementById('submitBtn');
   btn.disabled = true;
-  btn.innerHTML = '<span style="opacity:0.7;letter-spacing:0.06em;font-size:12px;">Submitting…</span>';
+  
+  try {
+    // Generate a unique Submission ID
+    const subId = 'VAGH-2026-' + Math.floor(1000 + Math.random() * 9000);
+    
+    // 1. Upload Images to Supabase Storage
+    btn.innerHTML = '<span style="opacity:0.7;letter-spacing:0.06em;font-size:12px;">Uploading Images ('+state.images.length+')...</span>';
+    let imagePaths = [];
+    
+    for (let i = 0; i < state.images.length; i++) {
+      const file = state.images[i];
+      const fileExt = file.name.split('.').pop();
+      const fileName = `${subId}/image_${i}_${Date.now()}.${fileExt}`;
 
-  setTimeout(function(){
+      const { data, error } = await supabase.storage
+        .from('competition_media')
+        .upload(fileName, file);
+
+      if (error) throw error;
+      imagePaths.push(data.path);
+    }
+
+    // 2. Upload Video to Supabase Storage (if exists)
+    let videoPath = null;
+    if (state.video) {
+      btn.innerHTML = '<span style="opacity:0.7;letter-spacing:0.06em;font-size:12px;">Uploading Video... This may take a moment.</span>';
+      const fileExt = state.video.name.split('.').pop();
+      const fileName = `${subId}/video_${Date.now()}.${fileExt}`;
+
+      const { data, error } = await supabase.storage
+        .from('competition_media')
+        .upload(fileName, state.video);
+
+      if (error) throw error;
+      videoPath = data.path;
+    }
+
+    // 3. Insert Record into Supabase Database
+    btn.innerHTML = '<span style="opacity:0.7;letter-spacing:0.06em;font-size:12px;">Finalizing Entry...</span>';
+    
+    const { error: dbError } = await supabase
+      .from('submissions')
+      .insert([
+        {
+          submission_id: subId,
+          full_name: document.getElementById('fullName').value,
+          artist_name: document.getElementById('artistName').value,
+          email: document.getElementById('email').value,
+          age: document.getElementById('age').value ? parseInt(document.getElementById('age').value) : null,
+          country: document.getElementById('country').value,
+          state: document.getElementById('state').value,
+          instagram: document.getElementById('instagram').value,
+          discord: document.getElementById('discord').value,
+          wants_feedback: state.checkboxes.wantsFeedback,
+          model_name: document.getElementById('modelName').value,
+          designer: document.getElementById('designer').value,
+          paper_used: document.getElementById('paper').value,
+          time_taken: document.getElementById('timeTaken').value,
+          difficulty: state.difficulty,
+          artistic_statement: document.getElementById('statement').value,
+          image_paths: imagePaths,
+          video_path: videoPath
+        }
+      ]);
+
+    if (dbError) throw dbError;
+
+    // 4. Success Routine
     document.getElementById('form-area').style.display = 'none';
     var successArea = document.getElementById('success-area');
     successArea.style.display = 'block';
-    var id = 'VAGH-2026-' + Math.floor(1000 + Math.random() * 9000);
-    document.getElementById('submissionId').textContent = id;
+    
+    document.getElementById('submissionId').textContent = subId;
     window.scrollTo({ top: 0, behavior: 'smooth' });
     localStorage.removeItem('sioa_draft');
-  }, 1800);
-}
 
+  } catch (error) {
+    console.error("Submission Error:", error);
+    alert("An error occurred during submission: " + error.message);
+    
+    // Reset button so they can try again
+    btn.disabled = false;
+    btn.innerHTML = 'Submit Entry <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>';
+  }
+}
 /* ── AUTOSAVE ── */
 function triggerAutosave() {
   var ind = document.getElementById('autosave1');
@@ -1031,6 +1104,16 @@ for (var i = 0; i < 60; i++) particles.push(new Particle());
   particles.forEach(function(p){ p.update(); p.draw(); });
   requestAnimationFrame(animate);
 })();
+</script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+<script>
+const supabaseUrl = 'https://zbgvgzzaejaxrgcjjovc.supabase.co';
+const supabaseKey = 'sb_publishable_gCLTB6WM95Iw6Txcf2fjCA_5fnXPw77';
+
+const Supabase = supabase.createClient(
+  supabaseUrl,
+  supabaseKey
+);
 </script>
 </body>
 </html>
