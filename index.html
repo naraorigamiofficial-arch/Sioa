@@ -820,8 +820,13 @@ async function performSearch() {
         }).join('');
     } catch (e) { grid.innerHTML = '<div class="artist-empty">Error loading results.</div>'; }
 }
-searchBtn.addEventListener('click', performSearch);
-searchInput.addEventListener('keydown', function (e) { if (e.key === 'Enter') performSearch(); });
+// Only attach search event listeners if the search components exist on the page
+if (searchBtn && searchInput) {
+  searchBtn.addEventListener('click', performSearch);
+  searchInput.addEventListener('keydown', function (e) { 
+    if (e.key === 'Enter') performSearch(); 
+  });
+}
 
 /* NAVBAR */
 var navbar = document.getElementById('navbar');
