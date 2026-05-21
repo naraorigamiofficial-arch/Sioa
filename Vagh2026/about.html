@@ -82,8 +82,6 @@ body{
 /* CANVAS BG */
 #bg-canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;opacity:0.28;pointer-events:none;}
 
-
-
 /* CONTAINERS */
 .container{position:relative;z-index:1;max-width:1100px;margin:0 auto;padding:0 40px;}
 
@@ -512,9 +510,6 @@ footer{padding:60px 0 36px;border-top:1px solid rgba(26,95,122,0.15);position:re
   </div>
 </nav>
 
-<!-- ORIGAMI CREASE PATTERN BG -->
-<svg id="crease-bg" xmlns="http://www.w3.org/2000/svg" style="position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none;opacity:0;transition:opacity 2s ease;" aria-hidden="true"></svg>
-
 <canvas id="bg-canvas"></canvas>
 
 <!-- HERO -->
@@ -917,73 +912,6 @@ for(var i = 0; i < 55; i++) particles.push(new Particle());
   }
   particles.forEach(function(p){ p.update(); p.draw(); });
   requestAnimationFrame(animate);
-  
-  /* ORIGAMI CREASE PATTERN */
-(function() {
-    var svg = document.getElementById('crease-bg');
-    var W = window.innerWidth, H = window.innerHeight;
-    var ns = 'http://www.w3.org/2000/svg';
-
-    var lines = [];
-    var t = 0;
-
-    function makeLine(x1, y1, x2, y2, op) {
-        var l = document.createElementNS(ns, 'line');
-        l.setAttribute('stroke', 'rgba(45,137,176,' + op + ')');
-        l.setAttribute('stroke-width', '0.5');
-        svg.appendChild(l);
-        return { el: l, x1: x1, y1: y1, x2: x2, y2: y2,
-                 ox1: x1, oy1: y1, ox2: x2, oy2: y2,
-                 phase: Math.random() * Math.PI * 2,
-                 speed: 0.0004 + Math.random() * 0.0003,
-                 drift: (Math.random() - 0.5) * 18 };
-    }
-
-    function build() {
-        svg.innerHTML = '';
-        lines = [];
-        W = window.innerWidth; H = window.innerHeight;
-        var gridW = 120, gridH = 120;
-        var cols = Math.ceil(W / gridW) + 2;
-        var rows = Math.ceil(H / gridH) + 2;
-
-        for (var r = 0; r <= rows; r++) {
-            for (var c = 0; c <= cols; c++) {
-                var x = c * gridW - gridW;
-                var y = r * gridH - gridH;
-                var op = (0.04 + Math.random() * 0.07).toFixed(3);
-
-                /* horizontal */
-                if (r < rows) lines.push(makeLine(x, y, x + gridW, y, op));
-                /* vertical */
-                if (c < cols) lines.push(makeLine(x, y, x, y + gridH, op));
-                /* diagonal A */
-                if (r < rows && c < cols) lines.push(makeLine(x, y, x + gridW, y + gridH, (op * 0.6).toFixed(3)));
-                /* diagonal B */
-                if (r < rows && c < cols) lines.push(makeLine(x + gridW, y, x, y + gridH, (op * 0.6).toFixed(3)));
-            }
-        }
-        svg.style.opacity = '1';
-    }
-
-    function tick(ts) {
-        t = ts * 0.001;
-        for (var i = 0; i < lines.length; i++) {
-            var ln = lines[i];
-            var s = Math.sin(t * ln.speed * 1000 + ln.phase) * ln.drift;
-            var s2 = Math.cos(t * ln.speed * 800 + ln.phase) * ln.drift * 0.6;
-            ln.el.setAttribute('x1', ln.ox1 + s);
-            ln.el.setAttribute('y1', ln.oy1 + s2);
-            ln.el.setAttribute('x2', ln.ox2 + s2);
-            ln.el.setAttribute('y2', ln.oy2 + s);
-        }
-        requestAnimationFrame(tick);
-    }
-
-    build();
-    window.addEventListener('resize', build);
-    requestAnimationFrame(tick);
-})();
 })();
 </script>
 </body>
