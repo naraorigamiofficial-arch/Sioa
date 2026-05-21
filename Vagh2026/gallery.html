@@ -1003,7 +1003,7 @@ async function loadGalleryEntries() {
   try {
     const { data: entries, error } = await sb
       .from('submissions')
-      .select('submission_id, artist_name, full_name, model_name, designer, difficulty, image_paths, statement, paper, time_taken, created_at')
+      .select('submission_id, artist_name, full_name, model_name, designer, difficulty, image_paths, artistic_statement, paper_used, time_taken, created_at') //  Correct
       .order('created_at', { ascending: false });
 
     if (error) throw error;
