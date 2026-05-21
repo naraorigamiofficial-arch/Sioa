@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -26,18 +26,19 @@
             background: var(--black);
             color: var(--white);
             overflow-x: hidden;
-            padding-top: 116px;
+            /* FIX: removed padding-top — navbar handles its own offset */
+            padding-top: 70px;
         }
-        
-        /* NAVBAR */
+
+        /* NAVBAR — sits right at top, no beta banner pushing it down */
         .navbar {
-            position: fixed; top: 36px; left: 0; right: 0; z-index: 1000;
+            position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
             background: rgba(0,0,0,0.85); backdrop-filter: blur(10px);
             border-bottom: 1px solid rgba(26,95,122,0.15);
-            padding: 25px 0; transition: all 0.4s cubic-bezier(0.16,1,0.3,1);
+            padding: 18px 0; transition: all 0.4s cubic-bezier(0.16,1,0.3,1);
         }
         .navbar.scrolled {
-            top: 0; padding: 12px 0; background: rgba(0,0,0,0.98);
+            padding: 12px 0; background: rgba(0,0,0,0.98);
             box-shadow: 0 10px 40px rgba(0,0,0,0.5), 0 2px 10px rgba(26,95,122,0.2);
             border-bottom: 1px solid rgba(26,95,122,0.3);
         }
@@ -47,19 +48,20 @@
             display: flex; justify-content: space-between; align-items: center;
         }
         .nav-logo {
-            font-size: 28px; font-weight: 800; letter-spacing: 0.1em;
+            font-size: 26px; font-weight: 800; letter-spacing: 0.1em;
             color: var(--white); text-decoration: none; transition: all 0.3s ease;
         }
-        .navbar.scrolled .nav-logo { font-size: 24px; }
+        .navbar.scrolled .nav-logo { font-size: 23px; }
         .nav-logo:hover { color: var(--bright-cyan); text-shadow: 0 0 20px rgba(45,137,176,0.5); }
-        .nav-menu { display: flex; gap: 40px; list-style: none; align-items: center; }
+        .nav-menu { display: flex; gap: 32px; list-style: none; align-items: center; }
         .nav-menu li { opacity: 0; transform: translateY(-20px); animation: slideDown 0.6s cubic-bezier(0.16,1,0.3,1) forwards; }
         .nav-menu li:nth-child(1){animation-delay:0.1s} .nav-menu li:nth-child(2){animation-delay:0.15s}
         .nav-menu li:nth-child(3){animation-delay:0.2s} .nav-menu li:nth-child(4){animation-delay:0.25s}
         .nav-menu li:nth-child(5){animation-delay:0.3s} .nav-menu li:nth-child(6){animation-delay:0.35s}
+        .nav-menu li:nth-child(7){animation-delay:0.4s}
         @keyframes slideDown { to { opacity:1; transform:translateY(0); } }
         .nav-menu a {
-            color: var(--light-grey); text-decoration: none; font-size: 14px;
+            color: var(--light-grey); text-decoration: none; font-size: 13px;
             font-weight: 400; letter-spacing: 0.05em; cursor: pointer;
             transition: all 0.3s cubic-bezier(0.16,1,0.3,1);
             position: relative; padding: 5px 0; display: inline-block;
@@ -72,22 +74,36 @@
         .nav-menu a:hover { color: var(--white); transform: translateY(-2px); }
         .nav-menu a:hover::after { width: 100%; }
         .nav-btn {
-            padding: 9px 22px; background: transparent;
+            padding: 8px 20px; background: transparent;
             border: 1.5px solid var(--cyan-blue); border-radius: 4px;
-            color: var(--white) !important; font-size: 13px !important;
+            color: var(--white) !important; font-size: 12px !important;
             font-weight: 500 !important; letter-spacing: 0.08em !important;
             transition: all 0.3s ease !important;
         }
         .nav-btn::after { display:none !important; }
         .nav-btn:hover { background: var(--cyan-blue) !important; border-color: var(--bright-cyan) !important; transform: translateY(0) !important; }
+        /* DONATE NAV BUTTON */
+        .nav-donate {
+            padding: 8px 20px;
+            background: linear-gradient(135deg, var(--cyan-blue), var(--bright-cyan));
+            border-radius: 4px; border: none;
+            color: var(--white) !important; font-size: 12px !important;
+            font-weight: 600 !important; letter-spacing: 0.1em !important;
+            text-decoration: none; display: inline-block;
+            transition: all 0.3s ease !important;
+        }
+        .nav-donate::after { display:none !important; }
+        .nav-donate:hover { transform: translateY(-1px) !important; box-shadow: 0 8px 24px rgba(45,137,176,0.35) !important; }
         .menu-toggle { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 10px; }
         .menu-toggle span { width: 25px; height: 2px; background: var(--white); transition: all 0.3s cubic-bezier(0.16,1,0.3,1); transform-origin: center; }
         .menu-toggle.active span:nth-child(1) { transform: rotate(45deg) translateY(7px); }
         .menu-toggle.active span:nth-child(2) { opacity: 0; }
         .menu-toggle.active span:nth-child(3) { transform: rotate(-45deg) translateY(-7px); }
+
         /* CANVAS */
         #bg-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; opacity: 0.4; pointer-events: none; }
         .container { position: relative; z-index: 1; max-width: 1400px; margin: 0 auto; padding: 0 40px; }
+
         /* HERO */
         .hero { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; position: relative; }
         .hero-logo {
@@ -124,6 +140,7 @@
         }
         .btn-ghost-hero:hover { border-color: var(--bright-cyan); transform: translateY(-2px); }
         @keyframes fadeInUp { from{opacity:0;transform:translateY(30px)} to{opacity:1;transform:translateY(0)} }
+
         /* SHARED */
         section { padding: 120px 0; position: relative; }
         .section-header { text-align: center; margin-bottom: 80px; opacity:0; transform:translateY(40px); transition: all 0.8s cubic-bezier(0.16,1,0.3,1); }
@@ -132,6 +149,7 @@
         .section-title { font-size: clamp(42px,6vw,68px); font-weight: 700; letter-spacing: 0.02em; color: var(--white); line-height: 1.2; }
         .fade-in-section { opacity:0; transform:translateY(40px); transition: all 0.8s cubic-bezier(0.16,1,0.3,1); }
         .fade-in-section.visible { opacity:1; transform:translateY(0); }
+
         /* ABOUT */
         .about-content { max-width: 900px; margin: 0 auto; font-size: clamp(17px,2vw,21px); line-height: 1.8; color: var(--light-grey); text-align: center; font-weight: 300; }
         .about-content p { margin-bottom: 30px; }
@@ -153,6 +171,7 @@
         .btn-members span, .btn-members svg { position: relative; z-index: 1; }
         .btn-members svg { width: 18px; height: 18px; transition: transform 0.4s ease; }
         .btn-members:hover svg { transform: translateX(5px); }
+
         /* PLATFORM NAV */
         .platform-intro { max-width: 650px; margin: -20px auto 70px; text-align: center; font-size: clamp(15px,1.7vw,18px); font-weight: 300; color: rgba(197,217,224,0.65); line-height: 1.8; }
         .platform-nav {
@@ -190,6 +209,7 @@
         .pb-arrow { display:flex; align-items:center; color:rgba(197,217,224,0.25); transition:all 0.4s cubic-bezier(0.16,1,0.3,1); }
         .pb-arrow svg { width:20px; height:20px; stroke:currentColor; fill:none; stroke-width:1.5; stroke-linecap:round; stroke-linejoin:round; }
         .platform-btn:hover .pb-arrow { color:var(--bright-cyan); transform:translateX(7px); }
+
         /* SEARCH SECTION */
         .search-section { background:linear-gradient(180deg,var(--black) 0%,var(--deep-blue) 50%,var(--black) 100%); padding:140px 0; margin-top:60px; position:relative; }
         .search-section::before,.search-section::after { content:''; position:absolute; left:0; width:100%; height:2px; background:linear-gradient(90deg,transparent,var(--cyan-blue),transparent); }
@@ -212,6 +232,7 @@
         .artist-empty { grid-column:1/-1; padding:40px 20px; text-align:center; color:rgba(197,217,224,0.3); font-size:13px; letter-spacing:0.1em; border:1px dashed rgba(26,95,122,0.25); border-radius:8px; }
         .view-all-link { display:inline-flex; align-items:center; gap:8px; margin-top:20px; font-size:13px; letter-spacing:0.1em; color:var(--bright-cyan); text-decoration:none; cursor:pointer; transition:gap 0.3s; }
         .view-all-link:hover { gap:14px; color:var(--light-cyan); }
+
         /* PROFILE PREVIEW */
         .profile-layout { display:grid; grid-template-columns:1fr 1fr; gap:80px; align-items:center; max-width:1100px; margin:0 auto; }
         .profile-mockup { background:linear-gradient(135deg,rgba(10,22,40,0.8),rgba(15,40,71,0.6)); border:1px solid rgba(26,95,122,0.4); border-radius:10px; overflow:hidden; box-shadow:0 30px 80px rgba(0,0,0,0.5); }
@@ -231,6 +252,7 @@
         .profile-text .section-label { text-align:left; display:block; }
         .profile-text h2 { font-size:clamp(36px,5vw,56px); font-weight:700; line-height:1.15; color:var(--white); margin-bottom:20px; }
         .profile-text p { font-size:clamp(15px,1.8vw,18px); line-height:1.8; color:var(--light-grey); font-weight:300; margin-bottom:36px; }
+
         /* COMPETITION */
         .competition-page { background:linear-gradient(180deg,var(--black) 0%,var(--deep-blue) 50%,var(--black) 100%); padding:140px 0; margin-top:60px; position:relative; }
         .competition-page::before,.competition-page::after { content:''; position:absolute; left:0; width:100%; height:2px; background:linear-gradient(90deg,transparent,var(--cyan-blue),transparent); }
@@ -246,6 +268,7 @@
         @keyframes shimmer { 0%{transform:translateX(-100%) translateY(-100%) rotate(45deg)} 100%{transform:translateX(100%) translateY(100%) rotate(45deg)} }
         .notice-banner:hover { transform:translateY(-8px); box-shadow:0 20px 60px rgba(26,95,122,0.5); }
         .notice-banner p { position:relative; z-index:1; font-size:clamp(18px,2.2vw,24px); font-weight:500; color:var(--white); }
+
         /* CONNECT */
         .connect-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:30px; margin-top:20px; }
         .connect-card { padding:44px 36px; background:linear-gradient(135deg,rgba(10,22,40,0.75),rgba(15,40,71,0.5)); border:1px solid rgba(26,95,122,0.3); border-radius:10px; text-align:center; text-decoration:none; color:inherit; display:block; position:relative; overflow:hidden; cursor:pointer; transition:all 0.45s cubic-bezier(0.16,1,0.3,1); }
@@ -260,8 +283,87 @@
         .connect-desc { font-size:14px; color:var(--light-grey); line-height:1.7; font-weight:300; position:relative; z-index:1; }
         .connect-tag { display:inline-block; margin-top:16px; font-size:9px; letter-spacing:0.2em; text-transform:uppercase; padding:4px 12px; border-radius:100px; border:1px solid rgba(45,137,176,0.35); color:var(--bright-cyan); position:relative; z-index:1; }
         .connect-tag.dev { border-color:rgba(197,217,224,0.2); color:rgba(197,217,224,0.35); border-style:dashed; }
+
+        /* DONATION SECTION */
+        .donation-section {
+            padding:140px 0; position:relative; overflow:hidden;
+            background:linear-gradient(180deg,var(--black) 0%,var(--deep-blue) 55%,var(--black) 100%);
+        }
+        .donation-section::before,.donation-section::after {
+            content:''; position:absolute; left:0; width:100%; height:2px;
+            background:linear-gradient(90deg,transparent,var(--cyan-blue),transparent);
+        }
+        .donation-section::before{top:0;} .donation-section::after{bottom:0;}
+        .donation-glow {
+            position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+            width:700px;height:700px;border-radius:50%;
+            background:radial-gradient(circle,rgba(26,95,122,0.12) 0%,transparent 65%);
+            pointer-events:none;
+        }
+        .donation-inner {
+            position:relative;z-index:1;
+            display:flex;flex-direction:column;align-items:center;text-align:center;
+        }
+        .donation-eyebrow {
+            font-size:10px;font-weight:600;letter-spacing:0.35em;text-transform:uppercase;
+            color:var(--bright-cyan);margin-bottom:24px;
+            display:inline-flex;align-items:center;gap:12px;
+        }
+        .donation-eyebrow::before,.donation-eyebrow::after {
+            content:'';width:36px;height:1px;
+            background:linear-gradient(90deg,transparent,var(--bright-cyan));
+        }
+        .donation-eyebrow::after{background:linear-gradient(90deg,var(--bright-cyan),transparent);}
+        .donation-title {
+            font-size:clamp(38px,6vw,72px);font-weight:800;letter-spacing:0.02em;
+            line-height:1.1;color:var(--white);margin-bottom:22px;
+        }
+        .donation-title .accent{color:var(--bright-cyan);}
+        .donation-sub {
+            font-size:clamp(15px,1.8vw,19px);font-weight:300;color:var(--light-grey);
+            line-height:1.85;max-width:620px;margin:0 auto 50px;
+        }
+        .donation-cards {
+            display:grid;grid-template-columns:repeat(3,1fr);gap:20px;
+            max-width:860px;width:100%;margin:0 auto 50px;
+        }
+        .donation-card {
+            padding:28px 24px;
+            background:linear-gradient(135deg,rgba(10,22,40,0.8),rgba(15,40,71,0.6));
+            border:1px solid rgba(26,95,122,0.3);border-radius:10px;
+            text-align:center;transition:all 0.35s cubic-bezier(0.16,1,0.3,1);
+        }
+        .donation-card:hover { border-color:rgba(45,137,176,0.5);transform:translateY(-4px);box-shadow:0 14px 40px rgba(26,95,122,0.2); }
+        .donation-card-amount { font-size:28px;font-weight:800;color:var(--white);margin-bottom:6px; }
+        .donation-card-label { font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:var(--light-grey);font-weight:300; }
+        .donation-card-desc { font-size:12px;color:rgba(197,217,224,0.45);margin-top:10px;line-height:1.5; }
+        .btn-donate-main {
+            padding:18px 56px;
+            background:linear-gradient(135deg,var(--cyan-blue),var(--bright-cyan));
+            color:var(--white);font-family:'Inter',sans-serif;
+            font-size:15px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;
+            text-decoration:none;border-radius:4px;border:none;cursor:pointer;
+            display:inline-flex;align-items:center;gap:12px;
+            transition:all 0.35s cubic-bezier(0.16,1,0.3,1);
+            position:relative;overflow:hidden;
+        }
+        .btn-donate-main::before {
+            content:'';position:absolute;inset:0;
+            background:linear-gradient(135deg,var(--bright-cyan),var(--light-cyan));
+            opacity:0;transition:opacity 0.35s;
+        }
+        .btn-donate-main:hover::before{opacity:1;}
+        .btn-donate-main:hover{transform:translateY(-3px);box-shadow:0 16px 50px rgba(45,137,176,0.4);}
+        .btn-donate-main span,.btn-donate-main svg{position:relative;z-index:1;}
+        .btn-donate-main svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;transition:transform 0.3s;}
+        .btn-donate-main:hover svg{transform:translateX(4px);}
+        .donation-note {
+            margin-top:30px;font-size:12px;letter-spacing:0.08em;
+            color:rgba(197,217,224,0.25);
+        }
+
         /* FOOTER */
-        footer { padding:80px 0 40px; border-top:1px solid var(--deep-blue); margin-top:60px; }
+        footer { padding:80px 0 40px; border-top:1px solid var(--deep-blue); }
         .footer-top { display:grid; grid-template-columns:2fr 1fr 1fr 1fr; gap:60px; margin-bottom:60px; }
         .footer-brand .logo { font-size:34px; font-weight:800; letter-spacing:0.1em; color:var(--white); margin-bottom:16px; display:block; }
         .footer-brand p { font-size:14px; color:var(--light-grey); line-height:1.8; max-width:280px; font-weight:300; }
@@ -276,12 +378,18 @@
         .footer-beta { display:inline-flex; align-items:center; gap:8px; padding:6px 14px; background:rgba(26,95,122,0.12); border:1px solid rgba(26,95,122,0.35); border-radius:100px; font-size:11px; letter-spacing:0.12em; color:var(--bright-cyan); }
         .footer-beta::before { content:''; width:6px; height:6px; border-radius:50%; background:var(--bright-cyan); animation:blink 1.6s ease infinite; }
         @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.2} }
+
         /* RESPONSIVE */
         @media (max-width:900px) {
-            body { padding-top:106px; }
+            body { padding-top:62px; }
             .nav-container { padding:0 20px; }
             .menu-toggle { display:flex; }
-            .nav-menu { position:fixed; top:106px; right:-100%; flex-direction:column; background:rgba(0,0,0,0.98); width:260px; height:calc(100vh - 106px); padding:40px 20px; gap:24px; transition:right 0.3s ease; border-left:1px solid rgba(26,95,122,0.2); }
+            .nav-menu {
+                position:fixed; top:62px; right:-100%; flex-direction:column;
+                background:rgba(0,0,0,0.98); width:260px; height:calc(100vh - 62px);
+                padding:40px 20px; gap:24px; transition:right 0.3s ease;
+                border-left:1px solid rgba(26,95,122,0.2);
+            }
             .nav-menu.active { right:0; }
             .container { padding:0 20px; }
             section { padding:80px 0; }
@@ -294,17 +402,18 @@
             .artist-grid { grid-template-columns:repeat(2,1fr); }
             .profile-layout { grid-template-columns:1fr; gap:50px; }
             .connect-grid { grid-template-columns:1fr; }
+            .donation-cards { grid-template-columns:1fr; max-width:340px; }
             .footer-top { grid-template-columns:1fr 1fr; gap:40px; }
             .footer-bottom { justify-content:center; text-align:center; }
         }
         @media (max-width:600px) {
             .artist-grid { grid-template-columns:1fr 1fr; }
             .footer-top { grid-template-columns:1fr; }
+            .donation-cards { max-width:100%; }
         }
     </style>
 </head>
 <body>
-
 
 <!-- NAVBAR -->
 <nav class="navbar" id="navbar">
@@ -313,9 +422,10 @@
         <ul class="nav-menu" id="navMenu">
             <li><a href="#about">About</a></li>
             <li><a href="#offerings">Platform</a></li>
-            <li><a onclick="authGate('/net/index.html')">Find Artists</a></li>
+            <li><a href="/net/index.html">Find Artists</a></li>
             <li><a href="/Vagh2026/about.html">Competition</a></li>
             <li><a href="#connect">Connect</a></li>
+            <li><a href="/vagh2026/donation.html" class="nav-donate">Donate</a></li>
             <li id="navAuthItem"><a href="/login/login.html" class="nav-btn">Login</a></li>
         </ul>
         <div class="menu-toggle" id="menuToggle"><span></span><span></span><span></span></div>
@@ -424,7 +534,7 @@
                 </div>
             </a>
 
-            <div class="platform-btn" onclick="authGate('/net/index.html')">
+            <a href="/net/index.html" class="platform-btn">
                 <div class="pb-left">
                     <span class="pb-number">05</span>
                     <div><p class="pb-title">Community Network</p><p class="pb-desc">Connect with artists, chapters &amp; events across India</p></div>
@@ -434,7 +544,7 @@
                     <div class="pb-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div>
                     <div class="pb-arrow"><svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
                 </div>
-            </div>
+            </a>
 
         </div>
     </div>
@@ -454,7 +564,7 @@
                     <input type="text" id="searchInput" placeholder="Search by name, city, or specialty…">
                     <button id="searchBtn">Search</button>
                 </div>
-                <span class="view-all-link" onclick="authGate('/net/index.html')">View full artist directory &nbsp;→</span>
+                <a href="/net/index.html" class="view-all-link">View full artist directory &nbsp;→</a>
             </div>
             <div id="artist-grid-container" class="artist-grid">
                 <div class="artist-empty">Search for artists above to see results.</div>
@@ -547,12 +657,55 @@
                 <p class="connect-desc">Download crease patterns, diagrams, and certification materials. Curated for every level — from beginner folds to complex modular systems.</p>
                 <span class="connect-tag">Live Now</span>
             </a>
-            <div class="connect-card" onclick="authGate('/net/index.html')">
+            <a href="/net/index.html" class="connect-card">
                 <div class="connect-icon-wrap"><svg viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg></div>
                 <div class="connect-title">Community Network</div>
                 <p class="connect-desc">Find your state chapter, discover upcoming events, and connect with artists who share your passion for paper folding across India.</p>
                 <span class="connect-tag">Live Now</span>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- DONATION SECTION -->
+<section id="donate" class="donation-section">
+    <div class="donation-glow"></div>
+    <div class="container">
+        <div class="donation-inner fade-in-section">
+
+            <span class="donation-eyebrow">Support SIOA</span>
+
+            <h2 class="donation-title">Help us grow<br>origami in <span class="accent">India.</span></h2>
+
+            <p class="donation-sub">
+                SIOA is a community-driven initiative. Every contribution goes directly toward running competitions, building resources, and creating opportunities for origami artists across the country.
+            </p>
+
+            <div class="donation-cards">
+                <div class="donation-card">
+                    <div class="donation-card-amount">₹100</div>
+                    <div class="donation-card-label">Supporter</div>
+                    <div class="donation-card-desc">Help cover platform costs and keep SIOA running freely for all.</div>
+                </div>
+                <div class="donation-card">
+                    <div class="donation-card-amount">₹500</div>
+                    <div class="donation-card-label">Contributor</div>
+                    <div class="donation-card-desc">Fund prizes, certificates, and competition infrastructure.</div>
+                </div>
+                <div class="donation-card">
+                    <div class="donation-card-amount">₹1000+</div>
+                    <div class="donation-card-label">Patron</div>
+                    <div class="donation-card-desc">Champion the long-term growth of origami as an art in India.</div>
+                </div>
             </div>
+
+            <a href="/vagh2026/donation.html" class="btn-donate-main">
+                <span>Donate Now</span>
+                <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+            </a>
+
+            <p class="donation-note">All donations are voluntary. SIOA is a non-commercial community initiative.</p>
+
         </div>
     </div>
 </section>
@@ -578,7 +731,7 @@
             <div class="footer-col">
                 <h4>Community</h4>
                 <ul>
-                    <li><a onclick="authGate('/net/index.html')">Network</a></li>
+                    <li><a href="/net/index.html">Network</a></li>
                     <li><a href="#search-artists">Find Artists</a></li>
                     <li><a href="/Vagh2026/about.html">Competition</a></li>
                 </ul>
@@ -588,6 +741,7 @@
                 <ul>
                     <li><a href="#about">About SIOA</a></li>
                     <li><a href="/members/index.html">Members</a></li>
+                    <li><a href="/vagh2026/donation.html">Donate</a></li>
                     <li><a href="mailto:sioa.paper@gmail.com">Contact</a></li>
                 </ul>
             </div>
@@ -602,27 +756,19 @@
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-/* ── SUPABASE ── */
 const sb = window.supabase.createClient(
     "https://zbgvgzzaejaxrgcjjovc.supabase.co",
     "sb_publishable_gCLTB6WM95Iw6Txcf2fjCA_5fnXPw77"
 );
 
-/* ── AUTH GATE ── */
 var isLoggedIn = false;
+function authGate(dest) { window.location.href = isLoggedIn ? dest : '/login/login.html'; }
 
-function authGate(dest) {
-    window.location.href = isLoggedIn ? dest : '/login/login.html';
-}
-
-/* ── INIT AUTH ── */
 (async function () {
     try {
         var res = await sb.auth.getSession();
         isLoggedIn = !!(res.data && res.data.session);
-    } catch (e) {
-        isLoggedIn = false;
-    }
+    } catch (e) { isLoggedIn = false; }
 
     var mainBtn    = document.getElementById('mainCtaBtn');
     var profileBtn = document.getElementById('profileCtaBtn');
@@ -641,7 +787,7 @@ function authGate(dest) {
     }
 })();
 
-/* ── SEARCH ── */
+/* SEARCH */
 var searchInput = document.getElementById('searchInput');
 var searchBtn   = document.getElementById('searchBtn');
 var grid        = document.getElementById('artist-grid-container');
@@ -668,15 +814,12 @@ async function performSearch() {
                 + '<span class="artist-tag">' + (p.specialty || 'Origami') + '</span>'
                 + '</div>';
         }).join('');
-    } catch (e) {
-        grid.innerHTML = '<div class="artist-empty">Error loading results.</div>';
-    }
+    } catch (e) { grid.innerHTML = '<div class="artist-empty">Error loading results.</div>'; }
 }
-
 searchBtn.addEventListener('click', performSearch);
 searchInput.addEventListener('keydown', function (e) { if (e.key === 'Enter') performSearch(); });
 
-/* ── NAVBAR SCROLL ── */
+/* NAVBAR */
 var navbar = document.getElementById('navbar');
 var lastY = 0;
 window.addEventListener('scroll', function () {
@@ -687,7 +830,7 @@ window.addEventListener('scroll', function () {
     lastY = y;
 });
 
-/* ── MOBILE MENU ── */
+/* MOBILE MENU */
 var toggle  = document.getElementById('menuToggle');
 var navMenu = document.getElementById('navMenu');
 toggle.addEventListener('click', function () {
@@ -695,7 +838,7 @@ toggle.addEventListener('click', function () {
     toggle.classList.toggle('active');
 });
 
-/* ── SMOOTH SCROLL ── */
+/* SMOOTH SCROLL */
 document.querySelectorAll('a[href^="#"]').forEach(function (a) {
     a.addEventListener('click', function (e) {
         var h = a.getAttribute('href');
@@ -706,18 +849,17 @@ document.querySelectorAll('a[href^="#"]').forEach(function (a) {
     });
 });
 
-/* ── SCROLL REVEAL ── */
+/* SCROLL REVEAL */
 var io = new IntersectionObserver(function (entries) {
     entries.forEach(function (e) { if (e.isIntersecting) e.target.classList.add('visible'); });
 }, { threshold: 0.1, rootMargin: '0px 0px -60px 0px' });
 document.querySelectorAll('.fade-in-section, .section-header').forEach(function (el) { io.observe(el); });
 
-/* ── PARTICLE CANVAS ── */
+/* PARTICLE CANVAS */
 var canvas = document.getElementById('bg-canvas');
 var ctx    = canvas.getContext('2d');
 function resize() { canvas.width = window.innerWidth; canvas.height = document.documentElement.scrollHeight; }
 resize(); window.addEventListener('resize', resize);
-
 function Particle() { this.reset(); this.y = Math.random() * canvas.height; }
 Particle.prototype.reset = function () {
     this.x = Math.random() * canvas.width; this.y = -10;
