@@ -741,13 +741,9 @@
 
     // ─── AUTH ─────────────────────────────────────────────────────────────────
     async function checkAuth() {
-        var res = await sb.auth.getUser();
-        if (!res.data.user) {
-            window.location.href = '/login/index.html';
-            return null;
-        }
-        return res.data.user;
-    }
+    var res = await sb.auth.getUser();
+    return (res.data && res.data.user) ? res.data.user : null;  // no redirect
+}
 
     // ─── LOAD PROFILES ────────────────────────────────────────────────────────
     async function loadProfiles(opts) {
@@ -817,7 +813,11 @@
 
     // ─── TOGGLE FOLLOW ────────────────────────────────────────────────────────
     async function toggleFollow(targetId, btn) {
-        if (!currentUserId) return;
+    if (!currentUserId) {
+        window.location.href = '/login/login.html';  // prompt guests to log in
+        return;
+    }
+    // ... rest of follow logic unchanged
         btn.disabled = true;
 
         var already = isFollowing(targetId);
@@ -1144,12 +1144,12 @@
 
     // ─── BOOT ─────────────────────────────────────────────────────────────────
     (async function boot() {
-        var user = await checkAuth();
-        if (!user) return;
+    var user = await checkAuth();
+    // Don't redirect — just note if guest
+    currentUserId = user ? user.id : null;
+    document.body.classList.add('auth-ready');  // always show page
 
-        currentUserId = user.id;
-        document.body.classList.add('auth-ready');
-
+    if (user) {
         // Load navbar user info
         try {
             var profileRes = await sb.from('profiles')
@@ -1158,20 +1158,20 @@
                 .single();
             if (!profileRes.error && profileRes.data) {
                 var p = profileRes.data;
-                var initials = getInitials(p.full_name, p.username);
-                el('navAvatar').textContent = initials;
-                el.href = '/artists/index.html?u=' + (username || '');
+                el('navAvatar').textContent = getInitials(p.full_name, p.username);
             }
-        } catch (e) {
-            console.error('Nav profile error:', e);
-        }
+        } catch (e) { console.error('Nav profile error:', e); }
 
-        // Load who current user follows
         await loadMyFollowing();
+    } else {
+        // Guest: hide the sign-out button, update nav
+        el('signOutBtn').style.display = 'none';
+        el('navUsername').textContent = 'Guest';
+        el('navAvatar').textContent = '?';
+    }
 
-        // Initial load
-        await performSearch(true);
-    })();
+    await performSearch(true);
+})();
 
 })();
 </script>
