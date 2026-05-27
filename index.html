@@ -277,14 +277,6 @@
         .comp-timeline-rule { flex: 1; height: 1px; background: rgba(26,95,122,0.3); }
 
         .comp-timeline { display: flex; flex-direction: column; position: relative; }
-        .comp-timeline::before {
-    content: ''; position: absolute; left: 140px; top: 8px; bottom: 8px; width: 1px;
-    background: linear-gradient(180deg, transparent, rgba(45,137,176,0.35) 10%, rgba(45,137,176,0.35) 90%, transparent);
-}
-@media (max-width: 900px) {
-    .comp-timeline::before { left: 110px; }
-}
-        
         .comp-timeline-item {
             display: grid; grid-template-columns: 140px 28px 1fr;
             gap: 0 24px; align-items: start; padding: 20px 0;
