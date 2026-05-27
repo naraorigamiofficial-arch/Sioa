@@ -350,19 +350,62 @@
         .btn-brochure:hover svg { transform: translateX(4px); }
 
         /* CONNECT */
-        .connect-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:30px; margin-top:20px; }
-        .connect-card { padding:44px 36px; background:linear-gradient(135deg,rgba(10,22,40,0.75),rgba(15,40,71,0.5)); border:1px solid rgba(26,95,122,0.3); border-radius:10px; text-align:center; text-decoration:none; color:inherit; display:block; position:relative; overflow:hidden; cursor:pointer; transition:all 0.45s cubic-bezier(0.16,1,0.3,1); }
-        .connect-card::before { content:''; position:absolute; inset:0; background:linear-gradient(135deg,rgba(26,95,122,0.12),transparent); opacity:0; transition:opacity 0.45s; }
-        .connect-card:hover::before { opacity:1; }
-        .connect-card:hover { border-color:rgba(45,137,176,0.6); transform:translateY(-8px); box-shadow:0 20px 60px rgba(26,95,122,0.25); }
-        .connect-icon-wrap { width:52px; height:52px; margin:0 auto 22px; border:1px solid rgba(26,95,122,0.45); border-radius:50%; display:flex; align-items:center; justify-content:center; background:rgba(26,95,122,0.08); transition:all 0.4s; position:relative; z-index:1; }
-        .connect-icon-wrap svg { width:22px; height:22px; stroke:rgba(87,166,187,0.7); fill:none; stroke-width:1.6; stroke-linecap:round; stroke-linejoin:round; transition:stroke 0.4s; }
-        .connect-card:hover .connect-icon-wrap { background:rgba(45,137,176,0.18); border-color:var(--bright-cyan); box-shadow:0 0 22px rgba(45,137,176,0.28); }
-        .connect-card:hover .connect-icon-wrap svg { stroke:var(--light-cyan); }
-        .connect-title { font-size:clamp(20px,2.2vw,24px); font-weight:600; color:var(--white); margin-bottom:12px; position:relative; z-index:1; }
-        .connect-desc { font-size:14px; color:var(--light-grey); line-height:1.7; font-weight:300; position:relative; z-index:1; }
-        .connect-tag { display:inline-block; margin-top:16px; font-size:9px; letter-spacing:0.2em; text-transform:uppercase; padding:4px 12px; border-radius:100px; border:1px solid rgba(45,137,176,0.35); color:var(--bright-cyan); position:relative; z-index:1; }
-        .connect-tag.dev { border-color:rgba(197,217,224,0.2); color:rgba(197,217,224,0.35); border-style:dashed; }
+.explore-list {
+    display: flex; flex-direction: column;
+    max-width: 980px; margin: 0 auto;
+    border: 1px solid rgba(26,95,122,0.3); border-radius: 12px; overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.35);
+}
+.explore-row {
+    display: flex; align-items: center;
+    gap: 28px; padding: 38px 48px;
+    background: linear-gradient(135deg, rgba(10,22,40,0.75), rgba(15,40,71,0.5));
+    border-bottom: 1px solid rgba(26,95,122,0.2);
+    transition: background 0.35s ease;
+}
+.explore-row:last-child { border-bottom: none; }
+.explore-row:hover { background: linear-gradient(135deg, rgba(26,95,122,0.18), rgba(15,40,71,0.65)); }
+.explore-row-left {
+    display: flex; align-items: flex-start; gap: 28px; flex: 1;
+}
+.explore-icon {
+    width: 48px; height: 48px; flex-shrink: 0;
+    border: 1px solid rgba(26,95,122,0.4); border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    background: rgba(26,95,122,0.08);
+    transition: all 0.35s ease;
+}
+.explore-row:hover .explore-icon {
+    background: rgba(45,137,176,0.18);
+    border-color: var(--bright-cyan);
+    box-shadow: 0 0 18px rgba(45,137,176,0.25);
+}
+.explore-icon svg {
+    width: 20px; height: 20px;
+    stroke: rgba(87,166,187,0.65);
+    transition: stroke 0.35s;
+}
+.explore-row:hover .explore-icon svg { stroke: var(--light-cyan); }
+.explore-text { flex: 1; }
+.explore-title {
+    font-size: clamp(17px, 2vw, 21px); font-weight: 700;
+    color: var(--white); margin-bottom: 8px; letter-spacing: 0.01em;
+    display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+}
+.explore-deva {
+    font-size: 13px; font-weight: 400; color: var(--bright-cyan);
+    letter-spacing: 0.08em; opacity: 0.65;
+}
+.explore-desc {
+    font-size: clamp(13px, 1.5vw, 15px); font-weight: 300;
+    color: rgba(197,217,224,0.55); line-height: 1.8;
+}
+
+/* responsive */
+@media (max-width: 900px) {
+    .explore-row { padding: 28px 22px; gap: 16px; }
+    .explore-icon { width: 38px; height: 38px; }
+}
 
         /* DONATION SECTION */
         .donation-section {
@@ -750,7 +793,6 @@
     </div>
 </section>
 
-<!-- CONNECT -->
 <!-- CONNECT -->
 <section id="connect">
     <div class="container">
