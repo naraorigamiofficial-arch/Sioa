@@ -1021,6 +1021,17 @@ Particle.prototype.draw = function () {
     ctx.shadowBlur = 15; ctx.shadowColor = 'hsl(' + this.hue + ',70%,50%)';
     ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fill(); ctx.restore();
 };
+function triggerAutosave() {
+  try {
+    var fields = ['fullName','artistName','email','age','country','state','instagram','discord','modelName','designer','paper','timeTaken','statement'];
+    var d = {};
+    fields.forEach(function(k){ var el = document.getElementById(k); if(el) d[k] = el.value; });
+    d.difficulty = state.difficulty;
+    localStorage.setItem('sioa_draft', JSON.stringify(d));
+    var ind = document.getElementById('autosave1');
+    if (ind) { ind.classList.add('saving'); setTimeout(function(){ ind.classList.remove('saving'); }, 1200); }
+  } catch(e) {}
+}
 var particles = [];
 for (var i = 0; i < 80; i++) particles.push(new Particle());
 (function animate() {
