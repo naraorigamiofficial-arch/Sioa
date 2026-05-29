@@ -691,12 +691,12 @@ textarea{resize:vertical;min-height:100px;line-height:1.6;}
   </div>
 </footer>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <script>
-    const sb = window.supabase.createClient(
-        "https://zbgvgzzaejaxrgcjjovc.supabase.co",
-        "sb_publishable_gCLTB6WM95Iw6Txcf2fjCA_5fnXPw77"
-    );
+const supabase = window.supabase.createClient(
+    "https://zbgvgzzaejaxrgcjjovc.supabase.co",
+    "sb_publishable_gCLTB6WM95Iw6Txcf2fjCA_5fnXPw77"
+);
 
 var state = {
   currentPage: 1,
