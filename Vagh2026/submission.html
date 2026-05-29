@@ -925,7 +925,9 @@ async function handleSubmit() {
   
   try {
     // Generate a unique Submission ID
-    const subId = 'VAGH-2026-' + Math.floor(1000 + Math.random() * 9000);
+    const stateCode = document.getElementById('state').value.substring(0,2).toUpperCase();
+const rand = Math.floor(1000 + Math.random() * 9000);
+const subId = 'VAGH-2026-' + stateCode + '-' + rand;
     
     // 1. Upload Images to Supabase Storage
     btn.innerHTML = '<span style="opacity:0.7;letter-spacing:0.06em;font-size:12px;">Uploading Images ('+state.images.length+')...</span>';
