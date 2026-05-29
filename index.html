@@ -277,6 +277,10 @@
         .comp-timeline-rule { flex: 1; height: 1px; background: rgba(26,95,122,0.3); }
 
         .comp-timeline { display: flex; flex-direction: column; position: relative; }
+        .comp-timeline::before {
+            content: ''; position: absolute; left: 140px; top: 8px; bottom: 8px; width: 1px;
+            background: linear-gradient(180deg, transparent, rgba(45,137,176,0.35) 10%, rgba(45,137,176,0.35) 90%, transparent);
+        }
         .comp-timeline-item {
             display: grid; grid-template-columns: 140px 28px 1fr;
             gap: 0 24px; align-items: start; padding: 20px 0;
@@ -773,6 +777,17 @@
                     </div>
                 </div>
             </div>
+<<<<<<< HEAD
+
+            <!-- Rule Guide banner — unchanged -->
+            <div class="brochure-banner fade-in-section">
+                <span class="brochure-eyebrow">VAGH 2026 — Official Document</span>
+                <h3>Competition Rule Guide — now available</h3>
+                <a href="https://drive.google.com/file/d/17ppR0bGv_dNK8nCcjfmdDxJ_B3zqyL9Y/view?usp=sharing"
+                   target="_blank" rel="noopener noreferrer" class="btn-brochure">
+                    View Competition Rule Guide
+                    <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+=======
 
             <!-- Rule Guide banner — unchanged -->
             <div class="brochure-banner fade-in-section">
@@ -782,6 +797,7 @@
                    target="_blank" rel="noopener noreferrer" class="btn-brochure">
                     View Competition Rule Guide
                     <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+>>>>>>> bb87345a105516afd8076f229795090f0a2dd1b6
                 </a>
             </div>
 
@@ -809,7 +825,7 @@
                     </div>
                     <div class="explore-text">
                         <div class="explore-title">VIDHANA Journal</div>
-                        <div class="explore-desc">The official publication of SIOA, featuring origami design guide, and overall knowledge of the art</div>
+                        <div class="explore-desc">The official publication of SIOA, featuring origami tutorials, model design, crease pattern analysis, artist profiles, and the broader study of the craft as a serious discipline.</div>
                     </div>
                 </div>
             </div>
