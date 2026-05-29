@@ -693,7 +693,7 @@ textarea{resize:vertical;min-height:100px;line-height:1.6;}
 
 
 <script>
-const supabase = window.supabase.createClient(
+const sbClient = window.supabase.createClient(
     "https://zbgvgzzaejaxrgcjjovc.supabase.co",
     "sb_publishable_gCLTB6WM95Iw6Txcf2fjCA_5fnXPw77"
 );
@@ -936,9 +936,9 @@ async function handleSubmit() {
       const fileExt = file.name.split('.').pop();
       const fileName = `${subId}/image_${i}_${Date.now()}.${fileExt}`;
 
-      const { data, error } = await supabase.storage
-        .from('competition_media')
-        .upload(fileName, file);
+      const { data, error } = await sbClient.storage
+    .from('competition_media')
+    .upload(fileName, file);
 
       if (error) throw error;
       imagePaths.push(data.path);
@@ -947,8 +947,8 @@ async function handleSubmit() {
     // 2. Insert Record into Supabase Database
     btn.innerHTML = '<span style="opacity:0.7;letter-spacing:0.06em;font-size:12px;">Finalizing Entry...</span>';
     
-    const { error: dbError } = await supabase
-      .from('submissions')
+    const { error: dbError } = await sbClient
+    .from('submissions')
       .insert([
         {
           submission_id: subId,
