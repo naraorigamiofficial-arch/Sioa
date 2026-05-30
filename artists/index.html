@@ -395,22 +395,16 @@ let pfTitle = '';
 async function boot() {
     showState('loading-state');
 
-    // Get current session (doesn't throw on missing session)
-    try {
-        const { data: { session } } = await sb.auth.getSession();
-        currentUserId = session ? session.user.id : null;
-    } catch(e) {
-        currentUserId = null;
-    }
+    // 1. Instantly parse the username out of the URL string safely
+    const urlParams = new URLSearchParams(window.location.search);
+    const username = (urlParams.get('u') || urlParams.get('username') || '').trim();
 
-    renderTopbar();
-
-    const username = getTargetUsername();
     if (!username) {
         showState('no-user-state');
         return;
     }
 
+    // 2. Run the profile query independently so public viewers aren't blocked by auth latency
     const { data: profile, error } = await sb
         .from('profiles')
         .select('id,full_name,username,specialty,city,state,bio,created_at,competition_count,socials,custom_links,portfolio_url,portfolio_title,portfolio_visible')
@@ -421,6 +415,16 @@ async function boot() {
         showState('not-found-state');
         return;
     }
+
+    // 3. Handle auth and layout rendering asynchronously in the background
+    try {
+        const { data: { session } } = await sb.auth.getSession();
+        currentUserId = session ? session.user.id : null;
+    } catch(e) {
+        currentUserId = null;
+    }
+
+    renderTopbar();
 
     const isOwner = currentUserId && currentUserId === profile.id;
     pfVisible = !!profile.portfolio_visible;
