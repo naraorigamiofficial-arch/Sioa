@@ -7,7 +7,7 @@
     <meta name="robots" content="index, follow">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,300&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
             --bg:#04080f; --surface:#070d1a; --surface-2:#0b1220;
@@ -17,14 +17,14 @@
             --muted:rgba(220,232,237,0.40); --muted-2:rgba(220,232,237,0.22);
         }
         *,*::before,*::after { margin:0; padding:0; box-sizing:border-box; }
-        html,body { min-height:100%; background:var(--bg); color:var(--text); font-family:'DM Sans',sans-serif; -webkit-font-smoothing:antialiased; }
+        html,body { min-height:100%; background:var(--bg); color:var(--text); font-family:'Inter',sans-serif; -webkit-font-smoothing:antialiased; }
         body::before { content:''; position:fixed; inset:0; background-image:linear-gradient(rgba(45,137,176,0.022) 1px,transparent 1px),linear-gradient(90deg,rgba(45,137,176,0.022) 1px,transparent 1px); background-size:52px 52px; pointer-events:none; z-index:0; }
         .glow-orb { position:fixed; top:-200px; left:30%; width:600px; height:600px; background:radial-gradient(circle,rgba(45,137,176,0.06) 0%,transparent 68%); pointer-events:none; z-index:0; }
         .glow-orb-2 { position:fixed; bottom:-100px; right:10%; width:400px; height:400px; background:radial-gradient(circle,rgba(26,95,122,0.04) 0%,transparent 65%); pointer-events:none; z-index:0; }
 
         /* TOPBAR */
         .topbar { position:fixed; top:0; left:0; right:0; z-index:200; height:56px; background:rgba(4,8,15,0.93); backdrop-filter:blur(18px); border-bottom:1px solid var(--border); display:flex; align-items:center; padding:0 28px; gap:8px; }
-        .topbar-logo { font-family:'DM Serif Display',serif; font-size:20px; letter-spacing:0.14em; color:var(--text); text-decoration:none; margin-right:auto; }
+        .topbar-logo { font-family:'Inter',sans-serif; font-size:18px; font-weight:800; letter-spacing:0.12em; color:var(--text); text-decoration:none; margin-right:auto; }
         .topbar-logo span { color:var(--cyan-light); }
         .topbar-nav { display:flex; gap:2px; }
         .topbar-nav a { font-size:12.5px; font-weight:400; color:var(--muted); text-decoration:none; padding:5px 13px; border-radius:6px; transition:all 0.18s; }
@@ -32,7 +32,7 @@
         .topbar-nav a.active { color:var(--cyan-light); background:var(--cyan-dim); }
         .topbar-user { display:flex; align-items:center; gap:10px; padding:5px 12px 5px 5px; border-radius:8px; border:1px solid var(--border); background:rgba(255,255,255,0.02); font-size:13px; color:var(--muted); margin-left:10px; }
         .topbar-avatar { width:28px; height:28px; border-radius:50%; background:linear-gradient(135deg,#1a5f7a,#2d89b0); display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:700; color:#fff; flex-shrink:0; }
-        .btn-topbar { font-size:12px; font-weight:500; padding:6px 14px; border-radius:6px; text-decoration:none; cursor:pointer; border:none; font-family:'DM Sans',sans-serif; transition:all 0.18s; }
+        .btn-topbar { font-size:12px; font-weight:500; padding:6px 14px; border-radius:6px; text-decoration:none; cursor:pointer; border:none; font-family:'Inter',sans-serif; transition:all 0.18s; }
         .btn-topbar-ghost { color:var(--muted); background:transparent; border:1px solid var(--border-mid); }
         .btn-topbar-ghost:hover { color:var(--text); border-color:var(--border-cyan); }
         .btn-topbar-solid { color:#fff; background:var(--cyan); }
@@ -47,12 +47,11 @@
 
         .hero-inner { max-width:960px; margin:0 auto; padding:0 44px 32px; display:flex; align-items:center; gap:32px; position:relative; z-index:1; }
 
-        /* Avatar */
-        .avatar-hero { width:88px; height:88px; border-radius:50%; flex-shrink:0; background:linear-gradient(135deg,#1a5f7a 0%,#2d89b0 100%); border:2px solid rgba(45,137,176,0.35); display:flex; align-items:center; justify-content:center; font-family:'DM Serif Display',serif; font-size:32px; color:#fff; box-shadow:0 0 36px rgba(45,137,176,0.2),0 0 72px rgba(45,137,176,0.06); animation:fadeUp 0.45s cubic-bezier(0.16,1,0.3,1) both; }
+        .avatar-hero { width:88px; height:88px; border-radius:50%; flex-shrink:0; background:linear-gradient(135deg,#1a5f7a 0%,#2d89b0 100%); border:2px solid rgba(45,137,176,0.35); display:flex; align-items:center; justify-content:center; font-size:28px; font-weight:800; color:#fff; letter-spacing:0.04em; box-shadow:0 0 36px rgba(45,137,176,0.2),0 0 72px rgba(45,137,176,0.06); animation:fadeUp 0.45s cubic-bezier(0.16,1,0.3,1) both; }
 
         .hero-meta-col { flex:1; min-width:0; animation:fadeUp 0.45s cubic-bezier(0.16,1,0.3,1) 0.06s both; }
         .hero-eyebrow { font-size:9.5px; font-weight:600; letter-spacing:0.26em; text-transform:uppercase; color:var(--cyan); margin-bottom:7px; }
-        .hero-name { font-family:'DM Serif Display',serif; font-size:30px; letter-spacing:0.02em; color:var(--text); line-height:1.15; margin-bottom:3px; }
+        .hero-name { font-family:'Inter',sans-serif; font-size:28px; font-weight:800; letter-spacing:0.01em; color:var(--text); line-height:1.15; margin-bottom:3px; }
         .hero-handle { font-size:13px; color:var(--cyan-light); margin-bottom:10px; letter-spacing:0.04em; opacity:0.8; }
         .hero-location { font-size:12px; color:var(--muted-2); display:flex; align-items:center; gap:5px; margin-bottom:10px; }
         .hero-location svg { width:11px; height:11px; flex-shrink:0; stroke:var(--muted-2); fill:none; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; }
@@ -61,11 +60,11 @@
         .spec-tag::before { content:''; width:3px; height:3px; border-radius:50%; background:var(--cyan-light); opacity:0.65; }
 
         .hero-actions-col { display:flex; flex-direction:column; align-items:flex-end; gap:10px; animation:fadeUp 0.45s cubic-bezier(0.16,1,0.3,1) 0.1s both; }
-        .badge-active { display:inline-flex; align-items:center; gap:5px; padding:4px 12px; border-radius:100px; background:var(--cyan-dim); border:1px solid var(--border-cyan); font-size:9.5px; font-weight:500; letter-spacing:0.1em; color:var(--cyan-light); text-transform:uppercase; }
+        .badge-active { display:inline-flex; align-items:center; gap:5px; padding:4px 12px; border-radius:100px; background:var(--cyan-dim); border:1px solid var(--border-cyan); font-size:9.5px; font-weight:600; letter-spacing:0.1em; color:var(--cyan-light); text-transform:uppercase; }
         .badge-dot { width:5px; height:5px; border-radius:50%; background:var(--cyan-light); animation:blink 2.2s ease-in-out infinite; }
         @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.2} }
 
-        .btn-edit { display:inline-flex; align-items:center; gap:7px; padding:9px 20px; border-radius:7px; background:transparent; border:1px solid rgba(45,137,176,0.3); color:var(--cyan-light); font-family:'DM Sans',sans-serif; font-size:12.5px; font-weight:500; letter-spacing:0.05em; text-decoration:none; cursor:pointer; transition:all 0.2s; }
+        .btn-edit { display:inline-flex; align-items:center; gap:7px; padding:9px 20px; border-radius:7px; background:transparent; border:1px solid rgba(45,137,176,0.3); color:var(--cyan-light); font-family:'Inter',sans-serif; font-size:12.5px; font-weight:500; letter-spacing:0.05em; text-decoration:none; cursor:pointer; transition:all 0.2s; }
         .btn-edit:hover { background:rgba(45,137,176,0.08); border-color:var(--border-cyan); }
         .btn-edit svg { width:12px; height:12px; stroke:currentColor; fill:none; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
 
@@ -73,7 +72,7 @@
         .stats-strip { max-width:960px; margin:0 auto; padding:0 44px; position:relative; z-index:1; border-top:1px solid var(--border); display:flex; animation:fadeUp 0.45s cubic-bezier(0.16,1,0.3,1) 0.14s both; }
         .stat-cell { flex:1; padding:16px 0; display:flex; flex-direction:column; align-items:center; border-right:1px solid var(--border); }
         .stat-cell:last-child { border-right:none; }
-        .stat-n { font-family:'DM Serif Display',serif; font-size:22px; color:var(--text); margin-bottom:2px; }
+        .stat-n { font-family:'Inter',sans-serif; font-size:22px; font-weight:800; color:var(--text); margin-bottom:2px; }
         .stat-l { font-size:9.5px; letter-spacing:0.16em; text-transform:uppercase; color:var(--muted-2); }
 
         @keyframes fadeUp { from{opacity:0;transform:translateY(14px)} to{opacity:1;transform:translateY(0)} }
@@ -121,70 +120,35 @@
         .sl-arrow { color:var(--muted-2); font-size:14px; transition:all 0.16s; }
         .socials-empty { font-size:12px; color:var(--muted-2); font-style:italic; text-align:center; padding:8px 0; }
 
-        /* PORTFOLIO LINK FEATURE */
-        .portfolio-link-card {
-            background:var(--surface); border:1px solid var(--border); border-radius:12px;
-            overflow:hidden; animation:fadeUp 0.45s cubic-bezier(0.16,1,0.3,1) 0.22s both;
-        }
-        .portfolio-link-header {
-            padding:15px 22px; border-bottom:1px solid var(--border);
-            display:flex; align-items:center; gap:10px;
-        }
+        /* PORTFOLIO */
+        .portfolio-link-card { background:var(--surface); border:1px solid var(--border); border-radius:12px; overflow:hidden; animation:fadeUp 0.45s cubic-bezier(0.16,1,0.3,1) 0.22s both; }
+        .portfolio-link-header { padding:15px 22px; border-bottom:1px solid var(--border); display:flex; align-items:center; gap:10px; }
         .portfolio-link-body { padding:22px; display:flex; flex-direction:column; gap:18px; }
-
-        /* Portfolio link display (public view) */
-        .portfolio-display {
-            display:flex; align-items:center; gap:14px; padding:14px 16px;
-            background:rgba(45,137,176,0.06); border:1px solid rgba(45,137,176,0.2);
-            border-radius:8px; text-decoration:none; transition:all 0.2s;
-        }
+        .portfolio-display { display:flex; align-items:center; gap:14px; padding:14px 16px; background:rgba(45,137,176,0.06); border:1px solid rgba(45,137,176,0.2); border-radius:8px; text-decoration:none; transition:all 0.2s; }
         .portfolio-display:hover { background:rgba(45,137,176,0.1); border-color:var(--border-cyan); }
-        .portfolio-display-icon {
-            width:36px; height:36px; border-radius:8px; flex-shrink:0;
-            background:var(--cyan-dim); border:1px solid var(--border-cyan);
-            display:flex; align-items:center; justify-content:center;
-        }
+        .portfolio-display-icon { width:36px; height:36px; border-radius:8px; flex-shrink:0; background:var(--cyan-dim); border:1px solid var(--border-cyan); display:flex; align-items:center; justify-content:center; }
         .portfolio-display-icon svg { width:16px; height:16px; stroke:var(--cyan-light); fill:none; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; }
         .portfolio-display-text { flex:1; min-width:0; }
         .portfolio-display-label { font-size:9.5px; letter-spacing:0.16em; text-transform:uppercase; color:var(--muted-2); margin-bottom:3px; }
         .portfolio-display-title { font-size:13px; font-weight:500; color:var(--text); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
         .portfolio-display-arrow { color:var(--muted-2); font-size:16px; transition:all 0.2s; }
         .portfolio-display:hover .portfolio-display-arrow { color:var(--cyan-light); transform:translateX(2px); }
-
-        /* Portfolio edit form (owner only) */
         .portfolio-form { display:flex; flex-direction:column; gap:14px; }
         .pf-label { font-size:10px; font-weight:600; letter-spacing:0.16em; text-transform:uppercase; color:var(--muted); margin-bottom:5px; display:block; }
-        .pf-input { width:100%; background:rgba(7,13,26,0.8); border:1px solid rgba(45,137,176,0.25); border-radius:7px; padding:10px 14px; font-family:'DM Sans',sans-serif; font-size:13px; color:var(--text); outline:none; transition:all 0.2s; }
+        .pf-input { width:100%; background:rgba(7,13,26,0.8); border:1px solid rgba(45,137,176,0.25); border-radius:7px; padding:10px 14px; font-family:'Inter',sans-serif; font-size:13px; color:var(--text); outline:none; transition:all 0.2s; }
         .pf-input:focus { border-color:var(--cyan); box-shadow:0 0 0 3px rgba(45,137,176,0.1); }
         .pf-input::placeholder { color:var(--muted-2); }
-
-        /* Portfolio checkbox */
-        .pf-checkbox-row {
-            display:flex; align-items:flex-start; gap:12px; padding:12px 14px;
-            border-radius:8px; border:1px solid var(--border);
-            background:rgba(255,255,255,0.015); cursor:pointer; transition:all 0.18s;
-        }
+        .pf-checkbox-row { display:flex; align-items:flex-start; gap:12px; padding:12px 14px; border-radius:8px; border:1px solid var(--border); background:rgba(255,255,255,0.015); cursor:pointer; transition:all 0.18s; }
         .pf-checkbox-row:hover { border-color:rgba(45,137,176,0.3); background:rgba(45,137,176,0.04); }
         .pf-checkbox-row.checked { border-color:rgba(45,137,176,0.35); background:rgba(45,137,176,0.07); }
-        .pf-checkbox {
-            width:18px; height:18px; border-radius:5px; flex-shrink:0;
-            border:1.5px solid rgba(45,137,176,0.4); background:transparent;
-            display:flex; align-items:center; justify-content:center; margin-top:1px;
-            transition:all 0.18s;
-        }
+        .pf-checkbox { width:18px; height:18px; border-radius:5px; flex-shrink:0; border:1.5px solid rgba(45,137,176,0.4); background:transparent; display:flex; align-items:center; justify-content:center; margin-top:1px; transition:all 0.18s; }
         .pf-checkbox-row.checked .pf-checkbox { background:var(--cyan); border-color:var(--cyan); }
         .pf-checkbox svg { width:10px; height:10px; stroke:#fff; fill:none; stroke-width:2.5; stroke-linecap:round; stroke-linejoin:round; opacity:0; transition:opacity 0.15s; }
         .pf-checkbox-row.checked .pf-checkbox svg { opacity:1; }
         .pf-checkbox-text { flex:1; }
         .pf-checkbox-title { font-size:13px; font-weight:500; color:var(--text); margin-bottom:2px; }
         .pf-checkbox-sub { font-size:11px; color:var(--muted-2); line-height:1.55; }
-
-        /* Drive suggestion */
-        .drive-tip {
-            padding:13px 15px; border-radius:8px;
-            background:rgba(26,95,122,0.08); border:1px solid rgba(26,95,122,0.22);
-            display:flex; gap:12px; align-items:flex-start;
-        }
+        .drive-tip { padding:13px 15px; border-radius:8px; background:rgba(26,95,122,0.08); border:1px solid rgba(26,95,122,0.22); display:flex; gap:12px; align-items:flex-start; }
         .drive-tip-icon { flex-shrink:0; margin-top:1px; }
         .drive-tip-icon svg { width:15px; height:15px; stroke:var(--cyan-light); fill:none; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; }
         .drive-tip-label { font-size:10px; font-weight:600; letter-spacing:0.14em; text-transform:uppercase; color:var(--cyan); margin-bottom:4px; }
@@ -193,13 +157,7 @@
         .drive-tip-steps { margin-top:7px; display:flex; flex-direction:column; gap:3px; }
         .drive-tip-step { font-size:11px; color:var(--muted-2); display:flex; gap:7px; }
         .drive-tip-step-num { color:var(--cyan); font-weight:600; font-size:10px; min-width:14px; padding-top:1px; }
-
-        .btn-save-portfolio {
-            align-self:flex-start; display:inline-flex; align-items:center; gap:7px;
-            padding:9px 20px; border-radius:7px; background:var(--cyan); color:#fff;
-            font-family:'DM Sans',sans-serif; font-size:13px; font-weight:600;
-            border:none; cursor:pointer; transition:all 0.2s;
-        }
+        .btn-save-portfolio { align-self:flex-start; display:inline-flex; align-items:center; gap:7px; padding:9px 20px; border-radius:7px; background:var(--cyan); color:#fff; font-family:'Inter',sans-serif; font-size:13px; font-weight:600; border:none; cursor:pointer; transition:all 0.2s; }
         .btn-save-portfolio:hover { background:#3899c4; transform:translateY(-1px); box-shadow:0 6px 18px rgba(45,137,176,0.3); }
         .btn-save-portfolio:disabled { opacity:0.5; cursor:not-allowed; transform:none; box-shadow:none; }
 
@@ -207,14 +165,27 @@
         .back-link { display:inline-flex; align-items:center; gap:6px; font-size:12px; color:var(--muted); text-decoration:none; transition:color 0.18s; }
         .back-link:hover { color:var(--cyan-light); }
         .back-link svg { width:13px; height:13px; stroke:currentColor; fill:none; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
-        .not-found-wrap { display:flex; flex-direction:column; align-items:center; justify-content:center; padding:100px 40px; text-align:center; }
-        .not-found-icon { opacity:0.18; margin-bottom:24px; }
-        .not-found-title { font-family:'DM Serif Display',serif; font-size:26px; color:var(--text); margin-bottom:10px; }
-        .not-found-sub { font-size:14px; color:var(--muted-2); }
-        .loading-wrap { display:flex; flex-direction:column; align-items:center; justify-content:center; padding:100px 40px; }
+
+        /* NOT FOUND — improved */
+        .not-found-wrap { display:flex; flex-direction:column; align-items:center; justify-content:center; min-height:calc(100vh - 56px); padding:60px 40px; text-align:center; }
+        .nf-icon-ring { width:80px; height:80px; border-radius:50%; border:1px solid rgba(45,137,176,0.2); background:rgba(45,137,176,0.04); display:flex; align-items:center; justify-content:center; margin-bottom:28px; }
+        .nf-icon-ring svg { width:32px; height:32px; stroke:rgba(45,137,176,0.4); fill:none; stroke-width:1.4; stroke-linecap:round; stroke-linejoin:round; }
+        .nf-eyebrow { font-size:10px; font-weight:600; letter-spacing:0.3em; text-transform:uppercase; color:var(--cyan); margin-bottom:14px; opacity:0.7; }
+        .not-found-title { font-family:'Inter',sans-serif; font-size:28px; font-weight:800; color:var(--text); margin-bottom:10px; letter-spacing:0.01em; }
+        .not-found-sub { font-size:14px; color:var(--muted-2); line-height:1.7; max-width:360px; font-weight:300; }
+        .nf-actions { display:flex; gap:12px; margin-top:32px; flex-wrap:wrap; justify-content:center; }
+        .btn-nf-primary { display:inline-flex; align-items:center; gap:8px; padding:11px 26px; border-radius:7px; background:var(--cyan); color:#fff; text-decoration:none; font-size:13px; font-weight:600; letter-spacing:0.04em; transition:all 0.2s; }
+        .btn-nf-primary:hover { background:#3899c4; transform:translateY(-1px); }
+        .btn-nf-ghost { display:inline-flex; align-items:center; gap:8px; padding:11px 26px; border-radius:7px; background:transparent; color:var(--muted); text-decoration:none; font-size:13px; font-weight:400; border:1px solid var(--border-mid); transition:all 0.2s; }
+        .btn-nf-ghost:hover { color:var(--text); border-color:var(--border-cyan); }
+
+        /* no-username state */
+        .no-user-wrap { display:flex; flex-direction:column; align-items:center; justify-content:center; min-height:calc(100vh - 56px); padding:60px 40px; text-align:center; }
+
+        .loading-wrap { display:flex; flex-direction:column; align-items:center; justify-content:center; min-height:calc(100vh - 56px); }
         .loading-pulse { width:38px; height:38px; border-radius:50%; border:2px solid rgba(45,137,176,0.15); border-top-color:var(--cyan-light); animation:spin 0.8s linear infinite; margin-bottom:16px; }
         @keyframes spin { to{transform:rotate(360deg)} }
-        .loading-text { font-size:12px; color:var(--muted-2); }
+        .loading-text { font-size:12px; color:var(--muted-2); letter-spacing:0.1em; }
 
         .toast { position:fixed; bottom:26px; right:26px; z-index:9999; padding:11px 18px; background:rgba(7,13,26,0.97); border:1px solid var(--border-cyan); border-radius:8px; font-size:13px; color:var(--text); box-shadow:0 8px 28px rgba(0,0,0,0.5); transform:translateY(14px); opacity:0; transition:all 0.3s cubic-bezier(0.16,1,0.3,1); pointer-events:none; }
         .toast.show { transform:translateY(0); opacity:1; }
@@ -224,38 +195,64 @@
             .hero-inner { padding:0 20px 28px; flex-wrap:wrap; }
             .stats-strip { padding:0 20px; }
             .hero-actions-col { align-items:flex-start; }
-            .hero-name { font-size:24px; }
-            .avatar-hero { width:74px; height:74px; font-size:26px; }
+            .hero-name { font-size:22px; }
+            .avatar-hero { width:72px; height:72px; font-size:22px; }
         }
         @media(max-width:540px) { .topbar-nav { display:none; } .stat-n { font-size:18px; } }
     </style>
 </head>
 <body>
-<div class="glow-orb"></div><div class="glow-orb-2"></div>
+<div class="glow-orb"></div>
+<div class="glow-orb-2"></div>
 
 <header class="topbar">
     <a href="/" class="topbar-logo">SIO<span>A</span></a>
     <nav class="topbar-nav">
         <a href="/index.html">Home</a>
         <a href="/net/index.html" class="active">Browse Artists</a>
-        <a href="/dashbord/competition.html">Competition</a>
+        <a href="/Vagh2026/about.html">Competition</a>
         <a href="/dashbord/index.html">Dashboard</a>
     </nav>
     <div id="topbar-auth-area" style="display:flex;align-items:center;gap:8px;margin-left:10px;"></div>
 </header>
 
 <div class="shell">
+
+    <!-- LOADING -->
     <div class="loading-wrap" id="loading-state">
         <div class="loading-pulse"></div>
-        <div class="loading-text">Loading profile…</div>
-    </div>
-    <div class="not-found-wrap" id="not-found-state" style="display:none;">
-        <div class="not-found-icon"><svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="var(--text)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="8" y1="11" x2="14" y2="11"/></svg></div>
-        <h2 class="not-found-title">Artist Not Found</h2>
-        <p class="not-found-sub">This profile does not exist or may have been removed.</p>
-        <a href="/net/index.html" style="margin-top:22px;display:inline-flex;align-items:center;gap:7px;padding:10px 22px;border-radius:8px;background:var(--cyan);color:#fff;text-decoration:none;font-size:13px;font-weight:600;">Browse Artists</a>
+        <div class="loading-text">Loading profile</div>
     </div>
 
+    <!-- NO USERNAME IN URL -->
+    <div class="no-user-wrap" id="no-user-state" style="display:none;">
+        <div class="nf-icon-ring">
+            <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        </div>
+        <div class="nf-eyebrow">Artist Directory</div>
+        <h2 class="not-found-title">No artist selected</h2>
+        <p class="not-found-sub">Browse the full directory to find and view an artist profile.</p>
+        <div class="nf-actions">
+            <a href="/net/index.html" class="btn-nf-primary">Browse Artists</a>
+            <a href="/index.html" class="btn-nf-ghost">Back to Home</a>
+        </div>
+    </div>
+
+    <!-- NOT FOUND -->
+    <div class="not-found-wrap" id="not-found-state" style="display:none;">
+        <div class="nf-icon-ring">
+            <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        </div>
+        <div class="nf-eyebrow">Profile not found</div>
+        <h2 class="not-found-title">Artist Not Found</h2>
+        <p class="not-found-sub">This profile does not exist or may have been removed from the directory.</p>
+        <div class="nf-actions">
+            <a href="/net/index.html" class="btn-nf-primary">Browse Artists</a>
+            <a href="/index.html" class="btn-nf-ghost">Back to Home</a>
+        </div>
+    </div>
+
+    <!-- PROFILE CONTENT -->
     <div id="profile-content" style="display:none;">
         <div style="position:relative;z-index:1;padding:18px 44px 0;max-width:960px;margin:0 auto;">
             <a href="/net/index.html" class="back-link">
@@ -266,11 +263,11 @@
 
         <section class="profile-hero-banner">
             <div class="hero-inner">
-                <div class="avatar-hero" id="avatar-hero">—</div>
+                <div class="avatar-hero" id="avatar-hero"></div>
                 <div class="hero-meta-col">
                     <div class="hero-eyebrow">SIOA Artist</div>
-                    <h1 class="hero-name" id="hero-name">Loading…</h1>
-                    <div class="hero-handle" id="hero-handle">@—</div>
+                    <h1 class="hero-name" id="hero-name"></h1>
+                    <div class="hero-handle" id="hero-handle"></div>
                     <div class="hero-location" id="hero-location" style="display:none;">
                         <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
                         <span id="location-text"></span>
@@ -290,8 +287,6 @@
         </section>
 
         <div class="page-body">
-
-            <!-- MAIN COL -->
             <div>
                 <!-- BIO -->
                 <div class="card" style="animation-delay:0.16s;">
@@ -302,7 +297,7 @@
                     <div class="card-body"><div id="bio-text" class="bio-text"></div></div>
                 </div>
 
-                <!-- PORTFOLIO LINK -->
+                <!-- PORTFOLIO -->
                 <div class="portfolio-link-card" style="margin-top:20px;" id="portfolio-section">
                     <div class="portfolio-link-header">
                         <div class="card-icon">
@@ -310,13 +305,11 @@
                         </div>
                         <div><div class="card-title">Portfolio</div><div class="card-subtitle" id="portfolio-subtitle">Public portfolio link</div></div>
                     </div>
-                    <div class="portfolio-link-body" id="portfolio-body">
-                        <!-- Filled by JS -->
-                    </div>
+                    <div class="portfolio-link-body" id="portfolio-body"></div>
                 </div>
             </div>
 
-            <!-- SIDE COL -->
+            <!-- SIDEBAR -->
             <div class="side-col">
                 <div class="side-card" style="animation-delay:0.2s;">
                     <div class="side-card-header">Member Info</div>
@@ -327,7 +320,6 @@
                     <div class="side-card-body" id="socials-body"><div class="socials-empty">Loading…</div></div>
                 </div>
             </div>
-
         </div>
     </div>
 </div>
@@ -338,199 +330,205 @@
 <script>
 (function(){
 'use strict';
+
 const sb = window.supabase.createClient(
     'https://zbgvgzzaejaxrgcjjovc.supabase.co',
     'sb_publishable_gCLTB6WM95Iw6Txcf2fjCA_5fnXPw77'
 );
+
 const el = id => document.getElementById(id);
 const esc = s => !s ? '' : String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 
-function getInitials(n,u){
-    if(n&&n.trim()){const p=n.trim().split(/\s+/);return p.length>=2?(p[0][0]+p[p.length-1][0]).toUpperCase():p[0].substring(0,2).toUpperCase();}
-    if(u)return u[0].toUpperCase();
-    return '—';
+function getInitials(n, u) {
+    if (n && n.trim()) {
+        const p = n.trim().split(/\s+/);
+        return p.length >= 2 ? (p[0][0] + p[p.length-1][0]).toUpperCase() : p[0].substring(0,2).toUpperCase();
+    }
+    return u ? u[0].toUpperCase() : '?';
 }
-function parseSpecialties(v){
-    if(!v)return[];
-    if(Array.isArray(v))return v.filter(Boolean);
-    return v.split(',').map(s=>s.trim()).filter(Boolean);
+
+function parseSpecialties(v) {
+    if (!v) return [];
+    if (Array.isArray(v)) return v.filter(Boolean);
+    return v.split(',').map(s => s.trim()).filter(Boolean);
 }
-function extractHandle(url){
-    try{const u=new URL(url);const p=u.pathname.replace(/^\/+/,'').replace(/\/$/,'').split('/');return '@'+(p[p.length-1]||url).replace(/^@/,'')}
-    catch{return url}
+
+function extractHandle(url) {
+    try {
+        const u = new URL(url);
+        const p = u.pathname.replace(/^\/+/,'').replace(/\/$/,'').split('/');
+        return '@' + (p[p.length-1] || url).replace(/^@/,'');
+    } catch { return url; }
 }
 
 let toastTimer;
-function showToast(msg, isErr){
+function showToast(msg, isErr) {
     const t = el('toast');
     t.textContent = msg;
     t.style.borderColor = isErr ? 'rgba(201,96,96,0.5)' : 'var(--border-cyan)';
     void t.offsetWidth;
     t.classList.add('show');
     clearTimeout(toastTimer);
-    toastTimer = setTimeout(()=>t.classList.remove('show'), 2800);
+    toastTimer = setTimeout(() => t.classList.remove('show'), 2800);
 }
 
-function getTargetUsername(){
+function getTargetUsername() {
     const p = new URLSearchParams(window.location.search);
-    return p.get('u') || p.get('username') || null;
+    return (p.get('u') || p.get('username') || '').trim();
 }
 
-let currentUser = null;
-let profileData = null;
-let isOwner = false;
+function showState(which) {
+    ['loading-state','no-user-state','not-found-state','profile-content'].forEach(id => {
+        const elem = el(id);
+        if (elem) elem.style.display = (id === which) ? (id === 'profile-content' ? 'block' : 'flex') : 'none';
+    });
+    // loading and profile-content use different display values
+    if (which === 'loading-state') el('loading-state').style.display = 'flex';
+    if (which === 'profile-content') el('profile-content').style.display = 'block';
+}
 
-// Portfolio state (owner edit mode)
+let currentUserId = null;
 let pfVisible = false;
 let pfUrl = '';
 let pfTitle = '';
 
-/* ── BOOT ── */
-async function boot(){
-    try{ const{data:{user}} = await sb.auth.getUser(); currentUser = user; }
-    catch(e){ currentUser = null; }
+async function boot() {
+    showState('loading-state');
+
+    // Get current session (doesn't throw on missing session)
+    try {
+        const { data: { session } } = await sb.auth.getSession();
+        currentUserId = session ? session.user.id : null;
+    } catch(e) {
+        currentUserId = null;
+    }
 
     renderTopbar();
 
-    const u = getTargetUsername();
-    if(!u){ showNotFound(); return; }
+    const username = getTargetUsername();
+    if (!username) {
+        showState('no-user-state');
+        return;
+    }
 
-    const{data:profile, error} = await sb.from('profiles')
+    const { data: profile, error } = await sb
+        .from('profiles')
         .select('id,full_name,username,specialty,city,state,bio,created_at,competition_count,socials,custom_links,portfolio_url,portfolio_title,portfolio_visible')
-        .eq('username', u)
+        .eq('username', username)
         .maybeSingle();
 
-    if(error || !profile){ showNotFound(); return; }
+    if (error || !profile) {
+        showState('not-found-state');
+        return;
+    }
 
-    profileData = profile;
-    isOwner = currentUser && currentUser.id === profile.id;
+    const isOwner = currentUserId && currentUserId === profile.id;
     pfVisible = !!profile.portfolio_visible;
     pfUrl = profile.portfolio_url || '';
     pfTitle = profile.portfolio_title || '';
 
-    document.title = `${profile.full_name || profile.username} | SIOA Artist`;
+    document.title = (profile.full_name || profile.username) + ' | SIOA Artist';
 
-    renderHero(profile);
+    renderHero(profile, isOwner);
     renderBio(profile);
-    renderPortfolioSection(profile);
+    renderPortfolioSection(profile, isOwner);
     renderSidebar(profile);
 
-    el('loading-state').style.display = 'none';
-    el('profile-content').style.display = 'block';
+    showState('profile-content');
 }
 
-/* ── TOPBAR ── */
-function renderTopbar(){
+function renderTopbar() {
     const area = el('topbar-auth-area');
-    if(currentUser){
-        area.innerHTML = `<div class="topbar-user"><div class="topbar-avatar" id="topbar-av">—</div><span style="font-size:13px;color:var(--muted);" id="topbar-name">—</span></div>`;
-        sb.from('profiles').select('full_name,username').eq('id', currentUser.id).maybeSingle().then(({data})=>{
-            if(!data)return;
-            el('topbar-av').textContent = getInitials(data.full_name, data.username);
-            el('topbar-name').textContent = (data.full_name || data.username || 'Me').split(' ')[0];
+    if (currentUserId) {
+        area.innerHTML = `<div class="topbar-user"><div class="topbar-avatar" id="topbar-av">?</div><span style="font-size:13px;color:var(--muted);" id="topbar-name"></span></div>`;
+        sb.from('profiles').select('full_name,username').eq('id', currentUserId).maybeSingle().then(({ data }) => {
+            if (!data) return;
+            const av = el('topbar-av'); if (av) av.textContent = getInitials(data.full_name, data.username);
+            const nm = el('topbar-name'); if (nm) nm.textContent = (data.full_name || data.username || '').split(' ')[0];
         });
     } else {
         area.innerHTML = `<a href="/login/login.html" class="btn-topbar btn-topbar-ghost">Sign In</a><a href="/login/login.html" class="btn-topbar btn-topbar-solid">Join SIOA</a>`;
     }
 }
 
-/* ── HERO ── */
-function renderHero(p){
+function renderHero(p, isOwner) {
     const loc = [p.city, p.state].filter(Boolean).join(', ');
     const specs = parseSpecialties(p.specialty);
-    const joined = new Date(p.created_at).toLocaleDateString('en-IN',{month:'short',year:'numeric'});
+    const joined = new Date(p.created_at).toLocaleDateString('en-IN', { month:'short', year:'numeric' });
 
     el('avatar-hero').textContent = getInitials(p.full_name, p.username);
     el('hero-name').textContent = p.full_name || p.username || 'Unknown Artist';
     el('hero-handle').textContent = p.username ? '@' + p.username : '';
-    if(loc){ el('hero-location').style.display = 'flex'; el('location-text').textContent = loc; }
-    if(specs.length) el('specialty-row').innerHTML = specs.map(s=>`<span class="spec-tag">${esc(s)}</span>`).join('');
 
-    // Stats
+    if (loc) { el('hero-location').style.display = 'flex'; el('location-text').textContent = loc; }
+    if (specs.length) el('specialty-row').innerHTML = specs.map(s => `<span class="spec-tag">${esc(s)}</span>`).join('');
+
     el('stat-entries').textContent = p.competition_count || 0;
     el('stat-joined').textContent = joined;
     el('stat-specialties').textContent = specs.length;
 
-    // Hero action button
-    if(isOwner){
+    if (isOwner) {
         el('hero-action-btn').innerHTML = `<a href="/dashbord/index.html" class="btn-edit"><svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>Edit Profile</a>`;
     }
 }
 
-/* ── BIO ── */
-function renderBio(p){
+function renderBio(p) {
     const b = el('bio-text');
-    if(p.bio && p.bio.trim()) b.textContent = p.bio;
-    else b.innerHTML = '<span class="bio-empty">This artist hasn\'t added a bio yet.</span>';
-}
-
-/* ── PORTFOLIO SECTION ── */
-function renderPortfolioSection(p){
-    const body = el('portfolio-body');
-
-    if(isOwner){
-        // Owner sees edit form
-        el('portfolio-subtitle').textContent = 'Set your public portfolio link';
-        renderPortfolioForm(body);
+    if (p.bio && p.bio.trim()) {
+        b.textContent = p.bio;
     } else {
-        // Visitor sees public view only if visible + URL set
-        if(p.portfolio_visible && p.portfolio_url && p.portfolio_url.trim()){
-            el('portfolio-subtitle').textContent = 'View this artist\'s portfolio';
-            body.innerHTML = `
-                <a href="${esc(p.portfolio_url)}" target="_blank" rel="noopener noreferrer" class="portfolio-display">
-                    <div class="portfolio-display-icon">
-                        <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-                    </div>
-                    <div class="portfolio-display-text">
-                        <div class="portfolio-display-label">Portfolio</div>
-                        <div class="portfolio-display-title">${esc(p.portfolio_title || p.portfolio_url)}</div>
-                    </div>
-                    <div class="portfolio-display-arrow">›</div>
-                </a>`;
-        } else {
-            // Hide section entirely if no public portfolio
-            el('portfolio-section').style.display = 'none';
-        }
+        b.innerHTML = '<span class="bio-empty">This artist has not added a bio yet.</span>';
     }
 }
 
-function renderPortfolioForm(container){
+function renderPortfolioSection(p, isOwner) {
+    const body = el('portfolio-body');
+    if (isOwner) {
+        el('portfolio-subtitle').textContent = 'Set your public portfolio link';
+        renderPortfolioForm(body);
+    } else if (p.portfolio_visible && p.portfolio_url && p.portfolio_url.trim()) {
+        el('portfolio-subtitle').textContent = 'View this artist\'s portfolio';
+        body.innerHTML = `
+            <a href="${esc(p.portfolio_url)}" target="_blank" rel="noopener noreferrer" class="portfolio-display">
+                <div class="portfolio-display-icon">
+                    <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                </div>
+                <div class="portfolio-display-text">
+                    <div class="portfolio-display-label">Portfolio</div>
+                    <div class="portfolio-display-title">${esc(p.portfolio_title || p.portfolio_url)}</div>
+                </div>
+                <div class="portfolio-display-arrow">›</div>
+            </a>`;
+    } else {
+        el('portfolio-section').style.display = 'none';
+    }
+}
+
+function renderPortfolioForm(container) {
     container.innerHTML = `
         <div class="portfolio-form">
-
-            <!-- URL input -->
             <div>
                 <label class="pf-label" for="pf-url">Portfolio URL</label>
                 <input class="pf-input" id="pf-url" type="url" placeholder="https://drive.google.com/file/d/..." value="${esc(pfUrl)}">
             </div>
-
-            <!-- Title input -->
             <div>
                 <label class="pf-label" for="pf-title">Display Title <span style="font-weight:300;color:var(--muted-2);text-transform:none;letter-spacing:0;">optional</span></label>
                 <input class="pf-input" id="pf-title" type="text" placeholder="e.g. My Origami Portfolio 2026" value="${esc(pfTitle)}">
             </div>
-
-            <!-- Visibility checkbox -->
             <div class="pf-checkbox-row${pfVisible ? ' checked' : ''}" id="pf-vis-row" onclick="toggleVisibility()">
                 <div class="pf-checkbox" id="pf-checkbox">
                     <svg viewBox="0 0 12 12"><polyline points="2 6 5 9 10 3"/></svg>
                 </div>
                 <div class="pf-checkbox-text">
                     <div class="pf-checkbox-title">Show portfolio link on my public profile</div>
-                    <div class="pf-checkbox-sub">Anyone can view it — no login required. Uncheck to hide it.</div>
+                    <div class="pf-checkbox-sub">Anyone can view it without logging in. Uncheck to hide it.</div>
                 </div>
             </div>
-
-            <!-- Drive tip -->
             <div class="drive-tip">
-                <div class="drive-tip-icon">
-                    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-                </div>
+                <div class="drive-tip-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div>
                 <div>
                     <div class="drive-tip-label">Suggested approach</div>
-                    <div class="drive-tip-body">
-                        <strong>Make a PDF of your fold and host it on Google Drive.</strong> Free, permanent, and accessible to anyone without an account.
-                    </div>
+                    <div class="drive-tip-body"><strong>Make a PDF of your fold and host it on Google Drive.</strong> Free, permanent, and accessible to anyone without an account.</div>
                     <div class="drive-tip-steps">
                         <div class="drive-tip-step"><span class="drive-tip-step-num">01</span><span>Upload your PDF or image to Google Drive</span></div>
                         <div class="drive-tip-step"><span class="drive-tip-step-num">02</span><span>Right-click the file and click <strong style="color:var(--text);">Share</strong></span></div>
@@ -539,91 +537,63 @@ function renderPortfolioForm(container){
                     </div>
                 </div>
             </div>
-
-            <button class="btn-save-portfolio" id="btn-save-portfolio" onclick="savePortfolio()">
-                Save Portfolio Link
-            </button>
-
+            <button class="btn-save-portfolio" id="btn-save-portfolio" onclick="savePortfolio()">Save Portfolio Link</button>
         </div>`;
 }
 
-window.toggleVisibility = function(){
+window.toggleVisibility = function() {
     pfVisible = !pfVisible;
     const row = el('pf-vis-row');
-    row.classList.toggle('checked', pfVisible);
+    if (row) row.classList.toggle('checked', pfVisible);
 };
 
-window.savePortfolio = async function(){
+window.savePortfolio = async function() {
     const btn = el('btn-save-portfolio');
     const urlVal = el('pf-url') ? el('pf-url').value.trim() : '';
     const titleVal = el('pf-title') ? el('pf-title').value.trim() : '';
-
-    if(pfVisible && !urlVal){ showToast('Please enter a URL before making it visible.', true); return; }
-
-    btn.disabled = true;
-    btn.textContent = 'Saving…';
-
-    const{error} = await sb.from('profiles').update({
-        portfolio_url: urlVal,
-        portfolio_title: titleVal,
-        portfolio_visible: pfVisible,
-    }).eq('id', currentUser.id);
-
-    if(error){
-        showToast('Could not save. Please try again.', true);
-        btn.disabled = false;
-        btn.textContent = 'Save Portfolio Link';
-    } else {
-        pfUrl = urlVal;
-        pfTitle = titleVal;
-        showToast('Portfolio link saved');
-        btn.disabled = false;
-        btn.textContent = 'Save Portfolio Link';
-    }
+    if (pfVisible && !urlVal) { showToast('Please enter a URL before making it visible.', true); return; }
+    btn.disabled = true; btn.textContent = 'Saving…';
+    const { error } = await sb.from('profiles').update({ portfolio_url: urlVal, portfolio_title: titleVal, portfolio_visible: pfVisible }).eq('id', currentUserId);
+    if (error) { showToast('Could not save. Please try again.', true); }
+    else { pfUrl = urlVal; pfTitle = titleVal; showToast('Portfolio link saved'); }
+    btn.disabled = false; btn.textContent = 'Save Portfolio Link';
 };
 
-/* ── SIDEBAR ── */
-function renderSidebar(p){
-    const joined = new Date(p.created_at).toLocaleDateString('en-IN',{month:'long',year:'numeric'});
+function renderSidebar(p) {
+    const joined = new Date(p.created_at).toLocaleDateString('en-IN', { month:'long', year:'numeric' });
     const loc = [p.city, p.state].filter(Boolean).join(', ');
     const specs = parseSpecialties(p.specialty);
     let h = '';
-
-    if(loc) h += `<div class="info-row"><div class="info-icon"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg></div><div><div class="info-label">Location</div><div class="info-value">${esc(loc)}</div></div></div>`;
+    if (loc) h += `<div class="info-row"><div class="info-icon"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg></div><div><div class="info-label">Location</div><div class="info-value">${esc(loc)}</div></div></div>`;
     h += `<div class="info-row"><div class="info-icon"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div><div><div class="info-label">Member Since</div><div class="info-value">${esc(joined)}</div></div></div>`;
-    if(specs.length) h += `<div class="info-row"><div class="info-icon"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div><div><div class="info-label">Specialties</div><div class="info-value" style="font-size:12px;">${specs.map(s=>esc(s)).join(' · ')}</div></div></div>`;
-    if(p.competition_count) h += `<div class="info-row"><div class="info-icon"><svg viewBox="0 0 24 24"><path d="M8 21h8M12 17v4M17 4h2a2 2 0 0 1 2 2v1a4 4 0 0 1-4 4h-1"/><path d="M7 4H5a2 2 0 0 0-2 2v1a4 4 0 0 0 4 4h1"/><path d="M7 4h10v8a5 5 0 0 1-10 0V4z"/></svg></div><div><div class="info-label">Competition Entries</div><div class="info-value">${p.competition_count}</div></div></div>`;
+    if (specs.length) h += `<div class="info-row"><div class="info-icon"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div><div><div class="info-label">Specialties</div><div class="info-value" style="font-size:12px;">${specs.map(s => esc(s)).join(' · ')}</div></div></div>`;
+    if (p.competition_count) h += `<div class="info-row"><div class="info-icon"><svg viewBox="0 0 24 24"><path d="M8 21h8M12 17v4M17 4h2a2 2 0 0 1 2 2v1a4 4 0 0 1-4 4h-1"/><path d="M7 4H5a2 2 0 0 0-2 2v1a4 4 0 0 0 4 4h1"/><path d="M7 4h10v8a5 5 0 0 1-10 0V4z"/></svg></div><div><div class="info-label">Competition Entries</div><div class="info-value">${p.competition_count}</div></div></div>`;
     el('info-body').innerHTML = h || '<div class="socials-empty">No info added yet.</div>';
 
     const DEFS = [
         {key:'instagram', label:'Instagram', icon:`<svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>`},
-        {key:'twitter', label:'X / Twitter', icon:`<svg viewBox="0 0 24 24"><path d="M4 4l16 16M4 20L20 4" stroke-linecap="round"/></svg>`},
-        {key:'youtube', label:'YouTube', icon:`<svg viewBox="0 0 24 24"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 0 0 1.46 6.42 29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.95 1.96C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.96A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="var(--surface)"/></svg>`},
+        {key:'twitter', label:'X / Twitter', icon:`<svg viewBox="0 0 24 24"><path d="M4 4l16 16M4 20L20 4"/></svg>`},
+        {key:'youtube', label:'YouTube', icon:`<svg viewBox="0 0 24 24"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 0 0 1.46 6.42 29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.95 1.96C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.96A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02"/></svg>`},
         {key:'linkedin', label:'LinkedIn', icon:`<svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>`},
         {key:'pinterest', label:'Pinterest', icon:`<svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12c0 4.24 2.65 7.86 6.39 9.29-.09-.78-.17-1.98.04-2.83.18-.77 1.22-5.16 1.22-5.16s-.31-.62-.31-1.55c0-1.45.84-2.54 1.89-2.54.89 0 1.32.67 1.32 1.47 0 .9-.57 2.24-.87 3.48-.25 1.04.52 1.88 1.54 1.88 1.85 0 3.09-2.37 3.09-5.18 0-2.14-1.44-3.74-4.04-3.74-2.94 0-4.77 2.2-4.77 4.64 0 .84.24 1.43.62 1.89.17.2.19.28.13.51l-.18.73c-.06.23-.24.31-.44.23-1.23-.5-1.8-1.84-1.8-3.35 0-2.48 2.09-5.47 6.22-5.47 3.32 0 5.51 2.4 5.51 4.98 0 3.41-1.89 5.96-4.67 5.96-.93 0-1.81-.5-2.11-1.07l-.58 2.22c-.21.81-.77 1.82-1.15 2.44.87.27 1.79.41 2.74.41 5.52 0 10-4.48 10-10S17.52 2 12 2z"/></svg>`},
         {key:'tiktok', label:'TikTok', icon:`<svg viewBox="0 0 24 24"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>`},
     ];
 
     let sh = '';
-    if(p.socials && typeof p.socials === 'object'){
-        DEFS.forEach(d=>{
+    if (p.socials && typeof p.socials === 'object') {
+        DEFS.forEach(d => {
             const url = p.socials[d.key];
-            if(!url || !url.trim()) return;
+            if (!url || !url.trim()) return;
             sh += `<a href="${esc(url)}" target="_blank" rel="noopener noreferrer" class="social-link-item"><div class="sl-icon">${d.icon}</div><div><div class="sl-title">${esc(d.label)}</div><div class="sl-handle">${esc(extractHandle(url))}</div></div><span class="sl-arrow">›</span></a>`;
         });
     }
-    if(Array.isArray(p.custom_links)){
-        p.custom_links.forEach(lnk=>{
-            if(!lnk.title || !lnk.url) return;
+    if (Array.isArray(p.custom_links)) {
+        p.custom_links.forEach(lnk => {
+            if (!lnk.title || !lnk.url) return;
             sh += `<a href="${esc(lnk.url)}" target="_blank" rel="noopener noreferrer" class="social-link-item"><div class="sl-icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--cyan-light)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></div><div><div class="sl-title">${esc(lnk.title)}</div><div class="sl-handle">External link</div></div><span class="sl-arrow">›</span></a>`;
         });
     }
     el('socials-body').innerHTML = sh || '<div class="socials-empty">No links added yet.</div>';
-}
-
-function showNotFound(){
-    el('loading-state').style.display = 'none';
-    el('not-found-state').style.display = 'flex';
 }
 
 boot();
