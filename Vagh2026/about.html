@@ -859,26 +859,42 @@ footer{padding:60px 0 36px;border-top:1px solid rgba(26,95,122,0.15);position:re
     <span class="footer-hin">विधान · अभ्यास · गौरव · हस्त</span>
   </div>
 </footer>
-
+ <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-  const { data: existing } = await supabase
-  .from('submissions')
-  .select('id')
-  .eq('user_id', user.id)
-  .maybeSingle();
 
-if (existing) {
-  // swap button
-  submitBtn.textContent = 'View Your Entry';
-  submitBtn.href = `/entry/${existing.id}`; // or wherever
-  submitBtn.onclick = null; // remove submit handler
-} else {
-  // show form as normal
-}
-var navbar = document.getElementById('navbar');
-window.addEventListener('scroll', function(){
-  navbar.classList.toggle('scrolled', window.scrollY > 50);
-});
+    // 1. Initialize Supabase
+    const sb = window.supabase.createClient(
+        "https://zbgvgzzaejaxrgcjjovc.supabase.co",
+        "sb_publishable_gCLTB6WM95Iw6Txcf2fjCA_5fnXPw77"
+    );
+
+    // 2. The Async Wrapper to check the user's status safely
+    (async function checkExistingSubmission() {
+        const submitBtn = document.getElementById('submitBtn');
+        if (!submitBtn) return; // safety check
+
+        // Get current user
+        const { data: { user } } = await sb.auth.getUser();
+        
+        // If not logged in, stop here
+        if (!user) return; 
+
+        // Check if they already submitted
+        const { data: existing } = await sb
+            .from('submissions')
+            .select('id')
+            .eq('user_id', user.id)
+            .maybeSingle();
+
+        if (existing) {
+            // Swap button text (targeting the span to keep your SVG arrow intact)
+            const btnSpan = submitBtn.querySelector('span');
+            if (btnSpan) btnSpan.textContent = 'View Your Entry';
+            
+            // Update the link to go to their entry
+            submitBtn.href = `/entry.html?id=${existing.id}`;
+        }
+    })();
 
 var io = new IntersectionObserver(function(entries){
   entries.forEach(function(e){ if(e.isIntersecting) e.target.classList.add('visible'); });

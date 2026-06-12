@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>View Entry | VAGH 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --black: #000000;
+  --deep-blue: #0a1628;
+  --navy-blue: #0f2847;
+  --cyan-blue: #1a5f7a;
+  --bright-cyan: #2d89b0;
+  --light-cyan: #57a6bb;
+  --white: #e8f4f8;
+  --light-grey: #c5d9e0;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+    font-family: 'Inter', -apple-system, sans-serif;
+    background: var(--black);
+    color: var(--white);
+    overflow-x: hidden;
+    padding-top: 100px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* ── NAVBAR & CANVAS (From your UI) ── */
+.navbar {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+    background: rgba(0,0,0,0.85); backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(26,95,122,0.3); padding: 18px 0;
+}
+.nav-container { max-width: 1200px; margin: 0 auto; padding: 0 40px; display: flex; justify-content: space-between; align-items: center; }
+.nav-logo { font-size: 24px; font-weight: 800; letter-spacing: 0.1em; color: var(--white); text-decoration: none; }
+.nav-back { display: inline-flex; align-items: center; gap: 8px; color: var(--light-grey); text-decoration: none; font-size: 13px; letter-spacing: 0.08em; transition: color 0.3s; }
+.nav-back svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+.nav-back:hover { color: var(--white); }
+
+#bg-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; opacity: 0.35; pointer-events: none; }
+
+.container { position: relative; z-index: 1; max-width: 1000px; margin: 0 auto; padding: 40px; flex: 1; width: 100%; }
+
+/* ── STATE MANAGEMENT ── */
+.state-panel { text-align: center; padding: 100px 20px; }
+.spinner {
+    width: 40px; height: 40px; border: 3px solid rgba(45,137,176,0.2);
+    border-top-color: var(--bright-cyan); border-radius: 50%;
+    animation: spin 1s linear infinite; margin: 0 auto 20px;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ── CONTENT UI ── */
+.entry-header { text-align: center; margin-bottom: 50px; animation: fadeUp 0.8s ease forwards; }
+.entry-eyebrow { font-size: 11px; font-weight: 600; letter-spacing: 0.3em; color: var(--bright-cyan); text-transform: uppercase; margin-bottom: 16px; }
+.entry-title { font-size: clamp(36px, 6vw, 64px); font-weight: 800; letter-spacing: 0.02em; color: var(--white); line-height: 1.1; margin-bottom: 12px; }
+.entry-artist { font-size: 18px; font-weight: 300; color: var(--light-grey); }
+.entry-artist strong { color: var(--white); font-weight: 500; }
+
+/* ── BIGGER PICS GALLERY ── */
+.gallery-grid {
+    display: grid;
+    /* This creates a beautiful responsive grid for large images */
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 24px;
+    margin-bottom: 60px;
+    opacity: 0; animation: fadeUp 0.8s ease forwards 0.2s;
+}
+.gallery-img {
+    width: 100%;
+    height: 400px; /* Forces large uniform height */
+    object-fit: cover; /* Ensures images aren't stretched */
+    border-radius: 12px;
+    border: 1px solid rgba(45,137,176,0.3);
+    box-shadow: 0 16px 40px rgba(0,0,0,0.4);
+    transition: transform 0.4s ease, border-color 0.4s ease;
+    background: rgba(10,22,40,0.6);
+}
+.gallery-img:hover {
+    transform: translateY(-4px);
+    border-color: var(--bright-cyan);
+}
+
+/* ── DETAILS CARD ── */
+.details-card {
+    background: linear-gradient(135deg, rgba(10,22,40,0.8), rgba(15,40,71,0.5));
+    border: 1px solid rgba(26,95,122,0.35);
+    border-radius: 12px;
+    padding: 40px;
+    margin-bottom: 60px;
+    opacity: 0; animation: fadeUp 0.8s ease forwards 0.3s;
+}
+
+.details-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+.details-row { display: flex; flex-direction: column; gap: 6px; }
+.details-row.full { grid-column: 1 / -1; margin-top: 16px; padding-top: 24px; border-top: 1px solid rgba(26,95,122,0.2); }
+.d-key { font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(197,217,224,0.4); font-weight: 500; }
+.d-val { font-size: 16px; color: var(--white); font-weight: 400; line-height: 1.5; }
+.d-badge { display: inline-block; padding: 4px 14px; background: rgba(45,137,176,0.15); border: 1px solid rgba(45,137,176,0.4); border-radius: 100px; font-size: 12px; color: var(--bright-cyan); letter-spacing: 0.1em; }
+
+.statement-text { font-size: 15px; font-weight: 300; line-height: 1.8; color: var(--light-grey); white-space: pre-wrap; }
+
+@keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+
+@media (max-width: 768px) {
+    .details-grid { grid-template-columns: 1fr; }
+    .gallery-img { height: 300px; }
+    .container { padding: 20px; }
+}
+</style>
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="nav-container">
+    <a href="/" class="nav-logo">SIOA</a>
+    <a href="/abh12.htm" class="nav-back">
+      <svg viewBox="0 0 24 24"><path d="M19 12H5M12 5l-7 7 7 7"/></svg> Back
+    </a>
+  </div>
+</nav>
+
+<canvas id="bg-canvas"></canvas>
+
+<div class="container">
+    
+    <div id="loading-state" class="state-panel">
+        <div class="spinner"></div>
+        <p style="color: var(--light-grey); letter-spacing: 0.1em;">Loading submission...</p>
+    </div>
+
+    <div id="error-state" class="state-panel" style="display: none;">
+        <svg style="width: 48px; height: 48px; stroke: #e06060; fill: none; stroke-width: 1.5; margin-bottom: 20px;" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        <h2 style="font-size: 24px; margin-bottom: 10px;">Entry Not Found</h2>
+        <p id="error-msg" style="color: var(--light-grey); margin-bottom: 30px;">The submission you are looking for does not exist.</p>
+        <a href="/abh12.htm" style="padding: 12px 24px; border: 1px solid var(--bright-cyan); color: var(--bright-cyan); text-decoration: none; border-radius: 6px;">Return to Competition</a>
+    </div>
+
+    <div id="content-state" style="display: none;">
+        
+        <div class="entry-header">
+            <p class="entry-eyebrow" id="entry-id">VAGH 2026 Submission</p>
+            <h1 class="entry-title" id="val-modelName">Loading...</h1>
+            <p class="entry-artist">Folded by <strong id="val-artistName">Loading...</strong> <span id="val-location" style="font-size: 14px; opacity: 0.6; margin-left: 8px;"></span></p>
+        </div>
+
+        <div class="gallery-grid" id="image-gallery">
+            </div>
+
+        <div class="details-card">
+            <div class="details-grid">
+                <div class="details-row">
+                    <span class="d-key">Designed By</span>
+                    <span class="d-val" id="val-designer">—</span>
+                </div>
+                <div class="details-row">
+                    <span class="d-key">Paper Used</span>
+                    <span class="d-val" id="val-paper">—</span>
+                </div>
+                <div class="details-row">
+                    <span class="d-key">Time Taken</span>
+                    <span class="d-val" id="val-time">—</span>
+                </div>
+                <div class="details-row">
+                    <span class="d-key">Difficulty</span>
+                    <span class="d-val" id="val-difficulty">—</span>
+                </div>
+                
+                <div class="details-row full" id="statement-container">
+                    <span class="d-key" style="margin-bottom: 12px;">Artistic Statement</span>
+                    <div class="statement-text" id="val-statement"></div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+    // 1. Initialize Supabase
+    const sbClient = window.supabase.createClient(
+        "https://zbgvgzzaejaxrgcjjovc.supabase.co",
+        "sb_publishable_gCLTB6WM95Iw6Txcf2fjCA_5fnXPw77"
+    );
+
+    // 2. Fetch logic
+    (async function fetchEntry() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const entryId = urlParams.get('id');
+
+        const loadingState = document.getElementById('loading-state');
+        const errorState = document.getElementById('error-state');
+        const contentState = document.getElementById('content-state');
+
+        if (!entryId) {
+            loadingState.style.display = 'none';
+            errorState.style.display = 'block';
+            return;
+        }
+
+        try {
+            // Fetch entry data
+            const { data: entry, error } = await sbClient
+                .from('submissions')
+                .select('*')
+                .eq('id', entryId)
+                .single();
+
+            if (error || !entry) throw new Error("Entry not found.");
+
+            // Populate Text Fields
+            document.getElementById('entry-id').textContent = entry.submission_id || 'VAGH 2026 Submission';
+            document.getElementById('val-modelName').textContent = entry.model_name || 'Untitled';
+            
+            // Prefer artist_name, fallback to full_name
+            document.getElementById('val-artistName').textContent = entry.artist_name || entry.full_name || 'Anonymous';
+            
+            if(entry.state || entry.country) {
+                const loc = [entry.state, entry.country].filter(Boolean).join(', ');
+                document.getElementById('val-location').textContent = `(${loc})`;
+            }
+
+            document.getElementById('val-designer').textContent = entry.designer || '—';
+            document.getElementById('val-paper').textContent = entry.paper_used || '—';
+            document.getElementById('val-time').textContent = entry.time_taken || '—';
+            
+            if (entry.difficulty) {
+                document.getElementById('val-difficulty').innerHTML = `<span class="d-badge">${entry.difficulty}</span>`;
+            }
+
+            if (entry.artistic_statement) {
+                document.getElementById('val-statement').textContent = entry.artistic_statement;
+            } else {
+                document.getElementById('statement-container').style.display = 'none';
+            }
+
+            // Populate Images (The "Bigger Pics" Gallery)
+            const gallery = document.getElementById('image-gallery');
+            if (entry.image_paths && Array.isArray(entry.image_paths)) {
+                entry.image_paths.forEach(path => {
+                    // Generate public URL for each image
+                    const { data: publicUrlData } = sbClient.storage.from('competition_media').getPublicUrl(path);
+                    
+                    const img = document.createElement('img');
+                    img.src = publicUrlData.publicUrl;
+                    img.className = 'gallery-img';
+                    img.alt = entry.model_name;
+                    gallery.appendChild(img);
+                });
+            }
+
+            // Reveal Content
+            loadingState.style.display = 'none';
+            contentState.style.display = 'block';
+
+        } catch (err) {
+            loadingState.style.display = 'none';
+            errorState.style.display = 'block';
+            console.error(err);
+        }
+    })();
+
+    /* ── BACKGROUND PARTICLES ── */
+    var canvas = document.getElementById('bg-canvas');
+    var ctx = canvas.getContext('2d');
+    function resize(){ canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+    resize(); window.addEventListener('resize', resize);
+    function Particle(){ this.reset(); this.y = Math.random() * canvas.height; }
+    Particle.prototype.reset = function(){
+      this.x = Math.random() * canvas.width; this.y = -10;
+      this.size = Math.random() * 2.5 + 0.5; this.speedY = Math.random() * 0.25 + 0.08;
+      this.speedX = (Math.random() - 0.5) * 0.15; this.opacity = Math.random() * 0.45 + 0.2;
+      this.hue = Math.random() * 40 + 180;
+    };
+    Particle.prototype.update = function(){
+      this.y += this.speedY; this.x += this.speedX + Math.sin(this.y * 0.01) * 0.25;
+      if (this.y > canvas.height + 10) this.reset();
+      if (this.x < 0) this.x = canvas.width;
+      if (this.x > canvas.width) this.x = 0;
+    };
+    Particle.prototype.draw = function(){
+      ctx.save(); ctx.globalAlpha = this.opacity;
+      ctx.fillStyle = 'hsl(' + this.hue + ',70%,50%)';
+      ctx.shadowBlur = 12; ctx.shadowColor = 'hsl(' + this.hue + ',70%,50%)';
+      ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fill(); ctx.restore();
+    };
+    var particles = [];
+    for (var i = 0; i < 60; i++) particles.push(new Particle());
+    (function animate(){
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      for (var i = 0; i < particles.length; i++){
+        for (var j = i + 1; j < particles.length; j++){
+          var dx = particles[i].x - particles[j].x, dy = particles[i].y - particles[j].y;
+          var d = Math.sqrt(dx*dx + dy*dy);
+          if (d < 130){
+            ctx.save(); ctx.globalAlpha = (1 - d/130) * 0.12;
+            ctx.strokeStyle = 'hsl(190,70%,50%)'; ctx.lineWidth = 0.8;
+            ctx.beginPath(); ctx.moveTo(particles[i].x, particles[i].y);
+            ctx.lineTo(particles[j].x, particles[j].y); ctx.stroke(); ctx.restore();
+          }
+        }
+      }
+      particles.forEach(function(p){ p.update(); p.draw(); });
+      requestAnimationFrame(animate);
+    })();
+</script>
+</body>
+</html>
