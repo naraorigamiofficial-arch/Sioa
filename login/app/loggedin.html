@@ -206,41 +206,6 @@
             height: 1px; background: var(--border); margin: 22px 0;
         }
 
-        /* Clickable follow items */
-        .follow-row {
-            display: grid; grid-template-columns: 1fr 1fr;
-            gap: 0; margin-bottom: 22px;
-        }
-        .follow-item {
-            text-align: center; padding: 16px 10px;
-            border: 1px solid var(--border); border-radius: 6px;
-            cursor: pointer;
-            transition: all 0.22s cubic-bezier(0.16,1,0.3,1);
-            position: relative; overflow: hidden;
-        }
-        .follow-item::after {
-            content: ''; position: absolute;
-            bottom: 0; left: 0; right: 0; height: 2px;
-            background: linear-gradient(90deg, var(--cyan-blue), var(--bright-cyan));
-            transform: scaleX(0);
-            transition: transform 0.25s cubic-bezier(0.16,1,0.3,1);
-        }
-        .follow-item:first-child { margin-right: 8px; }
-        .follow-item:hover { border-color: var(--border-strong); background: rgba(45,137,176,0.07); }
-        .follow-item:hover::after { transform: scaleX(1); }
-        .follow-item:hover .follow-count { color: var(--light-cyan); }
-        .follow-item:hover .follow-label { color: var(--white); }
-        .follow-count {
-            font-size: 28px; font-weight: 700; color: var(--bright-cyan);
-            letter-spacing: -0.01em; line-height: 1;
-            transition: color 0.22s;
-        }
-        .follow-label {
-            font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase;
-            color: var(--light-grey); margin-top: 6px;
-            transition: color 0.22s;
-        }
-
         .completion-wrap { margin-bottom: 8px; }
         .completion-header {
             display: flex; justify-content: space-between;
@@ -378,88 +343,6 @@
         .announcement-title { font-size: 14px; font-weight: 600; color: var(--white); margin-bottom: 4px; }
         .announcement-body  { font-size: 13px; font-weight: 300; color: var(--light-grey); line-height: 1.6; }
 
-        /* ── MODAL ── */
-        .modal-backdrop {
-            position: fixed; inset: 0;
-            background: rgba(0,0,0,0.72);
-            backdrop-filter: blur(5px);
-            z-index: 2000;
-            display: flex; align-items: center; justify-content: center;
-            opacity: 0; pointer-events: none;
-            transition: opacity 0.22s;
-        }
-        .modal-backdrop.open { opacity: 1; pointer-events: all; }
-        .modal-tile {
-            background: linear-gradient(135deg, #0a1628, #0f2847);
-            border: 1px solid var(--border-strong);
-            border-radius: 14px;
-            width: 100%; max-width: 400px; max-height: 78vh;
-            display: flex; flex-direction: column;
-            box-shadow: 0 32px 80px rgba(0,0,0,0.7), 0 0 0 1px rgba(45,137,176,0.08);
-            transform: translateY(14px) scale(0.97);
-            transition: transform 0.24s cubic-bezier(0.16,1,0.3,1);
-            overflow: hidden;
-        }
-        .modal-backdrop.open .modal-tile { transform: translateY(0) scale(1); }
-        .modal-head {
-            display: flex; align-items: center; justify-content: space-between;
-            padding: 18px 22px;
-            border-bottom: 1px solid var(--border);
-            flex-shrink: 0;
-        }
-        .modal-title {
-            font-size: 16px; font-weight: 700;
-            color: var(--white); letter-spacing: 0.04em;
-        }
-        .modal-close {
-            width: 30px; height: 30px; border-radius: 50%;
-            border: 1px solid rgba(26,95,122,0.45);
-            background: rgba(255,255,255,0.03);
-            color: var(--light-grey); font-size: 15px;
-            cursor: pointer; display: flex; align-items: center; justify-content: center;
-            transition: all 0.18s; flex-shrink: 0;
-        }
-        .modal-close:hover {
-            border-color: var(--bright-cyan); color: var(--white);
-            background: rgba(45,137,176,0.12);
-        }
-        .modal-list { overflow-y: auto; flex: 1; padding: 6px 0; }
-        .modal-list::-webkit-scrollbar { width: 4px; }
-        .modal-list::-webkit-scrollbar-track { background: transparent; }
-        .modal-list::-webkit-scrollbar-thumb { background: rgba(45,137,176,0.25); border-radius: 4px; }
-        .modal-user-item {
-            display: flex; align-items: center; gap: 14px;
-            padding: 12px 22px;
-            text-decoration: none;
-            transition: background 0.15s;
-        }
-        .modal-user-item:hover { background: rgba(45,137,176,0.07); }
-        .modal-user-avatar {
-            width: 42px; height: 42px; border-radius: 50%;
-            background: linear-gradient(135deg, var(--cyan-blue), var(--bright-cyan));
-            border: 1.5px solid var(--border-strong);
-            display: flex; align-items: center; justify-content: center;
-            font-size: 15px; font-weight: 700; color: var(--white);
-            flex-shrink: 0; letter-spacing: 0.03em;
-        }
-        .modal-user-name { font-size: 14px; font-weight: 500; color: var(--white); }
-        .modal-user-handle { font-size: 12px; color: var(--light-cyan); margin-top: 2px; }
-        .modal-empty {
-            padding: 44px 22px; text-align: center;
-            font-size: 13px; color: rgba(197,217,224,0.35);
-            letter-spacing: 0.06em; font-style: italic;
-        }
-        .modal-loading { padding: 36px 22px; text-align: center; }
-        .modal-loading-pulse {
-            width: 28px; height: 28px; border-radius: 50%;
-            border: 2px solid rgba(45,137,176,0.15);
-            border-top-color: var(--bright-cyan);
-            animation: spin 0.8s linear infinite;
-            margin: 0 auto 12px;
-        }
-        @keyframes spin { to { transform: rotate(360deg); } }
-        .modal-loading-text { font-size: 12px; color: rgba(197,217,224,0.35); letter-spacing: 0.08em; }
-
         footer {
             position: relative; z-index: 1;
             border-top: 1px solid var(--border);
@@ -494,29 +377,12 @@
             .nav-container { padding: 0 20px; }
             .nav-links { display: none; }
             footer { padding: 24px 20px; }
-            .modal-tile { max-width: 92vw; margin: 0 16px; }
         }
     </style>
 </head>
 <body>
 
     <canvas id="bg-canvas"></canvas>
-
-    <!-- FOLLOWERS / FOLLOWING MODAL -->
-    <div class="modal-backdrop" id="modal-backdrop" role="dialog" aria-modal="true">
-        <div class="modal-tile">
-            <div class="modal-head">
-                <span class="modal-title" id="modal-title">Followers</span>
-                <button class="modal-close" id="modal-close" aria-label="Close">✕</button>
-            </div>
-            <div class="modal-list" id="modal-list">
-                <div class="modal-loading">
-                    <div class="modal-loading-pulse"></div>
-                    <div class="modal-loading-text">Loading…</div>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <nav class="navbar" id="navbar">
         <div class="nav-container">
@@ -556,16 +422,7 @@
                         <div class="profile-username" id="profileUsername">—</div>
                     </div>
                     <div class="profile-divider"></div>
-                    <div class="follow-row">
-                        <div class="follow-item" id="follow-item-followers" title="View your followers">
-                            <div class="follow-count" id="followersCount">—</div>
-                            <div class="follow-label">Followers</div>
-                        </div>
-                        <div class="follow-item" id="follow-item-following" title="View who you follow">
-                            <div class="follow-count" id="followingCount">—</div>
-                            <div class="follow-label">Following</div>
-                        </div>
-                    </div>
+                    
                     <div class="completion-wrap">
                         <div class="completion-header">
                             <span>Profile Completion</span>
@@ -675,27 +532,6 @@
 
     var currentUserId = null;
 
-    /* ── MODAL ── */
-    var backdrop = el('modal-backdrop');
-    var modalList = el('modal-list');
-
-    function openModal(type) {
-        el('modal-title').textContent = type === 'followers' ? 'Followers' : 'Following';
-        modalList.innerHTML = '<div class="modal-loading"><div class="modal-loading-pulse"></div><div class="modal-loading-text">Loading…</div></div>';
-        backdrop.classList.add('open');
-        document.body.style.overflow = 'hidden';
-        loadModalUsers(type);
-    }
-
-    function closeModal() {
-        backdrop.classList.remove('open');
-        document.body.style.overflow = '';
-    }
-
-    el('modal-close').addEventListener('click', closeModal);
-    backdrop.addEventListener('click', function(e) { if (e.target === backdrop) closeModal(); });
-    document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeModal(); });
-
     function getInitials(name, username) {
         if (name && name.trim()) {
             var parts = name.trim().split(/\s+/);
@@ -704,48 +540,6 @@
                 : parts[0].substring(0, 2).toUpperCase();
         }
         return username ? username[0].toUpperCase() : '?';
-    }
-
-    async function loadModalUsers(type) {
-        try {
-            var userIds = [];
-            if (type === 'followers') {
-                var r = await sb.from('follow').select('follower_id').eq('following_id', currentUserId).limit(100);
-                userIds = (r.data || []).map(function(x) { return x.follower_id; });
-            } else {
-                var r = await sb.from('follow').select('following_id').eq('follower_id', currentUserId).limit(100);
-                userIds = (r.data || []).map(function(x) { return x.following_id; });
-            }
-
-            if (!userIds.length) {
-                modalList.innerHTML = '<div class="modal-empty">No ' + type + ' yet.</div>';
-                return;
-            }
-
-            var pr = await sb.from('profiles').select('full_name,username').in('id', userIds);
-            var profiles = pr.data || [];
-
-            if (!profiles.length) {
-                modalList.innerHTML = '<div class="modal-empty">No ' + type + ' yet.</div>';
-                return;
-            }
-
-            modalList.innerHTML = profiles.map(function(p) {
-                var initials = getInitials(p.full_name, p.username);
-                var name = p.full_name || p.username || 'Artist';
-                var handle = p.username ? '@' + p.username : '';
-                var href = p.username ? '/artist/index.html?u=' + encodeURIComponent(p.username) : '#';
-                return '<a href="' + href + '" class="modal-user-item">'
-                    + '<div class="modal-user-avatar">' + initials + '</div>'
-                    + '<div>'
-                    + '<div class="modal-user-name">' + name + '</div>'
-                    + (handle ? '<div class="modal-user-handle">' + handle + '</div>' : '')
-                    + '</div>'
-                    + '</a>';
-            }).join('');
-        } catch (err) {
-            modalList.innerHTML = '<div class="modal-empty">Could not load users.</div>';
-        }
     }
 
     /* ── AUTH ── */
@@ -761,22 +555,10 @@
         return result.data;
     }
 
-    async function loadFollowCounts(userId) {
-        var results = await Promise.all([
-            sb.from('follow').select('*', { count: 'exact', head: true }).eq('following_id', userId),
-            sb.from('follow').select('*', { count: 'exact', head: true }).eq('follower_id', userId)
-        ]);
-        return { followers: results[0].count || 0, following: results[1].count || 0 };
-    }
-
     async function loadAnnouncements() {
         var result = await sb.from('announcements').select('id, badge_label, title, body, created_at').eq('published', true).order('created_at', { ascending: false }).limit(5);
         if (result.error) { console.error('Announcements load failed:', result.error); return []; }
         return result.data || [];
-    }
-
-    function fmtCount(n) {
-        return n >= 1000 ? (n / 1000).toFixed(1) + 'k' : String(n);
     }
 
     function renderProfile(profile) {
@@ -810,16 +592,6 @@
         el('actionEditProfile').href = '/dashbord/index.html';
         el('actionViewProfile').href = '/artists/index.html?u=' + (username || '');
         el('editProfileLink').href = '/dashbord/index.html';
-    }
-
-    function renderFollowCounts(counts) {
-        if (!counts) return;
-        el('followersCount').textContent = fmtCount(counts.followers);
-        el('followingCount').textContent = fmtCount(counts.following);
-
-        // Wire modal clicks after counts are rendered
-        el('follow-item-followers').addEventListener('click', function() { openModal('followers'); });
-        el('follow-item-following').addEventListener('click', function() { openModal('following'); });
     }
 
     function renderAnnouncements(items) {
@@ -908,13 +680,11 @@
 
         var results = await Promise.all([
             loadUserProfile(currentUserId),
-            loadFollowCounts(currentUserId),
             loadAnnouncements()
         ]);
 
         renderProfile(results[0]);
-        renderFollowCounts(results[1]);
-        renderAnnouncements(results[2]);
+        renderAnnouncements(results[1]);
     })();
 })();
 </script>
