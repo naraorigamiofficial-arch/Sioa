@@ -8,7 +8,6 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-
     <style>
         :root {
             --black: #000000;
@@ -364,7 +363,7 @@
             color: rgba(197,217,224,0.4); margin-top: 5px;
         }
 
-        .artist-card-footer {
+        .ter {
             padding: 16px 24px;
             border-top: 1px solid var(--border);
             display: flex; gap: 10px;
@@ -932,18 +931,10 @@ if (currentUserId) {
                         '<div class="stat-key">Joined</div>' +
                     '</div>' +
                 '</div>' +
-                '<div class="artist-card-footer">' +
-                    '<button class="btn-follow ' + (following ? 'following' : '') + '" data-id="' + p.id + '">' +
-                        (following ? 'Following' : 'Follow') +
-                    '</button>' +
-                    '<a class="btn-view-profile" href="/artists/index.html?u=' + (p.username || p.id) + '">View</a>' +
-                '</div>';
-
-            // Attach follow event
-            var followBtn = card.querySelector('.btn-follow');
-            followBtn.addEventListener('click', function() {
-                toggleFollow(p.id, followBtn);
-            });
+                    
+'<div class="artist-card-footer">' +
+    '<a class="btn-view-profile" style="flex:1;justify-content:center;" href="/artists/index.html?u=' + (p.username || p.id) + '">View Profile</a>' +
+'</div>';
 
             grid.appendChild(card);
         });

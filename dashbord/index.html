@@ -797,16 +797,7 @@
                                 <div class="hero-name" id="hero-name">—</div>
                                 <div class="hero-handle" id="hero-handle">@—</div>
                                 <div class="hero-meta" id="hero-meta">SIOA Member</div>
-                                <div class="hero-stats">
-                                    <div>
-                                        <span class="hero-stat-n" id="follower-count">0</span>
-                                        <span class="hero-stat-l"> Followers</span>
-                                    </div>
-                                    <div>
-                                        <span class="hero-stat-n" id="following-count">0</span>
-                                        <span class="hero-stat-l"> Following</span>
-                                    </div>
-                                </div>
+                                
                             </div>
                             <div class="hero-badges">
                                 <div class="badge-pill"><span class="badge-dot"></span>Active</div>
@@ -1395,27 +1386,6 @@
     }
 
     /* ── FOLLOW COUNTS ─────────────────────────────────────────────────────── */
-    async function loadFollowCounts() {
-        const [fwd, fwg] = await Promise.all([
-            sb.from('follow').select('*', { count:'exact', head:true }).eq('following_id', currentUser.id),
-            sb.from('follow').select('*', { count:'exact', head:true }).eq('follower_id',  currentUser.id)
-        ]);
-        el('follower-count').textContent  = fwd.count || 0;
-        el('following-count').textContent = fwg.count || 0;
-    }
-
-    /* ── EDIT MODE ─────────────────────────────────────────────────────────── */
-    el('edit-toggle-btn').addEventListener('click', () => {
-        isEditMode = true;
-        enableEdit();
-    });
-
-    el('cancel-btn').addEventListener('click', async () => {
-        isEditMode = false;
-        disableEdit();
-        applyProfileToUI(currentProfile);
-    });
-
     function enableEdit() {
         ['full_name','username','city','state','bio'].forEach(id => el(id).disabled = false);
         document.getElementById('specialty-picker').dataset.disabled = 'false';
