@@ -385,7 +385,12 @@
                 </div>
                 <button type="submit" class="btn-submit" id="login-btn">Sign In</button>
             </form>
-
+<div style="margin-top: 15px; text-align: center;">
+    <a href="#" style="color: var(--cyan-light); font-size: 12px; cursor: pointer;" 
+       onclick="event.preventDefault(); sendPasswordReset(document.getElementById('login-email').value)">
+       Forgot Password?
+    </a>
+</div>
             <div class="msg" id="login-msg"></div>
         </div>
 
@@ -442,6 +447,8 @@
 
 </div>
 
+
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
     const sb = window.supabase.createClient(
@@ -453,7 +460,23 @@
         const { data: { user } } = await sb.auth.getUser();
         if (user) window.location.href = "/dashbord/index.html";
     })();
-
+// Ensure you use the correct client variable 'sb'
+async function sendPasswordReset(email) {
+  if (!email) {
+    alert('Please enter your email in the field above.');
+    return;
+  }
+  
+  const { error } = await sb.auth.resetPasswordForEmail(email, {
+    redirectTo: 'https://sioa.art/reset-password.html'
+  });
+  
+  if (error) {
+    alert('Error: ' + error.message);
+  } else {
+    alert('Password reset email sent! Check your inbox.');
+  }
+}
     function switchTab(tab) {
         document.getElementById('tab-login').classList.toggle('active', tab === 'login');
         document.getElementById('tab-signup').classList.toggle('active', tab === 'signup');

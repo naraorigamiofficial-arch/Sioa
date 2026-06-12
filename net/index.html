@@ -854,19 +854,30 @@ if (currentUserId) {
             '</div>';
         el('resultsCount').innerHTML = '&nbsp;';
 
-        try {
-            var result = await loadProfiles(lastQuery);
-            var profiles = result.data;
-            totalCount = result.count;
+         try {
+    var result = await loadProfiles(lastQuery);
+    var profiles = result.data;
+    totalCount = result.count;
 
-        } catch (err) {
-            console.error('Search failed:', err);
-            grid.innerHTML =
-                
-            el('resultsCount').innerHTML = '&nbsp;';
-        }
+    renderProfiles(profiles);
+    renderPagination();
+
+    var countText = totalCount === 0
+        ? 'No artists found'
+        : 'Showing <span>' + profiles.length + '</span> of <span>' + totalCount + '</span> artists';
+    el('resultsCount').innerHTML = countText;
+
+} catch (err) {
+    console.error('Search failed:', err);
+    el('artistsGrid').innerHTML =
+        '<div class="state-error">' +
+            '<div class="state-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div>' +
+            '<div class="state-title">Something went wrong</div>' +
+            '<div class="state-sub">Could not load artists. Please try again.</div>' +
+        '</div>';
+    el('resultsCount').innerHTML = '&nbsp;';
     }
-
+    }
     // ─── DEBOUNCED SEARCH ─────────────────────────────────────────────────────
     function debouncedSearch() {
         clearTimeout(debounceTimer);
