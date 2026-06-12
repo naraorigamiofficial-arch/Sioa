@@ -861,6 +861,20 @@ footer{padding:60px 0 36px;border-top:1px solid rgba(26,95,122,0.15);position:re
 </footer>
 
 <script>
+  const { data: existing } = await supabase
+  .from('submissions')
+  .select('id')
+  .eq('user_id', user.id)
+  .maybeSingle();
+
+if (existing) {
+  // swap button
+  submitBtn.textContent = 'View Your Entry';
+  submitBtn.href = `/entry/${existing.id}`; // or wherever
+  submitBtn.onclick = null; // remove submit handler
+} else {
+  // show form as normal
+}
 var navbar = document.getElementById('navbar');
 window.addEventListener('scroll', function(){
   navbar.classList.toggle('scrolled', window.scrollY > 50);

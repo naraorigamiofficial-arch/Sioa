@@ -697,6 +697,30 @@ const sbClient = window.supabase.createClient(
     "https://zbgvgzzaejaxrgcjjovc.supabase.co",
     "sb_publishable_gCLTB6WM95Iw6Txcf2fjCA_5fnXPw77"
 );
+(async function checkExistingSubmission() {
+  const { data: { user } } = await sbClient.auth.getUser();
+  if (!user) {
+    // not logged in — redirect to login
+    window.location.href = '/login.html';
+    return;
+  }
+
+  const { data: existing } = await sbClient
+    .from('submissions')
+    .select('submission_id')
+    .eq('user_id', user.id)
+    .maybeSingle();
+
+  if (existing) {
+    // hide the form, show a "you already submitted" message
+    document.getElementById('form-area').style.display = 'none';
+    document.getElementById('success-area').style.display = 'block';
+    document.getElementById('submissionId').textContent = existing.submission_id;
+    // change the title/sub so it doesn't say "Entry Received" like it's fresh
+    document.querySelector('.success-title').textContent = 'Already Submitted';
+    document.querySelector('.success-sub').textContent = 'You have already submitted an entry for VAGH 2026. Only one submission is permitted per participant.';
+  }
+})();
 
 var state = {
   currentPage: 1,
@@ -953,6 +977,7 @@ const subId = 'VAGH-2026-' + stateCode + '-' + rand;
     .from('submissions')
       .insert([
         {
+          user_id: user.id, 
           submission_id: subId,
           full_name: document.getElementById('fullName').value,
           artist_name: document.getElementById('artistName').value,
