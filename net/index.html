@@ -858,13 +858,6 @@ if (currentUserId) {
         }
 
         // Update the follower stat display in this card
-        var card = btn.closest('.artist-card');
-        if (card) {
-            var statVal = card.querySelector('.stat-followers');
-            if (statVal) statVal.textContent = formatNum(followerCounts[targetId] || 0);
-        }
-
-        btn.disabled = false;
     }
 
     function updateFollowBtn(btn, nowFollowing, count) {
@@ -894,8 +887,6 @@ if (currentUserId) {
 
         profiles.forEach(function(p) {
             var initials = getInitials(p.full_name, p.username);
-            var following = isFollowing(p.id);
-            var followers = followerCounts[p.id] || 0;
             var location = [p.city, p.state].filter(Boolean).join(', ') || '—';
             var profileUrl = '/artists/' + (p.username || p.id);
 
@@ -918,10 +909,7 @@ if (currentUserId) {
                     (p.bio ? '<div class="artist-bio">' + escHtml(p.bio) + '</div>' : '') +
                 '</div>' +
                 '<div class="artist-card-stats">' +
-                    '<div class="stat-item">' +
-                        '<div class="stat-val stat-followers">' + formatNum(followers) + '</div>' +
-                        '<div class="stat-key">Followers</div>' +
-                    '</div>' +
+                    
                     '<div class="stat-item">' +
                         '<div class="stat-val">' + (p.competition_count || 0) + '</div>' +
                         '<div class="stat-key">Competitions</div>' +
@@ -985,20 +973,7 @@ if (currentUserId) {
             totalCount = result.count;
 
             // Load follower counts for these profiles
-            var ids = profiles.map(function(p) { return p.id; });
-            await loadFollowerCounts(ids);
-
-            renderProfiles(profiles);
-            renderPagination();
-
-            var from = (currentPage - 1) * pageSize + 1;
-            var to   = Math.min(currentPage * pageSize, totalCount);
-            if (totalCount === 0) {
-                el('resultsCount').innerHTML = 'No artists found';
-            } else {
-                el('resultsCount').innerHTML =
-                    'Showing <span>' + from + '–' + to + '</span> of <span>' + totalCount + '</span> artist' + (totalCount !== 1 ? 's' : '');
-            }
+    
         } catch (err) {
             console.error('Search failed:', err);
             grid.innerHTML =
