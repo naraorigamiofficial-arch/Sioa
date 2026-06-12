@@ -368,33 +368,6 @@
             border-top: 1px solid var(--border);
             display: flex; gap: 10px;
         }
-        .btn-follow {
-            flex: 1; padding: 10px 16px;
-            background: linear-gradient(135deg, var(--cyan-blue), var(--bright-cyan));
-            border: none; border-radius: 6px;
-            color: var(--white); font-family: 'Inter', sans-serif;
-            font-size: 12px; font-weight: 600; letter-spacing: 0.1em;
-            text-transform: uppercase; cursor: pointer;
-            transition: opacity 0.3s, transform 0.2s, box-shadow 0.3s;
-        }
-        .btn-follow:hover {
-            opacity: 0.9; transform: translateY(-1px);
-            box-shadow: 0 4px 16px rgba(45,137,176,0.3);
-        }
-        .btn-follow:active { transform: translateY(0); }
-        .btn-follow.following {
-            background: transparent;
-            border: 1px solid var(--border-strong);
-            color: var(--light-grey);
-        }
-        .btn-follow.following:hover {
-            border-color: rgba(220,60,60,0.5);
-            color: rgba(220,120,120,0.9);
-            box-shadow: none;
-        }
-        .btn-follow:disabled {
-            opacity: 0.5; cursor: not-allowed; transform: none;
-        }
         .btn-view-profile {
             padding: 10px 16px;
             background: transparent;
@@ -730,8 +703,7 @@
 
     // ─── STATE ────────────────────────────────────────────────────────────────
     var currentUserId = null;
-    var followingSet = new Set();   // IDs the current user follows
-    var followerCounts = {};        // profileId → count
+
     var currentPage = 1;
     var pageSize = 12;
     var totalCount = 0;
@@ -783,92 +755,7 @@ if (currentUserId) {
         return { data: res.data || [], count: res.count || 0 };
     }
 
-    // ─── LOAD FOLLOWER COUNTS ─────────────────────────────────────────────────
-    async function loadFollowerCounts(profileIds) {
-        if (!profileIds || profileIds.length === 0) return;
-
-        var res = await sb.from('follow')
-            .select('following_id')
-            .in('following_id', profileIds);
-
-        if (res.error) { console.error('follower count error:', res.error); return; }
-
-        // Reset counts for these IDs
-        profileIds.forEach(function(id) { followerCounts[id] = 0; });
-
-        (res.data || []).forEach(function(row) {
-            followerCounts[row.following_id] = (followerCounts[row.following_id] || 0) + 1;
-        });
-    }
-
-    // ─── LOAD MY FOLLOWING ────────────────────────────────────────────────────
-    async function loadMyFollowing() {
-        var res = await sb.from('follow')
-            .select('following_id')
-            .eq('follower_id', currentUserId);
-        if (res.error) { console.error('loadMyFollowing error:', res.error); return; }
-        followingSet = new Set((res.data || []).map(function(r) { return r.following_id; }));
-    }
-
-    // ─── IS FOLLOWING ─────────────────────────────────────────────────────────
-    function isFollowing(targetId) {
-        return followingSet.has(targetId);
-    }
-
-    // ─── TOGGLE FOLLOW ────────────────────────────────────────────────────────
-    async function toggleFollow(targetId, btn) {
-    if (!currentUserId) {
-        window.location.href = '/login/login.html';
-        return;
-    }
-    btn.disabled = true;
     
-        btn.disabled = true;
-
-        var already = isFollowing(targetId);
-
-        if (already) {
-            // Unfollow
-            var res = await sb.from('follow')
-                .delete()
-                .eq('follower_id', currentUserId)
-                .eq('following_id', targetId);
-            if (res.error) {
-                showToast('Failed to unfollow. Please try again.', true);
-                btn.disabled = false;
-                return;
-            }
-            followingSet.delete(targetId);
-            followerCounts[targetId] = Math.max(0, (followerCounts[targetId] || 1) - 1);
-            updateFollowBtn(btn, false, followerCounts[targetId]);
-            showToast('Unfollowed successfully.');
-        } else {
-            // Follow
-            var res2 = await sb.from('follow')
-                .insert({ follower_id: currentUserId, following_id: targetId });
-            if (res2.error) {
-                showToast('Failed to follow. Please try again.', true);
-                btn.disabled = false;
-                return;
-            }
-            followingSet.add(targetId);
-            followerCounts[targetId] = (followerCounts[targetId] || 0) + 1;
-            updateFollowBtn(btn, true, followerCounts[targetId]);
-            showToast('Following!');
-        }
-
-        // Update the follower stat display in this card
-    }
-
-    function updateFollowBtn(btn, nowFollowing, count) {
-        if (nowFollowing) {
-            btn.textContent = 'Following';
-            btn.classList.add('following');
-        } else {
-            btn.textContent = 'Follow';
-            btn.classList.remove('following');
-        }
-    }
 
     // ─── RENDER PROFILES ──────────────────────────────────────────────────────
     function renderProfiles(profiles) {
@@ -972,16 +859,10 @@ if (currentUserId) {
             var profiles = result.data;
             totalCount = result.count;
 
-            // Load follower counts for these profiles
-    
         } catch (err) {
             console.error('Search failed:', err);
             grid.innerHTML =
-                '<div class="state-error">' +
-                    '<div class="state-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div>' +
-                    '<div class="state-title">Failed to load artists</div>' +
-                    '<div class="state-sub">Please check your connection and try again.</div>' +
-                '</div>';
+                
             el('resultsCount').innerHTML = '&nbsp;';
         }
     }
@@ -1133,13 +1014,6 @@ if (currentUserId) {
                 el('navAvatar').textContent = getInitials(p.full_name, p.username);
             }
         } catch (e) { console.error('Nav profile error:', e); }
-
-        await loadMyFollowing();
-    } else {
-        // Guest: hide the sign-out button, update nav
-        el('signOutBtn').style.display = 'none';
-        el('navUsername').textContent = 'Guest';
-        el('navAvatar').textContent = '?';
     }
 
     await performSearch(true);
