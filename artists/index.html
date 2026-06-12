@@ -362,8 +362,6 @@ function extractHandle(url) {
 }
 
 let toastTimer;
-let toastTimer;
-let toastTimer;
 function showToast(msg, isErr) {
     const t = el('toast');
     t.textContent = msg;
@@ -408,10 +406,13 @@ async function boot() {
 
     // 2. Run the profile query independently so public viewers aren't blocked by auth latency
     const { data: profile, error } = await sb
-        .from('profiles')
-        .select('id,full_name,username,specialty,city,state,bio,created_at,competition_count,socials,custom_links,portfolio_url,portfolio_title,portfolio_visible')
-        .eq('username', username)
-        .maybeSingle();
+    .from('profiles')
+    .select('id,full_name,username,specialty,city,state,bio,created_at,competition_count,socials,custom_links,portfolio_url,portfolio_title,portfolio_visible')
+    .eq('username', username)
+    .maybeSingle();
+    console.log('username from URL:', username);
+    console.log('profile result:', profile);
+    console.log('error:', error);
 
     if (error || !profile) {
         showState('not-found-state');
