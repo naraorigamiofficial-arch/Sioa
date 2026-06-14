@@ -909,7 +909,7 @@
     /* ── AUTH ──────────────────────────────────────────────────────────────── */
     async function checkAuth() {
         const { data: { user } } = await sb.auth.getUser();
-        if (!user) { window.location.href = '../login/index.html'; return null; }
+        if (!user) { window.location.href = '../login/login.html'; return null; }
         return user;
     }
 
