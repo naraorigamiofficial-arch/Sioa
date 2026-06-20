@@ -606,10 +606,9 @@ async function loadEntries() {
       var entry = data[i];
       entry.signedUrls = [];
       if (entry.image_paths && entry.image_paths.length) {
-        var { data: signed } = await sb.storage
-          .from('competition_media')
-          .createSignedUrls(entry.image_paths, 3600);
-        if (signed) entry.signedUrls = signed.map(function(s){ return s.signedUrl; });
+        entry.signedUrls = entry.image_paths.map(function(path) {
+  return sb.storage.from('competition_media').getPublicUrl(path).data.publicUrl;
+});
       }
     }
 
