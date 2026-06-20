@@ -937,13 +937,21 @@ function populateReview() {
 
 
 /* ── SUBMIT TO SUPABASE (IMAGES ONLY) ── */
+
 async function handleSubmit() {
   if (!validatePage(4)) return;
   if (!state.checkboxes.finalConfirmed) {
     document.getElementById('err-finalConfirmed').classList.add('show');
     return;
   }
-  
+
+  const { data: { user } } = await sbClient.auth.getUser();
+  if (!user) {
+    alert("Your session expired. Please log in again.");
+    window.location.href = '/login/login.html';
+    return;
+  }
+
   var btn = document.getElementById('submitBtn');
   btn.disabled = true;
   
