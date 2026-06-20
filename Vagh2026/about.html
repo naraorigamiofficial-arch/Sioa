@@ -32,7 +32,79 @@ body{
   overflow-x:hidden;
   padding-top:116px;
 }
+/* FAQ Section Base Styling */
+.faq-section {
+    background-color: #030b19; /* Matches your deep dark blue background */
+    color: #ffffff;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    padding: 60px 20px;
+    display: flex;
+    justify-content: center;
+}
 
+.faq-container {
+    max-width: 900px;
+    width: 100%;
+    text-align: center;
+}
+
+/* Titles */
+.faq-section .section-title {
+    font-size: 2rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    margin-bottom: 10px;
+    color: #ffffff;
+}
+
+.faq-section .section-subtitle {
+    font-size: 1rem;
+    color: #8fa0b5; /* Muted slate blue to match your paragraph text */
+    margin-bottom: 40px;
+    font-weight: 300;
+}
+
+/* FAQ Grid Layout */
+.faq-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 24px;
+    text-align: left;
+}
+
+@media (min-width: 768px) {
+    .faq-grid {
+        grid-template-columns: 1fr 1fr; /* Splits into a clean 2-column grid on desktop */
+    }
+}
+
+/* Individual FAQ Cards */
+.faq-card {
+    background-color: #061329; /* Slightly lighter blue-black for card depth */
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    padding: 24px;
+    transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.faq-card:hover {
+    border-color: rgba(0, 102, 204, 0.4); /* Subtly highlights on hover with an origami blue hue */
+}
+
+.faq-question {
+    font-size: 1.1rem;
+    font-weight: 500;
+    line-height: 1.4;
+    margin-bottom: 12px;
+    color: #ffffff;
+}
+
+.faq-answer {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: #b0c0d6; /* Readable text color for body copy */
+    margin: 0;
+}
 /* BETA BANNER */
 .beta-banner{
   position:fixed;top:0;left:0;right:0;z-index:1100;
@@ -775,6 +847,34 @@ footer{padding:60px 0 36px;border-top:1px solid rgba(26,95,122,0.15);position:re
     </p>
   </div>
 </section> --> 
+<section class="faq-section">
+    <div class="faq-container">
+        <h2 class="section-title">Eligibility & Participation FAQs</h2>
+        <p class="section-subtitle">Got questions about who can join or what rules apply? Here are the quick answers.</p>
+        
+        <div class="faq-grid">
+            <div class="faq-card">
+                <h3 class="faq-question">Is there an age limit or grade requirement to participate?</h3>
+                <p class="faq-answer">No. There is currently no minimum or maximum age, nor are there any grade-related restrictions for this competition. Anyone of any age is welcome to participate.</p>
+            </div>
+
+            <div class="faq-card">
+                <h3 class="faq-question">Can international or NRI participants join?</h3>
+                <p class="faq-answer">No. For this inaugural edition, the competition is strictly open to artists currently residing within India to properly manage operational logistics and physical prize shipping. International/NRI folders are not eligible for this cycle.</p>
+            </div>
+
+            <div class="faq-card">
+                <h3 class="faq-question">Are modular origami or multi-sheet entries allowed?</h3>
+                <p class="faq-answer">No. To keep evaluation strictly standardized, only single-sheet paper folds (models created from one uncut sheet) and single-sheet geometric tessellations are permitted for this edition.</p>
+            </div>
+
+            <div class="faq-card">
+                <h3 class="faq-question">Can I submit a model designed by another artist?</h3>
+                <p class="faq-answer">Yes! You may submit models designed by other creators, provided you clearly attribute the original designer. Execution, folding cleanliness, and shaping serve as our core metrics of judgment.</p>
+            </div>
+        </div>
+    </div>
+</section>
 
 <div class="section-divider"></div> 
 
