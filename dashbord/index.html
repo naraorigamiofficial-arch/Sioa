@@ -1,1234 +1,689 @@
-<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SIOA | Dashboard</title>
-    <meta name="robots" content="noindex">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,300&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SIOA | Dashboard</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #06090f;
+  --panel: #090d16;
+  --surface: #0c1120;
+  --surface-hi: #101828;
+  --border: rgba(255,255,255,0.06);
+  --border-hi: rgba(255,255,255,0.11);
+  --accent: #2d89b0;
+  --accent-lo: rgba(45,137,176,0.08);
+  --accent-mid: rgba(45,137,176,0.2);
+  --accent-bright: #60b8d4;
+  --text: #e0edf2;
+  --muted: rgba(224,237,242,0.45);
+  --faint: rgba(224,237,242,0.18);
+  --danger: #b85c5c;
+  --success: #4ea87a;
+  --gold: #c9a84c;
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html,body{min-height:100%;background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-size:14px;-webkit-font-smoothing:antialiased}
 
-    <style>
-        :root {
-            --bg:          #04080f;
-            --surface:     #070d1a;
-            --surface-2:   #0b1220;
-            --border:      rgba(255,255,255,0.065);
-            --border-mid:  rgba(255,255,255,0.11);
-            --border-cyan: rgba(45,137,176,0.28);
-            --cyan:        #2d89b0;
-            --cyan-light:  #57a6bb;
-            --cyan-dim:    rgba(45,137,176,0.15);
-            --text:        #dce8ed;
-            --muted:       rgba(220,232,237,0.40);
-            --muted-2:     rgba(220,232,237,0.22);
-            --danger:      #c96060;
-            --gold:        #c9a84c;
-        }
+/* ── TOPBAR ── */
+.bar{position:fixed;top:0;left:0;right:0;z-index:100;height:48px;display:flex;align-items:center;padding:0 20px;gap:6px;background:rgba(6,9,15,0.85);backdrop-filter:blur(18px);border-bottom:1px solid var(--border)}
+.bar-logo{font-family:'DM Serif Display',serif;font-size:16px;letter-spacing:.14em;color:var(--text);text-decoration:none;margin-right:auto}
+.bar-logo b{color:var(--accent-bright);font-weight:400}
+.bar-nav{display:flex;gap:1px}
+.bar-nav a{font-size:12px;color:var(--muted);text-decoration:none;padding:5px 10px;border-radius:5px;transition:all .15s}
+.bar-nav a:hover{color:var(--text);background:rgba(255,255,255,0.05)}
+.bar-nav a.on{color:var(--accent-bright);background:var(--accent-lo)}
+.bar-user{display:flex;align-items:center;gap:7px;margin-left:10px;padding:3px 10px 3px 3px;border-radius:20px;border:1px solid var(--border);background:rgba(255,255,255,0.02);font-size:12px;color:var(--muted)}
+.bar-av{width:24px;height:24px;border-radius:50%;background:linear-gradient(135deg,#1a4f68,#2d89b0);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#fff;flex-shrink:0;font-family:'DM Serif Display',serif}
 
-        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+/* ── ROOT LAYOUT: left identity strip + right workspace ── */
+.root{display:flex;min-height:100vh;padding-top:48px}
 
-        html, body {
-            min-height: 100%;
-            background: var(--bg);
-            color: var(--text);
-            font-family: 'DM Sans', sans-serif;
-            -webkit-font-smoothing: antialiased;
-        }
+/* ── LEFT IDENTITY COLUMN ── */
+.identity{width:280px;flex-shrink:0;border-right:1px solid var(--border);display:flex;flex-direction:column;position:sticky;top:48px;height:calc(100vh - 48px);overflow-y:auto;background:var(--panel)}
 
-        body::before {
-            content: '';
-            position: fixed; inset: 0;
-            background-image:
-                linear-gradient(rgba(45,137,176,0.025) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(45,137,176,0.025) 1px, transparent 1px);
-            background-size: 52px 52px;
-            pointer-events: none;
-            z-index: 0;
-        }
+.id-avatar-zone{padding:32px 24px 24px;border-bottom:1px solid var(--border);display:flex;flex-direction:column;align-items:center;text-align:center;gap:12px}
+.big-av{width:72px;height:72px;border-radius:50%;background:linear-gradient(145deg,#163344,#225f7a);border:2px solid var(--accent-mid);display:flex;align-items:center;justify-content:center;font-family:'DM Serif Display',serif;font-size:26px;color:rgba(255,255,255,0.9);flex-shrink:0;position:relative}
+.av-ring{position:absolute;inset:-5px;border-radius:50%;border:1px solid rgba(45,137,176,0.18)}
+.id-name{font-family:'DM Serif Display',serif;font-size:18px;color:var(--text);line-height:1.2}
+.id-handle{font-size:12px;color:var(--accent-bright);letter-spacing:.04em}
+.id-loc{font-size:11px;color:var(--faint);margin-top:2px}
+.id-badge{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:20px;font-size:9px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;background:var(--accent-lo);border:1px solid var(--accent-mid);color:var(--accent-bright)}
+.id-badge-dot{width:5px;height:5px;border-radius:50%;background:var(--accent-bright);animation:blink 2.2s ease-in-out infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
 
-        .glow-orb {
-            position: fixed;
-            top: -200px; left: 30%;
-            width: 600px; height: 600px;
-            background: radial-gradient(circle, rgba(45,137,176,0.07) 0%, transparent 68%);
-            pointer-events: none; z-index: 0;
-        }
-        .glow-orb-2 {
-            position: fixed;
-            bottom: -100px; right: 10%;
-            width: 400px; height: 400px;
-            background: radial-gradient(circle, rgba(26,95,122,0.05) 0%, transparent 65%);
-            pointer-events: none; z-index: 0;
-        }
+/* progress ring area */
+.id-progress{padding:18px 24px;border-bottom:1px solid var(--border)}
+.id-prog-row{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px}
+.id-prog-label{font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--faint);font-weight:600}
+.id-prog-pct{font-size:13px;font-weight:600;color:var(--accent-bright)}
+.prog-track{height:2px;background:rgba(45,137,176,0.1);border-radius:2px;overflow:hidden}
+.prog-fill{height:100%;background:var(--accent);border-radius:2px;width:0;transition:width 1s cubic-bezier(.16,1,.3,1) .2s}
+.prog-hint{font-size:10px;color:var(--faint);margin-top:6px;line-height:1.4}
 
-        /* ── TOPBAR ─────────────────────────────────────────────────────────── */
-        .topbar {
-            position: fixed; top: 0; left: 0; right: 0; z-index: 200;
-            height: 54px; /* Shrunk from 58px */
-            background: rgba(4,8,15,0.92);
-            backdrop-filter: blur(16px);
-            border-bottom: 1px solid var(--border);
-            display: flex; align-items: center; padding: 0 24px; gap: 8px;
-        }
+/* nav in identity column */
+.id-nav{padding:16px 12px;flex:1;display:flex;flex-direction:column;gap:1px}
+.id-nav-section{font-size:8.5px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--faint);padding:12px 8px 5px}
+.id-nav-section:first-child{padding-top:0}
+.id-nav a,.id-nav button{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:6px;font-size:12.5px;font-weight:400;color:var(--muted);text-decoration:none;background:none;border:none;width:100%;text-align:left;font-family:'DM Sans',sans-serif;cursor:pointer;transition:all .14s}
+.id-nav a:hover,.id-nav button:hover{color:var(--text);background:rgba(255,255,255,0.04)}
+.id-nav a.on,.id-nav button.on{color:var(--accent-bright);background:var(--accent-lo);font-weight:500}
+.id-nav svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0;opacity:.7}
+.id-nav a.on svg,.id-nav button.on svg{opacity:1}
+.id-spacer{flex:1}
+.id-divider{height:1px;background:var(--border);margin:8px 0}
+.danger-link{color:rgba(184,92,92,.5)!important}
+.danger-link:hover{color:#d07070!important;background:rgba(184,92,92,.07)!important}
 
-        .topbar-logo {
-            font-family: 'DM Serif Display', serif;
-            font-size: 18px; letter-spacing: 0.14em;
-            color: var(--text); text-decoration: none; margin-right: auto;
-        }
-        .topbar-logo span { color: var(--cyan-light); }
+.pub-link{display:flex;align-items:center;justify-content:center;gap:5px;margin:0 24px 16px;padding:7px;border-radius:6px;border:1px solid var(--border);font-size:11px;color:var(--faint);text-decoration:none;transition:all .15s}
+.pub-link:hover{border-color:var(--accent-mid);color:var(--accent-bright);background:var(--accent-lo)}
+.pub-link svg{width:10px;height:10px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 
-        .topbar-nav { display: flex; gap: 2px; }
-        .topbar-nav a {
-            font-size: 12px; font-weight: 400;
-            color: var(--muted); text-decoration: none;
-            padding: 5px 12px; border-radius: 6px;
-            transition: all 0.18s ease;
-        }
-        .topbar-nav a:hover { color: var(--text); background: rgba(255,255,255,0.05); }
-        .topbar-nav a.active { color: var(--cyan-light); background: var(--cyan-dim); }
+/* ── WORKSPACE ── */
+.workspace{flex:1;min-width:0;display:flex;flex-direction:column}
 
-        .topbar-user {
-            display: flex; align-items: center; gap: 8px;
-            padding: 4px 10px 4px 4px;
-            border-radius: 8px; border: 1px solid var(--border);
-            background: rgba(255,255,255,0.02);
-            font-size: 12px; color: var(--muted); margin-left: 8px;
-        }
-        .topbar-avatar {
-            width: 26px; height: 26px; border-radius: 50%;
-            background: linear-gradient(135deg, #1a5f7a, #2d89b0);
-            display: flex; align-items: center; justify-content: center;
-            font-size: 10px; font-weight: 700; color: #fff; flex-shrink: 0;
-        }
+/* workspace top strip */
+.ws-head{padding:28px 40px 0;border-bottom:1px solid var(--border);display:flex;align-items:flex-end;gap:0}
+.ws-tab{padding:10px 20px 14px;font-size:12.5px;font-weight:500;color:var(--muted);background:none;border:none;border-bottom:2px solid transparent;cursor:pointer;transition:all .15s;font-family:'DM Sans',sans-serif;letter-spacing:.02em;margin-bottom:-1px}
+.ws-tab.on{color:var(--accent-bright);border-bottom-color:var(--accent-bright)}
+.ws-tab:hover:not(.on){color:var(--text)}
+.ws-eyebrow{font-size:9px;font-weight:600;letter-spacing:.26em;text-transform:uppercase;color:var(--accent);margin-bottom:4px}
+.ws-title{font-family:'DM Serif Display',serif;font-size:28px;color:var(--text);margin-bottom:20px;line-height:1}
 
-        /* ── SHELL ───────────────────────────────────────────────────────────── */
-        .shell { position: relative; z-index: 1; padding-top: 54px; min-height: 100vh; }
+/* workspace body */
+.ws-body{padding:36px 40px;flex:1}
+.ws-panel{display:none}
+.ws-panel.on{display:block}
 
-        .layout {
-            display: grid;
-            grid-template-columns: 180px 1fr; /* Shrunk from 196px */
-            min-height: calc(100vh - 54px);
-        }
+/* ── FORM SYSTEM ── */
+.form-section{margin-bottom:32px}
+.form-section:last-child{margin-bottom:0}
+.fs-label{font-size:9px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--faint);margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.fs-label::after{content:'';flex:1;height:1px;background:var(--border)}
 
-        /* ── SIDEBAR ─────────────────────────────────────────────────────────── */
-        .sidebar {
-            border-right: 1px solid var(--border);
-            padding: 20px 10px;
-            display: flex; flex-direction: column; gap: 2px;
-            position: sticky; top: 54px;
-            height: calc(100vh - 54px); overflow-y: auto;
-        }
+.field-row{display:grid;gap:14px;margin-bottom:14px}
+.field-row.cols-2{grid-template-columns:1fr 1fr}
+.field-row.cols-3{grid-template-columns:1fr 1fr 1fr}
+.field-row.cols-1{grid-template-columns:1fr}
+.field{display:flex;flex-direction:column;gap:5px}
+.field label{font-size:9.5px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--faint)}
+.field input,.field textarea,.field select{background:var(--surface);border:1px solid var(--border-hi);border-radius:6px;padding:9px 12px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:300;outline:none;transition:all .18s;appearance:none;-webkit-appearance:none;width:100%}
+.field select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='11' height='11' viewBox='0 0 24 24' fill='none' stroke='%232d89b0' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center;padding-right:28px;cursor:pointer}
+.field select option{background:#0c1120}
+.field input::placeholder,.field textarea::placeholder{color:rgba(224,237,242,0.1)}
+.field input:hover:not(:disabled),.field textarea:hover:not(:disabled),.field select:hover:not(:disabled){border-color:rgba(45,137,176,0.22);background:var(--surface-hi)}
+.field input:focus,.field textarea:focus,.field select:focus{border-color:rgba(45,137,176,0.5);background:#0a101c;box-shadow:0 0 0 3px rgba(45,137,176,0.07)}
+.field input:disabled,.field textarea:disabled,.field select:disabled{opacity:.4;cursor:not-allowed}
+.field textarea{resize:vertical;min-height:88px;line-height:1.6}
+.char-hint{align-self:flex-end;font-size:9.5px;color:var(--faint);transition:color .2s}
 
-        .sidebar-label {
-            font-size: 9px; font-weight: 600; letter-spacing: 0.22em;
-            text-transform: uppercase; color: var(--muted-2);
-            padding: 12px 10px 4px;
-        }
-        .sidebar-label:first-child { padding-top: 0; }
+.un-wrap{position:relative}
+.un-prefix{position:absolute;left:11px;top:50%;transform:translateY(-50%);font-size:13px;color:var(--accent-bright);pointer-events:none}
+.un-wrap input{padding-left:22px}
+.un-status{font-size:9.5px;letter-spacing:.05em;min-height:14px;margin-top:2px}
+.un-status.ok{color:#4ea87a}
+.un-status.err{color:var(--danger)}
+.un-status.chk{color:var(--faint)}
 
-        .nav-item {
-            display: flex; align-items: center; gap: 8px;
-            padding: 8px 10px; border-radius: 7px;
-            font-size: 12.5px; font-weight: 400; color: var(--muted);
-            text-decoration: none; cursor: pointer;
-            border: none; background: none; width: 100%;
-            text-align: left; font-family: 'DM Sans', sans-serif;
-            transition: all 0.16s ease;
-        }
-        .nav-item:hover { color: var(--text); background: rgba(255,255,255,0.05); }
-        .nav-item.active { color: var(--cyan-light); background: var(--cyan-dim); font-weight: 500; }
-        .nav-item.active .nav-dot { background: var(--cyan-light); }
+/* specialty */
+.spec-wrap{display:flex;flex-wrap:wrap;gap:6px;padding:10px;border-radius:6px;border:1px solid var(--border-hi);background:var(--surface);min-height:46px;transition:all .2s}
+.spec-wrap[data-off="false"]{border-color:rgba(45,137,176,0.2);background:var(--surface-hi)}
+.spec-wrap[data-off="true"]{opacity:.4;pointer-events:none}
+.spec-pill{display:inline-flex;align-items:center;gap:4px;padding:4px 11px;border-radius:20px;font-size:11px;border:1px solid var(--border-hi);color:var(--muted);background:rgba(255,255,255,0.02);cursor:default;transition:all .16s;user-select:none}
+.spec-wrap[data-off="false"] .spec-pill{cursor:pointer}
+.spec-wrap[data-off="false"] .spec-pill:hover{border-color:rgba(45,137,176,0.35);color:var(--text);background:rgba(45,137,176,0.07)}
+.spec-pill.on{background:rgba(45,137,176,0.14);border-color:rgba(45,137,176,0.45);color:var(--accent-bright)}
+.spec-pill.on::before{content:'';display:inline-block;width:4px;height:4px;border-radius:50%;background:var(--accent-bright);flex-shrink:0}
+.spec-wrap[data-off="false"] .spec-pill.on:hover{background:rgba(184,92,92,.1);border-color:rgba(184,92,92,.4);color:#d07070}
+.spec-wrap[data-off="false"] .spec-pill.on:hover::before{background:#d07070}
 
-        .nav-dot {
-            width: 5px; height: 5px; border-radius: 50%;
-            background: rgba(220,232,237,0.18); flex-shrink: 0;
-            transition: background 0.16s;
-        }
+/* action bar */
+.action-bar{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-top:18px;margin-top:18px;border-top:1px solid var(--border);flex-wrap:wrap}
+.action-bar-right{display:flex;gap:8px}
+.save-msg{font-size:11.5px;min-height:16px;color:transparent;transition:color .2s}
+.save-msg.ok{color:var(--accent-bright)}
+.save-msg.err{color:var(--danger)}
 
-        .sidebar-spacer { flex: 1; }
-        .sidebar-bottom { border-top: 1px solid var(--border); padding-top: 10px; margin-top: 10px; }
+/* ── BUTTONS ── */
+.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:6px;font-family:'DM Sans',sans-serif;font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;border:none;transition:all .18s;text-decoration:none;white-space:nowrap}
+.btn-primary{background:var(--accent);color:#fff}
+.btn-primary:hover{background:#3899c4;transform:translateY(-1px);box-shadow:0 4px 14px rgba(45,137,176,0.28)}
+.btn-primary:disabled{opacity:.35;cursor:not-allowed;transform:none;box-shadow:none}
+.btn-ghost-border{background:transparent;color:var(--muted);border:1px solid var(--border-hi)}
+.btn-ghost-border:hover{background:rgba(255,255,255,0.04);border-color:var(--accent-mid);color:var(--text)}
+.btn-danger{background:transparent;color:rgba(184,92,92,.5);border:1px solid rgba(184,92,92,.18)}
+.btn-danger:hover{background:rgba(184,92,92,.07);border-color:rgba(184,92,92,.38);color:#d07070;transform:translateY(-1px)}
+.btn-sm{padding:6px 12px;font-size:10.5px}
 
-        /* ── MAIN CONTENT ────────────────────────────────────────────────────── */
-        .main-wrap {
-            display: grid;
-            grid-template-columns: 1fr 280px; /* Shrunk from 320px */
-            gap: 0;
-            align-items: start;
-        }
+/* ── EDIT TOGGLE ── */
+.section-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:20px;gap:12px}
+.section-header h3{font-family:'DM Serif Display',serif;font-size:16px;font-weight:400;color:var(--text)}
+.section-header p{font-size:11px;color:var(--faint);margin-top:3px}
 
-        .main {
-            padding: 30px 30px 40px; /* Shrunk padding */
-            border-right: 1px solid var(--border);
-        }
+/* ── SOCIALS ── */
+.social-platform-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:0}
+.social-field-label{display:flex;align-items:center;gap:6px;font-size:9.5px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--faint)}
+.social-field-label svg{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 
-        .right-panel {
-            padding: 30px 20px 40px; /* Shrunk padding */
-            display: flex; flex-direction: column; gap: 16px;
-        }
+.custom-list{display:flex;flex-direction:column;gap:8px}
+.custom-row{display:grid;grid-template-columns:1fr 1fr auto;gap:8px;align-items:end}
+.btn-rm{width:34px;height:34px;border-radius:6px;background:rgba(184,92,92,.05);border:1px solid rgba(184,92,92,.14);color:rgba(184,92,92,.45);cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;transition:all .16s;flex-shrink:0}
+.btn-rm:hover{background:rgba(184,92,92,.12);border-color:rgba(184,92,92,.35);color:#d07070}
+.btn-add{display:inline-flex;align-items:center;gap:7px;padding:8px 14px;border-radius:6px;background:transparent;border:1px dashed rgba(45,137,176,0.2);color:var(--faint);font-family:'DM Sans',sans-serif;font-size:11.5px;cursor:pointer;transition:all .18s;margin-top:8px}
+.btn-add:hover{border-color:var(--accent-mid);color:var(--accent-bright);background:var(--accent-lo)}
 
-        /* ── PAGE HEADER ─────────────────────────────────────────────────────── */
-        .page-header {
-            margin-bottom: 20px;
-            animation: rise 0.5s cubic-bezier(0.16,1,0.3,1) both;
-        }
-        .page-eyebrow {
-            font-size: 9px; font-weight: 600; letter-spacing: 0.24em;
-            text-transform: uppercase; color: var(--cyan); margin-bottom: 4px;
-        }
-        .page-title {
-            font-family: 'DM Serif Display', serif;
-            font-size: 24px; letter-spacing: 0.02em; color: var(--text); margin-bottom: 2px;
-        }
-        .page-desc { font-size: 12.5px; font-weight: 300; color: var(--muted); }
+/* ── ACCOUNT SECTION ── */
+.account-block{display:flex;align-items:center;justify-content:space-between;padding:20px 24px;background:var(--surface);border:1px solid var(--border);border-radius:8px;flex-wrap:wrap;gap:12px}
+.account-info-label{font-size:11.5px;color:var(--muted);margin-bottom:2px}
+.account-email-val{font-size:12px;color:var(--faint)}
 
-        @keyframes rise {
-            from { opacity: 0; transform: translateY(14px); }
-            to   { opacity: 1; transform: translateY(0); }
-        }
+/* ── TOAST ── */
+.toast{position:fixed;bottom:22px;right:22px;z-index:9999;padding:10px 18px;background:rgba(6,9,15,.97);border:1px solid var(--accent-mid);border-radius:8px;font-size:12px;color:var(--text);box-shadow:0 8px 28px rgba(0,0,0,.6);transform:translateY(14px);opacity:0;transition:all .28s cubic-bezier(.16,1,.3,1);pointer-events:none}
+.toast.show{transform:translateY(0);opacity:1}
 
-        /* ── CARDS ───────────────────────────────────────────────────────────── */
-        .card {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 10px; overflow: hidden;
-            transition: border-color 0.2s;
-        }
-        .card:hover { border-color: rgba(255,255,255,0.09); }
+/* ── SPINNER ── */
+.spin{display:inline-block;width:10px;height:10px;border:1.5px solid rgba(255,255,255,.2);border-top-color:#fff;border-radius:50%;animation:_spin .6s linear infinite;vertical-align:middle}
+@keyframes _spin{to{transform:rotate(360deg)}}
 
-        .card-header {
-            display: flex; align-items: center; justify-content: space-between;
-            padding: 14px 20px;
-            border-bottom: 1px solid var(--border);
-        }
-        .card-header-left { display: flex; align-items: center; gap: 10px; }
-        .card-icon {
-            width: 26px; height: 26px; border-radius: 6px;
-            background: var(--cyan-dim); border: 1px solid var(--border-cyan);
-            display: flex; align-items: center; justify-content: center;
-            flex-shrink: 0;
-        }
-        .card-icon svg { width: 13px; height: 13px; stroke: var(--cyan-light); fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
-
-        .ql-icon svg { width: 14px; height: 14px; stroke: var(--cyan-light); fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
-
-        .social-icon { display: flex; align-items: center; gap: 6px; }
-        .social-icon svg { width: 13px; height: 13px; stroke: var(--cyan-light); fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; flex-shrink: 0; }
-        .card-title { font-size: 12px; font-weight: 600; color: var(--text); letter-spacing: 0.03em; }
-        .card-subtitle { font-size: 10.5px; color: var(--muted-2); margin-top: 1px; }
-
-        .card-body { padding: 18px 20px; }
-
-        /* ── PROFILE HERO STRIP ───────────────────────────────────────────────── */
-        .profile-hero {
-            display: flex; align-items: center; gap: 14px;
-            padding: 16px 20px;
-            background: linear-gradient(135deg, rgba(8,14,26,0.8), rgba(11,18,32,0.5));
-            border-bottom: 1px solid var(--border);
-        }
-        .avatar-xl {
-            width: 50px; height: 50px; border-radius: 50%; flex-shrink: 0;
-            background: linear-gradient(135deg, #1a5f7a 0%, #2d89b0 100%);
-            border: 2px solid rgba(45,137,176,0.35);
-            display: flex; align-items: center; justify-content: center;
-            font-family: 'DM Serif Display', serif;
-            font-size: 18px; color: #fff;
-            box-shadow: 0 0 20px rgba(45,137,176,0.2);
-        }
-        .hero-info { flex: 1; min-width: 0; }
-        .hero-name { font-size: 16px; font-weight: 600; color: var(--text); margin-bottom: 2px; }
-        .hero-handle { font-size: 11.5px; color: var(--cyan-light); margin-bottom: 4px; }
-        .hero-meta { font-size: 10.5px; color: var(--muted); }
-
-        .hero-badges { display: flex; flex-direction: column; gap: 6px; align-items: flex-end; }
-
-        .badge-pill {
-            display: inline-flex; align-items: center; gap: 5px;
-            padding: 3px 8px;
-            background: var(--cyan-dim); border: 1px solid var(--border-cyan);
-            border-radius: 100px;
-            font-size: 9px; font-weight: 500; letter-spacing: 0.1em;
-            color: var(--cyan-light); text-transform: uppercase;
-        }
-        .badge-dot {
-            width: 4px; height: 4px; border-radius: 50%;
-            background: var(--cyan-light);
-            animation: blink 2.2s ease-in-out infinite;
-        }
-        @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.2} }
-
-        .btn-view-public {
-            font-size: 10.5px; color: var(--muted-2);
-            text-decoration: none; letter-spacing: 0.06em;
-            transition: color 0.2s;
-            border: none; background: none; cursor: pointer;
-            font-family: 'DM Sans', sans-serif; padding: 0;
-        }
-        .btn-view-public:hover { color: var(--cyan-light); }
-
-        /* ── COMPLETION BAR ─────────────────────────────────────────────────── */
-        .completion-wrap { padding: 12px 20px; border-bottom: 1px solid var(--border); }
-        .completion-row { display: flex; justify-content: space-between; margin-bottom: 6px; }
-        .completion-label { font-size: 10px; color: var(--muted-2); letter-spacing: 0.06em; }
-        .completion-pct { font-size: 10px; font-weight: 600; color: var(--cyan-light); }
-        .completion-bar {
-            height: 3px; background: rgba(45,137,176,0.12); border-radius: 100px; overflow: hidden;
-        }
-        .completion-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #1a5f7a, #57a6bb);
-            border-radius: 100px;
-            width: 0%; transition: width 1s cubic-bezier(0.16,1,0.3,1) 0.3s;
-        }
-        .completion-hint { font-size: 10px; color: rgba(220,232,237,0.18); margin-top: 5px; letter-spacing: 0.04em; }
-
-        /* ── SECTION ─────────────────────────────────────────────────────────── */
-        .section { margin-bottom: 16px; animation: rise 0.5s cubic-bezier(0.16,1,0.3,1) both; }
-        .section:nth-child(2) { animation-delay: 0.05s; }
-        .section:nth-child(3) { animation-delay: 0.1s; }
-
-        /* ── FORM ────────────────────────────────────────────────────────────── */
-        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-        .field { display: flex; flex-direction: column; gap: 4px; }
-        .field.full { grid-column: 1 / -1; }
-
-        .field label {
-            font-size: 9.5px; font-weight: 600; letter-spacing: 0.18em;
-            text-transform: uppercase; color: var(--muted-2);
-        }
-
-        .field input,
-        .field textarea,
-        .field select {
-            background: rgba(255,255,255,0.025);
-            border: 1px solid var(--border);
-            border-radius: 6px;
-            padding: 8px 12px;
-            color: var(--text);
-            font-family: 'DM Sans', sans-serif;
-            font-size: 13px; font-weight: 300;
-            outline: none;
-            transition: all 0.2s ease;
-            appearance: none; -webkit-appearance: none;
-        }
-        .field select {
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%232d89b0' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
-            background-repeat: no-repeat;
-            background-position: right 10px center;
-            padding-right: 30px;
-            cursor: pointer;
-        }
-        .field select option { background: #070d1a; color: var(--text); }
-
-        .field input::placeholder, .field textarea::placeholder { color: rgba(220,232,237,0.12); }
-
-        .field input:hover:not(:disabled),
-        .field textarea:hover:not(:disabled),
-        .field select:hover:not(:disabled) {
-            border-color: rgba(45,137,176,0.22);
-            background: rgba(255,255,255,0.04);
-        }
-        .field input:focus,
-        .field textarea:focus,
-        .field select:focus {
-            border-color: rgba(45,137,176,0.5);
-            background: rgba(8,14,26,0.8);
-            box-shadow: 0 0 0 3px rgba(45,137,176,0.08);
-        }
-        .field input:disabled,
-        .field textarea:disabled,
-        .field select:disabled {
-            opacity: 0.5; cursor: not-allowed;
-            background: rgba(255,255,255,0.01);
-        }
-        .field textarea { resize: vertical; min-height: 80px; line-height: 1.5; }
-
-        .char-hint { align-self: flex-end; font-size: 9.5px; color: var(--muted-2); transition: color 0.2s; }
-
-        .username-wrap { position: relative; }
-        .username-prefix {
-            position: absolute; left: 10px; top: 50%; transform: translateY(-50%);
-            font-size: 12.5px; color: var(--cyan-light); pointer-events: none;
-            font-weight: 400;
-        }
-        .username-wrap input { padding-left: 22px; }
-
-        .username-status { font-size: 9.5px; letter-spacing: 0.06em; margin-top: 3px; min-height: 14px; }
-        .username-status.ok   { color: #5bbf7a; }
-        .username-status.err  { color: var(--danger); }
-        .username-status.chk  { color: var(--muted-2); }
-
-        /* ── FORM FOOTER ──────────────────────────────────────────────────────── */
-        .form-footer {
-            display: flex; align-items: center; justify-content: space-between;
-            gap: 12px; padding-top: 14px; margin-top: 14px;
-            border-top: 1px solid var(--border); flex-wrap: wrap;
-        }
-
-        .save-msg { font-size: 11.5px; min-height: 16px; transition: color 0.3s; color: transparent; }
-        .save-msg.success { color: var(--cyan-light); }
-        .save-msg.error   { color: var(--danger); }
-
-        /* ── BUTTONS ─────────────────────────────────────────────────────────── */
-        .btn {
-            display: inline-flex; align-items: center; gap: 6px;
-            padding: 8px 16px; border-radius: 6px;
-            font-family: 'DM Sans', sans-serif;
-            font-size: 11px; font-weight: 600; letter-spacing: 0.08em;
-            text-transform: uppercase; cursor: pointer; border: none;
-            transition: all 0.2s ease; text-decoration: none;
-        }
-        .btn-primary { background: var(--cyan); color: #fff; }
-        .btn-primary:hover { background: #3899c4; transform: translateY(-1px); box-shadow: 0 4px 14px rgba(45,137,176,0.3); }
-        .btn-primary:disabled { opacity: 0.4; cursor: not-allowed; transform: none; box-shadow: none; }
-
-        .btn-secondary { background: transparent; color: var(--muted); border: 1px solid var(--border-mid); }
-        .btn-secondary:hover { background: rgba(255,255,255,0.05); border-color: var(--border-cyan); color: var(--text); }
-
-        .btn-ghost { background: transparent; color: rgba(220,232,237,0.35); border: 1px solid rgba(201,96,96,0.2); }
-        .btn-ghost:hover { background: rgba(201,96,96,0.08); border-color: rgba(201,96,96,0.4); color: #d97070; transform: translateY(-1px); }
-
-        .btn-sm { padding: 6px 12px; font-size: 10px; }
-
-        /* ── SOCIALS ─────────────────────────────────────────────────────────── */
-        .socials-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 12px; }
-
-        .social-row { display: grid; grid-template-columns: 130px 1fr auto; gap: 8px; align-items: center; }
-        .social-row .field { margin: 0; }
-
-        .btn-remove-social {
-            width: 26px; height: 26px; border-radius: 6px;
-            background: rgba(201,96,96,0.06); border: 1px solid rgba(201,96,96,0.16);
-            color: rgba(201,96,96,0.5); cursor: pointer; font-size: 14px;
-            display: flex; align-items: center; justify-content: center;
-            transition: all 0.18s; flex-shrink: 0; margin-top: 0;
-        }
-        .btn-remove-social:hover { background: rgba(201,96,96,0.14); border-color: rgba(201,96,96,0.38); color: #d97070; }
-
-        .btn-add-social {
-            display: inline-flex; align-items: center; gap: 6px;
-            padding: 7px 12px; border-radius: 6px;
-            background: transparent; border: 1px dashed rgba(45,137,176,0.25);
-            color: var(--muted-2); font-family: 'DM Sans', sans-serif;
-            font-size: 11.5px; cursor: pointer; transition: all 0.2s;
-        }
-        .btn-add-social:hover { border-color: var(--border-cyan); color: var(--cyan-light); background: var(--cyan-dim); }
-
-        /* ── PANEL CARDS ─────────────────────────────────────────────────────── */
-        .panel-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
-        .panel-card-header { padding: 12px 16px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
-        .panel-card-title { font-size: 10.5px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted-2); }
-        .panel-card-body { padding: 12px 16px; }
-
-        /* quick links panel */
-        .quick-link { display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 1px solid var(--border); text-decoration: none; transition: all 0.16s; }
-        .quick-link:last-child { border-bottom: none; }
-        .quick-link:hover .ql-title { color: var(--cyan-light); }
-        .quick-link:hover .ql-arrow { color: var(--cyan-light); transform: translateX(2px); }
-        .ql-icon {
-            width: 28px; height: 28px; border-radius: 6px;
-            background: var(--cyan-dim); border: 1px solid var(--border-cyan);
-            display: flex; align-items: center; justify-content: center; flex-shrink: 0;
-        }
-        .ql-text { flex: 1; }
-        .ql-title { font-size: 12px; font-weight: 500; color: var(--text); transition: color 0.16s; }
-        .ql-sub { font-size: 9.5px; color: var(--muted-2); }
-        .ql-arrow { color: var(--muted-2); font-size: 13px; transition: all 0.16s; }
-
-        /* spinner */
-        .spinner {
-            display: inline-block; width: 10px; height: 10px;
-            border: 2px solid rgba(255,255,255,0.2); border-top-color: #fff;
-            border-radius: 50%; animation: spin 0.65s linear infinite; vertical-align: middle;
-        }
-        @keyframes spin { to { transform: rotate(360deg); } }
-
-        /* ── TABS ────────────────────────────────────────────────────────────── */
-        .tabs { display: flex; gap: 0; border-bottom: 1px solid var(--border); margin-bottom: 0; }
-        .tab-btn {
-            padding: 10px 16px; font-family: 'DM Sans', sans-serif;
-            font-size: 11.5px; font-weight: 500; color: var(--muted);
-            background: none; border: none; border-bottom: 2px solid transparent;
-            cursor: pointer; transition: all 0.18s; letter-spacing: 0.04em; margin-bottom: -1px;
-        }
-        .tab-btn.active { color: var(--cyan-light); border-bottom-color: var(--cyan-light); }
-        .tab-btn:hover:not(.active) { color: var(--text); }
-        .tab-panel { display: none; }
-        .tab-panel.active { display: block; }
-
-        /* ── TOAST ───────────────────────────────────────────────────────────── */
-        .toast {
-            position: fixed; bottom: 24px; right: 24px; z-index: 9999; padding: 10px 16px;
-            background: rgba(8,14,26,0.97); border: 1px solid var(--border-cyan);
-            border-radius: 8px; font-size: 12px; color: var(--text);
-            box-shadow: 0 8px 24px rgba(0,0,0,0.5); transform: translateY(16px); opacity: 0;
-            transition: all 0.3s cubic-bezier(0.16,1,0.3,1); pointer-events: none;
-        }
-        .toast.show { transform: translateY(0); opacity: 1; }
-
-        /* ── RESPONSIVE ──────────────────────────────────────────────────────── */
-        @media (max-width: 1100px) {
-            .main-wrap { grid-template-columns: 1fr; }
-            .right-panel { border-top: 1px solid var(--border); padding-top: 24px; }
-            .main { border-right: none; }
-        }
-        @media (max-width: 800px) {
-            .layout { grid-template-columns: 1fr; }
-            .sidebar { position: static; height: auto; border-right: none; border-bottom: 1px solid var(--border); padding: 10px; flex-direction: row; flex-wrap: wrap; }
-            .sidebar-label, .sidebar-spacer { display: none; }
-            .sidebar-bottom { border: none; padding: 0; margin: 0; }
-            .main { padding: 20px 16px; }
-            .form-grid { grid-template-columns: 1fr; }
-            .field.full { grid-column: 1; }
-            .social-row { grid-template-columns: 1fr 1fr auto; }
-        }
-        @media (max-width: 540px) {
-            .topbar-nav { display: none; }
-            .right-panel { padding: 20px 16px; }
-        }
-        /* ── SPECIALTY PILL PICKER ───────────────────────────────────────────── */
-        .specialty-picker {
-            display: flex; flex-wrap: wrap; gap: 6px; padding: 10px; border-radius: 6px;
-            border: 1px solid var(--border); background: rgba(255,255,255,0.025);
-            min-height: 48px; transition: border-color 0.2s, background 0.2s;
-        }
-        .specialty-picker[data-disabled="true"] { opacity: 0.5; pointer-events: none; background: rgba(255,255,255,0.01); }
-        .specialty-picker[data-disabled="false"] { border-color: rgba(45,137,176,0.22); background: rgba(255,255,255,0.03); }
-        .specialty-picker[data-disabled="false"]:hover { border-color: rgba(45,137,176,0.4); }
-
-        .spec-pill {
-            display: inline-flex; align-items: center; gap: 4px; padding: 4px 10px; border-radius: 100px;
-            font-size: 11px; font-weight: 500; letter-spacing: 0.04em; border: 1px solid var(--border-mid);
-            color: var(--muted); background: rgba(255,255,255,0.03); cursor: default; transition: all 0.18s ease; user-select: none;
-        }
-        .specialty-picker[data-disabled="false"] .spec-pill { cursor: pointer; }
-        .specialty-picker[data-disabled="false"] .spec-pill:hover { border-color: rgba(45,137,176,0.4); color: var(--text); background: rgba(45,137,176,0.08); }
-        .spec-pill.active { background: rgba(45,137,176,0.18); border-color: rgba(45,137,176,0.55); color: var(--cyan-light); }
-        .spec-pill.active::before { content: ''; display: inline-block; width: 4px; height: 4px; border-radius: 50%; background: var(--cyan-light); box-shadow: 0 0 4px rgba(87,166,187,0.6); flex-shrink: 0; }
-        .specialty-picker[data-disabled="false"] .spec-pill.active:hover { background: rgba(201,96,96,0.1); border-color: rgba(201,96,96,0.4); color: #d97070; }
-        .specialty-picker[data-disabled="false"] .spec-pill.active:hover::before { background: #d97070; box-shadow: none; }
-
-    </style>
+/* ── RESPONSIVE ── */
+@media(max-width:900px){
+  .root{flex-direction:column}
+  .identity{width:100%;height:auto;position:static;flex-direction:row;flex-wrap:wrap;border-right:none;border-bottom:1px solid var(--border)}
+  .id-avatar-zone{flex-direction:row;text-align:left;padding:16px;flex:1;border-bottom:none}
+  .id-progress{display:none}
+  .id-nav{flex-direction:row;flex-wrap:wrap;padding:8px 12px;border-top:1px solid var(--border);gap:2px}
+  .id-nav-section,.id-spacer,.id-divider{display:none}
+  .pub-link{margin:8px 12px;padding:6px 12px}
+  .ws-body{padding:24px 20px}
+  .ws-head{padding:20px 20px 0}
+  .social-platform-grid{grid-template-columns:1fr}
+  .custom-row{grid-template-columns:1fr 1fr auto}
+}
+@media(max-width:600px){
+  .bar-nav{display:none}
+  .field-row.cols-2,.field-row.cols-3{grid-template-columns:1fr}
+}
+</style>
 </head>
 <body>
 
-<div class="glow-orb"></div>
-<div class="glow-orb-2"></div>
-
-<header class="topbar">
-    <a href="/" class="topbar-logo">SIO<span>A</span></a>
-    <nav class="topbar-nav">
-        <a href="/index.html">Home</a>
-        <a href="/net/index.html">Browse Artists</a>
-        <a href="/dashbord/competition.html">Competition</a>
-        <a href="/dashbord/index.html" class="active">Dashboard</a>
-    </nav>
-    <div class="topbar-user">
-        <div class="topbar-avatar" id="top-avatar">—</div>
-        <span id="top-name">Loading…</span>
-    </div>
+<header class="bar">
+  <a href="/" class="bar-logo">SIO<b>A</b></a>
+  <nav class="bar-nav">
+    <a href="/index.html">Home</a>
+    <a href="/net/index.html">Browse Artists</a>
+    <a href="/dashbord/competition.html">Competition</a>
+    <a href="/dashbord/index.html" class="on">Dashboard</a>
+  </nav>
+  <div class="bar-user">
+    <div class="bar-av" id="top-avatar">—</div>
+    <span id="top-name">Loading…</span>
+  </div>
 </header>
 
-<div class="shell">
-    <div class="layout">
+<div class="root">
 
-        <aside class="sidebar">
-            <p class="sidebar-label">Dashboard</p>
-            <a href="#" class="nav-item active" data-tab-target="profile-tab-btn">
-                <span class="nav-dot"></span> Profile
-            </a>
-            <a href="#" class="nav-item" data-tab-target="socials-tab-btn">
-                <span class="nav-dot"></span> Socials &amp; Links
-            </a>
-            <p class="sidebar-label">Platform</p>
-            <a href="/net/index.html" class="nav-item">
-                <span class="nav-dot"></span> Browse Artists
-            </a>
-            <a href="/dashbord/competition.html" class="nav-item">
-                <span class="nav-dot"></span> Competition
-            </a>
-            <div class="sidebar-spacer"></div>
-            <div class="sidebar-bottom">
-                <button class="nav-item" id="logout-side" style="color:rgba(201,96,96,0.55);">
-                    <span class="nav-dot" style="background:rgba(201,96,96,0.25)"></span> Sign Out
-                </button>
+  <!-- LEFT IDENTITY COLUMN -->
+  <aside class="identity">
+
+    <div class="id-avatar-zone">
+      <div class="big-av" id="avatar-xl"><div class="av-ring"></div>—</div>
+      <div>
+        <div class="id-name" id="hero-name">—</div>
+        <div class="id-handle" id="hero-handle">@—</div>
+        <div class="id-loc" id="hero-meta">SIOA Member</div>
+        <div class="id-badge" style="margin-top:10px"><span class="id-badge-dot"></span>Active Member</div>
+      </div>
+    </div>
+
+    <div class="id-progress">
+      <div class="id-prog-row">
+        <span class="id-prog-label">Profile</span>
+        <span class="id-prog-pct" id="completion-pct">—</span>
+      </div>
+      <div class="prog-track"><div class="prog-fill" id="completion-fill"></div></div>
+      <div class="prog-hint" id="completion-hint">&nbsp;</div>
+    </div>
+
+    <nav class="id-nav">
+      <p class="id-nav-section">Dashboard</p>
+      <a href="#" class="on" data-tab-target="tab-profile">
+        <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        Profile
+      </a>
+      <a href="#" data-tab-target="tab-socials">
+        <svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        Socials &amp; Links
+      </a>
+      <a href="#" data-tab-target="tab-account">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        Account
+      </a>
+      <p class="id-nav-section">Platform</p>
+      <a href="/net/index.html">
+        <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        Browse Artists
+      </a>
+      <a href="/dashbord/competition.html">
+        <svg viewBox="0 0 24 24"><path d="M8 21h8M12 17v4M17 4h2a2 2 0 0 1 2 2v1a4 4 0 0 1-4 4h-1"/><path d="M7 4H5a2 2 0 0 0-2 2v1a4 4 0 0 0 4 4h1"/><path d="M7 4h10v8a5 5 0 0 1-10 0V4z"/></svg>
+        Competition
+      </a>
+      <a href="/Vagh2026/submission.html">
+        <svg viewBox="0 0 24 24"><polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"/></svg>
+        Submit Work
+      </a>
+      <div class="id-spacer"></div>
+      <div class="id-divider"></div>
+      <button class="danger-link" id="logout-side">
+        <svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+        Sign Out
+      </button>
+    </nav>
+
+    <a href="#" class="pub-link" id="view-public-link">
+      <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+      View Public Profile
+    </a>
+
+  </aside>
+
+  <!-- WORKSPACE -->
+  <div class="workspace">
+
+    <div class="ws-head">
+      <button class="ws-tab on" data-ws-tab="tab-profile">Profile</button>
+      <button class="ws-tab" data-ws-tab="tab-socials">Socials &amp; Links</button>
+      <button class="ws-tab" data-ws-tab="tab-account">Account</button>
+    </div>
+
+    <div class="ws-body">
+
+      <!-- PROFILE PANEL -->
+      <div class="ws-panel on" id="tab-profile">
+        <div class="section-header">
+          <div>
+            <p class="ws-eyebrow">Member Area</p>
+            <h3 style="font-family:'DM Serif Display',serif;font-size:22px;font-weight:400;color:var(--text)">Profile Details</h3>
+            <p style="font-size:11.5px;color:var(--faint);margin-top:4px">This information appears on your public profile.</p>
+          </div>
+          <button class="btn btn-ghost-border btn-sm" id="edit-toggle-btn" style="flex-shrink:0;margin-top:6px">Edit Profile</button>
+        </div>
+
+        <form id="profile-form" novalidate autocomplete="off">
+
+          <div class="form-section">
+            <div class="fs-label">Identity</div>
+            <div class="field-row cols-2">
+              <div class="field" style="grid-column:1/-1">
+                <label for="full_name">Full Name</label>
+                <input type="text" id="full_name" placeholder="e.g. Arjun Sharma" maxlength="80" disabled>
+              </div>
             </div>
-        </aside>
-
-        <div class="main-wrap">
-
-            <main class="main">
-
-                <div class="page-header">
-                    <p class="page-eyebrow">Member Area</p>
-                    <h1 class="page-title">Your Dashboard</h1>
-                    <p class="page-desc">Manage your profile, links, and settings.</p>
+            <div class="field-row cols-2">
+              <div class="field">
+                <label for="username">Username</label>
+                <div class="un-wrap">
+                  <span class="un-prefix">@</span>
+                  <input type="text" id="username" placeholder="yourhandle" maxlength="30" disabled autocomplete="off">
                 </div>
+                <div class="un-status" id="username-status"></div>
+              </div>
+              <div class="field">
+                <label for="city">City</label>
+                <input type="text" id="city" placeholder="e.g. Mumbai" maxlength="60" disabled>
+              </div>
+            </div>
+            <div class="field-row cols-1">
+              <div class="field">
+                <label for="state">State Chapter</label>
+                <select id="state" disabled>
+                  <option value="">— Select state —</option>
+                  <option>Andhra Pradesh</option><option>Assam</option><option>Bihar</option>
+                  <option>Delhi</option><option>Goa</option><option>Gujarat</option>
+                  <option>Haryana</option><option>Himachal Pradesh</option><option>Jharkhand</option>
+                  <option>Karnataka</option><option>Kerala</option><option>Madhya Pradesh</option>
+                  <option>Maharashtra</option><option>Odisha</option><option>Punjab</option>
+                  <option>Rajasthan</option><option>Tamil Nadu</option><option>Telangana</option>
+                  <option>Uttar Pradesh</option><option>Uttarakhand</option><option>West Bengal</option>
+                </select>
+              </div>
+            </div>
+          </div>
 
-                <div class="section">
-                    <div class="card">
-                        <div class="profile-hero">
-                            <div class="avatar-xl" id="avatar-xl">—</div>
-                            <div class="hero-info">
-                                <div class="hero-name" id="hero-name">—</div>
-                                <div class="hero-handle" id="hero-handle">@—</div>
-                                <div class="hero-meta" id="hero-meta">SIOA Member</div>
-                            </div>
-                            <div class="hero-badges">
-                                <div class="badge-pill"><span class="badge-dot"></span>Active</div>
-                                <a href="#" class="btn-view-public" id="view-public-link">
-                                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline;vertical-align:middle;margin-right:3px;"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-                                    Public Profile
-                                </a>
-                            </div>
-                        </div>
+          <div class="form-section">
+            <div class="fs-label">Specialties <span style="font-weight:300;letter-spacing:0;text-transform:none;font-size:10px;color:var(--faint)"> — select all that apply</span></div>
+            <div class="spec-wrap" id="specialty-picker" data-off="true">
+              <span class="spec-pill" data-value="22.5 Designer">22.5 Designer</span>
+              <span class="spec-pill" data-value="Box Pleating">Box Pleating</span>
+              <span class="spec-pill" data-value="Casual Folder">Casual Folder</span>
+              <span class="spec-pill" data-value="Serious Folder">Serious Folder</span>
+              <span class="spec-pill" data-value="Casual Designer">Casual Designer</span>
+              <span class="spec-pill" data-value="Serious Designer">Serious Designer</span>
+            </div>
+            <input type="hidden" id="specialty">
+          </div>
 
-                        <div class="completion-wrap">
-                            <div class="completion-row">
-                                <span class="completion-label">Profile Completion</span>
-                                <span class="completion-pct" id="completion-pct">—</span>
-                            </div>
-                            <div class="completion-bar">
-                                <div class="completion-fill" id="completion-fill"></div>
-                            </div>
-                            <div class="completion-hint" id="completion-hint">&nbsp;</div>
-                        </div>
-                    </div>
-                </div>
+          <div class="form-section">
+            <div class="fs-label">About</div>
+            <div class="field">
+              <label for="bio">Bio</label>
+              <textarea id="bio" placeholder="Describe your origami journey…" maxlength="500" rows="4" disabled></textarea>
+              <span class="char-hint" id="bio-count">0 / 500</span>
+            </div>
+          </div>
 
-                <div class="section">
-                    <div class="card">
-                        <div class="tabs">
-                            <button class="tab-btn active" id="profile-tab-btn" data-tab="profile-tab">Profile</button>
-                            <button class="tab-btn" id="socials-tab-btn" data-tab="socials-tab">Socials &amp; Links</button>
-                        </div>
+          <div class="action-bar" id="form-footer" style="display:none">
+            <span class="save-msg" id="save-msg"></span>
+            <div class="action-bar-right">
+              <button type="button" class="btn btn-ghost-border btn-sm" id="cancel-btn">Cancel</button>
+              <button type="submit" class="btn btn-primary btn-sm" id="save-btn">Save Changes</button>
+            </div>
+          </div>
+        </form>
+      </div>
 
-                        <div class="tab-panel active" id="profile-tab">
-                            <div style="padding:20px">
-                                <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:14px;">
-                                    <div>
-                                        <div style="font-size:12.5px; font-weight:600; color:var(--text);">Profile Details</div>
-                                        <div style="font-size:10.5px; color:var(--muted-2); margin-top:2px;">This information appears on your public profile.</div>
-                                    </div>
-                                    <button class="btn btn-secondary btn-sm" id="edit-toggle-btn">Edit Profile</button>
-                                </div>
+      <!-- SOCIALS PANEL -->
+      <div class="ws-panel" id="tab-socials">
+        <div style="margin-bottom:28px">
+          <p class="ws-eyebrow">Member Area</p>
+          <h3 style="font-family:'DM Serif Display',serif;font-size:22px;font-weight:400;color:var(--text)">Socials &amp; Links</h3>
+          <p style="font-size:11.5px;color:var(--faint);margin-top:4px">Shown as clickable icons on your public profile.</p>
+        </div>
 
-                                <form id="profile-form" novalidate autocomplete="off">
-                                    <div class="form-grid">
+        <div class="form-section">
+          <div class="fs-label">Social Media</div>
+          <div class="social-platform-grid">
+            <div class="field">
+              <label class="social-field-label">
+                <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+                Instagram
+              </label>
+              <input type="url" id="social-instagram" placeholder="https://instagram.com/yourhandle">
+            </div>
+            <div class="field">
+              <label class="social-field-label">
+                <svg viewBox="0 0 24 24"><path d="M4 4l16 16M4 20L20 4" stroke-linecap="round"/></svg>
+                X / Twitter
+              </label>
+              <input type="url" id="social-twitter" placeholder="https://x.com/yourhandle">
+            </div>
+            <div class="field">
+              <label class="social-field-label">
+                <svg viewBox="0 0 24 24"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 0 0 1.46 6.42 29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.95 1.96C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.96A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" style="fill:var(--surface)"/></svg>
+                YouTube
+              </label>
+              <input type="url" id="social-youtube" placeholder="https://youtube.com/@yourchannel">
+            </div>
+            <div class="field">
+              <label class="social-field-label">
+                <svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+                LinkedIn
+              </label>
+              <input type="url" id="social-linkedin" placeholder="https://linkedin.com/in/yourprofile">
+            </div>
+          </div>
+        </div>
 
-                                        <div class="field full">
-                                            <label for="full_name">Full Name</label>
-                                            <input type="text" id="full_name" placeholder="e.g. Arjun Sharma" maxlength="80" disabled>
-                                        </div>
+        <div class="form-section">
+          <div class="fs-label">Custom Links</div>
+          <div id="custom-links-list" class="custom-list"></div>
+          <button class="btn-add" id="add-link-btn">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            Add Custom Link
+          </button>
+        </div>
 
-                                        <div class="field">
-                                            <label for="username">Username</label>
-                                            <div class="username-wrap">
-                                                <span class="username-prefix">@</span>
-                                                <input type="text" id="username" placeholder="yourname" maxlength="30" disabled autocomplete="off">
-                                            </div>
-                                            <div class="username-status" id="username-status"></div>
-                                        </div>
+        <div class="action-bar">
+          <span class="save-msg" id="socials-save-msg"></span>
+          <button class="btn btn-primary btn-sm" id="save-socials-btn">Save Links</button>
+        </div>
+      </div>
 
-                                        <div class="field full">
-                                            <label>Specialties <span style="color:var(--muted-2);font-weight:300;letter-spacing:0;text-transform:none;font-size:9.5px;">— select all that apply</span></label>
-                                            <div class="specialty-picker" id="specialty-picker" data-disabled="true">
-                                                <span class="spec-pill" data-value="22.5 Designer">22.5 Designer</span>
-                                                <span class="spec-pill" data-value="Box Pleating">Box Pleating</span>
-                                                <span class="spec-pill" data-value="Casual Folder">Casual Folder</span>
-                                                <span class="spec-pill" data-value="Serious Folder">Serious Folder</span>
-                                                <span class="spec-pill" data-value="Casual Designer">Casual Designer</span>
-                                                <span class="spec-pill" data-value="Serious Designer">Serious Designer</span>
-                                            </div>
-                                            <input type="hidden" id="specialty">
-                                        </div>
+      <!-- ACCOUNT PANEL -->
+      <div class="ws-panel" id="tab-account">
+        <div style="margin-bottom:28px">
+          <p class="ws-eyebrow">Member Area</p>
+          <h3 style="font-family:'DM Serif Display',serif;font-size:22px;font-weight:400;color:var(--text)">Account Settings</h3>
+          <p style="font-size:11.5px;color:var(--faint);margin-top:4px">Session and access management.</p>
+        </div>
+        <div class="account-block">
+          <div>
+            <div class="account-info-label">Signed in as</div>
+            <div class="account-email-val" id="account-email">—</div>
+          </div>
+          <button class="btn btn-danger btn-sm" id="logout-main">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+            Sign Out
+          </button>
+        </div>
+      </div>
 
-                                        <div class="field">
-                                            <label for="city">City</label>
-                                            <input type="text" id="city" placeholder="e.g. Mumbai" maxlength="60" disabled>
-                                        </div>
+    </div>
+  </div>
+</div>
 
-                                        <div class="field">
-                                            <label for="state">State Chapter</label>
-                                            <select id="state" disabled>
-                                                <option value="">— Select state —</option>
-                                                <option>Andhra Pradesh</option>
-                                                <option>Assam</option>
-                                                <option>Bihar</option>
-                                                <option>Delhi</option>
-                                                <option>Goa</option>
-                                                <option>Gujarat</option>
-                                                <option>Haryana</option>
-                                                <option>Himachal Pradesh</option>
-                                                <option>Jharkhand</option>
-                                                <option>Karnataka</option>
-                                                <option>Kerala</option>
-                                                <option>Madhya Pradesh</option>
-                                                <option>Maharashtra</option>
-                                                <option>Odisha</option>
-                                                <option>Punjab</option>
-                                                <option>Rajasthan</option>
-                                                <option>Tamil Nadu</option>
-                                                <option>Telangana</option>
-                                                <option>Uttar Pradesh</option>
-                                                <option>Uttarakhand</option>
-                                                <option>West Bengal</option>
-                                            </select>
-                                        </div>
-
-                                        <div class="field full">
-                                            <label for="bio">Bio</label>
-                                            <textarea id="bio" placeholder="Describe your origami journey…" maxlength="500" rows="3" disabled></textarea>
-                                            <span class="char-hint" id="bio-count">0 / 500</span>
-                                        </div>
-
-                                    </div>
-
-                                    <div class="form-footer" id="form-footer" style="display:none;">
-                                        <span class="save-msg" id="save-msg"></span>
-                                        <div style="display:flex; gap:8px;">
-                                            <button type="button" class="btn btn-secondary btn-sm" id="cancel-btn">Cancel</button>
-                                            <button type="submit" class="btn btn-primary btn-sm" id="save-btn">Save Changes</button>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-
-                        <div class="tab-panel" id="socials-tab">
-                            <div style="padding:20px">
-                                <div style="margin-bottom:14px;">
-                                    <div style="font-size:12.5px; font-weight:600; color:var(--text); margin-bottom:2px;">Social Profiles &amp; Links</div>
-                                    <div style="font-size:10.5px; color:var(--muted-2);">Add your social media and website links. They'll appear as clickable links on your public profile.</div>
-                                </div>
-
-                                <div style="margin-bottom:18px;">
-                                    <div style="font-size:9.5px; font-weight:600; letter-spacing:0.18em; text-transform:uppercase; color:var(--muted-2); margin-bottom:10px;">Social Media</div>
-                                    <div class="form-grid">
-                                        <div class="field">
-                                            <label>
-                                                <span class="social-icon">
-                                                    <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
-                                                    Instagram
-                                                </span>
-                                            </label>
-                                            <input type="url" id="social-instagram" placeholder="https://instagram.com/yourhandle">
-                                        </div>
-                                        <div class="field">
-                                            <label>
-                                                <span class="social-icon">
-                                                    <svg viewBox="0 0 24 24"><path d="M4 4l16 16M4 20L20 4" stroke-linecap="round"/></svg>
-                                                    X / Twitter
-                                                </span>
-                                            </label>
-                                            <input type="url" id="social-twitter" placeholder="https://x.com/yourhandle">
-                                        </div>
-                                        <div class="field">
-                                            <label>
-                                                <span class="social-icon">
-                                                    <svg viewBox="0 0 24 24"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 0 0 1.46 6.42 29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.95 1.96C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.96A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="var(--surface)"/></svg>
-                                                    YouTube
-                                                </span>
-                                            </label>
-                                            <input type="url" id="social-youtube" placeholder="https://youtube.com/@yourchannel">
-                                        </div>
-                                        <div class="field">
-                                            <label>
-                                                <span class="social-icon">
-                                                    <svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
-                                                    LinkedIn
-                                                </span>
-                                            </label>
-                                            <input type="url" id="social-linkedin" placeholder="https://linkedin.com/in/yourprofile">
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div>
-                                    <div style="font-size:9.5px; font-weight:600; letter-spacing:0.18em; text-transform:uppercase; color:var(--muted-2); margin-bottom:10px;">Custom Links</div>
-                                    <div id="custom-links-list" class="socials-list"></div>
-                                    <button class="btn-add-social" id="add-link-btn">
-                                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-                                        Add Custom Link
-                                    </button>
-                                </div>
-
-                                <div class="form-footer">
-                                    <span class="save-msg" id="socials-save-msg"></span>
-                                    <button class="btn btn-primary btn-sm" id="save-socials-btn">Save Links</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div></div><div class="section">
-                    <div class="card">
-                        <div class="card-header">
-                            <div class="card-header-left">
-                                <div class="card-icon">
-                                    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
-                                </div>
-                                <div>
-                                    <div class="card-title">Account Settings</div>
-                                    <div class="card-subtitle">Session &amp; access management</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card-body" style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px;">
-                            <div>
-                                <div style="font-size:12px; color:var(--text); margin-bottom:2px;">Signed in as</div>
-                                <div style="font-size:11px; color:var(--muted-2);" id="account-email">—</div>
-                            </div>
-                            <button class="btn btn-ghost btn-sm" id="logout-main">
-                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
-                                Sign Out
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-            </main>
-
-            <aside class="right-panel">
-
-                <div class="panel-card">
-                    <div class="panel-card-header">
-                        <span class="panel-card-title">Quick Links</span>
-                    </div>
-                    <div class="panel-card-body">
-                        <a href="/net/index.html" class="quick-link">
-                            <div class="ql-icon">
-                                <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-                            </div>
-                            <div class="ql-text">
-                                <div class="ql-title">Browse Artists</div>
-                                <div class="ql-sub">Discover other SIOA members</div>
-                            </div>
-                            <span class="ql-arrow">›</span>
-                        </a>
-                        <a href="#" class="quick-link" id="ql-public-profile">
-                            <div class="ql-icon">
-                                <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-                            </div>
-                            <div class="ql-text">
-                                <div class="ql-title">Your Public Profile</div>
-                                <div class="ql-sub">See how others view you</div>
-                            </div>
-                            <span class="ql-arrow">›</span>
-                        </a>
-                        <a href="/Vagh2026/submission.html" class="quick-link">
-                            <div class="ql-icon">
-                                <svg viewBox="0 0 24 24"><path d="M8 21h8M12 17v4M17 4h2a2 2 0 0 1 2 2v1a4 4 0 0 1-4 4h-1"/><path d="M7 4H5a2 2 0 0 0-2 2v1a4 4 0 0 0 4 4h1"/><path d="M7 4h10v8a5 5 0 0 1-10 0V4z"/></svg>
-                            </div>
-                            <div class="ql-text">
-                                <div class="ql-title">Submit to Competition</div>
-                                <div class="ql-sub">Enter the current round</div>
-                            </div>
-                            <span class="ql-arrow">›</span>
-                        </a>
-                        <a href="/index.html" class="quick-link">
-                            <div class="ql-icon">
-                                <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-                            </div>
-                            <div class="ql-text">
-                                <div class="ql-title">Member Home</div>
-                                <div class="ql-sub">Announcements &amp; activity</div>
-                            </div>
-                            <span class="ql-arrow">›</span>
-                        </a>
-                    </div>
-                </div>
-
-            </aside>
-
-        </div></div></div><div class="toast" id="toast"></div>
+<div class="toast" id="toast"></div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-(function () {
-    'use strict';
+(function(){
+'use strict';
+const sb=window.supabase.createClient('https://zbgvgzzaejaxrgcjjovc.supabase.co','sb_publishable_gCLTB6WM95Iw6Txcf2fjCA_5fnXPw77');
+let currentUser=null,currentProfile=null,usernameTimer=null,usernameValid=true,customLinks=[];
+const el=id=>document.getElementById(id);
+const esc=s=>!s?'':String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 
-    /* ── SUPABASE ──────────────────────────────────────────────────────────── */
-    const sb = window.supabase.createClient(
-        'https://zbgvgzzaejaxrgcjjovc.supabase.co',
-        'sb_publishable_gCLTB6WM95Iw6Txcf2fjCA_5fnXPw77'
-    );
+function getInitials(name,username){
+  if(name&&name.trim()){const p=name.trim().split(/\s+/);return p.length>=2?(p[0][0]+p[p.length-1][0]).toUpperCase():p[0].substring(0,2).toUpperCase()}
+  if(username)return username[0].toUpperCase();return '—';
+}
+function parseSpecialties(val){
+  if(!val)return[];if(Array.isArray(val))return val.filter(Boolean);
+  return val.split(',').map(s=>s.trim()).filter(Boolean);
+}
+function getSelectedSpecialties(){return Array.from(document.querySelectorAll('.spec-pill.on')).map(p=>p.dataset.value)}
 
-    /* ── STATE ─────────────────────────────────────────────────────────────── */
-    let currentUser    = null;
-    let currentProfile = null;
-    let isEditMode     = false;
-    let usernameTimer  = null;
-    let usernameValid  = true;
-    let customLinks    = [];
+document.querySelectorAll('.spec-pill').forEach(pill=>{
+  pill.addEventListener('click',()=>{
+    if(el('specialty-picker').dataset.off==='true')return;
+    pill.classList.toggle('on');el('specialty').value=getSelectedSpecialties().join(',');
+  });
+});
 
-    /* ── HELPERS ───────────────────────────────────────────────────────────── */
-    const el  = id => document.getElementById(id);
-    const esc = s => !s ? '' : String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+let toastTimer;
+function showToast(msg,isErr){
+  const t=el('toast');t.textContent=msg;
+  t.style.borderColor=isErr?'rgba(184,92,92,.45)':'rgba(45,137,176,.5)';
+  void t.offsetWidth;t.classList.add('show');
+  clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.classList.remove('show'),2800);
+}
 
-    function getInitials(name, username) {
-        if (name && name.trim()) {
-            const p = name.trim().split(/\s+/);
-            return p.length >= 2 ? (p[0][0]+p[p.length-1][0]).toUpperCase() : p[0].substring(0,2).toUpperCase();
-        }
-        if (username) return username[0].toUpperCase();
-        return '—';
-    }
+async function checkAuth(){
+  const{data:{user}}=await sb.auth.getUser();
+  if(!user){window.location.href='../login/login.html';return null;}return user;
+}
 
-    function parseSpecialties(val) {
-        if (!val) return [];
-        if (Array.isArray(val)) return val.filter(Boolean);
-        return val.split(',').map(s => s.trim()).filter(Boolean);
-    }
+async function loadProfile(){
+  const{data:p}=await sb.from('profiles').select('full_name,username,specialty,city,state,bio,created_at,socials,custom_links').eq('id',currentUser.id).maybeSingle();
+  if(!p){
+    const authName=currentUser.user_metadata?.full_name||'';
+    await sb.from('profiles').insert({id:currentUser.id,full_name:authName,city:'',state:'',bio:''});
+    currentProfile={full_name:authName,city:'',state:'',bio:''};
+  }else{currentProfile=p;}
+  applyProfileToUI(currentProfile);
+}
 
-    function getSelectedSpecialties() {
-        return Array.from(document.querySelectorAll('.spec-pill.active'))
-            .map(p => p.dataset.value);
-    }
+function applyProfileToUI(p){
+  const name=p.full_name||'',username=p.username||'';
+  const initials=getInitials(name,username);
+  const loc=[p.city,p.state].filter(Boolean).join(', ');
+  el('top-avatar').textContent=initials;
+  el('top-name').textContent=name.split(' ')[0]||username||'Member';
+  el('account-email').textContent=currentUser.email||'—';
+  el('avatar-xl').innerHTML='<div class="av-ring"></div>'+initials;
+  el('hero-name').textContent=name||'(No name yet)';
+  el('hero-handle').textContent=username?'@'+username:'@—';
+  el('hero-meta').textContent=loc||'SIOA Member';
+  el('full_name').value=name;el('username').value=username;
+  const specs=parseSpecialties(p.specialty);
+  document.querySelectorAll('.spec-pill').forEach(pill=>pill.classList.toggle('on',specs.includes(pill.dataset.value)));
+  el('specialty').value=specs.join(',');
+  el('city').value=p.city||'';el('state').value=p.state||'';el('bio').value=p.bio||'';
+  updateBioCount(p.bio?.length||0);
+  const url=username?'/artists/index.html?u='+username:'#';
+  el('view-public-link').href=url;
+  updateCompletion(p);
+  if(p.socials&&typeof p.socials==='object'){Object.keys(p.socials).forEach(k=>{const inp=el('social-'+k);if(inp)inp.value=p.socials[k]||''});}
+  customLinks=Array.isArray(p.custom_links)?p.custom_links:[];
+  renderCustomLinks();
+}
 
-    document.querySelectorAll('.spec-pill').forEach(pill => {
-        pill.addEventListener('click', () => {
-            const picker = document.getElementById('specialty-picker');
-            if (picker.dataset.disabled === 'true') return;
-            pill.classList.toggle('active');
-            el('specialty').value = getSelectedSpecialties().join(',');
-        });
+function updateBioCount(len){
+  const c=el('bio-count');c.textContent=len+' / 500';
+  c.style.color=len>450?'rgba(184,92,92,.7)':'var(--faint)';
+}
+
+function updateCompletion(p){
+  const fields=['full_name','username','city','state','bio'];
+  const filled=fields.filter(f=>p[f]&&String(p[f]).trim()!=='').length;
+  const specFill=parseSpecialties(p.specialty).length>0?1:0;
+  const pct=Math.round(((filled+specFill)/(fields.length+1))*100);
+  el('completion-pct').textContent=pct+'%';
+  setTimeout(()=>{el('completion-fill').style.width=pct+'%';},100);
+  if(pct===100){el('completion-hint').textContent='✓ Profile complete — fully discoverable.';}
+  else{
+    const missing=fields.filter(f=>!p[f]||String(p[f]).trim()==='');
+    if(!specFill)missing.push('specialty');
+    el('completion-hint').textContent='Still needed: '+missing.join(', ')+'.';
+  }
+}
+
+function enableEdit(){
+  ['full_name','username','city','state','bio'].forEach(id=>el(id).disabled=false);
+  el('specialty-picker').dataset.off='false';
+  el('form-footer').style.display='flex';
+  el('edit-toggle-btn').style.display='none';
+}
+function disableEdit(){
+  ['full_name','username','city','state','bio'].forEach(id=>el(id).disabled=true);
+  el('specialty-picker').dataset.off='true';
+  el('form-footer').style.display='none';
+  el('edit-toggle-btn').style.display='inline-flex';
+  el('save-msg').textContent='';el('save-msg').className='save-msg';
+}
+
+el('edit-toggle-btn').addEventListener('click',enableEdit);
+el('cancel-btn').addEventListener('click',()=>{applyProfileToUI(currentProfile);disableEdit();});
+
+el('full_name').addEventListener('input',e=>{
+  const v=e.target.value.trim();
+  el('hero-name').textContent=v||'(No name)';
+  const init=getInitials(v,el('username').value.trim());
+  el('avatar-xl').innerHTML='<div class="av-ring"></div>'+init;
+  el('top-avatar').textContent=init;
+  el('top-name').textContent=v.split(' ')[0]||'—';
+});
+el('city').addEventListener('input',updateLoc);
+el('state').addEventListener('change',updateLoc);
+function updateLoc(){
+  const loc=[el('city').value.trim(),el('state').value].filter(Boolean).join(', ');
+  el('hero-meta').textContent=loc||'SIOA Member';
+}
+el('bio').addEventListener('input',e=>updateBioCount(e.target.value.length));
+
+el('username').addEventListener('input',e=>{
+  const val=e.target.value.trim().toLowerCase().replace(/[^a-z0-9_.]/g,'');
+  e.target.value=val;el('hero-handle').textContent=val?'@'+val:'@—';
+  clearTimeout(usernameTimer);
+  if(!val){el('username-status').textContent='';usernameValid=true;return;}
+  if(val.length<3){el('username-status').textContent='At least 3 characters';el('username-status').className='un-status err';usernameValid=false;return;}
+  el('username-status').textContent='Checking…';el('username-status').className='un-status chk';
+  usernameTimer=setTimeout(async()=>{
+    if(val===(currentProfile?.username||'')){el('username-status').textContent='✓ Your current username';el('username-status').className='un-status ok';usernameValid=true;return;}
+    const{count}=await sb.from('profiles').select('id',{count:'exact',head:true}).eq('username',val);
+    if(count>0){el('username-status').textContent='✗ Already taken';el('username-status').className='un-status err';usernameValid=false;}
+    else{el('username-status').textContent='✓ Available';el('username-status').className='un-status ok';usernameValid=true;}
+  },500);
+});
+
+el('profile-form').addEventListener('submit',async e=>{
+  e.preventDefault();
+  if(!usernameValid){el('save-msg').textContent='Fix username first.';el('save-msg').className='save-msg err';return;}
+  const msg=el('save-msg'),btn=el('save-btn');
+  msg.textContent='';msg.className='save-msg';btn.disabled=true;btn.innerHTML='<span class="spin"></span> Saving…';
+  const updates={id:currentUser.id,full_name:el('full_name').value.trim(),username:el('username').value.trim()||null,specialty:getSelectedSpecialties().join(',')||null,city:el('city').value.trim(),state:el('state').value,bio:el('bio').value.trim()};
+  const{error}=await sb.from('profiles').upsert(updates);
+  btn.disabled=false;btn.textContent='Save Changes';
+  if(error){msg.textContent=error.code==='23505'?'Username taken.':'Could not save.';msg.className='save-msg err';}
+  else{currentProfile={...currentProfile,...updates};updateCompletion(currentProfile);msg.textContent='Saved!';msg.className='save-msg ok';showToast('Profile updated!');setTimeout(()=>disableEdit(),1400);}
+});
+
+function renderCustomLinks(){
+  const list=el('custom-links-list');list.innerHTML='';
+  customLinks.forEach((link,idx)=>{
+    const row=document.createElement('div');row.className='custom-row';
+    row.innerHTML='<div class="field"><label>Link Title</label><input type="text" placeholder="e.g. My Portfolio" maxlength="40" value="'+esc(link.title)+'"></div><div class="field"><label>URL</label><input type="url" placeholder="https://…" value="'+esc(link.url)+'"></div><button class="btn-rm" title="Remove">×</button>';
+    row.querySelectorAll('input')[0].addEventListener('input',e=>{customLinks[idx].title=e.target.value;});
+    row.querySelectorAll('input')[1].addEventListener('input',e=>{customLinks[idx].url=e.target.value;});
+    row.querySelector('.btn-rm').addEventListener('click',()=>{customLinks.splice(idx,1);renderCustomLinks();});
+    list.appendChild(row);
+  });
+}
+el('add-link-btn').addEventListener('click',()=>{
+  customLinks.push({title:'',url:''});renderCustomLinks();
+  const rows=el('custom-links-list').querySelectorAll('.custom-row');
+  if(rows.length)rows[rows.length-1].querySelector('input').focus();
+});
+
+el('save-socials-btn').addEventListener('click',async()=>{
+  const btn=el('save-socials-btn'),msg=el('socials-save-msg');
+  btn.disabled=true;btn.innerHTML='<span class="spin"></span> Saving…';
+  const socials={instagram:el('social-instagram').value.trim(),twitter:el('social-twitter').value.trim(),youtube:el('social-youtube').value.trim(),linkedin:el('social-linkedin').value.trim()};
+  const validCustom=customLinks.filter(l=>l.title.trim()&&l.url.trim());
+  const{error}=await sb.from('profiles').update({socials,custom_links:validCustom}).eq('id',currentUser.id);
+  btn.disabled=false;btn.textContent='Save Links';
+  if(error){msg.textContent='Could not save.';msg.className='save-msg err';}
+  else{currentProfile.socials=socials;currentProfile.custom_links=validCustom;msg.textContent='Links saved!';msg.className='save-msg ok';showToast('Links updated!');setTimeout(()=>{msg.textContent='';msg.className='save-msg';},2000);}
+});
+
+/* Tab switching — workspace tabs */
+document.querySelectorAll('.ws-tab').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.ws-tab').forEach(b=>b.classList.remove('on'));
+    document.querySelectorAll('.ws-panel').forEach(p=>p.classList.remove('on'));
+    btn.classList.add('on');el(btn.dataset.wsTab).classList.add('on');
+  });
+});
+
+/* Sidebar nav links → switch workspace panel */
+document.querySelectorAll('[data-tab-target]').forEach(link=>{
+  link.addEventListener('click',e=>{
+    e.preventDefault();
+    const targetId=link.dataset.tabTarget;
+    document.querySelectorAll('.ws-tab').forEach(b=>{
+      if(b.dataset.wsTab===targetId){b.click();}
     });
+    document.querySelectorAll('.id-nav a, .id-nav button').forEach(n=>n.classList.remove('on'));
+    link.classList.add('on');
+  });
+});
 
-    let toastTimer;
-    function showToast(msg, isErr) {
-        const t = el('toast');
-        t.textContent = msg;
-        t.style.borderColor = isErr ? 'rgba(201,96,96,0.45)' : 'var(--border-cyan)';
-        void t.offsetWidth;
-        t.classList.add('show');
-        clearTimeout(toastTimer);
-        toastTimer = setTimeout(() => t.classList.remove('show'), 2800);
-    }
+async function handleLogout(){await sb.auth.signOut();window.location.href='/';}
+el('logout-side').addEventListener('click',handleLogout);
+el('logout-main').addEventListener('click',handleLogout);
 
-    /* ── AUTH ──────────────────────────────────────────────────────────────── */
-    async function checkAuth() {
-        const { data: { user } } = await sb.auth.getUser();
-        if (!user) { window.location.href = '../login/login.html'; return null; }
-        return user;
-    }
-
-    /* ── LOAD PROFILE ──────────────────────────────────────────────────────── */
-    async function loadProfile() {
-        const { data: p, error } = await sb.from('profiles')
-            .select('full_name, username, specialty, city, state, bio, created_at, socials, custom_links')
-            .eq('id', currentUser.id)
-            .maybeSingle();
-
-        if (!p) {
-            const authName = currentUser.user_metadata?.full_name || '';
-            await sb.from('profiles').insert({
-                id: currentUser.id, full_name: authName, city: '', state: '', bio: ''
-            });
-            currentProfile = { full_name: authName, city: '', state: '', bio: '' };
-        } else {
-            currentProfile = p;
-        }
-
-        applyProfileToUI(currentProfile);
-    }
-
-    function applyProfileToUI(p) {
-        const name     = p.full_name || '';
-        const username = p.username  || '';
-        const initials = getInitials(name, username);
-        const loc      = [p.city, p.state].filter(Boolean).join(', ');
-
-        el('top-avatar').textContent = initials;
-        el('top-name').textContent   = name.split(' ')[0] || username || 'Member';
-        el('account-email').textContent = currentUser.email || '—';
-
-        el('avatar-xl').textContent  = initials;
-        el('hero-name').textContent  = name || '(No name yet)';
-        el('hero-handle').textContent = username ? '@'+username : '@—';
-        el('hero-meta').textContent  = loc || 'SIOA Member';
-
-        el('full_name').value = name;
-        el('username').value  = username;
-
-        const selectedSpecs = parseSpecialties(p.specialty);
-        document.querySelectorAll('.spec-pill').forEach(pill => {
-            pill.classList.toggle('active', selectedSpecs.includes(pill.dataset.value));
-        });
-        el('specialty').value = selectedSpecs.join(',');
-        el('city').value  = p.city  || '';
-        el('state').value = p.state || '';
-        el('bio').value   = p.bio   || '';
-        updateBioCount(p.bio?.length || 0);
-
-        const profileUrl = username ? '/artists/index.html?u='+username : '#';
-        el('view-public-link').href = profileUrl;
-        el('ql-public-profile').href = profileUrl;
-
-        updateCompletion(p);
-
-        if (p.socials && typeof p.socials === 'object') {
-            Object.keys(p.socials).forEach(k => {
-                const inp = el('social-'+k);
-                if (inp) inp.value = p.socials[k] || '';
-            });
-        }
-
-        customLinks = Array.isArray(p.custom_links) ? p.custom_links : [];
-        renderCustomLinks();
-    }
-
-    function updateBioCount(len) {
-        const c = el('bio-count');
-        c.textContent = len + ' / 500';
-        c.style.color = len > 450 ? 'rgba(201,96,96,0.7)' : 'var(--muted-2)';
-    }
-
-    function updateCompletion(p) {
-        const fields = ['full_name','username','city','state','bio'];
-        const filled = fields.filter(f => p[f] && String(p[f]).trim() !== '').length;
-        const specFilled = parseSpecialties(p.specialty).length > 0 ? 1 : 0;
-        const total = fields.length + 1;
-        const pct = Math.round(((filled + specFilled) / total) * 100);
-
-        el('completion-pct').textContent = pct + '%';
-        setTimeout(() => { el('completion-fill').style.width = pct + '%'; }, 100);
-
-        if (pct === 100) {
-            el('completion-hint').textContent = '✓ Your profile is complete — you\'re fully discoverable!';
-        } else {
-            const missing = fields.filter(f => !p[f] || String(p[f]).trim() === '');
-            if (specFilled === 0) missing.push('specialty');
-            el('completion-hint').textContent = 'Add ' + missing.join(', ') + ' to complete your profile.';
-        }
-    }
-
-    /* ── EDIT PROFILE ENABLE/DISABLE ───────────────────────────────────────── */
-    function enableEdit() {
-        ['full_name','username','city','state','bio'].forEach(id => el(id).disabled = false);
-        document.getElementById('specialty-picker').dataset.disabled = 'false';
-        el('form-footer').style.display = 'flex';
-        el('edit-toggle-btn').style.display = 'none';
-    }
-
-    function disableEdit() {
-        ['full_name','username','city','state','bio'].forEach(id => el(id).disabled = true);
-        document.getElementById('specialty-picker').dataset.disabled = 'true';
-        el('form-footer').style.display = 'none';
-        el('edit-toggle-btn').style.display = 'inline-flex';
-        el('save-msg').textContent = ''; el('save-msg').className = 'save-msg';
-    }
-
-    el('edit-toggle-btn').addEventListener('click', enableEdit);
-
-    el('cancel-btn').addEventListener('click', () => {
-        applyProfileToUI(currentProfile); 
-        disableEdit();
-    });
-
-    /* ── LIVE PREVIEW ──────────────────────────────────────────────────────── */
-    el('full_name').addEventListener('input', e => {
-        const v = e.target.value.trim();
-        el('hero-name').textContent = v || '(No name)';
-        el('avatar-xl').textContent = getInitials(v, el('username').value.trim());
-        el('top-avatar').textContent = getInitials(v, el('username').value.trim());
-        el('top-name').textContent  = v.split(' ')[0] || '—';
-    });
-
-    el('city').addEventListener('input', updateLocation);
-    el('state').addEventListener('change', updateLocation);
-
-    function updateLocation() {
-        const loc = [el('city').value.trim(), el('state').value].filter(Boolean).join(', ');
-        el('hero-meta').textContent = loc || 'SIOA Member';
-    }
-
-    el('bio').addEventListener('input', e => updateBioCount(e.target.value.length));
-
-    /* ── USERNAME CHECK ────────────────────────────────────────────────────── */
-    el('username').addEventListener('input', e => {
-        const val = e.target.value.trim().toLowerCase().replace(/[^a-z0-9_.]/g, '');
-        e.target.value = val;
-        el('hero-handle').textContent = val ? '@'+val : '@—';
-
-        clearTimeout(usernameTimer);
-
-        if (!val) { el('username-status').textContent = ''; usernameValid = true; return; }
-        if (val.length < 3) {
-            el('username-status').textContent = 'At least 3 characters required';
-            el('username-status').className = 'username-status err';
-            usernameValid = false; return;
-        }
-
-        el('username-status').textContent = 'Checking…';
-        el('username-status').className = 'username-status chk';
-
-        usernameTimer = setTimeout(async () => {
-            if (val === (currentProfile?.username || '')) {
-                el('username-status').textContent = '✓ This is your current username';
-                el('username-status').className = 'username-status ok';
-                usernameValid = true; return;
-            }
-            const { count } = await sb.from('profiles')
-                .select('id', { count:'exact', head:true })
-                .eq('username', val);
-            if (count > 0) {
-                el('username-status').textContent = '✗ Username taken';
-                el('username-status').className = 'username-status err';
-                usernameValid = false;
-            } else {
-                el('username-status').textContent = '✓ Available';
-                el('username-status').className = 'username-status ok';
-                usernameValid = true;
-            }
-        }, 500);
-    });
-
-    /* ── SAVE PROFILE ──────────────────────────────────────────────────────── */
-    el('profile-form').addEventListener('submit', async e => {
-        e.preventDefault();
-        if (!usernameValid) {
-            el('save-msg').textContent = 'Please fix the username before saving.';
-            el('save-msg').className = 'save-msg error'; return;
-        }
-
-        const msg = el('save-msg'); const btn = el('save-btn');
-        msg.textContent = ''; msg.className = 'save-msg';
-        btn.disabled = true;
-        btn.innerHTML = '<span class="spinner"></span> Saving…';
-
-        const updates = {
-            id:        currentUser.id,
-            full_name: el('full_name').value.trim(),
-            username:  el('username').value.trim() || null,
-            specialty: getSelectedSpecialties().join(',') || null,
-            city:      el('city').value.trim(),
-            state:     el('state').value,
-            bio:       el('bio').value.trim(),
-        };
-
-        const { error } = await sb.from('profiles').upsert(updates);
-
-        btn.disabled = false; btn.textContent = 'Save Changes';
-
-        if (error) {
-            msg.textContent = error.code === '23505' ? 'Username already taken.' : 'Could not save. Try again.';
-            msg.className = 'save-msg error';
-        } else {
-            currentProfile = { ...currentProfile, ...updates };
-            updateCompletion(currentProfile);
-            msg.textContent = 'Saved successfully.'; msg.className = 'save-msg success';
-            showToast('Profile updated!');
-            setTimeout(() => disableEdit(), 1400);
-        }
-    });
-
-    /* ── CUSTOM LINKS ──────────────────────────────────────────────────────── */
-    function renderCustomLinks() {
-        const list = el('custom-links-list');
-        list.innerHTML = '';
-        customLinks.forEach((link, idx) => {
-            const row = document.createElement('div');
-            row.className = 'social-row';
-            row.innerHTML =
-                '<div class="field"><label>Link Title</label><input type="text" placeholder="e.g. My Portfolio" maxlength="40" value="'+esc(link.title)+'"></div>' +
-                '<div class="field"><label>URL</label><input type="url" placeholder="https://…" value="'+esc(link.url)+'"></div>' +
-                '<button class="btn-remove-social" title="Remove">×</button>';
-
-            row.querySelectorAll('input')[0].addEventListener('input', e => { customLinks[idx].title = e.target.value; });
-            row.querySelectorAll('input')[1].addEventListener('input', e => { customLinks[idx].url   = e.target.value; });
-            row.querySelector('.btn-remove-social').addEventListener('click', () => {
-                customLinks.splice(idx, 1); renderCustomLinks();
-            });
-            list.appendChild(row);
-        });
-    }
-
-    el('add-link-btn').addEventListener('click', () => {
-        customLinks.push({ title: '', url: '' });
-        renderCustomLinks();
-        const rows = el('custom-links-list').querySelectorAll('.social-row');
-        if (rows.length) rows[rows.length-1].querySelector('input').focus();
-    });
-
-    /* ── SAVE SOCIALS ──────────────────────────────────────────────────────── */
-    el('save-socials-btn').addEventListener('click', async () => {
-        const btn = el('save-socials-btn');
-        const msg = el('socials-save-msg');
-        btn.disabled = true;
-        btn.innerHTML = '<span class="spinner"></span> Saving…';
-
-        const socials = {
-            instagram: el('social-instagram').value.trim(),
-            twitter:   el('social-twitter').value.trim(),
-            youtube:   el('social-youtube').value.trim(),
-            linkedin:  el('social-linkedin').value.trim(),
-        };
-
-        const validCustom = customLinks.filter(l => l.title.trim() && l.url.trim());
-
-        const { error } = await sb.from('profiles').update({
-            socials,
-            custom_links: validCustom
-        }).eq('id', currentUser.id);
-
-        btn.disabled = false; btn.textContent = 'Save Links';
-
-        if (error) {
-            msg.textContent = 'Could not save. Please try again.';
-            msg.className = 'save-msg error';
-        } else {
-            currentProfile.socials = socials;
-            currentProfile.custom_links = validCustom;
-            msg.textContent = 'Links saved!'; msg.className = 'save-msg success';
-            showToast('Links updated!');
-            setTimeout(() => { msg.textContent = ''; msg.className = 'save-msg'; }, 2000);
-        }
-    });
-
-    /* ── TABS ──────────────────────────────────────────────────────────────── */
-    document.querySelectorAll('.tab-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-            document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
-            btn.classList.add('active');
-            el(btn.dataset.tab).classList.add('active');
-        });
-    });
-
-    document.querySelectorAll('[data-tab-target]').forEach(link => {
-        link.addEventListener('click', e => {
-            if(link.id === 'logout-side') return;
-            e.preventDefault();
-            const tabBtn = el(link.dataset.tabTarget);
-            if (tabBtn) tabBtn.click();
-            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-            link.classList.add('active');
-        });
-    });
-
-    /* ── LOGOUT ────────────────────────────────────────────────────────────── */
-    async function handleLogout() {
-        await sb.auth.signOut();
-        window.location.href = '/';
-    }
-    el('logout-side').addEventListener('click', handleLogout);
-    el('logout-main').addEventListener('click', handleLogout);
-
-    /* ── BOOT ──────────────────────────────────────────────────────────────── */
-    (async function boot() {
-        currentUser = await checkAuth();
-        if (!currentUser) return;
-
-        await loadProfile();
-
-        if (currentProfile?.username) {
-            const u = currentProfile.username;
-            el('view-public-link').href = '/artists/index.html?u=' + u;
-            el('ql-public-profile').href = '/artists/index.html?u=' + u;
-        }
-    })();
-
+(async function boot(){
+  currentUser=await checkAuth();if(!currentUser)return;
+  await loadProfile();
+  if(currentProfile?.username){
+    const u=currentProfile.username;
+    el('view-public-link').href='/artists/index.html?u='+u;
+  }
+})();
 })();
 </script>
 </body>
