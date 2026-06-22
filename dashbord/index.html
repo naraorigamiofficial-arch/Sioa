@@ -1,1233 +1,1227 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SIOA | Dashboard</title>
-    <meta name="robots" content="noindex">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,300&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SIOA | Dashboard</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;1,9..144,300&display=swap" rel="stylesheet">
 
-    <style>
-        :root {
-            --bg:          #04080f;
-            --surface:     #070d1a;
-            --surface-2:   #0b1220;
-            --border:      rgba(255,255,255,0.065);
-            --border-mid:  rgba(255,255,255,0.11);
-            --border-cyan: rgba(45,137,176,0.28);
-            --cyan:        #2d89b0;
-            --cyan-light:  #57a6bb;
-            --cyan-dim:    rgba(45,137,176,0.15);
-            --text:        #dce8ed;
-            --muted:       rgba(220,232,237,0.40);
-            --muted-2:     rgba(220,232,237,0.22);
-            --danger:      #c96060;
-            --gold:        #c9a84c;
-        }
+<style>
+:root {
+  --bg:        #080c14;
+  --surface:   #0d1219;
+  --surface-2: #111720;
+  --border:    rgba(255,255,255,0.07);
+  --border-hi: rgba(255,255,255,0.13);
+  --ink:       rgba(45,137,176,0.55);
+  --ink-dim:   rgba(45,137,176,0.12);
+  --ink-mid:   rgba(45,137,176,0.25);
+  --cyan:      #2d89b0;
+  --cyan-hi:   #57a8c0;
+  --text:      #d8e8ee;
+  --muted:     rgba(216,232,238,0.42);
+  --muted-lo:  rgba(216,232,238,0.18);
+  --danger:    #c06060;
+  --gold:      #c9a84c;
+  --radius:    10px;
+  --radius-sm: 6px;
+}
 
-        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+*,*::before,*::after { margin:0; padding:0; box-sizing:border-box; }
 
-        html, body {
-            min-height: 100%;
-            background: var(--bg);
-            color: var(--text);
-            font-family: 'DM Sans', sans-serif;
-            -webkit-font-smoothing: antialiased;
-        }
+html,body {
+  min-height:100%;
+  background:var(--bg);
+  color:var(--text);
+  font-family:'Inter',sans-serif;
+  font-size:14px;
+  -webkit-font-smoothing:antialiased;
+}
 
-        body::before {
-            content: '';
-            position: fixed; inset: 0;
-            background-image:
-                linear-gradient(rgba(45,137,176,0.025) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(45,137,176,0.025) 1px, transparent 1px);
-            background-size: 52px 52px;
-            pointer-events: none;
-            z-index: 0;
-        }
+body::after {
+  content:'';
+  position:fixed; inset:0; z-index:0;
+  background:
+    radial-gradient(ellipse 60% 40% at 70% -10%, rgba(45,137,176,0.06) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 60% at -10% 80%, rgba(30,90,120,0.04) 0%, transparent 70%);
+  pointer-events:none;
+}
 
-        .glow-orb {
-            position: fixed;
-            top: -200px; left: 30%;
-            width: 600px; height: 600px;
-            background: radial-gradient(circle, rgba(45,137,176,0.07) 0%, transparent 68%);
-            pointer-events: none; z-index: 0;
-        }
-        .glow-orb-2 {
-            position: fixed;
-            bottom: -100px; right: 10%;
-            width: 400px; height: 400px;
-            background: radial-gradient(circle, rgba(26,95,122,0.05) 0%, transparent 65%);
-            pointer-events: none; z-index: 0;
-        }
+/* ── TOPBAR ─────────────────────────────────────────────────────────────── */
+.topbar {
+  position:fixed; top:0; left:0; right:0; z-index:200;
+  height:52px;
+  background:rgba(8,12,20,0.88);
+  backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border);
+  display:flex; align-items:center; padding:0 20px; gap:6px;
+}
 
-        /* ── TOPBAR ─────────────────────────────────────────────────────────── */
-        .topbar {
-            position: fixed; top: 0; left: 0; right: 0; z-index: 200;
-            height: 54px; /* Shrunk from 58px */
-            background: rgba(4,8,15,0.92);
-            backdrop-filter: blur(16px);
-            border-bottom: 1px solid var(--border);
-            display: flex; align-items: center; padding: 0 24px; gap: 8px;
-        }
+.topbar-logo {
+  font-family:'Fraunces',serif;
+  font-size:17px; letter-spacing:0.1em;
+  color:var(--text); text-decoration:none;
+  margin-right:auto; font-weight:300;
+}
+.topbar-logo em { font-style:normal; color:var(--cyan-hi); }
 
-        .topbar-logo {
-            font-family: 'DM Serif Display', serif;
-            font-size: 18px; letter-spacing: 0.14em;
-            color: var(--text); text-decoration: none; margin-right: auto;
-        }
-        .topbar-logo span { color: var(--cyan-light); }
+.topbar-nav { display:flex; gap:1px; }
+.topbar-nav a {
+  font-size:12px; font-weight:400;
+  color:var(--muted); text-decoration:none;
+  padding:5px 11px; border-radius:var(--radius-sm);
+  letter-spacing:0.02em;
+  transition:all 0.15s;
+}
+.topbar-nav a:hover { color:var(--text); background:rgba(255,255,255,0.05); }
+.topbar-nav a.active { color:var(--cyan-hi); background:var(--ink-dim); }
 
-        .topbar-nav { display: flex; gap: 2px; }
-        .topbar-nav a {
-            font-size: 12px; font-weight: 400;
-            color: var(--muted); text-decoration: none;
-            padding: 5px 12px; border-radius: 6px;
-            transition: all 0.18s ease;
-        }
-        .topbar-nav a:hover { color: var(--text); background: rgba(255,255,255,0.05); }
-        .topbar-nav a.active { color: var(--cyan-light); background: var(--cyan-dim); }
+.topbar-user {
+  display:flex; align-items:center; gap:8px;
+  padding:3px 10px 3px 3px;
+  border-radius:8px; border:1px solid var(--border);
+  background:rgba(255,255,255,0.02);
+  font-size:12px; color:var(--muted); margin-left:8px;
+  cursor:default;
+}
+.topbar-avatar {
+  width:26px; height:26px; border-radius:50%;
+  background:linear-gradient(135deg,#173a4a,#2d89b0);
+  display:flex; align-items:center; justify-content:center;
+  font-size:10px; font-weight:600; color:#fff; flex-shrink:0;
+  font-family:'Fraunces',serif;
+}
 
-        .topbar-user {
-            display: flex; align-items: center; gap: 8px;
-            padding: 4px 10px 4px 4px;
-            border-radius: 8px; border: 1px solid var(--border);
-            background: rgba(255,255,255,0.02);
-            font-size: 12px; color: var(--muted); margin-left: 8px;
-        }
-        .topbar-avatar {
-            width: 26px; height: 26px; border-radius: 50%;
-            background: linear-gradient(135deg, #1a5f7a, #2d89b0);
-            display: flex; align-items: center; justify-content: center;
-            font-size: 10px; font-weight: 700; color: #fff; flex-shrink: 0;
-        }
+/* ── SHELL + LAYOUT ─────────────────────────────────────────────────────── */
+.shell { position:relative; z-index:1; padding-top:52px; min-height:100vh; }
 
-        /* ── SHELL ───────────────────────────────────────────────────────────── */
-        .shell { position: relative; z-index: 1; padding-top: 54px; min-height: 100vh; }
+.page-layout {
+  display:grid;
+  grid-template-columns:200px 1fr 260px;
+  min-height:calc(100vh - 52px);
+}
 
-        .layout {
-            display: grid;
-            grid-template-columns: 180px 1fr; /* Shrunk from 196px */
-            min-height: calc(100vh - 54px);
-        }
+/* ── SIDEBAR ────────────────────────────────────────────────────────────── */
+.sidebar {
+  border-right:1px solid var(--border);
+  padding:24px 10px 24px;
+  display:flex; flex-direction:column; gap:1px;
+  position:sticky; top:52px;
+  height:calc(100vh - 52px); overflow-y:auto;
+}
 
-        /* ── SIDEBAR ─────────────────────────────────────────────────────────── */
-        .sidebar {
-            border-right: 1px solid var(--border);
-            padding: 20px 10px;
-            display: flex; flex-direction: column; gap: 2px;
-            position: sticky; top: 54px;
-            height: calc(100vh - 54px); overflow-y: auto;
-        }
+.sidebar-section {
+  font-size:9px; font-weight:600; letter-spacing:0.22em;
+  text-transform:uppercase; color:var(--muted-lo);
+  padding:14px 8px 5px;
+}
+.sidebar-section:first-child { padding-top:0; }
 
-        .sidebar-label {
-            font-size: 9px; font-weight: 600; letter-spacing: 0.22em;
-            text-transform: uppercase; color: var(--muted-2);
-            padding: 12px 10px 4px;
-        }
-        .sidebar-label:first-child { padding-top: 0; }
+.nav-link {
+  display:flex; align-items:center; gap:9px;
+  padding:7px 8px; border-radius:7px;
+  font-size:12.5px; font-weight:400; color:var(--muted);
+  text-decoration:none; cursor:pointer;
+  border:none; background:none; width:100%;
+  text-align:left; font-family:'Inter',sans-serif;
+  transition:all 0.14s;
+}
+.nav-link:hover { color:var(--text); background:rgba(255,255,255,0.04); }
+.nav-link.active { color:var(--cyan-hi); background:var(--ink-dim); font-weight:500; }
 
-        .nav-item {
-            display: flex; align-items: center; gap: 8px;
-            padding: 8px 10px; border-radius: 7px;
-            font-size: 12.5px; font-weight: 400; color: var(--muted);
-            text-decoration: none; cursor: pointer;
-            border: none; background: none; width: 100%;
-            text-align: left; font-family: 'DM Sans', sans-serif;
-            transition: all 0.16s ease;
-        }
-        .nav-item:hover { color: var(--text); background: rgba(255,255,255,0.05); }
-        .nav-item.active { color: var(--cyan-light); background: var(--cyan-dim); font-weight: 500; }
-        .nav-item.active .nav-dot { background: var(--cyan-light); }
+.nav-icon {
+  width:16px; height:16px; flex-shrink:0;
+  display:flex; align-items:center; justify-content:center;
+  opacity:0.55;
+}
+.nav-link.active .nav-icon { opacity:1; }
+.nav-icon svg { width:14px; height:14px; stroke:currentColor; fill:none; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; }
 
-        .nav-dot {
-            width: 5px; height: 5px; border-radius: 50%;
-            background: rgba(220,232,237,0.18); flex-shrink: 0;
-            transition: background 0.16s;
-        }
+.sidebar-spacer { flex:1; }
+.sidebar-divider { height:1px; background:var(--border); margin:8px 0; }
 
-        .sidebar-spacer { flex: 1; }
-        .sidebar-bottom { border-top: 1px solid var(--border); padding-top: 10px; margin-top: 10px; }
+.nav-link.danger { color:rgba(192,96,96,0.55); }
+.nav-link.danger:hover { color:#d07070; background:rgba(192,96,96,0.07); }
 
-        /* ── MAIN CONTENT ────────────────────────────────────────────────────── */
-        .main-wrap {
-            display: grid;
-            grid-template-columns: 1fr 280px; /* Shrunk from 320px */
-            gap: 0;
-            align-items: start;
-        }
+/* ── MAIN CONTENT ───────────────────────────────────────────────────────── */
+.main {
+  padding:32px 32px 48px;
+  min-width:0;
+}
 
-        .main {
-            padding: 30px 30px 40px; /* Shrunk padding */
-            border-right: 1px solid var(--border);
-        }
+/* ── PAGE HEADER ─────────────────────────────────────────────────────────── */
+.page-head { margin-bottom:28px; }
+.page-eyebrow {
+  font-size:9px; font-weight:600; letter-spacing:0.26em;
+  text-transform:uppercase; color:var(--cyan); margin-bottom:5px;
+}
+.page-title {
+  font-family:'Fraunces',serif; font-weight:300; font-size:26px;
+  letter-spacing:0.01em; color:var(--text); line-height:1.15;
+}
+.page-title em { font-style:italic; color:var(--cyan-hi); }
 
-        .right-panel {
-            padding: 30px 20px 40px; /* Shrunk padding */
-            display: flex; flex-direction: column; gap: 16px;
-        }
+/* ── PROFILE HERO ─────────────────────────────────────────────────────────── */
+.profile-hero {
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  margin-bottom:20px;
+  overflow:hidden;
+}
 
-        /* ── PAGE HEADER ─────────────────────────────────────────────────────── */
-        .page-header {
-            margin-bottom: 20px;
-            animation: rise 0.5s cubic-bezier(0.16,1,0.3,1) both;
-        }
-        .page-eyebrow {
-            font-size: 9px; font-weight: 600; letter-spacing: 0.24em;
-            text-transform: uppercase; color: var(--cyan); margin-bottom: 4px;
-        }
-        .page-title {
-            font-family: 'DM Serif Display', serif;
-            font-size: 24px; letter-spacing: 0.02em; color: var(--text); margin-bottom: 2px;
-        }
-        .page-desc { font-size: 12.5px; font-weight: 300; color: var(--muted); }
+.hero-inner {
+  display:flex; align-items:center; gap:18px;
+  padding:22px 24px 18px;
+}
 
-        @keyframes rise {
-            from { opacity: 0; transform: translateY(14px); }
-            to   { opacity: 1; transform: translateY(0); }
-        }
+.hero-avatar {
+  width:56px; height:56px; border-radius:50%; flex-shrink:0;
+  background:linear-gradient(135deg,#163344 0%,#1e5e7a 100%);
+  border:1.5px solid var(--ink);
+  display:flex; align-items:center; justify-content:center;
+  font-family:'Fraunces',serif; font-size:20px; color:rgba(255,255,255,0.9);
+  font-weight:300;
+}
 
-        /* ── CARDS ───────────────────────────────────────────────────────────── */
-        .card {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 10px; overflow: hidden;
-            transition: border-color 0.2s;
-        }
-        .card:hover { border-color: rgba(255,255,255,0.09); }
+.hero-info { flex:1; min-width:0; }
+.hero-name { font-size:17px; font-weight:500; color:var(--text); margin-bottom:2px; line-height:1.2; }
+.hero-handle { font-size:12px; color:var(--cyan-hi); margin-bottom:5px; letter-spacing:0.02em; }
+.hero-loc { font-size:11.5px; color:var(--muted); }
 
-        .card-header {
-            display: flex; align-items: center; justify-content: space-between;
-            padding: 14px 20px;
-            border-bottom: 1px solid var(--border);
-        }
-        .card-header-left { display: flex; align-items: center; gap: 10px; }
-        .card-icon {
-            width: 26px; height: 26px; border-radius: 6px;
-            background: var(--cyan-dim); border: 1px solid var(--border-cyan);
-            display: flex; align-items: center; justify-content: center;
-            flex-shrink: 0;
-        }
-        .card-icon svg { width: 13px; height: 13px; stroke: var(--cyan-light); fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.hero-right { display:flex; flex-direction:column; align-items:flex-end; gap:8px; flex-shrink:0; }
 
-        .ql-icon svg { width: 14px; height: 14px; stroke: var(--cyan-light); fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.status-pill {
+  display:inline-flex; align-items:center; gap:5px;
+  padding:3px 9px; border-radius:100px;
+  font-size:9.5px; font-weight:500; letter-spacing:0.1em;
+  text-transform:uppercase;
+  background:var(--ink-dim); border:1px solid var(--ink-mid);
+  color:var(--cyan-hi);
+}
+.pulse { width:5px; height:5px; border-radius:50%; background:var(--cyan-hi); animation:pulse 2.4s ease-in-out infinite; }
+@keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.3;transform:scale(0.7)} }
 
-        .social-icon { display: flex; align-items: center; gap: 6px; }
-        .social-icon svg { width: 13px; height: 13px; stroke: var(--cyan-light); fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; flex-shrink: 0; }
-        .card-title { font-size: 12px; font-weight: 600; color: var(--text); letter-spacing: 0.03em; }
-        .card-subtitle { font-size: 10.5px; color: var(--muted-2); margin-top: 1px; }
+.hero-pub-link {
+  font-size:11px; color:var(--muted-lo);
+  text-decoration:none; letter-spacing:0.04em;
+  display:flex; align-items:center; gap:4px;
+  transition:color 0.15s; background:none; border:none; cursor:pointer;
+  font-family:'Inter',sans-serif;
+}
+.hero-pub-link:hover { color:var(--cyan-hi); }
+.hero-pub-link svg { width:10px; height:10px; stroke:currentColor; fill:none; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
 
-        .card-body { padding: 18px 20px; }
+/* Progress bar */
+.progress-bar-wrap {
+  border-top:1px solid var(--border);
+  padding:14px 24px;
+}
+.progress-meta {
+  display:flex; justify-content:space-between; align-items:center;
+  margin-bottom:7px;
+}
+.progress-label { font-size:10px; letter-spacing:0.1em; color:var(--muted-lo); text-transform:uppercase; }
+.progress-pct { font-size:11px; font-weight:600; color:var(--cyan-hi); }
+.progress-track {
+  height:2px; background:rgba(45,137,176,0.1); border-radius:100px; overflow:hidden;
+}
+.progress-fill {
+  height:100%;
+  background:linear-gradient(90deg,#1a5b78,var(--cyan-hi));
+  border-radius:100px; width:0;
+  transition:width 1s cubic-bezier(0.16,1,0.3,1) 0.2s;
+}
+.progress-hint {
+  margin-top:5px; font-size:10px; color:rgba(216,232,238,0.15); letter-spacing:0.03em;
+}
 
-        /* ── PROFILE HERO STRIP ───────────────────────────────────────────────── */
-        .profile-hero {
-            display: flex; align-items: center; gap: 14px;
-            padding: 16px 20px;
-            background: linear-gradient(135deg, rgba(8,14,26,0.8), rgba(11,18,32,0.5));
-            border-bottom: 1px solid var(--border);
-        }
-        .avatar-xl {
-            width: 50px; height: 50px; border-radius: 50%; flex-shrink: 0;
-            background: linear-gradient(135deg, #1a5f7a 0%, #2d89b0 100%);
-            border: 2px solid rgba(45,137,176,0.35);
-            display: flex; align-items: center; justify-content: center;
-            font-family: 'DM Serif Display', serif;
-            font-size: 18px; color: #fff;
-            box-shadow: 0 0 20px rgba(45,137,176,0.2);
-        }
-        .hero-info { flex: 1; min-width: 0; }
-        .hero-name { font-size: 16px; font-weight: 600; color: var(--text); margin-bottom: 2px; }
-        .hero-handle { font-size: 11.5px; color: var(--cyan-light); margin-bottom: 4px; }
-        .hero-meta { font-size: 10.5px; color: var(--muted); }
+/* ── CARD ──────────────────────────────────────────────────────────────── */
+.card {
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  margin-bottom:20px;
+  overflow:hidden;
+}
 
-        .hero-badges { display: flex; flex-direction: column; gap: 6px; align-items: flex-end; }
+.card-head {
+  display:flex; align-items:center; justify-content:space-between;
+  padding:14px 22px;
+  border-bottom:1px solid var(--border);
+}
+.card-head-left { display:flex; align-items:center; gap:10px; }
+.card-label { font-size:12px; font-weight:600; color:var(--text); }
+.card-sublabel { font-size:10.5px; color:var(--muted-lo); margin-top:1px; }
 
-        .badge-pill {
-            display: inline-flex; align-items: center; gap: 5px;
-            padding: 3px 8px;
-            background: var(--cyan-dim); border: 1px solid var(--border-cyan);
-            border-radius: 100px;
-            font-size: 9px; font-weight: 500; letter-spacing: 0.1em;
-            color: var(--cyan-light); text-transform: uppercase;
-        }
-        .badge-dot {
-            width: 4px; height: 4px; border-radius: 50%;
-            background: var(--cyan-light);
-            animation: blink 2.2s ease-in-out infinite;
-        }
-        @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.2} }
+.card-icon {
+  width:28px; height:28px; border-radius:7px;
+  background:var(--ink-dim); border:1px solid var(--ink-mid);
+  display:flex; align-items:center; justify-content:center; flex-shrink:0;
+}
+.card-icon svg { width:13px; height:13px; stroke:var(--cyan-hi); fill:none; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; }
 
-        .btn-view-public {
-            font-size: 10.5px; color: var(--muted-2);
-            text-decoration: none; letter-spacing: 0.06em;
-            transition: color 0.2s;
-            border: none; background: none; cursor: pointer;
-            font-family: 'DM Sans', sans-serif; padding: 0;
-        }
-        .btn-view-public:hover { color: var(--cyan-light); }
+.card-body { padding:22px; }
 
-        /* ── COMPLETION BAR ─────────────────────────────────────────────────── */
-        .completion-wrap { padding: 12px 20px; border-bottom: 1px solid var(--border); }
-        .completion-row { display: flex; justify-content: space-between; margin-bottom: 6px; }
-        .completion-label { font-size: 10px; color: var(--muted-2); letter-spacing: 0.06em; }
-        .completion-pct { font-size: 10px; font-weight: 600; color: var(--cyan-light); }
-        .completion-bar {
-            height: 3px; background: rgba(45,137,176,0.12); border-radius: 100px; overflow: hidden;
-        }
-        .completion-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #1a5f7a, #57a6bb);
-            border-radius: 100px;
-            width: 0%; transition: width 1s cubic-bezier(0.16,1,0.3,1) 0.3s;
-        }
-        .completion-hint { font-size: 10px; color: rgba(220,232,237,0.18); margin-top: 5px; letter-spacing: 0.04em; }
+/* ── TABS ──────────────────────────────────────────────────────────────── */
+.tabs { display:flex; border-bottom:1px solid var(--border); }
+.tab-btn {
+  padding:11px 18px;
+  font-family:'Inter',sans-serif; font-size:12px; font-weight:400;
+  color:var(--muted); background:none; border:none;
+  border-bottom:2px solid transparent;
+  cursor:pointer; transition:all 0.15s; margin-bottom:-1px;
+  letter-spacing:0.03em;
+}
+.tab-btn.active { color:var(--cyan-hi); border-bottom-color:var(--cyan-hi); font-weight:500; }
+.tab-btn:hover:not(.active) { color:var(--text); }
+.tab-panel { display:none; }
+.tab-panel.active { display:block; }
 
-        /* ── SECTION ─────────────────────────────────────────────────────────── */
-        .section { margin-bottom: 16px; animation: rise 0.5s cubic-bezier(0.16,1,0.3,1) both; }
-        .section:nth-child(2) { animation-delay: 0.05s; }
-        .section:nth-child(3) { animation-delay: 0.1s; }
+/* ── FORM ──────────────────────────────────────────────────────────────── */
+.form-grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+.field { display:flex; flex-direction:column; gap:5px; }
+.field.full { grid-column:1 / -1; }
 
-        /* ── FORM ────────────────────────────────────────────────────────────── */
-        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-        .field { display: flex; flex-direction: column; gap: 4px; }
-        .field.full { grid-column: 1 / -1; }
+.field label {
+  font-size:9.5px; font-weight:600; letter-spacing:0.2em;
+  text-transform:uppercase; color:var(--muted-lo);
+}
 
-        .field label {
-            font-size: 9.5px; font-weight: 600; letter-spacing: 0.18em;
-            text-transform: uppercase; color: var(--muted-2);
-        }
+.field input,
+.field textarea,
+.field select {
+  background:rgba(255,255,255,0.02);
+  border:1px solid var(--border);
+  border-radius:var(--radius-sm);
+  padding:9px 12px;
+  color:var(--text);
+  font-family:'Inter',sans-serif;
+  font-size:13px; font-weight:300;
+  outline:none;
+  transition:all 0.18s;
+  appearance:none; -webkit-appearance:none;
+}
+.field select {
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='11' height='11' viewBox='0 0 24 24' fill='none' stroke='%232d89b0' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;
+  background-position:right 10px center;
+  padding-right:28px;
+  cursor:pointer;
+}
+.field select option { background:#0d1219; color:var(--text); }
+.field input::placeholder, .field textarea::placeholder { color:rgba(216,232,238,0.1); }
+.field input:hover:not(:disabled),
+.field textarea:hover:not(:disabled),
+.field select:hover:not(:disabled) {
+  border-color:rgba(45,137,176,0.2);
+  background:rgba(255,255,255,0.03);
+}
+.field input:focus, .field textarea:focus, .field select:focus {
+  border-color:rgba(45,137,176,0.45);
+  background:rgba(8,18,28,0.8);
+  box-shadow:0 0 0 3px rgba(45,137,176,0.07);
+}
+.field input:disabled, .field textarea:disabled, .field select:disabled {
+  opacity:0.45; cursor:not-allowed; background:rgba(255,255,255,0.01);
+}
+.field textarea { resize:vertical; min-height:82px; line-height:1.6; }
 
-        .field input,
-        .field textarea,
-        .field select {
-            background: rgba(255,255,255,0.025);
-            border: 1px solid var(--border);
-            border-radius: 6px;
-            padding: 8px 12px;
-            color: var(--text);
-            font-family: 'DM Sans', sans-serif;
-            font-size: 13px; font-weight: 300;
-            outline: none;
-            transition: all 0.2s ease;
-            appearance: none; -webkit-appearance: none;
-        }
-        .field select {
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%232d89b0' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
-            background-repeat: no-repeat;
-            background-position: right 10px center;
-            padding-right: 30px;
-            cursor: pointer;
-        }
-        .field select option { background: #070d1a; color: var(--text); }
+.char-hint { align-self:flex-end; font-size:9.5px; color:var(--muted-lo); transition:color 0.2s; }
 
-        .field input::placeholder, .field textarea::placeholder { color: rgba(220,232,237,0.12); }
+.username-wrap { position:relative; }
+.username-prefix {
+  position:absolute; left:11px; top:50%; transform:translateY(-50%);
+  font-size:13px; color:var(--cyan-hi); pointer-events:none;
+}
+.username-wrap input { padding-left:22px; }
 
-        .field input:hover:not(:disabled),
-        .field textarea:hover:not(:disabled),
-        .field select:hover:not(:disabled) {
-            border-color: rgba(45,137,176,0.22);
-            background: rgba(255,255,255,0.04);
-        }
-        .field input:focus,
-        .field textarea:focus,
-        .field select:focus {
-            border-color: rgba(45,137,176,0.5);
-            background: rgba(8,14,26,0.8);
-            box-shadow: 0 0 0 3px rgba(45,137,176,0.08);
-        }
-        .field input:disabled,
-        .field textarea:disabled,
-        .field select:disabled {
-            opacity: 0.5; cursor: not-allowed;
-            background: rgba(255,255,255,0.01);
-        }
-        .field textarea { resize: vertical; min-height: 80px; line-height: 1.5; }
+.username-status { font-size:9.5px; letter-spacing:0.05em; min-height:14px; }
+.username-status.ok  { color:#5bbf7a; }
+.username-status.err { color:var(--danger); }
+.username-status.chk { color:var(--muted-lo); }
 
-        .char-hint { align-self: flex-end; font-size: 9.5px; color: var(--muted-2); transition: color 0.2s; }
+/* ── SPECIALTY PILLS ────────────────────────────────────────────────────── */
+.specialty-picker {
+  display:flex; flex-wrap:wrap; gap:6px;
+  padding:10px; border-radius:var(--radius-sm);
+  border:1px solid var(--border);
+  background:rgba(255,255,255,0.015);
+  min-height:48px; transition:border-color 0.2s, background 0.2s;
+}
+.specialty-picker[data-disabled="true"] { opacity:0.45; pointer-events:none; }
+.specialty-picker[data-disabled="false"] { border-color:rgba(45,137,176,0.2); background:rgba(255,255,255,0.025); }
+.specialty-picker[data-disabled="false"]:hover { border-color:rgba(45,137,176,0.35); }
 
-        .username-wrap { position: relative; }
-        .username-prefix {
-            position: absolute; left: 10px; top: 50%; transform: translateY(-50%);
-            font-size: 12.5px; color: var(--cyan-light); pointer-events: none;
-            font-weight: 400;
-        }
-        .username-wrap input { padding-left: 22px; }
+.spec-pill {
+  display:inline-flex; align-items:center; gap:4px;
+  padding:4px 11px; border-radius:100px;
+  font-size:11px; font-weight:400; letter-spacing:0.03em;
+  border:1px solid var(--border-hi);
+  color:var(--muted); background:rgba(255,255,255,0.02);
+  cursor:default; transition:all 0.16s; user-select:none;
+}
+.specialty-picker[data-disabled="false"] .spec-pill { cursor:pointer; }
+.specialty-picker[data-disabled="false"] .spec-pill:hover {
+  border-color:rgba(45,137,176,0.35); color:var(--text);
+  background:rgba(45,137,176,0.07);
+}
+.spec-pill.active {
+  background:rgba(45,137,176,0.15);
+  border-color:rgba(45,137,176,0.5);
+  color:var(--cyan-hi);
+}
+.spec-pill.active::before {
+  content:''; display:inline-block;
+  width:4px; height:4px; border-radius:50%;
+  background:var(--cyan-hi); flex-shrink:0;
+}
+.specialty-picker[data-disabled="false"] .spec-pill.active:hover {
+  background:rgba(192,96,96,0.1); border-color:rgba(192,96,96,0.4); color:#d07070;
+}
+.specialty-picker[data-disabled="false"] .spec-pill.active:hover::before { background:#d07070; }
 
-        .username-status { font-size: 9.5px; letter-spacing: 0.06em; margin-top: 3px; min-height: 14px; }
-        .username-status.ok   { color: #5bbf7a; }
-        .username-status.err  { color: var(--danger); }
-        .username-status.chk  { color: var(--muted-2); }
+/* ── FORM FOOTER ─────────────────────────────────────────────────────────── */
+.form-footer {
+  display:flex; align-items:center; justify-content:space-between; gap:12px;
+  padding-top:16px; margin-top:16px;
+  border-top:1px solid var(--border); flex-wrap:wrap;
+}
+.form-footer-actions { display:flex; gap:8px; }
 
-        /* ── FORM FOOTER ──────────────────────────────────────────────────────── */
-        .form-footer {
-            display: flex; align-items: center; justify-content: space-between;
-            gap: 12px; padding-top: 14px; margin-top: 14px;
-            border-top: 1px solid var(--border); flex-wrap: wrap;
-        }
+.save-msg { font-size:11.5px; min-height:16px; color:transparent; transition:color 0.2s; }
+.save-msg.success { color:var(--cyan-hi); }
+.save-msg.error   { color:var(--danger); }
 
-        .save-msg { font-size: 11.5px; min-height: 16px; transition: color 0.3s; color: transparent; }
-        .save-msg.success { color: var(--cyan-light); }
-        .save-msg.error   { color: var(--danger); }
+/* ── BUTTONS ────────────────────────────────────────────────────────────── */
+.btn {
+  display:inline-flex; align-items:center; gap:6px;
+  padding:8px 16px; border-radius:var(--radius-sm);
+  font-family:'Inter',sans-serif;
+  font-size:11px; font-weight:500; letter-spacing:0.08em;
+  text-transform:uppercase; cursor:pointer; border:none;
+  transition:all 0.18s; text-decoration:none; white-space:nowrap;
+}
+.btn-primary { background:var(--cyan); color:#fff; }
+.btn-primary:hover { background:#3899c4; transform:translateY(-1px); box-shadow:0 4px 14px rgba(45,137,176,0.28); }
+.btn-primary:disabled { opacity:0.35; cursor:not-allowed; transform:none; box-shadow:none; }
+.btn-secondary { background:transparent; color:var(--muted); border:1px solid var(--border-hi); }
+.btn-secondary:hover { background:rgba(255,255,255,0.04); border-color:var(--ink); color:var(--text); }
+.btn-ghost { background:transparent; color:rgba(192,96,96,0.5); border:1px solid rgba(192,96,96,0.18); }
+.btn-ghost:hover { background:rgba(192,96,96,0.07); border-color:rgba(192,96,96,0.38); color:#d07070; transform:translateY(-1px); }
+.btn-sm { padding:6px 12px; font-size:10.5px; }
 
-        /* ── BUTTONS ─────────────────────────────────────────────────────────── */
-        .btn {
-            display: inline-flex; align-items: center; gap: 6px;
-            padding: 8px 16px; border-radius: 6px;
-            font-family: 'DM Sans', sans-serif;
-            font-size: 11px; font-weight: 600; letter-spacing: 0.08em;
-            text-transform: uppercase; cursor: pointer; border: none;
-            transition: all 0.2s ease; text-decoration: none;
-        }
-        .btn-primary { background: var(--cyan); color: #fff; }
-        .btn-primary:hover { background: #3899c4; transform: translateY(-1px); box-shadow: 0 4px 14px rgba(45,137,176,0.3); }
-        .btn-primary:disabled { opacity: 0.4; cursor: not-allowed; transform: none; box-shadow: none; }
+/* ── SOCIALS ────────────────────────────────────────────────────────────── */
+.social-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
 
-        .btn-secondary { background: transparent; color: var(--muted); border: 1px solid var(--border-mid); }
-        .btn-secondary:hover { background: rgba(255,255,255,0.05); border-color: var(--border-cyan); color: var(--text); }
+.social-label {
+  display:flex; align-items:center; gap:6px;
+  font-size:9.5px; font-weight:600; letter-spacing:0.18em;
+  text-transform:uppercase; color:var(--muted-lo); margin-bottom:0;
+}
+.social-label svg { width:12px; height:12px; stroke:currentColor; fill:none; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; }
 
-        .btn-ghost { background: transparent; color: rgba(220,232,237,0.35); border: 1px solid rgba(201,96,96,0.2); }
-        .btn-ghost:hover { background: rgba(201,96,96,0.08); border-color: rgba(201,96,96,0.4); color: #d97070; transform: translateY(-1px); }
+.custom-links-list { display:flex; flex-direction:column; gap:8px; }
+.custom-row {
+  display:grid; grid-template-columns:1fr 1fr auto; gap:8px; align-items:end;
+}
+.custom-row .field { margin:0; }
 
-        .btn-sm { padding: 6px 12px; font-size: 10px; }
+.btn-remove {
+  width:34px; height:34px; border-radius:var(--radius-sm); flex-shrink:0;
+  background:rgba(192,96,96,0.05); border:1px solid rgba(192,96,96,0.14);
+  color:rgba(192,96,96,0.45); cursor:pointer; font-size:16px;
+  display:flex; align-items:center; justify-content:center;
+  transition:all 0.16s; align-self:end;
+}
+.btn-remove:hover { background:rgba(192,96,96,0.12); border-color:rgba(192,96,96,0.35); color:#d07070; }
 
-        /* ── SOCIALS ─────────────────────────────────────────────────────────── */
-        .socials-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 12px; }
+.btn-add-link {
+  display:inline-flex; align-items:center; gap:7px;
+  padding:8px 14px; border-radius:var(--radius-sm);
+  background:transparent; border:1px dashed rgba(45,137,176,0.2);
+  color:var(--muted-lo); font-family:'Inter',sans-serif;
+  font-size:11.5px; cursor:pointer; transition:all 0.18s;
+}
+.btn-add-link:hover { border-color:var(--ink); color:var(--cyan-hi); background:var(--ink-dim); }
 
-        .social-row { display: grid; grid-template-columns: 130px 1fr auto; gap: 8px; align-items: center; }
-        .social-row .field { margin: 0; }
+.section-divider {
+  height:1px; background:var(--border); margin:20px 0;
+}
+.section-label {
+  font-size:9px; font-weight:600; letter-spacing:0.22em;
+  text-transform:uppercase; color:var(--muted-lo); margin-bottom:12px;
+}
 
-        .btn-remove-social {
-            width: 26px; height: 26px; border-radius: 6px;
-            background: rgba(201,96,96,0.06); border: 1px solid rgba(201,96,96,0.16);
-            color: rgba(201,96,96,0.5); cursor: pointer; font-size: 14px;
-            display: flex; align-items: center; justify-content: center;
-            transition: all 0.18s; flex-shrink: 0; margin-top: 0;
-        }
-        .btn-remove-social:hover { background: rgba(201,96,96,0.14); border-color: rgba(201,96,96,0.38); color: #d97070; }
+/* ── ACCOUNT SETTINGS ────────────────────────────────────────────────────── */
+.account-row {
+  display:flex; align-items:center; justify-content:space-between;
+  gap:12px; flex-wrap:wrap;
+}
+.account-info .account-signed { font-size:11.5px; color:var(--muted-lo); margin-top:3px; }
+.account-info .account-label { font-size:12px; font-weight:500; color:var(--text); }
 
-        .btn-add-social {
-            display: inline-flex; align-items: center; gap: 6px;
-            padding: 7px 12px; border-radius: 6px;
-            background: transparent; border: 1px dashed rgba(45,137,176,0.25);
-            color: var(--muted-2); font-family: 'DM Sans', sans-serif;
-            font-size: 11.5px; cursor: pointer; transition: all 0.2s;
-        }
-        .btn-add-social:hover { border-color: var(--border-cyan); color: var(--cyan-light); background: var(--cyan-dim); }
+/* ── RIGHT PANEL ────────────────────────────────────────────────────────── */
+.right-panel {
+  padding:32px 20px 48px;
+  border-left:1px solid var(--border);
+  display:flex; flex-direction:column; gap:18px;
+}
 
-        /* ── PANEL CARDS ─────────────────────────────────────────────────────── */
-        .panel-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
-        .panel-card-header { padding: 12px 16px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
-        .panel-card-title { font-size: 10.5px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted-2); }
-        .panel-card-body { padding: 12px 16px; }
+.panel-card {
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  overflow:hidden;
+}
+.panel-head {
+  padding:12px 16px;
+  border-bottom:1px solid var(--border);
+  font-size:9.5px; font-weight:600; letter-spacing:0.2em;
+  text-transform:uppercase; color:var(--muted-lo);
+}
+.panel-body { padding:6px 8px; }
 
-        /* quick links panel */
-        .quick-link { display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 1px solid var(--border); text-decoration: none; transition: all 0.16s; }
-        .quick-link:last-child { border-bottom: none; }
-        .quick-link:hover .ql-title { color: var(--cyan-light); }
-        .quick-link:hover .ql-arrow { color: var(--cyan-light); transform: translateX(2px); }
-        .ql-icon {
-            width: 28px; height: 28px; border-radius: 6px;
-            background: var(--cyan-dim); border: 1px solid var(--border-cyan);
-            display: flex; align-items: center; justify-content: center; flex-shrink: 0;
-        }
-        .ql-text { flex: 1; }
-        .ql-title { font-size: 12px; font-weight: 500; color: var(--text); transition: color 0.16s; }
-        .ql-sub { font-size: 9.5px; color: var(--muted-2); }
-        .ql-arrow { color: var(--muted-2); font-size: 13px; transition: all 0.16s; }
+.quick-item {
+  display:flex; align-items:center; gap:10px;
+  padding:9px 8px; border-radius:7px;
+  text-decoration:none; transition:background 0.14s;
+}
+.quick-item:hover { background:rgba(255,255,255,0.04); }
+.quick-item:hover .qi-title { color:var(--cyan-hi); }
+.quick-item:hover .qi-arrow { color:var(--cyan-hi); transform:translateX(2px); }
 
-        /* spinner */
-        .spinner {
-            display: inline-block; width: 10px; height: 10px;
-            border: 2px solid rgba(255,255,255,0.2); border-top-color: #fff;
-            border-radius: 50%; animation: spin 0.65s linear infinite; vertical-align: middle;
-        }
-        @keyframes spin { to { transform: rotate(360deg); } }
+.qi-icon {
+  width:30px; height:30px; border-radius:7px;
+  background:var(--ink-dim); border:1px solid var(--ink-mid);
+  display:flex; align-items:center; justify-content:center; flex-shrink:0;
+}
+.qi-icon svg { width:13px; height:13px; stroke:var(--cyan-hi); fill:none; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; }
+.qi-text { flex:1; min-width:0; }
+.qi-title { font-size:12.5px; font-weight:500; color:var(--text); transition:color 0.14s; }
+.qi-sub { font-size:10.5px; color:var(--muted-lo); margin-top:1px; }
+.qi-arrow { color:var(--muted-lo); font-size:14px; transition:all 0.14s; }
 
-        /* ── TABS ────────────────────────────────────────────────────────────── */
-        .tabs { display: flex; gap: 0; border-bottom: 1px solid var(--border); margin-bottom: 0; }
-        .tab-btn {
-            padding: 10px 16px; font-family: 'DM Sans', sans-serif;
-            font-size: 11.5px; font-weight: 500; color: var(--muted);
-            background: none; border: none; border-bottom: 2px solid transparent;
-            cursor: pointer; transition: all 0.18s; letter-spacing: 0.04em; margin-bottom: -1px;
-        }
-        .tab-btn.active { color: var(--cyan-light); border-bottom-color: var(--cyan-light); }
-        .tab-btn:hover:not(.active) { color: var(--text); }
-        .tab-panel { display: none; }
-        .tab-panel.active { display: block; }
+/* ── TOAST ──────────────────────────────────────────────────────────────── */
+.toast {
+  position:fixed; bottom:22px; right:22px; z-index:9999;
+  padding:10px 18px;
+  background:rgba(8,14,24,0.97); border:1px solid var(--ink);
+  border-radius:8px; font-size:12px; color:var(--text);
+  box-shadow:0 8px 28px rgba(0,0,0,0.55);
+  transform:translateY(14px); opacity:0;
+  transition:all 0.28s cubic-bezier(0.16,1,0.3,1);
+  pointer-events:none;
+}
+.toast.show { transform:translateY(0); opacity:1; }
 
-        /* ── TOAST ───────────────────────────────────────────────────────────── */
-        .toast {
-            position: fixed; bottom: 24px; right: 24px; z-index: 9999; padding: 10px 16px;
-            background: rgba(8,14,26,0.97); border: 1px solid var(--border-cyan);
-            border-radius: 8px; font-size: 12px; color: var(--text);
-            box-shadow: 0 8px 24px rgba(0,0,0,0.5); transform: translateY(16px); opacity: 0;
-            transition: all 0.3s cubic-bezier(0.16,1,0.3,1); pointer-events: none;
-        }
-        .toast.show { transform: translateY(0); opacity: 1; }
+/* ── SPINNER ─────────────────────────────────────────────────────────────── */
+.spinner {
+  display:inline-block; width:10px; height:10px;
+  border:1.5px solid rgba(255,255,255,0.2); border-top-color:#fff;
+  border-radius:50%; animation:spin 0.6s linear infinite; vertical-align:middle;
+}
+@keyframes spin { to { transform:rotate(360deg); } }
 
-        /* ── RESPONSIVE ──────────────────────────────────────────────────────── */
-        @media (max-width: 1100px) {
-            .main-wrap { grid-template-columns: 1fr; }
-            .right-panel { border-top: 1px solid var(--border); padding-top: 24px; }
-            .main { border-right: none; }
-        }
-        @media (max-width: 800px) {
-            .layout { grid-template-columns: 1fr; }
-            .sidebar { position: static; height: auto; border-right: none; border-bottom: 1px solid var(--border); padding: 10px; flex-direction: row; flex-wrap: wrap; }
-            .sidebar-label, .sidebar-spacer { display: none; }
-            .sidebar-bottom { border: none; padding: 0; margin: 0; }
-            .main { padding: 20px 16px; }
-            .form-grid { grid-template-columns: 1fr; }
-            .field.full { grid-column: 1; }
-            .social-row { grid-template-columns: 1fr 1fr auto; }
-        }
-        @media (max-width: 540px) {
-            .topbar-nav { display: none; }
-            .right-panel { padding: 20px 16px; }
-        }
-        /* ── SPECIALTY PILL PICKER ───────────────────────────────────────────── */
-        .specialty-picker {
-            display: flex; flex-wrap: wrap; gap: 6px; padding: 10px; border-radius: 6px;
-            border: 1px solid var(--border); background: rgba(255,255,255,0.025);
-            min-height: 48px; transition: border-color 0.2s, background 0.2s;
-        }
-        .specialty-picker[data-disabled="true"] { opacity: 0.5; pointer-events: none; background: rgba(255,255,255,0.01); }
-        .specialty-picker[data-disabled="false"] { border-color: rgba(45,137,176,0.22); background: rgba(255,255,255,0.03); }
-        .specialty-picker[data-disabled="false"]:hover { border-color: rgba(45,137,176,0.4); }
+/* ── ANIMATIONS ──────────────────────────────────────────────────────────── */
+.fade-in {
+  animation:fadeIn 0.4s cubic-bezier(0.16,1,0.3,1) both;
+}
+.fade-in:nth-child(2) { animation-delay:0.04s; }
+.fade-in:nth-child(3) { animation-delay:0.08s; }
+@keyframes fadeIn {
+  from { opacity:0; transform:translateY(10px); }
+  to   { opacity:1; transform:translateY(0); }
+}
 
-        .spec-pill {
-            display: inline-flex; align-items: center; gap: 4px; padding: 4px 10px; border-radius: 100px;
-            font-size: 11px; font-weight: 500; letter-spacing: 0.04em; border: 1px solid var(--border-mid);
-            color: var(--muted); background: rgba(255,255,255,0.03); cursor: default; transition: all 0.18s ease; user-select: none;
-        }
-        .specialty-picker[data-disabled="false"] .spec-pill { cursor: pointer; }
-        .specialty-picker[data-disabled="false"] .spec-pill:hover { border-color: rgba(45,137,176,0.4); color: var(--text); background: rgba(45,137,176,0.08); }
-        .spec-pill.active { background: rgba(45,137,176,0.18); border-color: rgba(45,137,176,0.55); color: var(--cyan-light); }
-        .spec-pill.active::before { content: ''; display: inline-block; width: 4px; height: 4px; border-radius: 50%; background: var(--cyan-light); box-shadow: 0 0 4px rgba(87,166,187,0.6); flex-shrink: 0; }
-        .specialty-picker[data-disabled="false"] .spec-pill.active:hover { background: rgba(201,96,96,0.1); border-color: rgba(201,96,96,0.4); color: #d97070; }
-        .specialty-picker[data-disabled="false"] .spec-pill.active:hover::before { background: #d97070; box-shadow: none; }
+/* ── EDIT ROW ────────────────────────────────────────────────────────────── */
+.tab-inner { padding:22px; }
+.tab-inner-head {
+  display:flex; align-items:flex-start; justify-content:space-between;
+  margin-bottom:18px; gap:12px;
+}
+.tab-inner-head-text h3 { font-size:13px; font-weight:500; color:var(--text); margin-bottom:2px; }
+.tab-inner-head-text p  { font-size:11px; color:var(--muted-lo); }
 
-    </style>
+/* ── RESPONSIVE ──────────────────────────────────────────────────────────── */
+@media (max-width:1100px) {
+  .page-layout { grid-template-columns:200px 1fr; }
+  .right-panel { display:none; }
+}
+@media (max-width:820px) {
+  .page-layout { grid-template-columns:1fr; }
+  .sidebar { position:static; height:auto; border-right:none; border-bottom:1px solid var(--border); padding:10px; flex-direction:row; flex-wrap:wrap; gap:2px; }
+  .sidebar-section, .sidebar-spacer, .sidebar-divider { display:none; }
+  .main { padding:20px 16px; }
+  .form-grid { grid-template-columns:1fr; }
+  .field.full { grid-column:1; }
+  .social-grid { grid-template-columns:1fr; }
+  .custom-row { grid-template-columns:1fr 1fr auto; }
+}
+@media (max-width:540px) {
+  .topbar-nav { display:none; }
+  .hero-inner { flex-direction:column; align-items:flex-start; gap:12px; }
+  .hero-right { flex-direction:row; align-items:center; }
+  .custom-row { grid-template-columns:1fr; }
+  .custom-row .btn-remove { width:100%; height:32px; }
+}
+</style>
 </head>
 <body>
 
-<div class="glow-orb"></div>
-<div class="glow-orb-2"></div>
-
 <header class="topbar">
-    <a href="/" class="topbar-logo">SIO<span>A</span></a>
-    <nav class="topbar-nav">
-        <a href="/index.html">Home</a>
-        <a href="/net/index.html">Browse Artists</a>
-        <a href="/dashbord/competition.html">Competition</a>
-        <a href="/dashbord/index.html" class="active">Dashboard</a>
-    </nav>
-    <div class="topbar-user">
-        <div class="topbar-avatar" id="top-avatar">—</div>
-        <span id="top-name">Loading…</span>
-    </div>
+  <a href="/" class="topbar-logo">SIO<em>A</em></a>
+  <nav class="topbar-nav">
+    <a href="/index.html">Home</a>
+    <a href="/net/index.html">Browse Artists</a>
+    <a href="/dashbord/competition.html">Competition</a>
+    <a href="/dashbord/index.html" class="active">Dashboard</a>
+  </nav>
+  <div class="topbar-user">
+    <div class="topbar-avatar" id="top-avatar">—</div>
+    <span id="top-name">Loading…</span>
+  </div>
 </header>
 
 <div class="shell">
-    <div class="layout">
+  <div class="page-layout">
 
-        <aside class="sidebar">
-            <p class="sidebar-label">Dashboard</p>
-            <a href="#" class="nav-item active" data-tab-target="profile-tab-btn">
-                <span class="nav-dot"></span> Profile
-            </a>
-            <a href="#" class="nav-item" data-tab-target="socials-tab-btn">
-                <span class="nav-dot"></span> Socials &amp; Links
-            </a>
-            <p class="sidebar-label">Platform</p>
-            <a href="/net/index.html" class="nav-item">
-                <span class="nav-dot"></span> Browse Artists
-            </a>
-            <a href="/dashbord/competition.html" class="nav-item">
-                <span class="nav-dot"></span> Competition
-            </a>
-            <div class="sidebar-spacer"></div>
-            <div class="sidebar-bottom">
-                <button class="nav-item" id="logout-side" style="color:rgba(201,96,96,0.55);">
-                    <span class="nav-dot" style="background:rgba(201,96,96,0.25)"></span> Sign Out
-                </button>
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <p class="sidebar-section">Dashboard</p>
+      <a href="#" class="nav-link active" data-tab-target="profile-tab-btn">
+        <span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span>
+        Profile
+      </a>
+      <a href="#" class="nav-link" data-tab-target="socials-tab-btn">
+        <span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></span>
+        Socials &amp; Links
+      </a>
+      <p class="sidebar-section">Platform</p>
+      <a href="/net/index.html" class="nav-link">
+        <span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span>
+        Browse Artists
+      </a>
+      <a href="/dashbord/competition.html" class="nav-link">
+        <span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M8 21h8M12 17v4M17 4h2a2 2 0 0 1 2 2v1a4 4 0 0 1-4 4h-1"/><path d="M7 4H5a2 2 0 0 0-2 2v1a4 4 0 0 0 4 4h1"/><path d="M7 4h10v8a5 5 0 0 1-10 0V4z"/></svg></span>
+        Competition
+      </a>
+      <div class="sidebar-spacer"></div>
+      <div class="sidebar-divider"></div>
+      <button class="nav-link danger" id="logout-side">
+        <span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg></span>
+        Sign Out
+      </button>
+    </aside>
+
+    <!-- MAIN -->
+    <main class="main">
+
+      <div class="page-head fade-in">
+        <p class="page-eyebrow">Member Area</p>
+        <h1 class="page-title">Your <em>Dashboard</em></h1>
+      </div>
+
+      <!-- PROFILE HERO -->
+      <div class="profile-hero fade-in">
+        <div class="hero-inner">
+          <div class="hero-avatar" id="avatar-xl">—</div>
+          <div class="hero-info">
+            <div class="hero-name" id="hero-name">—</div>
+            <div class="hero-handle" id="hero-handle">@—</div>
+            <div class="hero-loc" id="hero-meta">SIOA Member</div>
+          </div>
+          <div class="hero-right">
+            <div class="status-pill">
+              <span class="pulse"></span>Active
             </div>
-        </aside>
+            <a href="#" class="hero-pub-link" id="view-public-link">
+              <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+              Public Profile
+            </a>
+          </div>
+        </div>
+        <div class="progress-bar-wrap">
+          <div class="progress-meta">
+            <span class="progress-label">Profile Completion</span>
+            <span class="progress-pct" id="completion-pct">—</span>
+          </div>
+          <div class="progress-track">
+            <div class="progress-fill" id="completion-fill"></div>
+          </div>
+          <div class="progress-hint" id="completion-hint">&nbsp;</div>
+        </div>
+      </div>
 
-        <div class="main-wrap">
+      <!-- TABBED CARD -->
+      <div class="card fade-in">
+        <div class="tabs">
+          <button class="tab-btn active" id="profile-tab-btn" data-tab="profile-tab">Profile Details</button>
+          <button class="tab-btn" id="socials-tab-btn" data-tab="socials-tab">Socials &amp; Links</button>
+        </div>
 
-            <main class="main">
+        <!-- PROFILE TAB -->
+        <div class="tab-panel active" id="profile-tab">
+          <div class="tab-inner">
+            <div class="tab-inner-head">
+              <div class="tab-inner-head-text">
+                <h3>Edit your information</h3>
+                <p>Shown on your public profile page.</p>
+              </div>
+              <button class="btn btn-secondary btn-sm" id="edit-toggle-btn">Edit Profile</button>
+            </div>
 
-                <div class="page-header">
-                    <p class="page-eyebrow">Member Area</p>
-                    <h1 class="page-title">Your Dashboard</h1>
-                    <p class="page-desc">Manage your profile, links, and settings.</p>
+            <form id="profile-form" novalidate autocomplete="off">
+              <div class="form-grid">
+
+                <div class="field full">
+                  <label for="full_name">Full Name</label>
+                  <input type="text" id="full_name" placeholder="e.g. Arjun Sharma" maxlength="80" disabled>
                 </div>
 
-                <div class="section">
-                    <div class="card">
-                        <div class="profile-hero">
-                            <div class="avatar-xl" id="avatar-xl">—</div>
-                            <div class="hero-info">
-                                <div class="hero-name" id="hero-name">—</div>
-                                <div class="hero-handle" id="hero-handle">@—</div>
-                                <div class="hero-meta" id="hero-meta">SIOA Member</div>
-                            </div>
-                            <div class="hero-badges">
-                                <div class="badge-pill"><span class="badge-dot"></span>Active</div>
-                                <a href="#" class="btn-view-public" id="view-public-link">
-                                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline;vertical-align:middle;margin-right:3px;"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-                                    Public Profile
-                                </a>
-                            </div>
-                        </div>
-
-                        <div class="completion-wrap">
-                            <div class="completion-row">
-                                <span class="completion-label">Profile Completion</span>
-                                <span class="completion-pct" id="completion-pct">—</span>
-                            </div>
-                            <div class="completion-bar">
-                                <div class="completion-fill" id="completion-fill"></div>
-                            </div>
-                            <div class="completion-hint" id="completion-hint">&nbsp;</div>
-                        </div>
-                    </div>
+                <div class="field">
+                  <label for="username">Username</label>
+                  <div class="username-wrap">
+                    <span class="username-prefix">@</span>
+                    <input type="text" id="username" placeholder="yourhandle" maxlength="30" disabled autocomplete="off">
+                  </div>
+                  <div class="username-status" id="username-status"></div>
                 </div>
 
-                <div class="section">
-                    <div class="card">
-                        <div class="tabs">
-                            <button class="tab-btn active" id="profile-tab-btn" data-tab="profile-tab">Profile</button>
-                            <button class="tab-btn" id="socials-tab-btn" data-tab="socials-tab">Socials &amp; Links</button>
-                        </div>
-
-                        <div class="tab-panel active" id="profile-tab">
-                            <div style="padding:20px">
-                                <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:14px;">
-                                    <div>
-                                        <div style="font-size:12.5px; font-weight:600; color:var(--text);">Profile Details</div>
-                                        <div style="font-size:10.5px; color:var(--muted-2); margin-top:2px;">This information appears on your public profile.</div>
-                                    </div>
-                                    <button class="btn btn-secondary btn-sm" id="edit-toggle-btn">Edit Profile</button>
-                                </div>
-
-                                <form id="profile-form" novalidate autocomplete="off">
-                                    <div class="form-grid">
-
-                                        <div class="field full">
-                                            <label for="full_name">Full Name</label>
-                                            <input type="text" id="full_name" placeholder="e.g. Arjun Sharma" maxlength="80" disabled>
-                                        </div>
-
-                                        <div class="field">
-                                            <label for="username">Username</label>
-                                            <div class="username-wrap">
-                                                <span class="username-prefix">@</span>
-                                                <input type="text" id="username" placeholder="yourname" maxlength="30" disabled autocomplete="off">
-                                            </div>
-                                            <div class="username-status" id="username-status"></div>
-                                        </div>
-
-                                        <div class="field full">
-                                            <label>Specialties <span style="color:var(--muted-2);font-weight:300;letter-spacing:0;text-transform:none;font-size:9.5px;">— select all that apply</span></label>
-                                            <div class="specialty-picker" id="specialty-picker" data-disabled="true">
-                                                <span class="spec-pill" data-value="22.5 Designer">22.5 Designer</span>
-                                                <span class="spec-pill" data-value="Box Pleating">Box Pleating</span>
-                                                <span class="spec-pill" data-value="Casual Folder">Casual Folder</span>
-                                                <span class="spec-pill" data-value="Serious Folder">Serious Folder</span>
-                                                <span class="spec-pill" data-value="Casual Designer">Casual Designer</span>
-                                                <span class="spec-pill" data-value="Serious Designer">Serious Designer</span>
-                                            </div>
-                                            <input type="hidden" id="specialty">
-                                        </div>
-
-                                        <div class="field">
-                                            <label for="city">City</label>
-                                            <input type="text" id="city" placeholder="e.g. Mumbai" maxlength="60" disabled>
-                                        </div>
-
-                                        <div class="field">
-                                            <label for="state">State Chapter</label>
-                                            <select id="state" disabled>
-                                                <option value="">— Select state —</option>
-                                                <option>Andhra Pradesh</option>
-                                                <option>Assam</option>
-                                                <option>Bihar</option>
-                                                <option>Delhi</option>
-                                                <option>Goa</option>
-                                                <option>Gujarat</option>
-                                                <option>Haryana</option>
-                                                <option>Himachal Pradesh</option>
-                                                <option>Jharkhand</option>
-                                                <option>Karnataka</option>
-                                                <option>Kerala</option>
-                                                <option>Madhya Pradesh</option>
-                                                <option>Maharashtra</option>
-                                                <option>Odisha</option>
-                                                <option>Punjab</option>
-                                                <option>Rajasthan</option>
-                                                <option>Tamil Nadu</option>
-                                                <option>Telangana</option>
-                                                <option>Uttar Pradesh</option>
-                                                <option>Uttarakhand</option>
-                                                <option>West Bengal</option>
-                                            </select>
-                                        </div>
-
-                                        <div class="field full">
-                                            <label for="bio">Bio</label>
-                                            <textarea id="bio" placeholder="Describe your origami journey…" maxlength="500" rows="3" disabled></textarea>
-                                            <span class="char-hint" id="bio-count">0 / 500</span>
-                                        </div>
-
-                                    </div>
-
-                                    <div class="form-footer" id="form-footer" style="display:none;">
-                                        <span class="save-msg" id="save-msg"></span>
-                                        <div style="display:flex; gap:8px;">
-                                            <button type="button" class="btn btn-secondary btn-sm" id="cancel-btn">Cancel</button>
-                                            <button type="submit" class="btn btn-primary btn-sm" id="save-btn">Save Changes</button>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-
-                        <div class="tab-panel" id="socials-tab">
-                            <div style="padding:20px">
-                                <div style="margin-bottom:14px;">
-                                    <div style="font-size:12.5px; font-weight:600; color:var(--text); margin-bottom:2px;">Social Profiles &amp; Links</div>
-                                    <div style="font-size:10.5px; color:var(--muted-2);">Add your social media and website links. They'll appear as clickable links on your public profile.</div>
-                                </div>
-
-                                <div style="margin-bottom:18px;">
-                                    <div style="font-size:9.5px; font-weight:600; letter-spacing:0.18em; text-transform:uppercase; color:var(--muted-2); margin-bottom:10px;">Social Media</div>
-                                    <div class="form-grid">
-                                        <div class="field">
-                                            <label>
-                                                <span class="social-icon">
-                                                    <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
-                                                    Instagram
-                                                </span>
-                                            </label>
-                                            <input type="url" id="social-instagram" placeholder="https://instagram.com/yourhandle">
-                                        </div>
-                                        <div class="field">
-                                            <label>
-                                                <span class="social-icon">
-                                                    <svg viewBox="0 0 24 24"><path d="M4 4l16 16M4 20L20 4" stroke-linecap="round"/></svg>
-                                                    X / Twitter
-                                                </span>
-                                            </label>
-                                            <input type="url" id="social-twitter" placeholder="https://x.com/yourhandle">
-                                        </div>
-                                        <div class="field">
-                                            <label>
-                                                <span class="social-icon">
-                                                    <svg viewBox="0 0 24 24"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 0 0 1.46 6.42 29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.95 1.96C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.96A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="var(--surface)"/></svg>
-                                                    YouTube
-                                                </span>
-                                            </label>
-                                            <input type="url" id="social-youtube" placeholder="https://youtube.com/@yourchannel">
-                                        </div>
-                                        <div class="field">
-                                            <label>
-                                                <span class="social-icon">
-                                                    <svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
-                                                    LinkedIn
-                                                </span>
-                                            </label>
-                                            <input type="url" id="social-linkedin" placeholder="https://linkedin.com/in/yourprofile">
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div>
-                                    <div style="font-size:9.5px; font-weight:600; letter-spacing:0.18em; text-transform:uppercase; color:var(--muted-2); margin-bottom:10px;">Custom Links</div>
-                                    <div id="custom-links-list" class="socials-list"></div>
-                                    <button class="btn-add-social" id="add-link-btn">
-                                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-                                        Add Custom Link
-                                    </button>
-                                </div>
-
-                                <div class="form-footer">
-                                    <span class="save-msg" id="socials-save-msg"></span>
-                                    <button class="btn btn-primary btn-sm" id="save-socials-btn">Save Links</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div></div><div class="section">
-                    <div class="card">
-                        <div class="card-header">
-                            <div class="card-header-left">
-                                <div class="card-icon">
-                                    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
-                                </div>
-                                <div>
-                                    <div class="card-title">Account Settings</div>
-                                    <div class="card-subtitle">Session &amp; access management</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card-body" style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px;">
-                            <div>
-                                <div style="font-size:12px; color:var(--text); margin-bottom:2px;">Signed in as</div>
-                                <div style="font-size:11px; color:var(--muted-2);" id="account-email">—</div>
-                            </div>
-                            <button class="btn btn-ghost btn-sm" id="logout-main">
-                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
-                                Sign Out
-                            </button>
-                        </div>
-                    </div>
+                <div class="field">
+                  <label for="city">City</label>
+                  <input type="text" id="city" placeholder="e.g. Mumbai" maxlength="60" disabled>
                 </div>
 
-            </main>
-
-            <aside class="right-panel">
-
-                <div class="panel-card">
-                    <div class="panel-card-header">
-                        <span class="panel-card-title">Quick Links</span>
-                    </div>
-                    <div class="panel-card-body">
-                        <a href="/net/index.html" class="quick-link">
-                            <div class="ql-icon">
-                                <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-                            </div>
-                            <div class="ql-text">
-                                <div class="ql-title">Browse Artists</div>
-                                <div class="ql-sub">Discover other SIOA members</div>
-                            </div>
-                            <span class="ql-arrow">›</span>
-                        </a>
-                        <a href="#" class="quick-link" id="ql-public-profile">
-                            <div class="ql-icon">
-                                <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-                            </div>
-                            <div class="ql-text">
-                                <div class="ql-title">Your Public Profile</div>
-                                <div class="ql-sub">See how others view you</div>
-                            </div>
-                            <span class="ql-arrow">›</span>
-                        </a>
-                        <a href="/Vagh2026/submission.html" class="quick-link">
-                            <div class="ql-icon">
-                                <svg viewBox="0 0 24 24"><path d="M8 21h8M12 17v4M17 4h2a2 2 0 0 1 2 2v1a4 4 0 0 1-4 4h-1"/><path d="M7 4H5a2 2 0 0 0-2 2v1a4 4 0 0 0 4 4h1"/><path d="M7 4h10v8a5 5 0 0 1-10 0V4z"/></svg>
-                            </div>
-                            <div class="ql-text">
-                                <div class="ql-title">Submit to Competition</div>
-                                <div class="ql-sub">Enter the current round</div>
-                            </div>
-                            <span class="ql-arrow">›</span>
-                        </a>
-                        <a href="/index.html" class="quick-link">
-                            <div class="ql-icon">
-                                <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-                            </div>
-                            <div class="ql-text">
-                                <div class="ql-title">Member Home</div>
-                                <div class="ql-sub">Announcements &amp; activity</div>
-                            </div>
-                            <span class="ql-arrow">›</span>
-                        </a>
-                    </div>
+                <div class="field full">
+                  <label>Specialties <span style="font-weight:300;letter-spacing:0;text-transform:none;font-size:9.5px;color:var(--muted-lo);">— pick all that apply</span></label>
+                  <div class="specialty-picker" id="specialty-picker" data-disabled="true">
+                    <span class="spec-pill" data-value="22.5 Designer">22.5 Designer</span>
+                    <span class="spec-pill" data-value="Box Pleating">Box Pleating</span>
+                    <span class="spec-pill" data-value="Casual Folder">Casual Folder</span>
+                    <span class="spec-pill" data-value="Serious Folder">Serious Folder</span>
+                    <span class="spec-pill" data-value="Casual Designer">Casual Designer</span>
+                    <span class="spec-pill" data-value="Serious Designer">Serious Designer</span>
+                  </div>
+                  <input type="hidden" id="specialty">
                 </div>
 
-            </aside>
+                <div class="field">
+                  <label for="state">State Chapter</label>
+                  <select id="state" disabled>
+                    <option value="">— Select state —</option>
+                    <option>Andhra Pradesh</option>
+                    <option>Assam</option>
+                    <option>Bihar</option>
+                    <option>Delhi</option>
+                    <option>Goa</option>
+                    <option>Gujarat</option>
+                    <option>Haryana</option>
+                    <option>Himachal Pradesh</option>
+                    <option>Jharkhand</option>
+                    <option>Karnataka</option>
+                    <option>Kerala</option>
+                    <option>Madhya Pradesh</option>
+                    <option>Maharashtra</option>
+                    <option>Odisha</option>
+                    <option>Punjab</option>
+                    <option>Rajasthan</option>
+                    <option>Tamil Nadu</option>
+                    <option>Telangana</option>
+                    <option>Uttar Pradesh</option>
+                    <option>Uttarakhand</option>
+                    <option>West Bengal</option>
+                  </select>
+                </div>
 
-        </div></div></div><div class="toast" id="toast"></div>
+                <div class="field full">
+                  <label for="bio">Bio</label>
+                  <textarea id="bio" placeholder="Describe your origami journey…" maxlength="500" rows="3" disabled></textarea>
+                  <span class="char-hint" id="bio-count">0 / 500</span>
+                </div>
+
+              </div>
+
+              <div class="form-footer" id="form-footer" style="display:none;">
+                <span class="save-msg" id="save-msg"></span>
+                <div class="form-footer-actions">
+                  <button type="button" class="btn btn-secondary btn-sm" id="cancel-btn">Cancel</button>
+                  <button type="submit" class="btn btn-primary btn-sm" id="save-btn">Save Changes</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <!-- SOCIALS TAB -->
+        <div class="tab-panel" id="socials-tab">
+          <div class="tab-inner">
+            <p class="section-label">Social Media</p>
+            <div class="social-grid">
+              <div class="field">
+                <label class="social-label">
+                  <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+                  Instagram
+                </label>
+                <input type="url" id="social-instagram" placeholder="https://instagram.com/yourhandle">
+              </div>
+              <div class="field">
+                <label class="social-label">
+                  <svg viewBox="0 0 24 24"><path d="M4 4l16 16M4 20L20 4" stroke-linecap="round"/></svg>
+                  X / Twitter
+                </label>
+                <input type="url" id="social-twitter" placeholder="https://x.com/yourhandle">
+              </div>
+              <div class="field">
+                <label class="social-label">
+                  <svg viewBox="0 0 24 24"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 0 0 1.46 6.42 29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.95 1.96C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.96A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" style="fill:var(--surface)"/></svg>
+                  YouTube
+                </label>
+                <input type="url" id="social-youtube" placeholder="https://youtube.com/@yourchannel">
+              </div>
+              <div class="field">
+                <label class="social-label">
+                  <svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+                  LinkedIn
+                </label>
+                <input type="url" id="social-linkedin" placeholder="https://linkedin.com/in/yourprofile">
+              </div>
+            </div>
+
+            <div class="section-divider"></div>
+            <p class="section-label">Custom Links</p>
+            <div id="custom-links-list" class="custom-links-list"></div>
+            <button class="btn-add-link" id="add-link-btn" style="margin-top:10px;">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              Add Custom Link
+            </button>
+
+            <div class="form-footer">
+              <span class="save-msg" id="socials-save-msg"></span>
+              <button class="btn btn-primary btn-sm" id="save-socials-btn">Save Links</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ACCOUNT SETTINGS -->
+      <div class="card fade-in">
+        <div class="card-head">
+          <div class="card-head-left">
+            <div class="card-icon">
+              <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+            </div>
+            <div>
+              <div class="card-label">Account Settings</div>
+              <div class="card-sublabel">Session &amp; access</div>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="account-row">
+            <div class="account-info">
+              <div class="account-label">Signed in as</div>
+              <div class="account-signed" id="account-email">—</div>
+            </div>
+            <button class="btn btn-ghost btn-sm" id="logout-main">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+              Sign Out
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </main>
+
+    <!-- RIGHT PANEL -->
+    <aside class="right-panel">
+      <div class="panel-card">
+        <div class="panel-head">Quick Links</div>
+        <div class="panel-body">
+          <a href="/net/index.html" class="quick-item">
+            <div class="qi-icon"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+            <div class="qi-text">
+              <div class="qi-title">Browse Artists</div>
+              <div class="qi-sub">Discover SIOA members</div>
+            </div>
+            <span class="qi-arrow">›</span>
+          </a>
+          <a href="#" class="quick-item" id="ql-public-profile">
+            <div class="qi-icon"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+            <div class="qi-text">
+              <div class="qi-title">Your Public Profile</div>
+              <div class="qi-sub">How others see you</div>
+            </div>
+            <span class="qi-arrow">›</span>
+          </a>
+          <a href="/Vagh2026/submission.html" class="quick-item">
+            <div class="qi-icon"><svg viewBox="0 0 24 24"><path d="M8 21h8M12 17v4M17 4h2a2 2 0 0 1 2 2v1a4 4 0 0 1-4 4h-1"/><path d="M7 4H5a2 2 0 0 0-2 2v1a4 4 0 0 0 4 4h1"/><path d="M7 4h10v8a5 5 0 0 1-10 0V4z"/></svg></div>
+            <div class="qi-text">
+              <div class="qi-title">Submit to Competition</div>
+              <div class="qi-sub">Enter the current round</div>
+            </div>
+            <span class="qi-arrow">›</span>
+          </a>
+          <a href="/index.html" class="quick-item">
+            <div class="qi-icon"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
+            <div class="qi-text">
+              <div class="qi-title">Member Home</div>
+              <div class="qi-sub">Announcements &amp; activity</div>
+            </div>
+            <span class="qi-arrow">›</span>
+          </a>
+        </div>
+      </div>
+    </aside>
+
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 (function () {
-    'use strict';
+  'use strict';
 
-    /* ── SUPABASE ──────────────────────────────────────────────────────────── */
-    const sb = window.supabase.createClient(
-        'https://zbgvgzzaejaxrgcjjovc.supabase.co',
-        'sb_publishable_gCLTB6WM95Iw6Txcf2fjCA_5fnXPw77'
-    );
+  const sb = window.supabase.createClient(
+    'https://zbgvgzzaejaxrgcjjovc.supabase.co',
+    'sb_publishable_gCLTB6WM95Iw6Txcf2fjCA_5fnXPw77'
+  );
 
-    /* ── STATE ─────────────────────────────────────────────────────────────── */
-    let currentUser    = null;
-    let currentProfile = null;
-    let isEditMode     = false;
-    let usernameTimer  = null;
-    let usernameValid  = true;
-    let customLinks    = [];
+  let currentUser    = null;
+  let currentProfile = null;
+  let usernameTimer  = null;
+  let usernameValid  = true;
+  let customLinks    = [];
 
-    /* ── HELPERS ───────────────────────────────────────────────────────────── */
-    const el  = id => document.getElementById(id);
-    const esc = s => !s ? '' : String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  const el  = id => document.getElementById(id);
+  const esc = s => !s ? '' : String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 
-    function getInitials(name, username) {
-        if (name && name.trim()) {
-            const p = name.trim().split(/\s+/);
-            return p.length >= 2 ? (p[0][0]+p[p.length-1][0]).toUpperCase() : p[0].substring(0,2).toUpperCase();
-        }
-        if (username) return username[0].toUpperCase();
-        return '—';
+  function getInitials(name, username) {
+    if (name && name.trim()) {
+      const p = name.trim().split(/\s+/);
+      return p.length >= 2 ? (p[0][0]+p[p.length-1][0]).toUpperCase() : p[0].substring(0,2).toUpperCase();
     }
+    if (username) return username[0].toUpperCase();
+    return '—';
+  }
 
-    function parseSpecialties(val) {
-        if (!val) return [];
-        if (Array.isArray(val)) return val.filter(Boolean);
-        return val.split(',').map(s => s.trim()).filter(Boolean);
+  function parseSpecialties(val) {
+    if (!val) return [];
+    if (Array.isArray(val)) return val.filter(Boolean);
+    return val.split(',').map(s => s.trim()).filter(Boolean);
+  }
+
+  function getSelectedSpecialties() {
+    return Array.from(document.querySelectorAll('.spec-pill.active')).map(p => p.dataset.value);
+  }
+
+  document.querySelectorAll('.spec-pill').forEach(pill => {
+    pill.addEventListener('click', () => {
+      if (document.getElementById('specialty-picker').dataset.disabled === 'true') return;
+      pill.classList.toggle('active');
+      el('specialty').value = getSelectedSpecialties().join(',');
+    });
+  });
+
+  let toastTimer;
+  function showToast(msg, isErr) {
+    const t = el('toast');
+    t.textContent = msg;
+    t.style.borderColor = isErr ? 'rgba(192,96,96,0.45)' : 'rgba(45,137,176,0.55)';
+    void t.offsetWidth;
+    t.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => t.classList.remove('show'), 2800);
+  }
+
+  async function checkAuth() {
+    const { data: { user } } = await sb.auth.getUser();
+    if (!user) { window.location.href = '../login/login.html'; return null; }
+    return user;
+  }
+
+  async function loadProfile() {
+    const { data: p } = await sb.from('profiles')
+      .select('full_name, username, specialty, city, state, bio, created_at, socials, custom_links')
+      .eq('id', currentUser.id)
+      .maybeSingle();
+
+    if (!p) {
+      const authName = currentUser.user_metadata?.full_name || '';
+      await sb.from('profiles').insert({ id: currentUser.id, full_name: authName, city: '', state: '', bio: '' });
+      currentProfile = { full_name: authName, city: '', state: '', bio: '' };
+    } else {
+      currentProfile = p;
     }
+    applyProfileToUI(currentProfile);
+  }
 
-    function getSelectedSpecialties() {
-        return Array.from(document.querySelectorAll('.spec-pill.active'))
-            .map(p => p.dataset.value);
-    }
+  function applyProfileToUI(p) {
+    const name     = p.full_name || '';
+    const username = p.username  || '';
+    const initials = getInitials(name, username);
+    const loc      = [p.city, p.state].filter(Boolean).join(', ');
 
+    el('top-avatar').textContent = initials;
+    el('top-name').textContent   = name.split(' ')[0] || username || 'Member';
+    el('account-email').textContent = currentUser.email || '—';
+
+    el('avatar-xl').textContent   = initials;
+    el('hero-name').textContent   = name || '(No name yet)';
+    el('hero-handle').textContent = username ? '@'+username : '@—';
+    el('hero-meta').textContent   = loc || 'SIOA Member';
+
+    el('full_name').value = name;
+    el('username').value  = username;
+
+    const selectedSpecs = parseSpecialties(p.specialty);
     document.querySelectorAll('.spec-pill').forEach(pill => {
-        pill.addEventListener('click', () => {
-            const picker = document.getElementById('specialty-picker');
-            if (picker.dataset.disabled === 'true') return;
-            pill.classList.toggle('active');
-            el('specialty').value = getSelectedSpecialties().join(',');
-        });
+      pill.classList.toggle('active', selectedSpecs.includes(pill.dataset.value));
     });
+    el('specialty').value = selectedSpecs.join(',');
+    el('city').value  = p.city  || '';
+    el('state').value = p.state || '';
+    el('bio').value   = p.bio   || '';
+    updateBioCount(p.bio?.length || 0);
 
-    let toastTimer;
-    function showToast(msg, isErr) {
-        const t = el('toast');
-        t.textContent = msg;
-        t.style.borderColor = isErr ? 'rgba(201,96,96,0.45)' : 'var(--border-cyan)';
-        void t.offsetWidth;
-        t.classList.add('show');
-        clearTimeout(toastTimer);
-        toastTimer = setTimeout(() => t.classList.remove('show'), 2800);
+    const profileUrl = username ? '/artists/index.html?u='+username : '#';
+    el('view-public-link').href  = profileUrl;
+    el('ql-public-profile').href = profileUrl;
+
+    updateCompletion(p);
+
+    if (p.socials && typeof p.socials === 'object') {
+      Object.keys(p.socials).forEach(k => {
+        const inp = el('social-'+k);
+        if (inp) inp.value = p.socials[k] || '';
+      });
     }
+    customLinks = Array.isArray(p.custom_links) ? p.custom_links : [];
+    renderCustomLinks();
+  }
 
-    /* ── AUTH ──────────────────────────────────────────────────────────────── */
-    async function checkAuth() {
-        const { data: { user } } = await sb.auth.getUser();
-        if (!user) { window.location.href = '../login/login.html'; return null; }
-        return user;
+  function updateBioCount(len) {
+    const c = el('bio-count');
+    c.textContent = len + ' / 500';
+    c.style.color = len > 450 ? 'rgba(192,96,96,0.7)' : 'var(--muted-lo)';
+  }
+
+  function updateCompletion(p) {
+    const fields  = ['full_name','username','city','state','bio'];
+    const filled  = fields.filter(f => p[f] && String(p[f]).trim() !== '').length;
+    const specFill = parseSpecialties(p.specialty).length > 0 ? 1 : 0;
+    const pct = Math.round(((filled + specFill) / (fields.length + 1)) * 100);
+
+    el('completion-pct').textContent = pct + '%';
+    setTimeout(() => { el('completion-fill').style.width = pct + '%'; }, 100);
+
+    if (pct === 100) {
+      el('completion-hint').textContent = '✓ Profile complete — you\'re fully discoverable.';
+    } else {
+      const missing = fields.filter(f => !p[f] || String(p[f]).trim() === '');
+      if (!specFill) missing.push('specialty');
+      el('completion-hint').textContent = 'Add ' + missing.join(', ') + ' to complete your profile.';
     }
+  }
 
-    /* ── LOAD PROFILE ──────────────────────────────────────────────────────── */
-    async function loadProfile() {
-        const { data: p, error } = await sb.from('profiles')
-            .select('full_name, username, specialty, city, state, bio, created_at, socials, custom_links')
-            .eq('id', currentUser.id)
-            .maybeSingle();
+  function enableEdit() {
+    ['full_name','username','city','state','bio'].forEach(id => el(id).disabled = false);
+    el('specialty-picker').dataset.disabled = 'false';
+    el('form-footer').style.display = 'flex';
+    el('edit-toggle-btn').style.display = 'none';
+  }
 
-        if (!p) {
-            const authName = currentUser.user_metadata?.full_name || '';
-            await sb.from('profiles').insert({
-                id: currentUser.id, full_name: authName, city: '', state: '', bio: ''
-            });
-            currentProfile = { full_name: authName, city: '', state: '', bio: '' };
-        } else {
-            currentProfile = p;
-        }
+  function disableEdit() {
+    ['full_name','username','city','state','bio'].forEach(id => el(id).disabled = true);
+    el('specialty-picker').dataset.disabled = 'true';
+    el('form-footer').style.display = 'none';
+    el('edit-toggle-btn').style.display = 'inline-flex';
+    el('save-msg').textContent = ''; el('save-msg').className = 'save-msg';
+  }
 
-        applyProfileToUI(currentProfile);
+  el('edit-toggle-btn').addEventListener('click', enableEdit);
+  el('cancel-btn').addEventListener('click', () => { applyProfileToUI(currentProfile); disableEdit(); });
+
+  el('full_name').addEventListener('input', e => {
+    const v = e.target.value.trim();
+    el('hero-name').textContent = v || '(No name)';
+    el('avatar-xl').textContent  = getInitials(v, el('username').value.trim());
+    el('top-avatar').textContent = getInitials(v, el('username').value.trim());
+    el('top-name').textContent   = v.split(' ')[0] || '—';
+  });
+
+  el('city').addEventListener('input', updateLocation);
+  el('state').addEventListener('change', updateLocation);
+  function updateLocation() {
+    const loc = [el('city').value.trim(), el('state').value].filter(Boolean).join(', ');
+    el('hero-meta').textContent = loc || 'SIOA Member';
+  }
+
+  el('bio').addEventListener('input', e => updateBioCount(e.target.value.length));
+
+  el('username').addEventListener('input', e => {
+    const val = e.target.value.trim().toLowerCase().replace(/[^a-z0-9_.]/g, '');
+    e.target.value = val;
+    el('hero-handle').textContent = val ? '@'+val : '@—';
+    clearTimeout(usernameTimer);
+    if (!val) { el('username-status').textContent = ''; usernameValid = true; return; }
+    if (val.length < 3) {
+      el('username-status').textContent = 'At least 3 characters required';
+      el('username-status').className = 'username-status err';
+      usernameValid = false; return;
     }
+    el('username-status').textContent = 'Checking…';
+    el('username-status').className = 'username-status chk';
+    usernameTimer = setTimeout(async () => {
+      if (val === (currentProfile?.username || '')) {
+        el('username-status').textContent = '✓ Your current username';
+        el('username-status').className = 'username-status ok';
+        usernameValid = true; return;
+      }
+      const { count } = await sb.from('profiles').select('id', { count:'exact', head:true }).eq('username', val);
+      if (count > 0) {
+        el('username-status').textContent = '✗ Already taken';
+        el('username-status').className = 'username-status err';
+        usernameValid = false;
+      } else {
+        el('username-status').textContent = '✓ Available';
+        el('username-status').className = 'username-status ok';
+        usernameValid = true;
+      }
+    }, 500);
+  });
 
-    function applyProfileToUI(p) {
-        const name     = p.full_name || '';
-        const username = p.username  || '';
-        const initials = getInitials(name, username);
-        const loc      = [p.city, p.state].filter(Boolean).join(', ');
-
-        el('top-avatar').textContent = initials;
-        el('top-name').textContent   = name.split(' ')[0] || username || 'Member';
-        el('account-email').textContent = currentUser.email || '—';
-
-        el('avatar-xl').textContent  = initials;
-        el('hero-name').textContent  = name || '(No name yet)';
-        el('hero-handle').textContent = username ? '@'+username : '@—';
-        el('hero-meta').textContent  = loc || 'SIOA Member';
-
-        el('full_name').value = name;
-        el('username').value  = username;
-
-        const selectedSpecs = parseSpecialties(p.specialty);
-        document.querySelectorAll('.spec-pill').forEach(pill => {
-            pill.classList.toggle('active', selectedSpecs.includes(pill.dataset.value));
-        });
-        el('specialty').value = selectedSpecs.join(',');
-        el('city').value  = p.city  || '';
-        el('state').value = p.state || '';
-        el('bio').value   = p.bio   || '';
-        updateBioCount(p.bio?.length || 0);
-
-        const profileUrl = username ? '/artists/index.html?u='+username : '#';
-        el('view-public-link').href = profileUrl;
-        el('ql-public-profile').href = profileUrl;
-
-        updateCompletion(p);
-
-        if (p.socials && typeof p.socials === 'object') {
-            Object.keys(p.socials).forEach(k => {
-                const inp = el('social-'+k);
-                if (inp) inp.value = p.socials[k] || '';
-            });
-        }
-
-        customLinks = Array.isArray(p.custom_links) ? p.custom_links : [];
-        renderCustomLinks();
+  el('profile-form').addEventListener('submit', async e => {
+    e.preventDefault();
+    if (!usernameValid) {
+      el('save-msg').textContent = 'Fix the username before saving.';
+      el('save-msg').className = 'save-msg error'; return;
     }
+    const msg = el('save-msg'); const btn = el('save-btn');
+    msg.textContent = ''; msg.className = 'save-msg';
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner"></span> Saving…';
 
-    function updateBioCount(len) {
-        const c = el('bio-count');
-        c.textContent = len + ' / 500';
-        c.style.color = len > 450 ? 'rgba(201,96,96,0.7)' : 'var(--muted-2)';
+    const updates = {
+      id:        currentUser.id,
+      full_name: el('full_name').value.trim(),
+      username:  el('username').value.trim() || null,
+      specialty: getSelectedSpecialties().join(',') || null,
+      city:      el('city').value.trim(),
+      state:     el('state').value,
+      bio:       el('bio').value.trim(),
+    };
+
+    const { error } = await sb.from('profiles').upsert(updates);
+    btn.disabled = false; btn.textContent = 'Save Changes';
+
+    if (error) {
+      msg.textContent = error.code === '23505' ? 'Username already taken.' : 'Could not save. Try again.';
+      msg.className = 'save-msg error';
+    } else {
+      currentProfile = { ...currentProfile, ...updates };
+      updateCompletion(currentProfile);
+      msg.textContent = 'Saved!'; msg.className = 'save-msg success';
+      showToast('Profile updated!');
+      setTimeout(() => disableEdit(), 1400);
     }
+  });
 
-    function updateCompletion(p) {
-        const fields = ['full_name','username','city','state','bio'];
-        const filled = fields.filter(f => p[f] && String(p[f]).trim() !== '').length;
-        const specFilled = parseSpecialties(p.specialty).length > 0 ? 1 : 0;
-        const total = fields.length + 1;
-        const pct = Math.round(((filled + specFilled) / total) * 100);
-
-        el('completion-pct').textContent = pct + '%';
-        setTimeout(() => { el('completion-fill').style.width = pct + '%'; }, 100);
-
-        if (pct === 100) {
-            el('completion-hint').textContent = '✓ Your profile is complete — you\'re fully discoverable!';
-        } else {
-            const missing = fields.filter(f => !p[f] || String(p[f]).trim() === '');
-            if (specFilled === 0) missing.push('specialty');
-            el('completion-hint').textContent = 'Add ' + missing.join(', ') + ' to complete your profile.';
-        }
-    }
-
-    /* ── EDIT PROFILE ENABLE/DISABLE ───────────────────────────────────────── */
-    function enableEdit() {
-        ['full_name','username','city','state','bio'].forEach(id => el(id).disabled = false);
-        document.getElementById('specialty-picker').dataset.disabled = 'false';
-        el('form-footer').style.display = 'flex';
-        el('edit-toggle-btn').style.display = 'none';
-    }
-
-    function disableEdit() {
-        ['full_name','username','city','state','bio'].forEach(id => el(id).disabled = true);
-        document.getElementById('specialty-picker').dataset.disabled = 'true';
-        el('form-footer').style.display = 'none';
-        el('edit-toggle-btn').style.display = 'inline-flex';
-        el('save-msg').textContent = ''; el('save-msg').className = 'save-msg';
-    }
-
-    el('edit-toggle-btn').addEventListener('click', enableEdit);
-
-    el('cancel-btn').addEventListener('click', () => {
-        applyProfileToUI(currentProfile); 
-        disableEdit();
+  function renderCustomLinks() {
+    const list = el('custom-links-list');
+    list.innerHTML = '';
+    customLinks.forEach((link, idx) => {
+      const row = document.createElement('div');
+      row.className = 'custom-row';
+      row.innerHTML =
+        '<div class="field"><label>Link Title</label><input type="text" placeholder="e.g. My Portfolio" maxlength="40" value="'+esc(link.title)+'"></div>' +
+        '<div class="field"><label>URL</label><input type="url" placeholder="https://…" value="'+esc(link.url)+'"></div>' +
+        '<button class="btn-remove" title="Remove">×</button>';
+      row.querySelectorAll('input')[0].addEventListener('input', e => { customLinks[idx].title = e.target.value; });
+      row.querySelectorAll('input')[1].addEventListener('input', e => { customLinks[idx].url   = e.target.value; });
+      row.querySelector('.btn-remove').addEventListener('click', () => { customLinks.splice(idx, 1); renderCustomLinks(); });
+      list.appendChild(row);
     });
+  }
 
-    /* ── LIVE PREVIEW ──────────────────────────────────────────────────────── */
-    el('full_name').addEventListener('input', e => {
-        const v = e.target.value.trim();
-        el('hero-name').textContent = v || '(No name)';
-        el('avatar-xl').textContent = getInitials(v, el('username').value.trim());
-        el('top-avatar').textContent = getInitials(v, el('username').value.trim());
-        el('top-name').textContent  = v.split(' ')[0] || '—';
-    });
+  el('add-link-btn').addEventListener('click', () => {
+    customLinks.push({ title: '', url: '' });
+    renderCustomLinks();
+    const rows = el('custom-links-list').querySelectorAll('.custom-row');
+    if (rows.length) rows[rows.length-1].querySelector('input').focus();
+  });
 
-    el('city').addEventListener('input', updateLocation);
-    el('state').addEventListener('change', updateLocation);
+  el('save-socials-btn').addEventListener('click', async () => {
+    const btn = el('save-socials-btn');
+    const msg = el('socials-save-msg');
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner"></span> Saving…';
 
-    function updateLocation() {
-        const loc = [el('city').value.trim(), el('state').value].filter(Boolean).join(', ');
-        el('hero-meta').textContent = loc || 'SIOA Member';
+    const socials = {
+      instagram: el('social-instagram').value.trim(),
+      twitter:   el('social-twitter').value.trim(),
+      youtube:   el('social-youtube').value.trim(),
+      linkedin:  el('social-linkedin').value.trim(),
+    };
+    const validCustom = customLinks.filter(l => l.title.trim() && l.url.trim());
+
+    const { error } = await sb.from('profiles').update({ socials, custom_links: validCustom }).eq('id', currentUser.id);
+    btn.disabled = false; btn.textContent = 'Save Links';
+
+    if (error) {
+      msg.textContent = 'Could not save. Please try again.';
+      msg.className = 'save-msg error';
+    } else {
+      currentProfile.socials = socials;
+      currentProfile.custom_links = validCustom;
+      msg.textContent = 'Links saved!'; msg.className = 'save-msg success';
+      showToast('Links updated!');
+      setTimeout(() => { msg.textContent = ''; msg.className = 'save-msg'; }, 2000);
     }
+  });
 
-    el('bio').addEventListener('input', e => updateBioCount(e.target.value.length));
-
-    /* ── USERNAME CHECK ────────────────────────────────────────────────────── */
-    el('username').addEventListener('input', e => {
-        const val = e.target.value.trim().toLowerCase().replace(/[^a-z0-9_.]/g, '');
-        e.target.value = val;
-        el('hero-handle').textContent = val ? '@'+val : '@—';
-
-        clearTimeout(usernameTimer);
-
-        if (!val) { el('username-status').textContent = ''; usernameValid = true; return; }
-        if (val.length < 3) {
-            el('username-status').textContent = 'At least 3 characters required';
-            el('username-status').className = 'username-status err';
-            usernameValid = false; return;
-        }
-
-        el('username-status').textContent = 'Checking…';
-        el('username-status').className = 'username-status chk';
-
-        usernameTimer = setTimeout(async () => {
-            if (val === (currentProfile?.username || '')) {
-                el('username-status').textContent = '✓ This is your current username';
-                el('username-status').className = 'username-status ok';
-                usernameValid = true; return;
-            }
-            const { count } = await sb.from('profiles')
-                .select('id', { count:'exact', head:true })
-                .eq('username', val);
-            if (count > 0) {
-                el('username-status').textContent = '✗ Username taken';
-                el('username-status').className = 'username-status err';
-                usernameValid = false;
-            } else {
-                el('username-status').textContent = '✓ Available';
-                el('username-status').className = 'username-status ok';
-                usernameValid = true;
-            }
-        }, 500);
+  document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+      btn.classList.add('active');
+      el(btn.dataset.tab).classList.add('active');
     });
+  });
 
-    /* ── SAVE PROFILE ──────────────────────────────────────────────────────── */
-    el('profile-form').addEventListener('submit', async e => {
-        e.preventDefault();
-        if (!usernameValid) {
-            el('save-msg').textContent = 'Please fix the username before saving.';
-            el('save-msg').className = 'save-msg error'; return;
-        }
-
-        const msg = el('save-msg'); const btn = el('save-btn');
-        msg.textContent = ''; msg.className = 'save-msg';
-        btn.disabled = true;
-        btn.innerHTML = '<span class="spinner"></span> Saving…';
-
-        const updates = {
-            id:        currentUser.id,
-            full_name: el('full_name').value.trim(),
-            username:  el('username').value.trim() || null,
-            specialty: getSelectedSpecialties().join(',') || null,
-            city:      el('city').value.trim(),
-            state:     el('state').value,
-            bio:       el('bio').value.trim(),
-        };
-
-        const { error } = await sb.from('profiles').upsert(updates);
-
-        btn.disabled = false; btn.textContent = 'Save Changes';
-
-        if (error) {
-            msg.textContent = error.code === '23505' ? 'Username already taken.' : 'Could not save. Try again.';
-            msg.className = 'save-msg error';
-        } else {
-            currentProfile = { ...currentProfile, ...updates };
-            updateCompletion(currentProfile);
-            msg.textContent = 'Saved successfully.'; msg.className = 'save-msg success';
-            showToast('Profile updated!');
-            setTimeout(() => disableEdit(), 1400);
-        }
+  document.querySelectorAll('[data-tab-target]').forEach(link => {
+    link.addEventListener('click', e => {
+      if (link.id === 'logout-side') return;
+      e.preventDefault();
+      const tabBtn = el(link.dataset.tabTarget);
+      if (tabBtn) tabBtn.click();
+      document.querySelectorAll('.nav-link').forEach(n => n.classList.remove('active'));
+      link.classList.add('active');
     });
+  });
 
-    /* ── CUSTOM LINKS ──────────────────────────────────────────────────────── */
-    function renderCustomLinks() {
-        const list = el('custom-links-list');
-        list.innerHTML = '';
-        customLinks.forEach((link, idx) => {
-            const row = document.createElement('div');
-            row.className = 'social-row';
-            row.innerHTML =
-                '<div class="field"><label>Link Title</label><input type="text" placeholder="e.g. My Portfolio" maxlength="40" value="'+esc(link.title)+'"></div>' +
-                '<div class="field"><label>URL</label><input type="url" placeholder="https://…" value="'+esc(link.url)+'"></div>' +
-                '<button class="btn-remove-social" title="Remove">×</button>';
+  async function handleLogout() {
+    await sb.auth.signOut();
+    window.location.href = '/';
+  }
+  el('logout-side').addEventListener('click', handleLogout);
+  el('logout-main').addEventListener('click', handleLogout);
 
-            row.querySelectorAll('input')[0].addEventListener('input', e => { customLinks[idx].title = e.target.value; });
-            row.querySelectorAll('input')[1].addEventListener('input', e => { customLinks[idx].url   = e.target.value; });
-            row.querySelector('.btn-remove-social').addEventListener('click', () => {
-                customLinks.splice(idx, 1); renderCustomLinks();
-            });
-            list.appendChild(row);
-        });
+  (async function boot() {
+    currentUser = await checkAuth();
+    if (!currentUser) return;
+    await loadProfile();
+    if (currentProfile?.username) {
+      const u = currentProfile.username;
+      el('view-public-link').href  = '/artists/index.html?u=' + u;
+      el('ql-public-profile').href = '/artists/index.html?u=' + u;
     }
-
-    el('add-link-btn').addEventListener('click', () => {
-        customLinks.push({ title: '', url: '' });
-        renderCustomLinks();
-        const rows = el('custom-links-list').querySelectorAll('.social-row');
-        if (rows.length) rows[rows.length-1].querySelector('input').focus();
-    });
-
-    /* ── SAVE SOCIALS ──────────────────────────────────────────────────────── */
-    el('save-socials-btn').addEventListener('click', async () => {
-        const btn = el('save-socials-btn');
-        const msg = el('socials-save-msg');
-        btn.disabled = true;
-        btn.innerHTML = '<span class="spinner"></span> Saving…';
-
-        const socials = {
-            instagram: el('social-instagram').value.trim(),
-            twitter:   el('social-twitter').value.trim(),
-            youtube:   el('social-youtube').value.trim(),
-            linkedin:  el('social-linkedin').value.trim(),
-        };
-
-        const validCustom = customLinks.filter(l => l.title.trim() && l.url.trim());
-
-        const { error } = await sb.from('profiles').update({
-            socials,
-            custom_links: validCustom
-        }).eq('id', currentUser.id);
-
-        btn.disabled = false; btn.textContent = 'Save Links';
-
-        if (error) {
-            msg.textContent = 'Could not save. Please try again.';
-            msg.className = 'save-msg error';
-        } else {
-            currentProfile.socials = socials;
-            currentProfile.custom_links = validCustom;
-            msg.textContent = 'Links saved!'; msg.className = 'save-msg success';
-            showToast('Links updated!');
-            setTimeout(() => { msg.textContent = ''; msg.className = 'save-msg'; }, 2000);
-        }
-    });
-
-    /* ── TABS ──────────────────────────────────────────────────────────────── */
-    document.querySelectorAll('.tab-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-            document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
-            btn.classList.add('active');
-            el(btn.dataset.tab).classList.add('active');
-        });
-    });
-
-    document.querySelectorAll('[data-tab-target]').forEach(link => {
-        link.addEventListener('click', e => {
-            if(link.id === 'logout-side') return;
-            e.preventDefault();
-            const tabBtn = el(link.dataset.tabTarget);
-            if (tabBtn) tabBtn.click();
-            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-            link.classList.add('active');
-        });
-    });
-
-    /* ── LOGOUT ────────────────────────────────────────────────────────────── */
-    async function handleLogout() {
-        await sb.auth.signOut();
-        window.location.href = '/';
-    }
-    el('logout-side').addEventListener('click', handleLogout);
-    el('logout-main').addEventListener('click', handleLogout);
-
-    /* ── BOOT ──────────────────────────────────────────────────────────────── */
-    (async function boot() {
-        currentUser = await checkAuth();
-        if (!currentUser) return;
-
-        await loadProfile();
-
-        if (currentProfile?.username) {
-            const u = currentProfile.username;
-            el('view-public-link').href = '/artists/index.html?u=' + u;
-            el('ql-public-profile').href = '/artists/index.html?u=' + u;
-        }
-    })();
+  })();
 
 })();
 </script>
