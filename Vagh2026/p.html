@@ -151,6 +151,36 @@ textarea.comments{min-height:60px;resize:vertical;font-size:12.5px;}
 }
 .other-score-row b{color:var(--white);}
 .other-score-row .comment{display:block;margin-top:3px;color:rgba(197,217,224,0.6);font-style:italic;}
+
+/* Flags */
+.flag-badge{
+  flex-shrink:0;font-size:9px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;
+  padding:4px 9px;border-radius:100px;white-space:nowrap;
+}
+.flag-badge.flagged{color:#e8b84c;background:rgba(232,184,76,0.12);border:1px solid rgba(232,184,76,0.35);}
+.flag-badge.disqualified{color:var(--red);background:rgba(224,96,96,0.12);border:1px solid rgba(224,96,96,0.4);}
+.badge-row{display:flex;gap:6px;flex-wrap:wrap;flex-shrink:0;}
+.card.is-disqualified{opacity:0.55;}
+
+.admin-panel{
+  border-top:1px dashed rgba(200,150,58,0.4);padding-top:12px;
+  display:flex;flex-direction:column;gap:10px;
+}
+.admin-panel-title{font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--gold);}
+.admin-toggles{display:flex;gap:10px;}
+.admin-toggle{
+  flex:1;padding:9px;border-radius:6px;font-size:11px;font-weight:700;letter-spacing:0.06em;
+  text-transform:uppercase;text-align:center;cursor:pointer;border:1px solid rgba(197,217,224,0.2);
+  background:rgba(255,255,255,0.02);color:var(--light-grey);transition:all 0.2s;
+}
+.admin-toggle.active-flag{background:rgba(232,184,76,0.15);border-color:#e8b84c;color:#e8b84c;}
+.admin-toggle.active-dq{background:rgba(224,96,96,0.15);border-color:var(--red);color:var(--red);}
+.admin-reason{min-height:44px;font-size:12px;}
+.admin-save{
+  padding:9px;background:transparent;border:1px solid rgba(200,150,58,0.5);color:var(--gold);
+  border-radius:6px;font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;cursor:pointer;
+}
+.admin-save:hover{background:rgba(200,150,58,0.1);}
 </style>
 </head>
 <body>
@@ -220,6 +250,7 @@ let PASSWORD = null;
 let CURRENT_JUDGE = null;
 let submissions = [];
 let allScores = []; // every judge's scores, all rows
+let allFlags = [];  // flag/disqualify status, one row per flagged submission
 
 // ============================================================
 // AUTH GATE
@@ -302,9 +333,10 @@ async function loadData() {
   stateMsg.style.display = 'block'; stateMsg.textContent = 'Loading submissions…';
   grid.style.display = 'none';
 
-  const [subsRes, scoresRes] = await Promise.all([
+  const [subsRes, scoresRes, flagsRes] = await Promise.all([
     sb.rpc('judging_get_submissions', { pw: PASSWORD }),
     sb.rpc('judging_get_scores', { pw: PASSWORD }),
+    sb.rpc('judging_get_flags', { pw: PASSWORD }),
   ]);
 
   if (subsRes.error) {
@@ -313,6 +345,7 @@ async function loadData() {
   }
   submissions = subsRes.data || [];
   allScores = scoresRes.data || [];
+  allFlags = flagsRes.data || [];
 
   if (submissions.length === 0) {
     stateMsg.textContent = 'No submissions yet.';
@@ -326,6 +359,10 @@ async function loadData() {
 
 function scoresFor(submissionId) {
   return allScores.filter(s => s.submission_id === submissionId);
+}
+
+function flagFor(submissionId) {
+  return allFlags.find(f => f.submission_id === submissionId) || null;
 }
 
 function updateProgress() {
@@ -346,7 +383,13 @@ function renderGrid() {
 function renderCard(sub) {
   const card = document.createElement('div');
   const myScore = scoresFor(sub.id).find(s => s.judge_name === CURRENT_JUDGE);
-  card.className = 'card' + (myScore ? ' done' : '');
+  const flag = flagFor(sub.id);
+  const isAdmin = CURRENT_JUDGE === 'Nara';
+
+  let classes = 'card';
+  if (myScore) classes += ' done';
+  if (flag && flag.disqualified) classes += ' is-disqualified';
+  card.className = classes;
 
   // photos
   const paths = sub.image_paths || [];
@@ -359,6 +402,12 @@ function renderCard(sub) {
       `</div>`;
   }
 
+  // badges (scored / flagged / disqualified — flag status visible to everyone)
+  let badges = '';
+  if (myScore) badges += '<span class="done-badge">Scored</span>';
+  if (flag && flag.disqualified) badges += '<span class="flag-badge disqualified">Disqualified</span>';
+  else if (flag && flag.flagged) badges += '<span class="flag-badge flagged">Flagged</span>';
+
   // other judges' scores
   const others = scoresFor(sub.id).filter(s => s.judge_name !== CURRENT_JUDGE);
   const othersHtml = others.length ? `
@@ -366,10 +415,28 @@ function renderCard(sub) {
       <div class="other-scores-title">Other judges</div>
       ${others.map(o => `
         <div class="other-score-row">
-          <span><b>${o.judge_name}</b> — total ${totalOf(o)}/60</span>
+          <span><b>${o.judge_name}</b> — total ${totalOf(o)}</span>
           ${o.comments ? `<span class="comment">"${escapeHtml(o.comments)}"</span>` : ''}
         </div>
       `).join('')}
+    </div>` : '';
+
+  const reasonVisible = flag && (flag.flagged || flag.disqualified) && flag.reason;
+  const flagNoteHtml = (!isAdmin && reasonVisible) ? `
+    <div class="statement" style="border-left-color:var(--red);">
+      <b>${flag.disqualified ? 'Disqualified' : 'Flagged'} by ${escapeHtml(flag.updated_by || 'Nara')}:</b> ${escapeHtml(flag.reason)}
+    </div>` : '';
+
+  const adminPanelHtml = isAdmin ? `
+    <div class="admin-panel">
+      <div class="admin-panel-title">Admin — flag / disqualify (Nara only)</div>
+      <div class="admin-toggles">
+        <div class="admin-toggle${flag && flag.flagged ? ' active-flag' : ''}" id="toggle-flag-${sub.id}" data-active="${flag && flag.flagged ? '1' : '0'}">Flagged</div>
+        <div class="admin-toggle${flag && flag.disqualified ? ' active-dq' : ''}" id="toggle-dq-${sub.id}" data-active="${flag && flag.disqualified ? '1' : '0'}">Disqualified</div>
+      </div>
+      <textarea class="admin-reason" id="reason-${sub.id}" placeholder="Reason (shown to other judges)">${flag ? escapeHtml(flag.reason || '') : ''}</textarea>
+      <button class="admin-save" id="save-flag-${sub.id}">Save Flag Status</button>
+      <div class="save-status" id="flag-status-${sub.id}"></div>
     </div>` : '';
 
   card.innerHTML = `
@@ -380,27 +447,31 @@ function renderCard(sub) {
           <div class="entry-tag">${sub.submission_id || ''} ${sub.entry_number ? '· #' + sub.entry_number : ''}</div>
           <div class="model-name">${escapeHtml(sub.model_name || 'Untitled')}</div>
         </div>
-        ${myScore ? '<span class="done-badge">Scored</span>' : ''}
+        <div class="badge-row">${badges}</div>
       </div>
       <div class="meta-row">
         <b>Folder:</b> ${escapeHtml(sub.artist_name || '—')}${sub.designer ? ` &nbsp;·&nbsp; <b>Designer:</b> ${escapeHtml(sub.designer)}` : ''}<br>
         ${sub.paper_used ? `<b>Paper:</b> ${escapeHtml(sub.paper_used)} &nbsp;·&nbsp; ` : ''}${sub.difficulty ? `<b>Difficulty:</b> ${escapeHtml(sub.difficulty)}` : ''}${sub.time_taken ? ` &nbsp;·&nbsp; <b>Time:</b> ${escapeHtml(sub.time_taken)}` : ''}
       </div>
       ${sub.artistic_statement ? `<div class="statement">${escapeHtml(sub.artistic_statement)}</div>` : ''}
+      ${flagNoteHtml}
 
       <div class="criteria">
-        ${CRITERIA.map(c => `
+        ${CRITERIA.map(c => {
+          const raw = myScore ? myScore[c.key === 'precision' ? 'precision_score' : c.key] : 5;
+          const val = parseFloat(raw).toFixed(1);
+          return `
           <div class="crit-field">
-            <label for="${c.key}-${sub.id}">${c.label} <span class="val" id="${c.key}-${sub.id}-val">${myScore ? myScore[c.key === 'precision' ? 'precision_score' : c.key] : 5}</span></label>
-            <input type="range" min="1" max="10" value="${myScore ? myScore[c.key === 'precision' ? 'precision_score' : c.key] : 5}"
+            <label for="${c.key}-${sub.id}">${c.label} <span class="val" id="${c.key}-${sub.id}-val">${val}</span></label>
+            <input type="range" min="1" max="10" step="0.1" value="${val}"
                    id="${c.key}-${sub.id}" data-key="${c.key}" data-sub="${sub.id}">
-          </div>
-        `).join('')}
+          </div>`;
+        }).join('')}
       </div>
 
       <div class="total-row">
         <span>Total</span>
-        <b id="total-${sub.id}">${myScore ? totalOf(myScore) : 30}/60</b>
+        <b id="total-${sub.id}">${myScore ? totalOf(myScore) : '30.0'}/60</b>
       </div>
 
       <textarea class="comments" id="comments-${sub.id}" placeholder="Notes / constructive feedback (optional)">${myScore ? escapeHtml(myScore.comments || '') : ''}</textarea>
@@ -409,6 +480,7 @@ function renderCard(sub) {
       <div class="save-status" id="status-${sub.id}"></div>
 
       ${othersHtml}
+      ${adminPanelHtml}
     </div>
   `;
 
@@ -416,21 +488,40 @@ function renderCard(sub) {
   CRITERIA.forEach(c => {
     const input = card.querySelector(`#${c.key}-${sub.id}`);
     input.addEventListener('input', () => {
-      card.querySelector(`#${c.key}-${sub.id}-val`).textContent = input.value;
+      card.querySelector(`#${c.key}-${sub.id}-val`).textContent = parseFloat(input.value).toFixed(1);
       const total = CRITERIA.reduce((sum, cc) =>
-        sum + parseInt(card.querySelector(`#${cc.key}-${sub.id}`).value, 10), 0);
-      card.querySelector(`#total-${sub.id}`).textContent = `${total}/60`;
+        sum + parseFloat(card.querySelector(`#${cc.key}-${sub.id}`).value), 0);
+      card.querySelector(`#total-${sub.id}`).textContent = `${total.toFixed(1)}/60`;
     });
   });
 
   card.querySelector(`#save-${sub.id}`).addEventListener('click', () => saveScore(sub.id, card));
 
+  // wire up admin flag controls
+  if (isAdmin) {
+    const flagToggle = card.querySelector(`#toggle-flag-${sub.id}`);
+    const dqToggle = card.querySelector(`#toggle-dq-${sub.id}`);
+    flagToggle.addEventListener('click', () => {
+      const active = flagToggle.dataset.active === '1';
+      flagToggle.dataset.active = active ? '0' : '1';
+      flagToggle.classList.toggle('active-flag', !active);
+    });
+    dqToggle.addEventListener('click', () => {
+      const active = dqToggle.dataset.active === '1';
+      dqToggle.dataset.active = active ? '0' : '1';
+      dqToggle.classList.toggle('active-dq', !active);
+    });
+    card.querySelector(`#save-flag-${sub.id}`).addEventListener('click', () => saveFlag(sub.id, card));
+  }
+
   return card;
 }
 
 function totalOf(scoreRow) {
-  return scoreRow.cleanliness + scoreRow.precision_score + scoreRow.shaping +
-         scoreRow.presentation + scoreRow.folding_maturity + scoreRow.overall_execution;
+  const t = parseFloat(scoreRow.cleanliness) + parseFloat(scoreRow.precision_score) +
+            parseFloat(scoreRow.shaping) + parseFloat(scoreRow.presentation) +
+            parseFloat(scoreRow.folding_maturity) + parseFloat(scoreRow.overall_execution);
+  return t.toFixed(1);
 }
 
 function escapeHtml(str) {
@@ -444,7 +535,7 @@ async function saveScore(subId, card) {
   const status = card.querySelector(`#status-${subId}`);
   btn.disabled = true; btn.textContent = 'Saving…'; status.textContent = '';
 
-  const get = key => parseInt(card.querySelector(`#${key}-${subId}`).value, 10);
+  const get = key => parseFloat(card.querySelector(`#${key}-${subId}`).value);
   const comments = card.querySelector(`#comments-${subId}`).value.trim();
 
   const { data, error } = await sb.rpc('judging_submit_score', {
@@ -479,8 +570,44 @@ async function saveScore(subId, card) {
     const badge = document.createElement('span');
     badge.className = 'done-badge';
     badge.textContent = 'Scored';
-    card.querySelector('.card-head').appendChild(badge);
+    card.querySelector('.badge-row').prepend(badge);
   }
+}
+
+async function saveFlag(subId, card) {
+  const btn = card.querySelector(`#save-flag-${subId}`);
+  const status = card.querySelector(`#flag-status-${subId}`);
+  btn.disabled = true; btn.textContent = 'Saving…'; status.textContent = '';
+
+  const flagged = card.querySelector(`#toggle-flag-${subId}`).dataset.active === '1';
+  const disqualified = card.querySelector(`#toggle-dq-${subId}`).dataset.active === '1';
+  const reason = card.querySelector(`#reason-${subId}`).value.trim();
+
+  const { data, error } = await sb.rpc('judging_set_flag', {
+    pw: PASSWORD,
+    p_submission_id: subId,
+    p_judge_name: CURRENT_JUDGE,
+    p_flagged: flagged,
+    p_disqualified: disqualified,
+    p_reason: reason,
+  });
+
+  btn.disabled = false; btn.textContent = 'Save Flag Status';
+
+  if (error) {
+    status.style.color = 'var(--red)';
+    status.textContent = 'Error saving — try again.';
+    return;
+  }
+
+  allFlags = allFlags.filter(f => f.submission_id !== subId);
+  allFlags.push(data);
+  status.style.color = 'var(--green)';
+  status.textContent = 'Saved.';
+
+  // re-render this single card so its badges reflect the new status
+  const fresh = renderCard(submissions.find(s => s.id === subId));
+  card.replaceWith(fresh);
 }
 </script>
 </body>
