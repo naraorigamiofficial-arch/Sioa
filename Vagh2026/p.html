@@ -7,180 +7,158 @@
 <meta name="robots" content="noindex, nofollow">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root{
-  --black:#000000;
-  --deep-blue:#0a1628;
-  --navy-blue:#0f2847;
-  --cyan-blue:#1a5f7a;
-  --bright-cyan:#2d89b0;
-  --metallic-blue:#4a90a4;
-  --light-cyan:#57a6bb;
-  --white:#e8f4f8;
-  --light-grey:#c5d9e0;
-  --gold:#c8963a;
-  --silver:#8090a4;
-  --bronze:#a06030;
-  --green:#4cc990;
-  --red:#e06060;
+  --bg:#0c1116;
+  --panel:#12181f;
+  --panel-2:#161d25;
+  --border:#232c36;
+  --text:#e9edf1;
+  --muted:#8a97a3;
+  --accent:#4fa8c9;
+  --green:#5ec98e;
+  --amber:#e0b155;
+  --red:#e07272;
 }
 *{margin:0;padding:0;box-sizing:border-box;}
 body{
   font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;
-  background:var(--black);
-  color:var(--white);
+  background:var(--bg);
+  color:var(--text);
+  line-height:1.6;
+  font-size:15px;
   min-height:100vh;
 }
 
 /* ============ LOGIN GATE ============ */
-.gate{
-  min-height:100vh;display:flex;align-items:center;justify-content:center;
-  padding:24px;
-}
-.gate-box{
-  width:100%;max-width:380px;text-align:center;
-  padding:44px 36px;border:1px solid rgba(26,95,122,0.35);
-  border-radius:14px;background:linear-gradient(135deg,rgba(10,22,40,0.9),rgba(15,40,71,0.6));
-}
-.gate-eyebrow{font-size:10px;font-weight:600;letter-spacing:0.3em;text-transform:uppercase;color:var(--bright-cyan);margin-bottom:12px;}
-.gate-title{font-size:26px;font-weight:800;margin-bottom:8px;}
-.gate-sub{font-size:13px;color:var(--light-grey);font-weight:300;margin-bottom:30px;line-height:1.6;}
+.gate{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px;}
+.gate-box{width:100%;max-width:360px;text-align:left;padding:40px 8px;}
+.gate-eyebrow{font-size:11px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:var(--accent);margin-bottom:10px;}
+.gate-title{font-size:24px;font-weight:700;margin-bottom:10px;}
+.gate-sub{font-size:13.5px;color:var(--muted);margin-bottom:28px;}
+.field-label{font-size:12px;color:var(--muted);margin-bottom:6px;display:block;}
 .gate-input, select, textarea, input[type=number]{
-  width:100%;padding:13px 16px;background:rgba(0,0,0,0.4);
-  border:1px solid rgba(26,95,122,0.4);border-radius:6px;
-  color:var(--white);font-family:'Inter',sans-serif;font-size:14px;
-  outline:none;transition:border-color 0.25s;
+  width:100%;padding:12px 14px;background:var(--panel);
+  border:1px solid var(--border);border-radius:8px;
+  color:var(--text);font-family:'Inter',sans-serif;font-size:14.5px;
+  outline:none;transition:border-color 0.2s;
 }
-.gate-input:focus, select:focus, textarea:focus, input[type=number]:focus{border-color:var(--bright-cyan);}
-.gate-input{margin-bottom:14px;}
-.gate-select{margin-bottom:20px;}
+.gate-input:focus, select:focus, textarea:focus, input[type=number]:focus{border-color:var(--accent);}
+.gate-input{margin-bottom:16px;}
 .gate-btn{
-  width:100%;padding:13px;background:linear-gradient(135deg,var(--cyan-blue),var(--bright-cyan));
-  color:var(--white);border:none;border-radius:6px;font-family:'Inter',sans-serif;
-  font-size:13px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;
-  cursor:pointer;transition:all 0.25s;
+  width:100%;padding:13px;background:var(--accent);
+  color:#0c1116;border:none;border-radius:8px;font-family:'Inter',sans-serif;
+  font-size:13.5px;font-weight:700;letter-spacing:0.02em;
+  cursor:pointer;margin-top:6px;
 }
-.gate-btn:hover{transform:translateY(-1px);box-shadow:0 10px 30px rgba(45,137,176,0.3);}
-.gate-error{color:var(--red);font-size:12px;margin-top:14px;min-height:16px;}
+.gate-btn:hover{opacity:0.9;}
+.gate-error{color:var(--red);font-size:13px;margin-top:14px;min-height:16px;}
 
 /* ============ DASHBOARD ============ */
 #dashboard{display:none;}
 .topbar{
-  position:sticky;top:0;z-index:100;
-  background:rgba(0,0,0,0.92);backdrop-filter:blur(10px);
-  border-bottom:1px solid rgba(26,95,122,0.25);
-  padding:16px 28px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;
+  position:sticky;top:0;z-index:100;background:rgba(12,17,22,0.95);backdrop-filter:blur(8px);
+  border-bottom:1px solid var(--border);
+  padding:18px 32px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;
 }
-.topbar-title{font-size:15px;font-weight:800;letter-spacing:0.06em;}
-.topbar-title span{color:var(--bright-cyan);}
-.topbar-right{display:flex;align-items:center;gap:14px;}
-.judge-pill{
-  display:flex;align-items:center;gap:8px;font-size:12px;color:var(--light-grey);
-}
-.judge-pill select{width:auto;padding:7px 12px;font-size:12px;}
-.progress-pill{font-size:11px;color:var(--bright-cyan);letter-spacing:0.05em;}
-.logout-link{font-size:11px;color:rgba(197,217,224,0.4);cursor:pointer;letter-spacing:0.08em;text-transform:uppercase;}
-.logout-link:hover{color:var(--white);}
+.topbar-title{font-size:15px;font-weight:700;}
+.topbar-title span{color:var(--accent);font-weight:400;}
+.topbar-right{display:flex;align-items:center;gap:20px;}
+.judge-pill{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--muted);}
+.judge-pill select{width:auto;padding:6px 10px;font-size:13px;}
+.progress-pill{font-size:12.5px;color:var(--accent);}
+.logout-link{font-size:12px;color:var(--muted);cursor:pointer;}
+.logout-link:hover{color:var(--text);}
 
-.wrap{max-width:1200px;margin:0 auto;padding:32px 24px 100px;}
-.state-msg{text-align:center;padding:60px 20px;color:var(--light-grey);font-size:14px;font-weight:300;}
+.wrap{max-width:760px;margin:0 auto;padding:48px 24px 120px;}
+.state-msg{text-align:center;padding:60px 20px;color:var(--muted);font-size:14px;}
 
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:22px;}
+.entries{display:flex;flex-direction:column;gap:56px;}
 
-.card{
-  border:1px solid rgba(26,95,122,0.25);border-radius:12px;overflow:hidden;
-  background:linear-gradient(135deg,rgba(10,22,40,0.75),rgba(15,40,71,0.4));
-  display:flex;flex-direction:column;
-}
-.card.done{border-color:rgba(76,201,144,0.35);}
+.card{padding-bottom:8px;}
+.card + .card{border-top:1px solid var(--border);padding-top:56px;}
 
-.card-photos{display:flex;gap:2px;height:200px;overflow-x:auto;background:#050b14;}
-.card-photos img{height:100%;width:auto;flex-shrink:0;object-fit:cover;cursor:pointer;}
-.card-photos.single img{width:100%;object-fit:contain;}
-.no-photo{height:200px;display:flex;align-items:center;justify-content:center;color:rgba(197,217,224,0.25);font-size:12px;}
+.card-photos{display:flex;gap:8px;overflow-x:auto;margin-bottom:24px;border-radius:10px;}
+.card-photos img{height:260px;width:auto;flex-shrink:0;object-fit:cover;border-radius:10px;cursor:pointer;}
+.card-photos.single img{width:100%;height:320px;object-fit:contain;background:var(--panel);}
+.no-photo{height:180px;display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:13px;background:var(--panel);border-radius:10px;margin-bottom:24px;}
 
-.card-body{padding:20px 22px;flex:1;display:flex;flex-direction:column;gap:14px;}
-.card-head{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;}
-.entry-tag{font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--bright-cyan);margin-bottom:4px;}
-.model-name{font-size:18px;font-weight:700;line-height:1.25;}
-.done-badge{
-  flex-shrink:0;font-size:9px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;
-  color:var(--green);background:rgba(76,201,144,0.12);border:1px solid rgba(76,201,144,0.3);
-  padding:4px 9px;border-radius:100px;white-space:nowrap;
-}
-.meta-row{font-size:12px;color:var(--light-grey);font-weight:300;line-height:1.7;}
-.meta-row b{color:var(--white);font-weight:500;}
+.card-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:6px;}
+.entry-tag{font-size:11.5px;letter-spacing:0.08em;text-transform:uppercase;color:var(--accent);margin-bottom:6px;}
+.model-name{font-size:22px;font-weight:700;line-height:1.3;}
+.badge-row{display:flex;gap:8px;flex-wrap:wrap;flex-shrink:0;margin-top:4px;}
+.badge{font-size:11px;font-weight:600;letter-spacing:0.04em;padding:4px 10px;border-radius:100px;white-space:nowrap;}
+.badge.done{color:var(--green);background:rgba(94,201,142,0.12);}
+.badge.flagged{color:var(--amber);background:rgba(224,177,85,0.12);}
+.badge.disqualified{color:var(--red);background:rgba(224,114,114,0.12);}
+.card.is-disqualified{opacity:0.6;}
+
+.meta-row{font-size:13.5px;color:var(--muted);margin-bottom:16px;}
+.meta-row b{color:var(--text);font-weight:500;}
 .statement{
-  font-size:12.5px;color:var(--light-grey);font-weight:300;line-height:1.6;
-  padding:10px 12px;background:rgba(45,137,176,0.06);border-left:2px solid rgba(45,137,176,0.35);
-  border-radius:0 4px 4px 0;max-height:90px;overflow-y:auto;
+  font-size:13.5px;color:var(--muted);line-height:1.65;padding:14px 16px;
+  background:var(--panel);border-radius:8px;margin-bottom:24px;
 }
+.statement b{color:var(--text);}
+.statement.warn{background:rgba(224,114,114,0.08);}
 
-.criteria{display:grid;grid-template-columns:1fr 1fr;gap:10px 14px;}
-.crit-field label{
-  display:flex;justify-content:space-between;font-size:11px;color:var(--light-grey);
-  letter-spacing:0.03em;margin-bottom:5px;
-}
-.crit-field label .val{color:var(--bright-cyan);font-weight:700;}
-.crit-field input[type=range]{width:100%;accent-color:var(--bright-cyan);}
+.section-label{font-size:11.5px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-bottom:16px;}
+
+/* Your score — manual entry */
+.your-score{background:var(--panel);border-radius:12px;padding:24px;margin-bottom:20px;}
+.criteria{display:grid;grid-template-columns:1fr 1fr;gap:16px 20px;margin-bottom:20px;}
+.crit-field label{display:block;font-size:12.5px;color:var(--muted);margin-bottom:6px;}
+.crit-field input[type=number]{text-align:center;font-size:16px;font-weight:600;padding:10px;}
 
 .total-row{
   display:flex;justify-content:space-between;align-items:center;
-  padding-top:6px;border-top:1px solid rgba(26,95,122,0.2);font-size:13px;
+  padding:14px 0 18px;border-top:1px solid var(--border);margin-top:4px;
 }
-.total-row b{font-size:18px;color:var(--white);}
+.total-row span{font-size:13px;color:var(--muted);}
+.total-row b{font-size:22px;color:var(--text);}
 
-textarea.comments{min-height:60px;resize:vertical;font-size:12.5px;}
+textarea.comments{min-height:56px;resize:vertical;font-size:13.5px;margin-bottom:16px;}
 
 .save-btn{
-  padding:11px;background:linear-gradient(135deg,var(--cyan-blue),var(--bright-cyan));
-  color:var(--white);border:none;border-radius:6px;font-family:'Inter',sans-serif;
-  font-size:12px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;cursor:pointer;
-  transition:all 0.25s;
+  padding:11px 20px;background:var(--accent);color:#0c1116;border:none;border-radius:8px;
+  font-family:'Inter',sans-serif;font-size:13px;font-weight:700;cursor:pointer;
 }
-.save-btn:hover{transform:translateY(-1px);}
-.save-btn:disabled{opacity:0.5;cursor:default;transform:none;}
-.save-status{font-size:11px;text-align:center;min-height:14px;color:var(--green);}
+.save-btn:disabled{opacity:0.5;cursor:default;}
+.save-status{font-size:12px;margin-top:8px;min-height:14px;color:var(--green);}
 
-.other-scores{border-top:1px solid rgba(26,95,122,0.15);padding-top:12px;display:flex;flex-direction:column;gap:8px;}
-.other-scores-title{font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:rgba(197,217,224,0.4);}
+/* Other judges — strictly read-only, visually distinct */
+.other-scores{margin-top:8px;}
 .other-score-row{
-  font-size:11.5px;color:var(--light-grey);display:flex;justify-content:space-between;gap:10px;
-  padding:6px 10px;background:rgba(255,255,255,0.02);border-radius:5px;
+  display:flex;justify-content:space-between;gap:16px;padding:12px 0;
+  border-bottom:1px solid var(--border);font-size:13.5px;color:var(--muted);
 }
-.other-score-row b{color:var(--white);}
-.other-score-row .comment{display:block;margin-top:3px;color:rgba(197,217,224,0.6);font-style:italic;}
+.other-score-row:last-child{border-bottom:none;}
+.other-score-row b{color:var(--text);}
+.other-score-row .comment{display:block;margin-top:4px;color:var(--muted);font-style:italic;font-size:13px;}
+.other-empty{font-size:13px;color:var(--muted);padding:8px 0;}
 
-/* Flags */
-.flag-badge{
-  flex-shrink:0;font-size:9px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;
-  padding:4px 9px;border-radius:100px;white-space:nowrap;
-}
-.flag-badge.flagged{color:#e8b84c;background:rgba(232,184,76,0.12);border:1px solid rgba(232,184,76,0.35);}
-.flag-badge.disqualified{color:var(--red);background:rgba(224,96,96,0.12);border:1px solid rgba(224,96,96,0.4);}
-.badge-row{display:flex;gap:6px;flex-wrap:wrap;flex-shrink:0;}
-.card.is-disqualified{opacity:0.55;}
-
-.admin-panel{
-  border-top:1px dashed rgba(200,150,58,0.4);padding-top:12px;
-  display:flex;flex-direction:column;gap:10px;
-}
-.admin-panel-title{font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--gold);}
-.admin-toggles{display:flex;gap:10px;}
+/* Admin flag panel (Nara only) */
+.admin-panel{margin-top:28px;padding:20px;border:1px dashed rgba(224,177,85,0.35);border-radius:12px;}
+.admin-panel-title{font-size:11.5px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--amber);margin-bottom:14px;}
+.admin-toggles{display:flex;gap:10px;margin-bottom:12px;}
 .admin-toggle{
-  flex:1;padding:9px;border-radius:6px;font-size:11px;font-weight:700;letter-spacing:0.06em;
-  text-transform:uppercase;text-align:center;cursor:pointer;border:1px solid rgba(197,217,224,0.2);
-  background:rgba(255,255,255,0.02);color:var(--light-grey);transition:all 0.2s;
+  flex:1;padding:9px;border-radius:8px;font-size:12.5px;font-weight:600;text-align:center;cursor:pointer;
+  border:1px solid var(--border);background:var(--panel-2);color:var(--muted);
 }
-.admin-toggle.active-flag{background:rgba(232,184,76,0.15);border-color:#e8b84c;color:#e8b84c;}
-.admin-toggle.active-dq{background:rgba(224,96,96,0.15);border-color:var(--red);color:var(--red);}
-.admin-reason{min-height:44px;font-size:12px;}
+.admin-toggle.active-flag{background:rgba(224,177,85,0.15);border-color:var(--amber);color:var(--amber);}
+.admin-toggle.active-dq{background:rgba(224,114,114,0.15);border-color:var(--red);color:var(--red);}
+.admin-reason{min-height:44px;font-size:13px;margin-bottom:12px;}
 .admin-save{
-  padding:9px;background:transparent;border:1px solid rgba(200,150,58,0.5);color:var(--gold);
-  border-radius:6px;font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;cursor:pointer;
+  padding:9px 18px;background:transparent;border:1px solid var(--amber);color:var(--amber);
+  border-radius:8px;font-size:12.5px;font-weight:600;cursor:pointer;
 }
-.admin-save:hover{background:rgba(200,150,58,0.1);}
+.admin-save:hover{background:rgba(224,177,85,0.1);}
+
+@media(max-width:520px){
+  .criteria{grid-template-columns:1fr 1fr;}
+  .model-name{font-size:19px;}
+}
 </style>
 </head>
 <body>
@@ -190,10 +168,12 @@ textarea.comments{min-height:60px;resize:vertical;font-size:12.5px;}
   <div class="gate-box">
     <p class="gate-eyebrow">SIOA · Private</p>
     <h1 class="gate-title">VAGH 2026 Judging</h1>
-    <p class="gate-sub">Not a public page. Enter the shared judging password and select your name to continue.</p>
+    <p class="gate-sub">Enter the shared judging password and select your name to continue.</p>
+    <label class="field-label">Password</label>
     <input class="gate-input" type="password" id="pwInput" placeholder="Judging password" autocomplete="off">
-    <select class="gate-input gate-select" id="judgeSelect">
-      <option value="">Select your name…</option>
+    <label class="field-label">Your name</label>
+    <select class="gate-input" id="judgeSelect">
+      <option value="">Select…</option>
       <option value="Boice">Boice</option>
       <option value="Sampreet">Sampreet</option>
       <option value="Nara">Nara</option>
@@ -222,20 +202,20 @@ textarea.comments{min-height:60px;resize:vertical;font-size:12.5px;}
   </div>
   <div class="wrap">
     <div class="state-msg" id="stateMsg">Loading submissions…</div>
-    <div class="grid" id="grid" style="display:none;"></div>
+    <div class="entries" id="entries" style="display:none;"></div>
   </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 // ============================================================
-// CONFIG — adjust these two lines if needed
+// CONFIG
 // ============================================================
 const sb = window.supabase.createClient(
   "https://zbgvgzzaejaxrgcjjovc.supabase.co",
   "sb_publishable_gCLTB6WM95Iw6Txcf2fjCA_5fnXPw77"
 );
-const IMAGE_BUCKET = "submissions"; // <-- set this to your actual storage bucket name
+const IMAGE_BUCKET = "submissions"; // <-- set to your actual storage bucket name
 
 const CRITERIA = [
   { key: "cleanliness",       label: "Cleanliness" },
@@ -249,8 +229,8 @@ const CRITERIA = [
 let PASSWORD = null;
 let CURRENT_JUDGE = null;
 let submissions = [];
-let allScores = []; // every judge's scores, all rows
-let allFlags = [];  // flag/disqualify status, one row per flagged submission
+let allScores = [];
+let allFlags = [];
 
 // ============================================================
 // AUTH GATE
@@ -298,10 +278,9 @@ document.getElementById('logoutBtn').addEventListener('click', () => {
 document.getElementById('judgeSwitcher').addEventListener('change', (e) => {
   CURRENT_JUDGE = e.target.value;
   sessionStorage.setItem('vagh_judge_name', CURRENT_JUDGE);
-  renderGrid();
+  renderEntries();
 });
 
-// Auto-resume session within the same browser tab
 (async function autoResume() {
   const pw = sessionStorage.getItem('vagh_judge_pw');
   const judge = sessionStorage.getItem('vagh_judge_name');
@@ -329,9 +308,9 @@ function imgUrl(path) {
 
 async function loadData() {
   const stateMsg = document.getElementById('stateMsg');
-  const grid = document.getElementById('grid');
+  const entries = document.getElementById('entries');
   stateMsg.style.display = 'block'; stateMsg.textContent = 'Loading submissions…';
-  grid.style.display = 'none';
+  entries.style.display = 'none';
 
   const [subsRes, scoresRes, flagsRes] = await Promise.all([
     sb.rpc('judging_get_submissions', { pw: PASSWORD }),
@@ -353,14 +332,13 @@ async function loadData() {
   }
 
   stateMsg.style.display = 'none';
-  grid.style.display = 'grid';
-  renderGrid();
+  entries.style.display = 'flex';
+  renderEntries();
 }
 
 function scoresFor(submissionId) {
   return allScores.filter(s => s.submission_id === submissionId);
 }
-
 function flagFor(submissionId) {
   return allFlags.find(f => f.submission_id === submissionId) || null;
 }
@@ -373,11 +351,19 @@ function updateProgress() {
     `${CURRENT_JUDGE}: ${done} / ${submissions.length} scored`;
 }
 
-function renderGrid() {
+function renderEntries() {
   updateProgress();
-  const grid = document.getElementById('grid');
-  grid.innerHTML = '';
-  submissions.forEach(sub => grid.appendChild(renderCard(sub)));
+  const entries = document.getElementById('entries');
+  entries.innerHTML = '';
+  submissions.forEach(sub => entries.appendChild(renderCard(sub)));
+}
+
+function clampVal(v) {
+  v = parseFloat(v);
+  if (isNaN(v)) return 5.0;
+  if (v < 1) v = 1;
+  if (v > 10) v = 10;
+  return Math.round(v * 10) / 10;
 }
 
 function renderCard(sub) {
@@ -387,7 +373,6 @@ function renderCard(sub) {
   const isAdmin = CURRENT_JUDGE === 'Nara';
 
   let classes = 'card';
-  if (myScore) classes += ' done';
   if (flag && flag.disqualified) classes += ' is-disqualified';
   card.className = classes;
 
@@ -402,102 +387,103 @@ function renderCard(sub) {
       `</div>`;
   }
 
-  // badges (scored / flagged / disqualified — flag status visible to everyone)
+  // badges
   let badges = '';
-  if (myScore) badges += '<span class="done-badge">Scored</span>';
-  if (flag && flag.disqualified) badges += '<span class="flag-badge disqualified">Disqualified</span>';
-  else if (flag && flag.flagged) badges += '<span class="flag-badge flagged">Flagged</span>';
+  if (myScore) badges += '<span class="badge done">Scored</span>';
+  if (flag && flag.disqualified) badges += '<span class="badge disqualified">Disqualified</span>';
+  else if (flag && flag.flagged) badges += '<span class="badge flagged">Flagged</span>';
 
-  // other judges' scores
+  // ---- OTHER JUDGES: read-only, no inputs of any kind ----
   const others = scoresFor(sub.id).filter(s => s.judge_name !== CURRENT_JUDGE);
-  const othersHtml = others.length ? `
+  const othersHtml = `
     <div class="other-scores">
-      <div class="other-scores-title">Other judges</div>
-      ${others.map(o => `
+      <div class="section-label">Other Judges — view only</div>
+      ${others.length ? others.map(o => `
         <div class="other-score-row">
-          <span><b>${o.judge_name}</b> — total ${totalOf(o)}</span>
+          <span><b>${o.judge_name}</b> — total ${totalOf(o)} / 60</span>
           ${o.comments ? `<span class="comment">"${escapeHtml(o.comments)}"</span>` : ''}
         </div>
-      `).join('')}
-    </div>` : '';
+      `).join('') : '<div class="other-empty">No other scores submitted yet.</div>'}
+    </div>`;
 
   const reasonVisible = flag && (flag.flagged || flag.disqualified) && flag.reason;
   const flagNoteHtml = (!isAdmin && reasonVisible) ? `
-    <div class="statement" style="border-left-color:var(--red);">
+    <div class="statement warn">
       <b>${flag.disqualified ? 'Disqualified' : 'Flagged'} by ${escapeHtml(flag.updated_by || 'Nara')}:</b> ${escapeHtml(flag.reason)}
     </div>` : '';
 
   const adminPanelHtml = isAdmin ? `
     <div class="admin-panel">
-      <div class="admin-panel-title">Admin — flag / disqualify (Nara only)</div>
+      <div class="admin-panel-title">Admin — flag / disqualify</div>
       <div class="admin-toggles">
         <div class="admin-toggle${flag && flag.flagged ? ' active-flag' : ''}" id="toggle-flag-${sub.id}" data-active="${flag && flag.flagged ? '1' : '0'}">Flagged</div>
         <div class="admin-toggle${flag && flag.disqualified ? ' active-dq' : ''}" id="toggle-dq-${sub.id}" data-active="${flag && flag.disqualified ? '1' : '0'}">Disqualified</div>
       </div>
-      <textarea class="admin-reason" id="reason-${sub.id}" placeholder="Reason (shown to other judges)">${flag ? escapeHtml(flag.reason || '') : ''}</textarea>
+      <textarea class="admin-reason" id="reason-${sub.id}" placeholder="Reason (visible to other judges)">${flag ? escapeHtml(flag.reason || '') : ''}</textarea>
       <button class="admin-save" id="save-flag-${sub.id}">Save Flag Status</button>
       <div class="save-status" id="flag-status-${sub.id}"></div>
     </div>` : '';
 
   card.innerHTML = `
     ${photosHtml}
-    <div class="card-body">
-      <div class="card-head">
-        <div>
-          <div class="entry-tag">${sub.submission_id || ''} ${sub.entry_number ? '· #' + sub.entry_number : ''}</div>
-          <div class="model-name">${escapeHtml(sub.model_name || 'Untitled')}</div>
-        </div>
-        <div class="badge-row">${badges}</div>
+    <div class="card-head">
+      <div>
+        <div class="entry-tag">${sub.submission_id || ''} ${sub.entry_number ? '· #' + sub.entry_number : ''}</div>
+        <div class="model-name">${escapeHtml(sub.model_name || 'Untitled')}</div>
       </div>
-      <div class="meta-row">
-        <b>Folder:</b> ${escapeHtml(sub.artist_name || '—')}${sub.designer ? ` &nbsp;·&nbsp; <b>Designer:</b> ${escapeHtml(sub.designer)}` : ''}<br>
-        ${sub.paper_used ? `<b>Paper:</b> ${escapeHtml(sub.paper_used)} &nbsp;·&nbsp; ` : ''}${sub.difficulty ? `<b>Difficulty:</b> ${escapeHtml(sub.difficulty)}` : ''}${sub.time_taken ? ` &nbsp;·&nbsp; <b>Time:</b> ${escapeHtml(sub.time_taken)}` : ''}
-      </div>
-      ${sub.artistic_statement ? `<div class="statement">${escapeHtml(sub.artistic_statement)}</div>` : ''}
-      ${flagNoteHtml}
+      <div class="badge-row">${badges}</div>
+    </div>
+    <div class="meta-row">
+      <b>Folder:</b> ${escapeHtml(sub.artist_name || '—')}${sub.designer ? ` &nbsp;·&nbsp; <b>Designer:</b> ${escapeHtml(sub.designer)}` : ''}<br>
+      ${sub.paper_used ? `<b>Paper:</b> ${escapeHtml(sub.paper_used)} &nbsp;·&nbsp; ` : ''}${sub.difficulty ? `<b>Difficulty:</b> ${escapeHtml(sub.difficulty)}` : ''}${sub.time_taken ? ` &nbsp;·&nbsp; <b>Time:</b> ${escapeHtml(sub.time_taken)}` : ''}
+    </div>
+    ${sub.artistic_statement ? `<div class="statement">${escapeHtml(sub.artistic_statement)}</div>` : ''}
+    ${flagNoteHtml}
 
+    <div class="your-score">
+      <div class="section-label">Your Score</div>
       <div class="criteria">
         ${CRITERIA.map(c => {
           const raw = myScore ? myScore[c.key === 'precision' ? 'precision_score' : c.key] : 5;
           const val = parseFloat(raw).toFixed(1);
           return `
           <div class="crit-field">
-            <label for="${c.key}-${sub.id}">${c.label} <span class="val" id="${c.key}-${sub.id}-val">${val}</span></label>
-            <input type="range" min="1" max="10" step="0.1" value="${val}"
-                   id="${c.key}-${sub.id}" data-key="${c.key}" data-sub="${sub.id}">
+            <label for="${c.key}-${sub.id}">${c.label}</label>
+            <input type="number" min="1" max="10" step="0.1" value="${val}"
+                   id="${c.key}-${sub.id}" data-key="${c.key}">
           </div>`;
         }).join('')}
       </div>
-
       <div class="total-row">
-        <span>Total</span>
-        <b id="total-${sub.id}">${myScore ? totalOf(myScore) : '30.0'}/60</b>
+        <span>Auto Total</span>
+        <b id="total-${sub.id}">${myScore ? totalOf(myScore) : '30.0'} / 60</b>
       </div>
-
       <textarea class="comments" id="comments-${sub.id}" placeholder="Notes / constructive feedback (optional)">${myScore ? escapeHtml(myScore.comments || '') : ''}</textarea>
-
       <button class="save-btn" id="save-${sub.id}">Save Score</button>
       <div class="save-status" id="status-${sub.id}"></div>
-
-      ${othersHtml}
-      ${adminPanelHtml}
     </div>
+
+    ${othersHtml}
+    ${adminPanelHtml}
   `;
 
-  // wire up sliders
+  // live auto-total + clamping, manual entry only (no sliders)
   CRITERIA.forEach(c => {
     const input = card.querySelector(`#${c.key}-${sub.id}`);
-    input.addEventListener('input', () => {
-      card.querySelector(`#${c.key}-${sub.id}-val`).textContent = parseFloat(input.value).toFixed(1);
+    const recalc = () => {
       const total = CRITERIA.reduce((sum, cc) =>
-        sum + parseFloat(card.querySelector(`#${cc.key}-${sub.id}`).value), 0);
-      card.querySelector(`#total-${sub.id}`).textContent = `${total.toFixed(1)}/60`;
+        sum + parseFloat(card.querySelector(`#${cc.key}-${sub.id}`).value || 0), 0);
+      card.querySelector(`#total-${sub.id}`).textContent = `${total.toFixed(1)} / 60`;
+    };
+    input.addEventListener('input', recalc);
+    input.addEventListener('blur', () => {
+      input.value = clampVal(input.value).toFixed(1);
+      recalc();
     });
   });
 
   card.querySelector(`#save-${sub.id}`).addEventListener('click', () => saveScore(sub.id, card));
 
-  // wire up admin flag controls
   if (isAdmin) {
     const flagToggle = card.querySelector(`#toggle-flag-${sub.id}`);
     const dqToggle = card.querySelector(`#toggle-dq-${sub.id}`);
@@ -535,7 +521,7 @@ async function saveScore(subId, card) {
   const status = card.querySelector(`#status-${subId}`);
   btn.disabled = true; btn.textContent = 'Saving…'; status.textContent = '';
 
-  const get = key => parseFloat(card.querySelector(`#${key}-${subId}`).value);
+  const get = key => clampVal(card.querySelector(`#${key}-${subId}`).value);
   const comments = card.querySelector(`#comments-${subId}`).value.trim();
 
   const { data, error } = await sb.rpc('judging_submit_score', {
@@ -559,16 +545,14 @@ async function saveScore(subId, card) {
     return;
   }
 
-  // update local cache so the card + progress reflect it immediately
   allScores = allScores.filter(s => !(s.submission_id === subId && s.judge_name === CURRENT_JUDGE));
   allScores.push(data);
   status.style.color = 'var(--green)';
   status.textContent = 'Saved.';
   updateProgress();
-  card.classList.add('done');
-  if (!card.querySelector('.done-badge')) {
+  if (!card.querySelector('.badge.done')) {
     const badge = document.createElement('span');
-    badge.className = 'done-badge';
+    badge.className = 'badge done';
     badge.textContent = 'Scored';
     card.querySelector('.badge-row').prepend(badge);
   }
@@ -605,7 +589,6 @@ async function saveFlag(subId, card) {
   status.style.color = 'var(--green)';
   status.textContent = 'Saved.';
 
-  // re-render this single card so its badges reflect the new status
   const fresh = renderCard(submissions.find(s => s.id === subId));
   card.replaceWith(fresh);
 }
