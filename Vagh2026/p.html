@@ -203,9 +203,7 @@ textarea.comments{min-height:64px;resize:vertical;font-size:14.5px;margin-top:16
   <div class="gate-box">
     <p class="gate-eyebrow">SIOA · Private</p>
     <h1 class="gate-title">VAGH 2026 Judging</h1>
-    <p class="gate-sub">Enter the shared judging password and select your name to continue.</p>
-    <label class="field-label">Password</label>
-    <input class="gate-input" type="password" id="pwInput" placeholder="Judging password" autocomplete="off">
+    <p class="gate-sub">Select your name to continue.</p>
     <label class="field-label">Your name</label>
     <select class="gate-input" id="judgeSelect">
       <option value="">Select…</option>
@@ -255,61 +253,40 @@ const CRITERIA = [
 ];
 // weights sum to 100 — this is what the weighted total is built from
 
-let PASSWORD = null;
 let CURRENT_JUDGE = null;
 let submissions = [];
 let allScores = [];
 let allFlags = [];
 
 // ============================================================
-// AUTH GATE
+// NAME GATE (no password — access is gated only by knowing this URL)
 // ============================================================
 const gate = document.getElementById('gate');
 const dashboard = document.getElementById('dashboard');
 const gateError = document.getElementById('gateError');
 
-async function tryLogin(pw, judge) {
-  gateError.textContent = '';
-  const { data, error } = await sb.rpc('judging_login', { pw });
-  if (error || data !== true) {
-    gateError.textContent = 'Incorrect password.';
-    return false;
-  }
-  PASSWORD = pw;
+function selectJudge(judge) {
   CURRENT_JUDGE = judge;
-  sessionStorage.setItem('vagh_judge_pw', pw);
   sessionStorage.setItem('vagh_judge_name', judge);
-  return true;
 }
 
-document.getElementById('enterBtn').addEventListener('click', async () => {
-  const pw = document.getElementById('pwInput').value.trim();
+document.getElementById('enterBtn').addEventListener('click', () => {
   const judge = document.getElementById('judgeSelect').value;
-  if (!pw) { gateError.textContent = 'Enter the password.'; return; }
   if (!judge) { gateError.textContent = 'Select your name.'; return; }
-  const btn = document.getElementById('enterBtn');
-  btn.disabled = true; btn.textContent = 'Checking…';
-  const ok = await tryLogin(pw, judge);
-  btn.disabled = false; btn.textContent = 'Enter';
-  if (ok) enterDashboard();
-});
-
-document.getElementById('pwInput').addEventListener('keydown', (e) => {
-  if (e.key === 'Enter') document.getElementById('enterBtn').click();
+  selectJudge(judge);
+  enterDashboard();
 });
 
 document.getElementById('logoutBtn').addEventListener('click', () => {
-  sessionStorage.removeItem('vagh_judge_pw');
   sessionStorage.removeItem('vagh_judge_name');
   location.reload();
 });
 
-(async function autoResume() {
-  const pw = sessionStorage.getItem('vagh_judge_pw');
+(function autoResume() {
   const judge = sessionStorage.getItem('vagh_judge_name');
-  if (pw && judge) {
-    const ok = await tryLogin(pw, judge);
-    if (ok) enterDashboard();
+  if (judge) {
+    selectJudge(judge);
+    enterDashboard();
   }
 })();
 
@@ -336,9 +313,9 @@ async function loadData() {
   grid.style.display = 'none';
 
   const [subsRes, scoresRes, flagsRes] = await Promise.all([
-    sb.rpc('judging_get_submissions', { pw: PASSWORD }),
-    sb.rpc('judging_get_scores', { pw: PASSWORD }),
-    sb.rpc('judging_get_flags', { pw: PASSWORD }),
+    sb.rpc('judging_get_submissions'),
+    sb.rpc('judging_get_scores'),
+    sb.rpc('judging_get_flags'),
   ]);
 
   if (subsRes.error) {
@@ -594,7 +571,6 @@ async function saveScore(subId, card) {
   const comments = card.querySelector(`#comments-${subId}`).value.trim();
 
   const { data, error } = await sb.rpc('judging_submit_score', {
-    pw: PASSWORD,
     p_submission_id: subId,
     p_judge_name: CURRENT_JUDGE,
     p_cleanliness: get('cleanliness'),
@@ -638,7 +614,6 @@ async function saveFlag(subId, card) {
   const reason = card.querySelector(`#reason-${subId}`).value.trim();
 
   const { data, error } = await sb.rpc('judging_set_flag', {
-    pw: PASSWORD,
     p_submission_id: subId,
     p_judge_name: CURRENT_JUDGE,
     p_flagged: flagged,
