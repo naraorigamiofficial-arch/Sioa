@@ -610,7 +610,8 @@ async function saveScore(subId, card) {
 
   if (error) {
     status.style.color = 'var(--red)';
-    status.textContent = 'Error saving — try again.';
+    status.textContent = 'Error: ' + error.message;
+    console.error('judging_submit_score error:', error);
     return;
   }
 
@@ -649,7 +650,8 @@ async function saveFlag(subId, card) {
 
   if (error) {
     status.style.color = 'var(--red)';
-    status.textContent = 'Error saving — try again.';
+    status.textContent = 'Error: ' + error.message;
+    console.error('judging_set_flag error:', error);
     return;
   }
 
