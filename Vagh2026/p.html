@@ -203,14 +203,7 @@ details.collapse .collapse-body{padding-top:10px;}
     <div class="topbar-title">VAGH 2026 <span>Judging</span></div>
     <div class="topbar-right">
       <span class="progress-pill" id="progressPill"></span>
-      <div class="judge-pill">
-        Judging as
-        <select id="judgeSwitcher">
-          <option value="Boice">Boice</option>
-          <option value="Sampreet">Sampreet</option>
-          <option value="Nara">Nara</option>
-        </select>
-      </div>
+      <span class="judge-pill">Judging as <b id="currentJudgeLabel" style="color:var(--text);font-weight:600;"></b></span>
       <span class="logout-link" id="logoutBtn">Log out</span>
     </div>
   </div>
@@ -289,12 +282,6 @@ document.getElementById('logoutBtn').addEventListener('click', () => {
   location.reload();
 });
 
-document.getElementById('judgeSwitcher').addEventListener('change', (e) => {
-  CURRENT_JUDGE = e.target.value;
-  sessionStorage.setItem('vagh_judge_name', CURRENT_JUDGE);
-  renderGrid();
-});
-
 (async function autoResume() {
   const pw = sessionStorage.getItem('vagh_judge_pw');
   const judge = sessionStorage.getItem('vagh_judge_name');
@@ -310,7 +297,7 @@ document.getElementById('judgeSwitcher').addEventListener('change', (e) => {
 function enterDashboard() {
   gate.style.display = 'none';
   dashboard.style.display = 'block';
-  document.getElementById('judgeSwitcher').value = CURRENT_JUDGE;
+  document.getElementById('currentJudgeLabel').textContent = CURRENT_JUDGE;
   loadData();
 }
 
@@ -357,19 +344,30 @@ function flagFor(submissionId) {
   return allFlags.find(f => f.submission_id === submissionId) || null;
 }
 
+// Non-admin judges never see flagged/disqualified entries at all —
+// only Nara (who manages flags) sees the full list.
+function visibleSubmissions() {
+  if (CURRENT_JUDGE === 'Nara') return submissions;
+  return submissions.filter(s => {
+    const f = flagFor(s.id);
+    return !(f && (f.flagged || f.disqualified));
+  });
+}
+
 function updateProgress() {
-  const done = submissions.filter(s =>
+  const visible = visibleSubmissions();
+  const done = visible.filter(s =>
     scoresFor(s.id).some(sc => sc.judge_name === CURRENT_JUDGE)
   ).length;
   document.getElementById('progressPill').textContent =
-    `${CURRENT_JUDGE}: ${done} / ${submissions.length} scored`;
+    `${CURRENT_JUDGE}: ${done} / ${visible.length} scored`;
 }
 
 function renderGrid() {
   updateProgress();
   const grid = document.getElementById('grid');
   grid.innerHTML = '';
-  submissions.forEach(sub => grid.appendChild(renderCard(sub)));
+  visibleSubmissions().forEach(sub => grid.appendChild(renderCard(sub)));
 }
 
 function clampVal(v) {
@@ -403,11 +401,12 @@ function renderCard(sub) {
       `</div>`;
   }
 
-  // badges
+  // badges — flag/disqualified badges only ever render for Nara, since
+  // non-admin judges never see these cards in the first place
   let badges = '';
   if (myScore) badges += '<span class="badge done">Scored</span>';
-  if (flag && flag.disqualified) badges += '<span class="badge disqualified">Disqualified</span>';
-  else if (flag && flag.flagged) badges += '<span class="badge flagged">Flagged</span>';
+  if (isAdmin && flag && flag.disqualified) badges += '<span class="badge disqualified">Disqualified</span>';
+  else if (isAdmin && flag && flag.flagged) badges += '<span class="badge flagged">Flagged</span>';
 
   // other judges — read-only, collapsed by default
   const others = scoresFor(sub.id).filter(s => s.judge_name !== CURRENT_JUDGE);
@@ -423,12 +422,6 @@ function renderCard(sub) {
         `).join('') : '<div class="other-empty">No other scores yet.</div>'}
       </div>
     </details>`;
-
-  const reasonVisible = flag && (flag.flagged || flag.disqualified) && flag.reason;
-  const flagNoteHtml = (!isAdmin && reasonVisible) ? `
-    <div class="statement warn">
-      <b>${flag.disqualified ? 'Disqualified' : 'Flagged'} by ${escapeHtml(flag.updated_by || 'Nara')}:</b> ${escapeHtml(flag.reason)}
-    </div>` : '';
 
   const adminPanelHtml = isAdmin ? `
     <details class="collapse admin-panel" ${flag && (flag.flagged || flag.disqualified) ? 'open' : ''}>
@@ -459,7 +452,6 @@ function renderCard(sub) {
         ${sub.paper_used ? `<b>Paper:</b> ${escapeHtml(sub.paper_used)} &nbsp;·&nbsp; ` : ''}${sub.difficulty ? `<b>Difficulty:</b> ${escapeHtml(sub.difficulty)}` : ''}${sub.time_taken ? ` &nbsp;·&nbsp; <b>Time:</b> ${escapeHtml(sub.time_taken)}` : ''}
       </div>
       ${sub.artistic_statement ? `<div class="statement">${escapeHtml(sub.artistic_statement)}</div>` : ''}
-      ${flagNoteHtml}
 
       <div class="your-score">
         <div class="section-label">Your Score</div>
@@ -620,8 +612,9 @@ async function saveFlag(subId, card) {
   status.style.color = 'var(--green)';
   status.textContent = 'Saved.';
 
-  const fresh = renderCard(submissions.find(s => s.id === subId));
-  card.replaceWith(fresh);
+  // Re-render the whole grid: flagging/disqualifying changes what non-admin
+  // judges will see, and Nara's own view of this card also needs refreshing.
+  renderGrid();
 }
 </script>
 </body>
