@@ -277,7 +277,8 @@ JUDGE_ORDER.forEach((name, i) => { JUDGE_LABEL[name] = "Judge " + String.fromCha
 const LABELS_IN_ORDER = JUDGE_ORDER.map(n => JUDGE_LABEL[n]);
 
 let leaderboardEntries = [];
-let excludedCount = 0;
+let disqualifiedCount = 0;
+let underReviewCount = 0;
 let listOpen = false;
 let listQuery = "";
 
@@ -295,13 +296,38 @@ function weightedTotal(scoreRow) {
   return total / 10;
 }
 
+function disqualifiedNoteText(count, reasons) {
+  const plural = count === 1 ? "entry was" : "entries were";
+  const accountedFor = reasons.reduce((sum, r) => sum + r.count, 0);
+  const unexplained = count - accountedFor;
+
+  if (reasons.length === 0) {
+    return `${count} ${plural} disqualified and not shown on the leaderboard.`;
+  }
+  if (reasons.length === 1 && unexplained === 0) {
+    return `${count} ${plural} disqualified (${reasons[0].reason}) and not shown on the leaderboard.`;
+  }
+
+  const parts = reasons.map(r => `${r.count} for ${r.reason}`);
+  if (unexplained > 0) parts.push(`${unexplained} with no reason on file`);
+  return `${count} ${plural} disqualified and not shown on the leaderboard: ${parts.join(", ")}.`;
+}
+
 function buildLeaderboard(submissions, scores, flags) {
   const entries = [];
-  let excluded = 0;
+  let disqualifiedCount = 0;
+  let underReviewCount = 0;
+  const reasonCounts = new Map(); // reason text -> count, for disqualified entries only
 
   submissions.forEach(sub => {
     const flag = flags.find(f => f.submission_id === sub.id);
-    if (flag && (flag.flagged || flag.disqualified)) { excluded++; return; }
+    if (flag && flag.disqualified) {
+      disqualifiedCount++;
+      const reason = (flag.reason || "").trim();
+      if (reason) reasonCounts.set(reason, (reasonCounts.get(reason) || 0) + 1);
+      return;
+    }
+    if (flag && flag.flagged) { underReviewCount++; return; }
 
     const subScores = scores.filter(s => s.submission_id === sub.id);
     if (subScores.length === 0) return;
@@ -333,7 +359,11 @@ function buildLeaderboard(submissions, scores, flags) {
   );
   entries.forEach((e, i) => { e.rank = i + 1; });
 
-  return { entries, excluded };
+  const disqualifiedReasons = [...reasonCounts.entries()]
+    .map(([reason, count]) => ({ reason, count }))
+    .sort((a, b) => b.count - a.count);
+
+  return { entries, disqualifiedCount, underReviewCount, disqualifiedReasons };
 }
 
 async function loadData(isRefresh) {
@@ -374,12 +404,20 @@ async function loadData(isRefresh) {
 
   const result = buildLeaderboard(submissions, scores, flags);
   leaderboardEntries = result.entries;
-  excludedCount = result.excluded;
+  disqualifiedCount = result.disqualifiedCount;
+  underReviewCount = result.underReviewCount;
 
   document.getElementById("updatedText").textContent = "Updated " + new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
 
-  excludedNote.innerHTML = excludedCount > 0
-    ? `<p class="excluded-note">${excludedCount} ${excludedCount === 1 ? "entry is" : "entries are"} currently under review and not shown on the leaderboard.</p>`
+  const notes = [];
+  if (disqualifiedCount > 0) {
+    notes.push(disqualifiedNoteText(disqualifiedCount, result.disqualifiedReasons));
+  }
+  if (underReviewCount > 0) {
+    notes.push(`${underReviewCount} ${underReviewCount === 1 ? "entry is" : "entries are"} currently under review and not shown on the leaderboard.`);
+  }
+  excludedNote.innerHTML = notes.length
+    ? notes.map(n => `<p class="excluded-note">${escapeHtml(n)}</p>`).join("")
     : "";
 
   if (leaderboardEntries.length === 0) {
