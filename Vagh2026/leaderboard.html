@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VAGH 2026 · Leaderboard | SIOA</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0b0f14;
+  --panel:#141a21;
+  --panel-2:#1a212a;
+  --panel-3:#212a34;
+  --border:#262f39;
+  --border-soft:#1d252e;
+  --text:#f0f3f6;
+  --muted:#9aa6b2;
+  --faint:#6b7885;
+  --accent:#4fa8c9;
+  --accent-strong:#63b9d8;
+  --green:#5ec98e;
+  --amber:#e0b155;
+  --red:#e07272;
+  --gold:#e3b65a;
+  --silver:#aab7c4;
+  --bronze:#c9895c;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 12px 32px -18px rgba(0,0,0,.9);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{-webkit-text-size-adjust:100%;}
+body{
+  font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  font-size:16px;
+  line-height:1.55;
+  min-height:100vh;
+  -webkit-font-smoothing:antialiased;
+}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:6px;}
+.mono{font-family:'JetBrains Mono',ui-monospace,monospace;font-variant-numeric:tabular-nums;}
+button{font-family:inherit;}
+
+/* ============ TOPBAR ============ */
+.topbar{
+  position:sticky;top:0;z-index:100;background:rgba(11,15,20,.94);backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--border);
+}
+.topbar-inner{
+  max-width:1100px;margin:0 auto;padding:16px 20px;
+  display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px;
+}
+.topbar-title{font-size:15.5px;font-weight:700;letter-spacing:-.01em;display:flex;align-items:center;gap:9px;}
+.topbar-title span{color:var(--faint);font-weight:500;}
+.dot-sep{width:4px;height:4px;border-radius:50%;background:var(--border);}
+.topbar-right{display:flex;align-items:center;gap:12px;}
+.updated-text{font-size:12.5px;color:var(--faint);}
+.refresh-btn{
+  display:flex;align-items:center;gap:7px;padding:8px 13px;background:var(--panel);
+  border:1px solid var(--border);border-radius:9px;color:var(--muted);font-size:13px;font-weight:600;
+  cursor:pointer;transition:.15s;
+}
+.refresh-btn:hover{color:var(--text);border-color:#31404e;}
+.refresh-btn svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+.refresh-btn.is-loading svg{animation:spin 0.8s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
+
+/* ============ HERO ============ */
+.hero{max-width:1100px;margin:0 auto;padding:40px 20px 8px;}
+.hero h1{font-size:30px;font-weight:800;letter-spacing:-.02em;margin-bottom:9px;}
+.hero p{font-size:15px;color:var(--muted);max-width:60ch;}
+
+.wrap{max-width:1100px;margin:0 auto;padding:0 20px 100px;}
+
+.state-msg{
+  text-align:center;padding:90px 20px;color:var(--muted);font-size:15px;
+  border:1px dashed var(--border);border-radius:14px;margin-top:30px;
+}
+.state-msg b{display:block;color:var(--text);font-size:16.5px;font-weight:600;margin-bottom:6px;}
+
+.excluded-note{
+  margin-top:22px;font-size:13px;color:var(--faint);background:var(--panel-2);
+  border:1px solid var(--border-soft);border-radius:10px;padding:11px 14px;
+}
+
+/* ============ PODIUM ============ */
+.podium{
+  display:flex;align-items:flex-end;justify-content:center;gap:18px;
+  margin:36px 0 8px;flex-wrap:wrap;
+}
+.podium-card{
+  width:100%;max-width:270px;background:var(--panel);border:1px solid var(--border);
+  border-radius:16px;padding:26px 20px 22px;text-align:center;box-shadow:var(--shadow);
+  position:relative;opacity:0;transform:translateY(14px);animation:riseIn .5s ease forwards;
+}
+.podium-card.rank-1{order:2;padding-top:32px;padding-bottom:28px;border-color:rgba(227,182,90,.4);}
+.podium-card.rank-2{order:1;margin-bottom:18px;}
+.podium-card.rank-3{order:3;margin-bottom:30px;}
+.podium-card:nth-child(1){animation-delay:.06s;}
+.podium-card:nth-child(2){animation-delay:.14s;}
+.podium-card:nth-child(3){animation-delay:.22s;}
+@keyframes riseIn{to{opacity:1;transform:translateY(0);}}
+
+.medal{
+  width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  font-size:15px;font-weight:800;margin:0 auto 14px;border:1.5px solid;
+}
+.rank-1 .medal{width:46px;height:46px;font-size:17px;color:var(--gold);border-color:var(--gold);background:rgba(227,182,90,.1);}
+.rank-2 .medal{color:var(--silver);border-color:var(--silver);background:rgba(170,183,196,.09);}
+.rank-3 .medal{color:var(--bronze);border-color:var(--bronze);background:rgba(201,137,92,.09);}
+
+.pod-thumb{
+  width:96px;height:96px;border-radius:12px;object-fit:cover;margin:0 auto 14px;
+  background:#050709;border:1px solid var(--border-soft);
+}
+.rank-1 .pod-thumb{width:112px;height:112px;}
+.pod-thumb-fallback{
+  width:96px;height:96px;border-radius:12px;margin:0 auto 14px;background:#10151b;
+  display:flex;align-items:center;justify-content:center;border:1px solid var(--border-soft);
+}
+.pod-thumb-fallback svg{width:26px;height:26px;stroke:var(--faint);fill:none;stroke-width:1.5;}
+.rank-1 .pod-thumb-fallback{width:112px;height:112px;}
+
+.pod-tag{font-size:11px;letter-spacing:.06em;color:var(--faint);margin-bottom:4px;}
+.pod-name{font-size:16.5px;font-weight:700;line-height:1.3;margin-bottom:14px;min-height:22px;}
+.rank-1 .pod-name{font-size:18.5px;}
+
+.pod-score{font-size:32px;font-weight:800;letter-spacing:-.02em;margin-bottom:4px;}
+.rank-1 .pod-score{font-size:38px;color:var(--gold);}
+.pod-score small{font-size:14px;color:var(--faint);font-weight:600;}
+.pod-judges-note{font-size:11.5px;color:var(--faint);margin-bottom:14px;}
+
+.pod-chips{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;}
+.judge-chip{
+  font-size:11.5px;color:var(--muted);background:var(--panel-2);border:1px solid var(--border-soft);
+  border-radius:7px;padding:5px 9px;
+}
+.judge-chip b{color:var(--text);font-weight:700;}
+.judge-chip.pending{color:var(--faint);}
+
+/* ============ FULL LIST ============ */
+.list-toggle-row{display:flex;justify-content:center;margin:34px 0;}
+.see-all-btn{
+  padding:12px 22px;background:var(--panel);border:1.5px solid var(--border);color:var(--text);
+  border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:8px;
+  transition:.15s;
+}
+.see-all-btn:hover{border-color:var(--accent);color:var(--accent-strong);}
+.see-all-btn svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2.2;transition:transform .2s;}
+.see-all-btn.is-open svg{transform:rotate(180deg);}
+
+.full-list{display:none;}
+.full-list.open{display:block;}
+
+.list-controls{display:flex;justify-content:flex-end;margin-bottom:14px;}
+.list-controls input{
+  width:100%;max-width:240px;padding:10px 13px;background:var(--panel);border:1.5px solid var(--border);
+  border-radius:9px;color:var(--text);font-size:13.5px;outline:none;
+}
+.list-controls input:focus{border-color:var(--accent);background:var(--panel-2);}
+
+.lb-table{background:var(--panel);border:1px solid var(--border);border-radius:14px;overflow:hidden;}
+.lb-head{
+  display:grid;grid-template-columns:44px 1fr 64px 64px 64px 84px;gap:12px;align-items:center;
+  padding:12px 18px;font-size:11px;font-weight:700;letter-spacing:.06em;color:var(--faint);
+  border-bottom:1px solid var(--border-soft);
+}
+.lb-row{
+  display:grid;grid-template-columns:44px 1fr 64px 64px 64px 84px;gap:12px;align-items:center;
+  padding:13px 18px;border-bottom:1px solid var(--border-soft);transition:background .12s;
+}
+.lb-row:last-child{border-bottom:none;}
+.lb-row:hover{background:var(--panel-2);}
+.lb-rank{font-family:'JetBrains Mono',monospace;font-weight:700;color:var(--faint);font-size:14px;}
+.lb-rank.top{color:var(--text);}
+.lb-entry{display:flex;align-items:center;gap:11px;min-width:0;}
+.lb-thumb{width:38px;height:38px;border-radius:8px;object-fit:cover;flex-shrink:0;background:#050709;border:1px solid var(--border-soft);}
+.lb-thumb-fallback{width:38px;height:38px;border-radius:8px;flex-shrink:0;background:#10151b;border:1px solid var(--border-soft);}
+.lb-entry-text{min-width:0;}
+.lb-entry-name{font-size:14px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.lb-entry-tag{font-size:11.5px;color:var(--faint);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.lb-judge{font-size:13px;color:var(--muted);font-family:'JetBrains Mono',monospace;text-align:center;}
+.lb-judge.pending{color:var(--faint);}
+.lb-final{font-size:15.5px;font-weight:800;text-align:right;font-family:'JetBrains Mono',monospace;}
+.lb-caption{display:none;font-size:11.5px;color:var(--faint);margin-top:2px;}
+
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important;}
+  .podium-card{opacity:1;transform:none;animation:none;}}
+
+@media(max-width:680px){
+  .hero{padding:32px 16px 4px;}
+  .wrap{padding:0 16px 80px;}
+  .hero h1{font-size:25px;}
+  .podium{gap:14px;}
+  .podium-card{max-width:none;}
+  .podium-card.rank-1,.podium-card.rank-2,.podium-card.rank-3{order:initial;margin-bottom:0;}
+  .lb-head{display:none;}
+  .lb-row{grid-template-columns:32px 1fr 78px;padding:12px 14px;}
+  .lb-judge{display:none;}
+  .lb-caption{display:block;}
+  .lb-final{font-size:14.5px;}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <div class="topbar-title">VAGH 2026 <span class="dot-sep"></span> <span>Leaderboard</span></div>
+    <div class="topbar-right">
+      <span class="updated-text" id="updatedText"></span>
+      <button class="refresh-btn" id="refreshBtn">
+        <svg viewBox="0 0 24 24"><path d="M21 2v6h-6"/><path d="M3 12a9 9 0 0 1 15-6.7L21 8"/><path d="M3 22v-6h6"/><path d="M21 12a9 9 0 0 1-15 6.7L3 16"/></svg>
+        Refresh
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="hero">
+  <h1>Standings</h1>
+  <p>Final score is the average of each judge's weighted total, out of 100. Judge identities stay anonymous while judging is underway. Entries are shown as Judge A, Judge B and Judge C.</p>
+</div>
+
+<div class="wrap">
+  <div class="state-msg" id="stateMsg">Loading standings…</div>
+  <div id="excludedNote"></div>
+
+  <div class="podium" id="podium" style="display:none;"></div>
+
+  <div class="list-toggle-row" id="toggleRow" style="display:none;">
+    <button class="see-all-btn" id="seeAllBtn">
+      <span id="seeAllLabel">See all entries</span>
+      <svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+    </button>
+  </div>
+
+  <div class="full-list" id="fullList">
+    <div class="list-controls">
+      <input type="search" id="listSearch" placeholder="Search model or entry number">
+    </div>
+    <div class="lb-table">
+      <div class="lb-head">
+        <span>Rank</span><span>Entry</span><span style="text-align:center">Judge A</span><span style="text-align:center">Judge B</span><span style="text-align:center">Judge C</span><span style="text-align:right">Final</span>
+      </div>
+      <div id="lbRows"></div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+// ============================================================
+// CONFIG: same project as the judging panel (read-only here)
+// ============================================================
+const sb = window.supabase.createClient(
+  "https://zbgvgzzaejaxrgcjjovc.supabase.co",
+  "sb_publishable_gCLTB6WM95Iw6Txcf2fjCA_5fnXPw77"
+);
+const IMAGE_BUCKET = "competition_media";
+
+// Keep in sync with the judging page's criteria weights.
+const CRITERIA = [
+  { key: "precision",         col: "precision_score",   weight: 20 },
+  { key: "shaping",           col: "shaping",            weight: 45 },
+  { key: "overall_execution", col: "overall_execution",  weight: 35 },
+];
+
+// Keep in sync with the judge selector on the judging page.
+// Order here (alphabetical) fixes each real judge to a stable, anonymous letter.
+const JUDGE_ORDER = ["Boice", "Nara", "Sampreet"];
+const JUDGE_LABEL = {};
+JUDGE_ORDER.forEach((name, i) => { JUDGE_LABEL[name] = "Judge " + String.fromCharCode(65 + i); });
+const LABELS_IN_ORDER = JUDGE_ORDER.map(n => JUDGE_LABEL[n]);
+
+let leaderboardEntries = [];
+let excludedCount = 0;
+let listOpen = false;
+let listQuery = "";
+
+// ============================================================
+// DATA
+// ============================================================
+function imgUrl(path) {
+  if (!path) return null;
+  if (path.startsWith("http")) return path;
+  return sb.storage.from(IMAGE_BUCKET).getPublicUrl(path).data.publicUrl;
+}
+
+function weightedTotal(scoreRow) {
+  const total = CRITERIA.reduce((sum, c) => sum + (parseFloat(scoreRow[c.col]) || 0) * c.weight, 0);
+  return total / 10;
+}
+
+function buildLeaderboard(submissions, scores, flags) {
+  const entries = [];
+  let excluded = 0;
+
+  submissions.forEach(sub => {
+    const flag = flags.find(f => f.submission_id === sub.id);
+    if (flag && (flag.flagged || flag.disqualified)) { excluded++; return; }
+
+    const subScores = scores.filter(s => s.submission_id === sub.id);
+    if (subScores.length === 0) return;
+
+    const perJudge = {};
+    JUDGE_ORDER.forEach(name => { perJudge[name] = null; });
+    subScores.forEach(s => {
+      if (Object.prototype.hasOwnProperty.call(perJudge, s.judge_name)) {
+        perJudge[s.judge_name] = weightedTotal(s);
+      }
+    });
+
+    const scoredVals = Object.values(perJudge).filter(v => v !== null);
+    if (scoredVals.length === 0) return;
+    const final = scoredVals.reduce((a, b) => a + b, 0) / scoredVals.length;
+
+    entries.push({
+      sub,
+      perJudge,
+      final,
+      judgesScored: scoredVals.length,
+    });
+  });
+
+  entries.sort((a, b) =>
+    b.final - a.final ||
+    b.judgesScored - a.judgesScored ||
+    (a.sub.model_name || "").localeCompare(b.sub.model_name || "")
+  );
+  entries.forEach((e, i) => { e.rank = i + 1; });
+
+  return { entries, excluded };
+}
+
+async function loadData(isRefresh) {
+  const stateMsg = document.getElementById("stateMsg");
+  const podium = document.getElementById("podium");
+  const toggleRow = document.getElementById("toggleRow");
+  const fullList = document.getElementById("fullList");
+  const excludedNote = document.getElementById("excludedNote");
+  const refreshBtn = document.getElementById("refreshBtn");
+
+  refreshBtn.classList.add("is-loading");
+  if (!isRefresh) {
+    stateMsg.style.display = "block";
+    stateMsg.innerHTML = "Loading standings…";
+    podium.style.display = "none";
+    toggleRow.style.display = "none";
+    fullList.classList.remove("open");
+  }
+
+  const [subsRes, scoresRes, flagsRes] = await Promise.all([
+    sb.rpc("judging_get_submissions"),
+    sb.rpc("judging_get_scores"),
+    sb.rpc("judging_get_flags"),
+  ]);
+
+  refreshBtn.classList.remove("is-loading");
+
+  if (subsRes.error) {
+    stateMsg.style.display = "block";
+    stateMsg.innerHTML = "<b>Standings did not load</b>" + escapeHtml(subsRes.error.message) + ". Reload the page, or check that judging_get_submissions is exposed.";
+    podium.style.display = "none";
+    return;
+  }
+
+  const submissions = subsRes.data || [];
+  const scores = scoresRes.data || [];
+  const flags = flagsRes.data || [];
+
+  const result = buildLeaderboard(submissions, scores, flags);
+  leaderboardEntries = result.entries;
+  excludedCount = result.excluded;
+
+  document.getElementById("updatedText").textContent = "Updated " + new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+
+  excludedNote.innerHTML = excludedCount > 0
+    ? `<p class="excluded-note">${excludedCount} ${excludedCount === 1 ? "entry is" : "entries are"} currently under review and not shown on the leaderboard.</p>`
+    : "";
+
+  if (leaderboardEntries.length === 0) {
+    stateMsg.style.display = "block";
+    stateMsg.innerHTML = "<b>No standings yet</b>Rankings appear here once judges start submitting scores.";
+    podium.style.display = "none";
+    toggleRow.style.display = "none";
+    fullList.classList.remove("open");
+    return;
+  }
+
+  stateMsg.style.display = "none";
+  renderPodium();
+  renderFullList();
+
+  toggleRow.style.display = leaderboardEntries.length > 3 ? "flex" : "none";
+}
+
+// ============================================================
+// PODIUM (top 3)
+// ============================================================
+const brokenImageIcon = `<svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>`;
+
+function renderPodium() {
+  const podium = document.getElementById("podium");
+  const top = leaderboardEntries.slice(0, 3);
+  podium.style.display = "flex";
+
+  podium.innerHTML = top.map(entry => {
+    const sub = entry.sub;
+    const thumbPath = (sub.image_paths || [])[0];
+    const thumb = thumbPath
+      ? `<img class="pod-thumb" src="${imgUrl(thumbPath)}" alt="" loading="lazy" onerror="this.replaceWith(fallbackThumb(true))">`
+      : fallbackThumbHtml(true);
+
+    const chips = JUDGE_ORDER.map(name => {
+      const val = entry.perJudge[name];
+      return val === null
+        ? `<span class="judge-chip pending">${JUDGE_LABEL[name]} -</span>`
+        : `<span class="judge-chip">${JUDGE_LABEL[name]} <b>${val.toFixed(1)}</b></span>`;
+    }).join("");
+
+    return `
+      <div class="podium-card rank-${entry.rank}">
+        <div class="medal">${entry.rank}</div>
+        ${thumb}
+        <div class="pod-tag">${escapeHtml(sub.submission_id || "")}${sub.entry_number ? " · #" + sub.entry_number : ""}</div>
+        <div class="pod-name">${escapeHtml(sub.model_name || "Untitled")}</div>
+        <div class="pod-score">${entry.final.toFixed(2)}<small> / 100</small></div>
+        <div class="pod-judges-note">${entry.judgesScored} of ${JUDGE_ORDER.length} judges scored</div>
+        <div class="pod-chips">${chips}</div>
+      </div>`;
+  }).join("");
+}
+
+function fallbackThumbHtml(large) {
+  return `<div class="pod-thumb-fallback">${brokenImageIcon}</div>`;
+}
+function fallbackThumb() {
+  const d = document.createElement("div");
+  d.className = "pod-thumb-fallback";
+  d.innerHTML = brokenImageIcon;
+  return d;
+}
+
+// ============================================================
+// FULL LIST
+// ============================================================
+function renderFullList() {
+  const container = document.getElementById("lbRows");
+  const q = listQuery.trim().toLowerCase();
+
+  const rows = leaderboardEntries.filter(entry => {
+    if (!q) return true;
+    const sub = entry.sub;
+    return [sub.model_name, sub.submission_id, sub.entry_number]
+      .filter(Boolean).join(" ").toLowerCase().includes(q);
+  });
+
+  if (rows.length === 0) {
+    container.innerHTML = `<div class="lb-row"><span></span><span style="color:var(--faint);">No entries match your search.</span></div>`;
+    return;
+  }
+
+  container.innerHTML = rows.map(entry => {
+    const sub = entry.sub;
+    const thumbPath = (sub.image_paths || [])[0];
+    const thumb = thumbPath
+      ? `<img class="lb-thumb" src="${imgUrl(thumbPath)}" alt="" loading="lazy" onerror="this.outerHTML='<div class=\\'lb-thumb-fallback\\'></div>'">`
+      : `<div class="lb-thumb-fallback"></div>`;
+
+    const captionParts = JUDGE_ORDER.map(name => {
+      const val = entry.perJudge[name];
+      return JUDGE_LABEL[name].replace("Judge ", "") + " " + (val === null ? "-" : val.toFixed(1));
+    }).join(" · ");
+
+    const judgeCells = JUDGE_ORDER.map(name => {
+      const val = entry.perJudge[name];
+      return val === null
+        ? `<span class="lb-judge pending">-</span>`
+        : `<span class="lb-judge">${val.toFixed(1)}</span>`;
+    }).join("");
+
+    return `
+      <div class="lb-row">
+        <span class="lb-rank${entry.rank <= 3 ? " top" : ""}">${entry.rank}</span>
+        <span class="lb-entry">
+          ${thumb}
+          <span class="lb-entry-text">
+            <span class="lb-entry-name">${escapeHtml(sub.model_name || "Untitled")}</span>
+            <span class="lb-entry-tag">${escapeHtml(sub.submission_id || "")}${sub.entry_number ? " · #" + sub.entry_number : ""}</span>
+            <span class="lb-caption">${captionParts}</span>
+          </span>
+        </span>
+        ${judgeCells}
+        <span class="lb-final">${entry.final.toFixed(2)}</span>
+      </div>`;
+  }).join("");
+}
+
+document.getElementById("seeAllBtn").addEventListener("click", () => {
+  listOpen = !listOpen;
+  const fullList = document.getElementById("fullList");
+  const btn = document.getElementById("seeAllBtn");
+  fullList.classList.toggle("open", listOpen);
+  btn.classList.toggle("is-open", listOpen);
+  document.getElementById("seeAllLabel").textContent = listOpen ? "Hide full list" : "See all entries";
+});
+
+let searchTimer;
+document.getElementById("listSearch").addEventListener("input", e => {
+  clearTimeout(searchTimer);
+  searchTimer = setTimeout(() => { listQuery = e.target.value; renderFullList(); }, 140);
+});
+
+document.getElementById("refreshBtn").addEventListener("click", () => loadData(true));
+
+function escapeHtml(str) {
+  const d = document.createElement("div");
+  d.textContent = str == null ? "" : String(str);
+  return d.innerHTML;
+}
+
+loadData(false);
+</script>
+</body>
+</html>
