@@ -125,8 +125,10 @@ button{font-family:inherit;}
 .rank-1 .pod-thumb-fallback{width:112px;height:112px;}
 
 .pod-tag{font-size:11px;letter-spacing:.06em;color:var(--faint);margin-bottom:4px;}
-.pod-name{font-size:16.5px;font-weight:700;line-height:1.3;margin-bottom:14px;min-height:22px;}
+.pod-name{font-size:16.5px;font-weight:700;line-height:1.3;margin-bottom:4px;min-height:22px;}
 .rank-1 .pod-name{font-size:18.5px;}
+.pod-people{font-size:12px;color:var(--muted);line-height:1.5;margin-bottom:14px;}
+.pod-people b{color:var(--text);font-weight:600;}
 
 .pod-score{font-size:32px;font-weight:800;letter-spacing:-.02em;margin-bottom:4px;}
 .rank-1 .pod-score{font-size:38px;color:var(--gold);}
@@ -182,6 +184,7 @@ button{font-family:inherit;}
 .lb-entry-text{min-width:0;}
 .lb-entry-name{font-size:14px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 .lb-entry-tag{font-size:11.5px;color:var(--faint);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.lb-entry-people{font-size:11.5px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 .lb-judge{font-size:13px;color:var(--muted);font-family:'JetBrains Mono',monospace;text-align:center;}
 .lb-judge.pending{color:var(--faint);}
 .lb-final{font-size:15.5px;font-weight:800;text-align:right;font-family:'JetBrains Mono',monospace;}
@@ -222,7 +225,7 @@ button{font-family:inherit;}
 
 <div class="hero">
   <h1>Standings</h1>
-  <p>Final score is the average of each judge's weighted total, out of 100. Judge identities stay anonymous while judging is underway. Entries are shown as Judge A, Judge B and Judge C.</p>
+  <p>Each entry's final score is the average of three judges' weighted totals, out of 100. Judges stay anonymous, shown only as A, B and C, while judging is open.</p>
 </div>
 
 <div class="wrap">
@@ -240,7 +243,7 @@ button{font-family:inherit;}
 
   <div class="full-list" id="fullList">
     <div class="list-controls">
-      <input type="search" id="listSearch" placeholder="Search model or entry number">
+      <input type="search" id="listSearch" placeholder="Search model, folder, or entry number">
     </div>
     <div class="lb-table">
       <div class="lb-head">
@@ -294,6 +297,13 @@ function imgUrl(path) {
 function weightedTotal(scoreRow) {
   const total = CRITERIA.reduce((sum, c) => sum + (parseFloat(scoreRow[c.col]) || 0) * c.weight, 0);
   return total / 10;
+}
+
+function peopleLine(sub) {
+  const parts = [];
+  if (sub.artist_name) parts.push(`Folded by <b>${escapeHtml(sub.artist_name)}</b>`);
+  if (sub.designer) parts.push(`Design by <b>${escapeHtml(sub.designer)}</b>`);
+  return parts.join(" &middot; ");
 }
 
 function disqualifiedNoteText(count, reasons) {
@@ -466,6 +476,7 @@ function renderPodium() {
         ${thumb}
         <div class="pod-tag">${escapeHtml(sub.submission_id || "")}${sub.entry_number ? " · #" + sub.entry_number : ""}</div>
         <div class="pod-name">${escapeHtml(sub.model_name || "Untitled")}</div>
+        <div class="pod-people">${peopleLine(sub)}</div>
         <div class="pod-score">${entry.final.toFixed(2)}<small> / 100</small></div>
         <div class="pod-judges-note">${entry.judgesScored} of ${JUDGE_ORDER.length} judges scored</div>
         <div class="pod-chips">${chips}</div>
@@ -493,7 +504,7 @@ function renderFullList() {
   const rows = leaderboardEntries.filter(entry => {
     if (!q) return true;
     const sub = entry.sub;
-    return [sub.model_name, sub.submission_id, sub.entry_number]
+    return [sub.model_name, sub.submission_id, sub.entry_number, sub.artist_name, sub.designer]
       .filter(Boolean).join(" ").toLowerCase().includes(q);
   });
 
@@ -529,6 +540,7 @@ function renderFullList() {
           <span class="lb-entry-text">
             <span class="lb-entry-name">${escapeHtml(sub.model_name || "Untitled")}</span>
             <span class="lb-entry-tag">${escapeHtml(sub.submission_id || "")}${sub.entry_number ? " · #" + sub.entry_number : ""}</span>
+            <span class="lb-entry-people">${peopleLine(sub)}</span>
             <span class="lb-caption">${captionParts}</span>
           </span>
         </span>
