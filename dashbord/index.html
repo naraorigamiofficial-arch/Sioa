@@ -194,37 +194,47 @@ html,body{min-height:100%;background:var(--bg);color:var(--text);font-family:'DM
 
 /* ── RESPONSIVE ── */
 @media(min-width:901px){
-  body{min-height:100vh;padding:0 32px 72px}
-  .root{width:min(1240px,100%);min-height:calc(100vh - 120px);margin:104px auto 0;padding-top:0;align-items:flex-start;gap:34px}
-  .identity{width:248px;height:auto;max-height:calc(100vh - 132px);top:28px;align-self:flex-start;border:1px solid var(--border-hi);border-radius:8px;background:rgba(39,3,7,.82);overflow-y:auto}
-  .id-avatar-zone{padding:30px 24px 25px;gap:14px}
-  .id-badge{display:none}
-  .id-progress{padding:22px 22px 20px}
-  .id-nav{padding:20px 12px 16px;gap:3px}
-  .id-nav-section{padding:18px 10px 8px;font-size:10px}
-  .id-nav-section:first-child{padding-top:0}
-  .id-nav a,.id-nav button{min-height:42px;padding:10px 12px;font-size:13px}
-  .pub-link{margin:4px 16px 18px;min-height:38px}
-  .workspace{width:calc(100% - 282px);max-width:958px;flex:none}
+  body{min-height:100vh;padding:0 40px 88px}
+  .root{display:block;width:min(1180px,100%);min-height:calc(100vh - 132px);margin:116px auto 0;padding-top:0}
+  .identity{position:relative;top:auto;width:100%;height:auto;display:grid;grid-template-columns:minmax(340px,1fr) auto;grid-template-areas:'member action' 'localnav localnav';align-items:center;border:0;border-bottom:1px solid rgba(202,137,93,.22);background:transparent;overflow:visible}
+  .id-avatar-zone{grid-area:member;flex-direction:row;align-items:center;text-align:left;padding:0 0 32px;border:0;gap:20px}
+  .big-av{width:76px;height:76px;font-size:27px}
+  .id-name{font-size:24px}
+  .id-handle{font-size:13px;margin-top:4px}
+  .id-loc{font-size:13px;margin-top:5px}
+  .id-badge,.id-progress{display:none}
+  .id-nav{grid-area:localnav;flex-direction:row;align-items:center;padding:0;gap:30px;border-top:1px solid var(--border)}
+  .id-nav-section,.id-spacer,.id-divider,.id-nav>a[href='/net/index.html'],.id-nav>a[href='/Vagh2026/about.html'],.id-nav>a[href='/Vagh2026/submission.html']{display:none}
+  .id-nav a,.id-nav button{width:auto;min-height:54px;padding:0 2px;border-radius:0;border-bottom:1px solid transparent;background:transparent!important;font-family:'Cormorant Garamond',Georgia,serif;font-size:14px;letter-spacing:.1em;text-transform:uppercase}
+  .id-nav a.on{border-bottom-color:var(--accent);color:var(--text)}
+  .id-nav .danger-link{margin-left:auto}
+  .pub-link{grid-area:action;width:auto;min-height:40px;margin:0 0 32px;padding:9px 16px;border-radius:4px;font-size:12px}
+  .workspace{width:100%;max-width:none}
   .ws-head{display:none}
-  .ws-body{padding:46px 52px 54px;background:rgba(39,3,7,.72);border:1px solid var(--border-hi);border-radius:8px}
-  .section-header{margin-bottom:38px;padding-bottom:26px;border-bottom:1px solid var(--border)}
-  .section-header h3{font-size:25px!important}
-  .section-header p{font-size:13px!important;margin-top:7px!important}
-  .form-section{margin-bottom:44px}
-  .form-section:last-of-type{margin-bottom:12px}
-  .fs-label{font-size:10.5px;margin-bottom:20px;gap:14px}
-  .field-row{gap:20px;margin-bottom:20px}
-  .field{gap:8px}
-  .field label,.social-field-label{font-size:11px}
-  .field input,.field textarea,.field select{min-height:46px;padding:12px 14px;font-size:14px}
-  .field textarea{min-height:132px}
-  .spec-wrap{min-height:54px;padding:12px;gap:8px}
+  .ws-body{padding:54px 0 0;background:transparent;border:0;border-radius:0}
+  .section-header{margin-bottom:40px;padding:0 0 30px;border-bottom:1px solid var(--border)}
+  .section-header h3{font-size:30px!important}
+  .section-header p{font-size:14px!important;margin-top:8px!important;color:var(--muted)!important}
+  #tab-profile #profile-form{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:46px 64px}
+  #tab-profile .form-section{margin:0;padding-top:26px;border-top:1px solid rgba(202,137,93,.18)}
+  #tab-profile .form-section:nth-child(1),#tab-profile .form-section:nth-child(2){grid-column:1/-1}
+  #tab-profile .action-bar{grid-column:1/-1}
+  .fs-label{font-size:11px;margin-bottom:24px;gap:14px;color:rgba(202,137,93,.72)}
+  .fs-label::after{display:none}
+  .field-row{gap:28px;margin-bottom:24px}
+  .field{gap:9px}
+  .field label,.social-field-label{font-size:11px;color:var(--muted)}
+  .field input,.field textarea,.field select{min-height:48px;padding:12px 2px;background:transparent;border:0;border-bottom:1px solid var(--border-hi);border-radius:0;font-size:15px}
+  .field input:hover:not(:disabled),.field textarea:hover:not(:disabled),.field select:hover:not(:disabled){background:rgba(255,255,255,.012);border-bottom-color:rgba(202,137,93,.34)}
+  .field input:focus,.field textarea:focus,.field select:focus{background:rgba(255,255,255,.018);border-bottom-color:var(--accent);box-shadow:none}
+  .field textarea{min-height:150px;line-height:1.7}
+  .spec-wrap{min-height:56px;padding:9px 0 14px;gap:9px;background:transparent;border:0;border-bottom:1px solid var(--border-hi);border-radius:0}
+  .spec-wrap[data-off='false']{background:transparent;border-color:rgba(202,137,93,.35)}
   .spec-pill{padding:7px 13px;font-size:12px}
-  .portfolio-visibility{min-height:48px;align-items:center;padding:13px 14px;font-size:13px}
-  .action-bar{padding-top:26px;margin-top:30px}
-  .social-platform-grid{gap:20px}
-  .account-block{padding:26px 28px}
+  .portfolio-visibility{min-height:48px;align-items:center;padding:13px 2px;background:transparent;border:0;border-bottom:1px solid var(--border-hi);border-radius:0;font-size:13px}
+  .action-bar{padding-top:28px;margin-top:0}
+  .social-platform-grid{gap:28px}
+  .account-block{padding:26px 0;background:transparent;border-width:1px 0;border-radius:0}
 }
 @media(max-width:900px){
   .root{flex-direction:column}
