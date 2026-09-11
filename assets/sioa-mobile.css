@@ -7,10 +7,18 @@
  body .sioa-mobilebar button,body .sioa-mobile-dialog button{min-height:44px;min-width:44px;padding:10px 12px;border:1px solid rgba(223,183,170,.32);border-radius:5px!important;background:transparent!important;color:#f0d3c8!important;font:500 14px/1.2 'Cormorant Garamond',Georgia,serif;letter-spacing:.14em;text-transform:uppercase;cursor:pointer}
  .sioa-mobile-dialog[open]{display:block;position:fixed;inset:0 0 auto;margin:0;width:100%;max-width:none;max-height:100dvh;box-sizing:border-box;padding:calc(20px + env(safe-area-inset-top)) 24px calc(28px + env(safe-area-inset-bottom));border:0;border-bottom:1px solid rgba(223,183,170,.3);background:#240508;color:#f0d3c8;overflow-y:auto;font-family:'Cormorant Garamond',Georgia,serif;animation:sioa-menu-fade .2s ease}
  .sioa-mobile-dialog::backdrop{background:rgba(12,1,3,.65);backdrop-filter:blur(5px)}
- .sioa-mobile-dialog .sioa-menu-heading{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;gap:16px}
+ .sioa-mobile-dialog .sioa-menu-heading{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;gap:16px}
  .sioa-menu-heading strong{font:500 20px/1.2 'Cormorant Garamond',Georgia,serif;letter-spacing:.25em}
  body .sioa-mobile-dialog nav{display:grid;background:transparent!important;border:0}
- body .sioa-mobile-dialog nav a{display:flex;align-items:center;min-height:50px;box-sizing:border-box;padding:12px 0;border-bottom:1px solid rgba(223,183,170,.17);color:#f0d3c8!important;text-decoration:none;font:500 17px/1.4 'Cormorant Garamond',Georgia,serif;letter-spacing:.08em;text-transform:none}
+ .sioa-mobile-dialog details{border-bottom:1px solid rgba(223,183,170,.17)}
+ .sioa-mobile-dialog summary{display:flex;align-items:center;justify-content:space-between;min-height:58px;list-style:none;cursor:pointer;color:#f0d3c8;font:500 16px/1.3 'Cormorant Garamond',Georgia,serif;letter-spacing:.15em;text-transform:uppercase}
+ .sioa-mobile-dialog summary::-webkit-details-marker{display:none}
+ .sioa-mobile-dialog summary::after{content:'+';color:#ae7c76;font-size:19px;font-weight:400;transition:transform .25s ease}
+ .sioa-mobile-dialog details[open] summary::after{transform:rotate(45deg)}
+ .sioa-menu-links{display:grid;grid-template-columns:1fr 1fr;padding:0 0 14px 14px}
+ body .sioa-mobile-dialog nav a{display:flex;align-items:center;min-height:44px;box-sizing:border-box;padding:8px 0;color:#c8988f!important;text-decoration:none;font:500 16px/1.35 'Cormorant Garamond',Georgia,serif;letter-spacing:.06em;text-transform:none}
+ body .sioa-mobile-dialog nav>.sioa-menu-account{min-height:56px;border-bottom:1px solid rgba(223,183,170,.17);color:#f0d3c8!important}
+ body .sioa-mobile-dialog nav>.sioa-menu-account::after{content:'↗';margin-left:auto;color:#ae7c76}
  body .sioa-mobile-dialog nav a[aria-current]{color:#d5a16e!important}
  .sioa-mobilebar :focus-visible,.sioa-mobile-dialog :focus-visible{outline:2px solid #d5a16e!important;outline-offset:3px}
  .sioa-mobile-dialog .sioa-menu-language{margin-top:20px;display:flex;align-items:center;justify-content:space-between;gap:12px;font-size:16px}

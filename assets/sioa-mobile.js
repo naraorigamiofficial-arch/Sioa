@@ -8,7 +8,8 @@
   const bar = document.createElement('div');
   bar.className = 'sioa-mobilebar';
   const logo = document.createElement('a');
-  logo.href = root.href;
+  const isDraft = location.pathname.toLowerCase().startsWith('/draft/');
+  logo.href = isDraft ? new URL('draft/', root).href : root.href;
   logo.textContent = 'SIOA';
   logo.setAttribute('aria-label', 'SIOA home');
   const toggle = document.createElement('button');
@@ -31,13 +32,34 @@
   heading.append(mark, close);
   const nav = document.createElement('nav');
   nav.setAttribute('aria-label', 'Mobile navigation');
-  const links = [ ['Home','index.html'], ['Artists','net/index.html'], ['Competition','Vagh2026/about.html'], ['Magazine','Blog/index.html'], ['About SIOA','index.html#about'], ['My account','login/app/loggedin.html'] ];
-  if (location.pathname.toLowerCase().includes('vagh2026')) links.splice(3,0,['Competition entries','Vagh2026/gallery.html'],['Leaderboard','Vagh2026/leaderboard.html']);
-  links.forEach(([text, path]) => {
+  const groups = [
+    ['Explore', [
+      ['Home', isDraft ? 'draft/' : 'index.html'],
+      ['Artists', 'net/index.html'],
+      ['Magazine', 'Blog/index.html'],
+      ['About SIOA', isDraft ? 'draft/#about' : 'index.html#about'],
+    ]],
+    ['Competition', [
+      ['Overview', 'Vagh2026/about.html'],
+      ['Entries', 'Vagh2026/gallery.html'],
+      ['Leaderboard', 'Vagh2026/leaderboard.html'],
+    ]],
+  ];
+  const makeLink = ([text, path]) => {
     const a=document.createElement('a');a.textContent=text;a.href=new URL(path,root).href;
-    if(a.pathname===location.pathname && !a.hash)a.setAttribute('aria-current','page');
-    nav.appendChild(a);
+    if(a.pathname===location.pathname && (!a.hash || a.hash===location.hash))a.setAttribute('aria-current','page');
+    return a;
+  };
+  const details=[];
+  groups.forEach(([label, links]) => {
+    const group=document.createElement('details');
+    const summary=document.createElement('summary');summary.textContent=label;
+    const list=document.createElement('div');list.className='sioa-menu-links';
+    links.forEach(link=>list.appendChild(makeLink(link)));
+    group.append(summary,list);nav.appendChild(group);details.push(group);
   });
+  const account=makeLink(['My account','login/app/loggedin.html']);account.className='sioa-menu-account';nav.appendChild(account);
+  details.forEach(group=>group.addEventListener('toggle',()=>{if(group.open)details.forEach(other=>{if(other!==group)other.open=false})}));
   dialog.append(heading, nav);
   const originalLanguage=document.getElementById('sioaLanguage');
   if(originalLanguage){
