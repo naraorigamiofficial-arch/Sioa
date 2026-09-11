@@ -181,7 +181,7 @@ button{font-family:inherit;}
 .lb-entry{display:flex;align-items:center;gap:11px;min-width:0;}
 .lb-thumb{width:38px;height:38px;border-radius:8px;object-fit:cover;flex-shrink:0;background:#210205;border:1px solid var(--border-soft);}
 .lb-thumb-fallback{width:38px;height:38px;border-radius:8px;flex-shrink:0;background:#35050a;border:1px solid var(--border-soft);}
-.lb-entry-text{min-width:0;}
+.lb-entry-text{display:block;flex:1;min-width:0;overflow:hidden;}
 .lb-entry-name{font-size:14px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 .lb-entry-tag{font-size:11.5px;color:var(--faint);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 .lb-entry-people{font-size:11.5px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
@@ -201,7 +201,7 @@ button{font-family:inherit;}
   .podium-card{max-width:none;}
   .podium-card.rank-1,.podium-card.rank-2,.podium-card.rank-3{order:initial;margin-bottom:0;}
   .lb-head{display:none;}
-  .lb-row{grid-template-columns:32px 1fr 78px;padding:12px 14px;}
+  .lb-row{grid-template-columns:28px minmax(0,1fr) 62px;gap:8px;padding:12px 12px;}
   .lb-judge{display:none;}
   .lb-caption{display:block;}
   .lb-final{font-size:14.5px;}
@@ -284,6 +284,7 @@ const LABELS_IN_ORDER = JUDGE_ORDER.map(n => JUDGE_LABEL[n]);
 let leaderboardEntries = [];
 let disqualifiedCount = 0;
 let underReviewCount = 0;
+let disqualifiedReasons = [];
 let listOpen = false;
 let listQuery = "";
 
@@ -301,10 +302,24 @@ function weightedTotal(scoreRow) {
   return total / 10;
 }
 
+function dynamicCopy(key, values = {}) {
+  const language = localStorage.getItem("sioa-language") || "en";
+  const copy = {
+    en: { foldedBy:"Folded by", designBy:"Design by", judgesScored:"{count} of {total} judges scored", updated:"Updated {time}", untitled:"Untitled", noMatch:"No entries match your search.", hideList:"Hide full list", seeEntries:"See all entries", underReview:"{count} entries are currently under review and not shown on the leaderboard.", disqualified:"{count} entries were disqualified and not shown on the leaderboard.", disqualifiedReason:"{count} entries were disqualified ({reason}) and not shown on the leaderboard." },
+    hi: { foldedBy:"तहकर्ता", designBy:"रचनाकार", judgesScored:"{total} में से {count} निर्णायकों ने अंक दिए", updated:"अपडेट {time}", untitled:"शीर्षकहीन", noMatch:"आपकी खोज से कोई प्रविष्टि नहीं मिली।", hideList:"पूरी सूची छिपाएँ", seeEntries:"सभी प्रविष्टियाँ देखें", underReview:"{count} प्रविष्टियाँ अभी समीक्षा में हैं और अंक तालिका में नहीं दिखाई गई हैं।", disqualified:"{count} प्रविष्टियाँ अयोग्य ठहराई गईं और अंक तालिका में नहीं दिखाई गईं।", disqualifiedReason:"{count} प्रविष्टियाँ अयोग्य ठहराई गईं ({reason}) और अंक तालिका में नहीं दिखाई गईं।" },
+    ta: { foldedBy:"மடித்தவர்", designBy:"வடிவமைத்தவர்", judgesScored:"{total} நடுவர்களில் {count} பேர் மதிப்பிட்டனர்", updated:"புதுப்பிக்கப்பட்டது {time}", untitled:"தலைப்பிடப்படாதது", noMatch:"உங்கள் தேடலுக்கு எந்தப் படைப்பும் பொருந்தவில்லை.", hideList:"முழுப் பட்டியலை மறைக்கவும்", seeEntries:"அனைத்து படைப்புகளையும் பார்க்கவும்", underReview:"{count} படைப்புகள் தற்போது பரிசீலனையில் உள்ளன, தரவரிசையில் காட்டப்படவில்லை.", disqualified:"{count} படைப்புகள் தகுதி நீக்கம் செய்யப்பட்டதால் தரவரிசையில் காட்டப்படவில்லை.", disqualifiedReason:"{count} படைப்புகள் தகுதி நீக்கம் செய்யப்பட்டன ({reason}), தரவரிசையில் காட்டப்படவில்லை." },
+    te: { foldedBy:"మడిచినవారు", designBy:"రూపకర్త", judgesScored:"{total} మందిలో {count} న్యాయనిర్ణేతలు స్కోరు ఇచ్చారు", updated:"తాజాకరణ {time}", untitled:"శీర్షిక లేనిది", noMatch:"మీ శోధనకు సరిపోయే సమర్పణలు లేవు.", hideList:"పూర్తి జాబితాను దాచండి", seeEntries:"అన్ని సమర్పణలు చూడండి", underReview:"{count} సమర్పణలు ప్రస్తుతం సమీక్షలో ఉన్నాయి, ర్యాంకుల పట్టికలో చూపబడలేదు.", disqualified:"{count} సమర్పణలు అనర్హమైనందున ర్యాంకుల పట్టికలో చూపబడలేదు.", disqualifiedReason:"{count} సమర్పణలు అనర్హమయ్యాయి ({reason}), ర్యాంకుల పట్టికలో చూపబడలేదు." },
+    mr: { foldedBy:"घडीकार", designBy:"रचनाकार", judgesScored:"{total} पैकी {count} परीक्षकांनी गुण दिले", updated:"अद्ययावत {time}", untitled:"शीर्षक नसलेले", noMatch:"तुमच्या शोधाशी कोणतीही प्रवेशिका जुळली नाही.", hideList:"पूर्ण यादी लपवा", seeEntries:"सर्व प्रवेशिका पाहा", underReview:"{count} प्रवेशिका सध्या परीक्षणात आहेत आणि गुणतालिकेत दाखवलेल्या नाहीत.", disqualified:"{count} प्रवेशिका अपात्र ठरल्या आणि गुणतालिकेत दाखवलेल्या नाहीत.", disqualifiedReason:"{count} प्रवेशिका अपात्र ठरल्या ({reason}) आणि गुणतालिकेत दाखवलेल्या नाहीत." }
+  };
+  let value = (copy[language] || copy.en)[key] || copy.en[key] || key;
+  Object.keys(values).forEach(name => { value = value.replace(`{${name}}`, values[name]); });
+  return value;
+}
+
 function peopleLine(sub) {
   const parts = [];
-  if (sub.artist_name) parts.push(`Folded by <b>${escapeHtml(sub.artist_name)}</b>`);
-  if (sub.designer) parts.push(`Design by <b>${escapeHtml(sub.designer)}</b>`);
+  if (sub.artist_name) parts.push(`${dynamicCopy("foldedBy")} <b>${escapeHtml(sub.artist_name)}</b>`);
+  if (sub.designer) parts.push(`${dynamicCopy("designBy")} <b>${escapeHtml(sub.designer)}</b>`);
   return parts.join(" &middot; ");
 }
 
@@ -314,15 +329,25 @@ function disqualifiedNoteText(count, reasons) {
   const unexplained = count - accountedFor;
 
   if (reasons.length === 0) {
-    return `${count} ${plural} disqualified and not shown on the leaderboard.`;
+    return dynamicCopy("disqualified", { count });
   }
   if (reasons.length === 1 && unexplained === 0) {
-    return `${count} ${plural} disqualified (${reasons[0].reason}) and not shown on the leaderboard.`;
+    return dynamicCopy("disqualifiedReason", { count, reason:reasons[0].reason });
   }
 
   const parts = reasons.map(r => `${r.count} for ${r.reason}`);
   if (unexplained > 0) parts.push(`${unexplained} with no reason on file`);
   return `${count} ${plural} disqualified and not shown on the leaderboard: ${parts.join(", ")}.`;
+}
+
+function renderExcludedNotes() {
+  const excludedNote = document.getElementById("excludedNote");
+  const notes = [];
+  if (disqualifiedCount > 0) notes.push(disqualifiedNoteText(disqualifiedCount, disqualifiedReasons));
+  if (underReviewCount > 0) notes.push(dynamicCopy("underReview", { count:underReviewCount }));
+  excludedNote.innerHTML = notes.length
+    ? notes.map(n => `<p class="excluded-note">${escapeHtml(n)}</p>`).join("")
+    : "";
 }
 
 function buildLeaderboard(submissions, scores, flags) {
@@ -418,19 +443,11 @@ async function loadData(isRefresh) {
   leaderboardEntries = result.entries;
   disqualifiedCount = result.disqualifiedCount;
   underReviewCount = result.underReviewCount;
+  disqualifiedReasons = result.disqualifiedReasons;
 
-  document.getElementById("updatedText").textContent = "Updated " + new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+  document.getElementById("updatedText").textContent = dynamicCopy("updated", { time:new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }) });
 
-  const notes = [];
-  if (disqualifiedCount > 0) {
-    notes.push(disqualifiedNoteText(disqualifiedCount, result.disqualifiedReasons));
-  }
-  if (underReviewCount > 0) {
-    notes.push(`${underReviewCount} ${underReviewCount === 1 ? "entry is" : "entries are"} currently under review and not shown on the leaderboard.`);
-  }
-  excludedNote.innerHTML = notes.length
-    ? notes.map(n => `<p class="excluded-note">${escapeHtml(n)}</p>`).join("")
-    : "";
+  renderExcludedNotes();
 
   if (leaderboardEntries.length === 0) {
     stateMsg.style.display = "block";
@@ -477,10 +494,10 @@ function renderPodium() {
         <div class="medal">${entry.rank}</div>
         ${thumb}
         <div class="pod-tag">${escapeHtml(sub.submission_id || "")}${sub.entry_number ? " · #" + sub.entry_number : ""}</div>
-        <div class="pod-name">${escapeHtml(sub.model_name || "Untitled")}</div>
+        <div class="pod-name">${escapeHtml(sub.model_name || dynamicCopy("untitled"))}</div>
         <div class="pod-people">${peopleLine(sub)}</div>
         <div class="pod-score">${entry.final.toFixed(2)}<small> / 100</small></div>
-        <div class="pod-judges-note">${entry.judgesScored} of ${JUDGE_ORDER.length} judges scored</div>
+        <div class="pod-judges-note">${dynamicCopy("judgesScored", { count:entry.judgesScored, total:JUDGE_ORDER.length })}</div>
         <div class="pod-chips">${chips}</div>
       </div>`;
   }).join("");
@@ -511,7 +528,7 @@ function renderFullList() {
   });
 
   if (rows.length === 0) {
-    container.innerHTML = `<div class="lb-row"><span></span><span style="color:var(--faint);">No entries match your search.</span></div>`;
+    container.innerHTML = `<div class="lb-row"><span></span><span style="color:var(--faint);">${dynamicCopy("noMatch")}</span></div>`;
     return;
   }
 
@@ -540,7 +557,7 @@ function renderFullList() {
         <span class="lb-entry">
           ${thumb}
           <span class="lb-entry-text">
-            <span class="lb-entry-name">${escapeHtml(sub.model_name || "Untitled")}</span>
+            <span class="lb-entry-name">${escapeHtml(sub.model_name || dynamicCopy("untitled"))}</span>
             <span class="lb-entry-tag">${escapeHtml(sub.submission_id || "")}${sub.entry_number ? " · #" + sub.entry_number : ""}</span>
             <span class="lb-entry-people">${peopleLine(sub)}</span>
             <span class="lb-caption">${captionParts}</span>
@@ -558,7 +575,7 @@ document.getElementById("seeAllBtn").addEventListener("click", () => {
   const btn = document.getElementById("seeAllBtn");
   fullList.classList.toggle("open", listOpen);
   btn.classList.toggle("is-open", listOpen);
-  document.getElementById("seeAllLabel").textContent = listOpen ? "Hide full list" : "See all entries";
+  document.getElementById("seeAllLabel").textContent = listOpen ? dynamicCopy("hideList") : dynamicCopy("seeEntries");
 });
 
 let searchTimer;
@@ -568,6 +585,11 @@ document.getElementById("listSearch").addEventListener("input", e => {
 });
 
 document.getElementById("refreshBtn").addEventListener("click", () => loadData(true));
+window.addEventListener("sioa:languagechange", () => {
+  if (leaderboardEntries.length) { renderPodium(); renderFullList(); }
+  renderExcludedNotes();
+  document.getElementById("seeAllLabel").textContent = listOpen ? dynamicCopy("hideList") : dynamicCopy("seeEntries");
+});
 
 function escapeHtml(str) {
   const d = document.createElement("div");

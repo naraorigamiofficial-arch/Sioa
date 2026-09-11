@@ -38,7 +38,7 @@ html,body{min-height:100%;background:var(--bg);color:var(--text);font-family:'DM
 .bar-nav a:hover{color:var(--text);background:rgba(255,255,255,0.05)}
 .bar-nav a.on{color:var(--accent-bright);background:var(--accent-lo)}
 .bar-user{display:flex;align-items:center;gap:7px;margin-left:10px;padding:3px 10px 3px 3px;border-radius:20px;border:1px solid var(--border);background:rgba(255,255,255,0.02);font-size:12px;color:var(--muted)}
-.bar-av{width:24px;height:24px;border-radius:50%;background:linear-gradient(135deg,#7d2036,#ca895d);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#fff;flex-shrink:0;font-family:'DM Serif Display',serif}
+.bar-av{width:24px;height:24px;border-radius:50%;background:#2b070a;border:1px solid rgba(202,137,93,.42);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#f8dfd4;flex-shrink:0;font-family:'DM Serif Display',serif}
 
 /* ── ROOT LAYOUT: left identity strip + right workspace ── */
 .root{display:flex;min-height:100vh;padding-top:48px}
@@ -47,7 +47,7 @@ html,body{min-height:100%;background:var(--bg);color:var(--text);font-family:'DM
 .identity{width:280px;flex-shrink:0;border-right:1px solid var(--border);display:flex;flex-direction:column;position:sticky;top:48px;height:calc(100vh - 48px);overflow-y:auto;background:var(--panel)}
 
 .id-avatar-zone{padding:32px 24px 24px;border-bottom:1px solid var(--border);display:flex;flex-direction:column;align-items:center;text-align:center;gap:12px}
-.big-av{width:72px;height:72px;border-radius:50%;background:linear-gradient(145deg,#5e1120,#922b42);border:2px solid var(--accent-mid);display:flex;align-items:center;justify-content:center;font-family:'DM Serif Display',serif;font-size:26px;color:rgba(255,255,255,0.9);flex-shrink:0;position:relative}
+.big-av{width:72px;height:72px;border-radius:50%;background:#2b070a;border:2px solid rgba(202,137,93,.42);display:flex;align-items:center;justify-content:center;font-family:'DM Serif Display',serif;font-size:26px;color:#f8dfd4;flex-shrink:0;position:relative}
 .av-ring{position:absolute;inset:-5px;border-radius:50%;border:1px solid rgba(202,137,93,0.18)}
 .id-name{font-family:'DM Serif Display',serif;font-size:18px;color:var(--text);line-height:1.2}
 .id-handle{font-size:12px;color:var(--accent-bright);letter-spacing:.04em}
@@ -120,6 +120,9 @@ html,body{min-height:100%;background:var(--bg);color:var(--text);font-family:'DM
 .field input:disabled,.field textarea:disabled,.field select:disabled{opacity:.4;cursor:not-allowed}
 .field textarea{resize:vertical;min-height:88px;line-height:1.6}
 .char-hint{align-self:flex-end;font-size:9.5px;color:var(--faint);transition:color .2s}
+.portfolio-visibility{display:flex;align-items:flex-start;gap:10px;padding:11px 12px;background:var(--surface);border:1px solid var(--border-hi);border-radius:6px;color:var(--muted);font-size:11.5px;line-height:1.45;cursor:pointer}
+.portfolio-visibility input{width:15px;height:15px;accent-color:var(--accent);flex:0 0 auto;margin-top:1px}
+.portfolio-visibility input:disabled{opacity:.4;cursor:not-allowed}
 
 .un-wrap{position:relative}
 .un-prefix{position:absolute;left:11px;top:50%;transform:translateY(-50%);font-size:13px;color:var(--accent-bright);pointer-events:none}
@@ -340,7 +343,7 @@ html,body{min-height:100%;background:var(--bg);color:var(--text);font-family:'DM
             </div>
             <div class="field-row cols-1">
               <div class="field">
-                <label for="state">State Chapter</label>
+                <label for="state">State</label>
                 <select id="state" disabled>
                   <option value="">- Select state -</option>
                   <option>Andhra Pradesh</option><option>Assam</option><option>Bihar</option>
@@ -375,6 +378,24 @@ html,body{min-height:100%;background:var(--bg);color:var(--text);font-family:'DM
               <textarea id="bio" placeholder="Describe your origami journey…" maxlength="500" rows="4" disabled></textarea>
               <span class="char-hint" id="bio-count">0 / 500</span>
             </div>
+          </div>
+
+          <div class="form-section">
+            <div class="fs-label">Portfolio</div>
+            <div class="field-row cols-2">
+              <div class="field">
+                <label for="portfolio_title">Display Title</label>
+                <input type="text" id="portfolio_title" placeholder="My Origami Portfolio" maxlength="80" disabled>
+              </div>
+              <div class="field">
+                <label for="portfolio_url">Portfolio URL</label>
+                <input type="url" id="portfolio_url" placeholder="https://" disabled>
+              </div>
+            </div>
+            <label class="portfolio-visibility" for="portfolio_visible">
+              <input type="checkbox" id="portfolio_visible" disabled>
+              <span>Show this portfolio link on my public profile</span>
+            </label>
           </div>
 
           <div class="action-bar" id="form-footer" style="display:none">
@@ -509,7 +530,7 @@ async function checkAuth(){
 }
 
 async function loadProfile(){
-  const{data:p}=await sb.from('profiles').select('full_name,username,specialty,city,state,bio,created_at,socials,custom_links').eq('id',currentUser.id).maybeSingle();
+  const{data:p}=await sb.from('profiles').select('full_name,username,specialty,city,state,bio,created_at,socials,custom_links,portfolio_url,portfolio_title,portfolio_visible').eq('id',currentUser.id).maybeSingle();
   if(!p){
     const authName=currentUser.user_metadata?.full_name||'';
     await sb.from('profiles').insert({id:currentUser.id,full_name:authName,city:'',state:'',bio:''});
@@ -534,6 +555,7 @@ function applyProfileToUI(p){
   document.querySelectorAll('.spec-pill').forEach(pill=>pill.classList.toggle('on',specs.includes(pill.dataset.value)));
   el('specialty').value=specs.join(',');
   el('city').value=p.city||'';el('state').value=p.state||'';el('bio').value=p.bio||'';
+  el('portfolio_url').value=p.portfolio_url||'';el('portfolio_title').value=p.portfolio_title||'';el('portfolio_visible').checked=!!p.portfolio_visible;
   updateBioCount(p.bio?.length||0);
   const url=username?'/artists/index.html?u='+username:'#';
   el('view-public-link').href=url;
@@ -564,13 +586,13 @@ function updateCompletion(p){
 }
 
 function enableEdit(){
-  ['full_name','username','city','state','bio'].forEach(id=>el(id).disabled=false);
+  ['full_name','username','city','state','bio','portfolio_url','portfolio_title','portfolio_visible'].forEach(id=>el(id).disabled=false);
   el('specialty-picker').dataset.off='false';
   el('form-footer').style.display='flex';
   el('edit-toggle-btn').style.display='none';
 }
 function disableEdit(){
-  ['full_name','username','city','state','bio'].forEach(id=>el(id).disabled=true);
+  ['full_name','username','city','state','bio','portfolio_url','portfolio_title','portfolio_visible'].forEach(id=>el(id).disabled=true);
   el('specialty-picker').dataset.off='true';
   el('form-footer').style.display='none';
   el('edit-toggle-btn').style.display='inline-flex';
@@ -616,7 +638,9 @@ el('profile-form').addEventListener('submit',async e=>{
   if(!usernameValid){el('save-msg').textContent='Fix username first.';el('save-msg').className='save-msg err';return;}
   const msg=el('save-msg'),btn=el('save-btn');
   msg.textContent='';msg.className='save-msg';btn.disabled=true;btn.innerHTML='<span class="spin"></span> Saving…';
-  const updates={id:currentUser.id,full_name:el('full_name').value.trim(),username:el('username').value.trim()||null,specialty:getSelectedSpecialties().join(',')||null,city:el('city').value.trim(),state:el('state').value,bio:el('bio').value.trim()};
+  const portfolioUrl=el('portfolio_url').value.trim();
+  if(el('portfolio_visible').checked&&!portfolioUrl){msg.textContent='Add a portfolio URL before making it public.';msg.className='save-msg err';btn.disabled=false;btn.textContent='Save Changes';return;}
+  const updates={id:currentUser.id,full_name:el('full_name').value.trim(),username:el('username').value.trim()||null,specialty:getSelectedSpecialties().join(',')||null,city:el('city').value.trim(),state:el('state').value,bio:el('bio').value.trim(),portfolio_url:portfolioUrl||null,portfolio_title:el('portfolio_title').value.trim()||null,portfolio_visible:el('portfolio_visible').checked};
   const{error}=await sb.from('profiles').upsert(updates);
   btn.disabled=false;btn.textContent='Save Changes';
   if(error){msg.textContent=error.code==='23505'?'Username taken.':'Could not save.';msg.className='save-msg err';}

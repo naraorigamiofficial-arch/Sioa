@@ -1107,9 +1107,6 @@ function showState(which) {
 }
 
 let currentUserId = null;
-let pfVisible = false;
-let pfUrl = '';
-let pfTitle = '';
 
 async function boot() {
     showState('loading-state');
@@ -1149,15 +1146,11 @@ async function boot() {
     renderTopbar();
 
     const isOwner = currentUserId && currentUserId === profile.id;
-    pfVisible = !!profile.portfolio_visible;
-    pfUrl = profile.portfolio_url || '';
-    pfTitle = profile.portfolio_title || '';
-
     document.title = (profile.full_name || profile.username) + ' | SIOA Artist';
 
     renderHero(profile, isOwner);
     renderBio(profile);
-    renderPortfolioSection(profile, isOwner);
+    renderPortfolioSection(profile);
     renderSidebar(profile);
     renderMoreArtists(profile.id);
 
@@ -1203,12 +1196,9 @@ function renderBio(p) {
     }
 }
 
-function renderPortfolioSection(p, isOwner) {
+function renderPortfolioSection(p) {
     const body = el('portfolio-body');
-    if (isOwner) {
-        el('portfolio-subtitle').textContent = 'Set your public portfolio link';
-        renderPortfolioForm(body);
-    } else if (p.portfolio_visible && p.portfolio_url && p.portfolio_url.trim()) {
+    if (p.portfolio_visible && p.portfolio_url && p.portfolio_url.trim()) {
         el('portfolio-subtitle').textContent = 'View this artist\'s portfolio';
         body.innerHTML = `
             <a href="${esc(p.portfolio_url)}" target="_blank" rel="noopener noreferrer" class="portfolio-display">
@@ -1225,61 +1215,6 @@ function renderPortfolioSection(p, isOwner) {
         el('portfolio-section').style.display = 'none';
     }
 }
-
-function renderPortfolioForm(container) {
-    container.innerHTML = `
-        <div class="portfolio-form">
-            <div>
-                <label class="pf-label" for="pf-url">Portfolio URL</label>
-                <input class="pf-input" id="pf-url" type="url" placeholder="https://drive.google.com/file/d/..." value="${esc(pfUrl)}">
-            </div>
-            <div>
-                <label class="pf-label" for="pf-title">Display Title <span style="font-weight:300;color:var(--muted-2);text-transform:none;letter-spacing:0;">optional</span></label>
-                <input class="pf-input" id="pf-title" type="text" placeholder="e.g. My Origami Portfolio 2026" value="${esc(pfTitle)}">
-            </div>
-            <div class="pf-checkbox-row${pfVisible ? ' checked' : ''}" id="pf-vis-row" onclick="toggleVisibility()">
-                <div class="pf-checkbox" id="pf-checkbox">
-                    <svg viewBox="0 0 12 12"><polyline points="2 6 5 9 10 3"/></svg>
-                </div>
-                <div class="pf-checkbox-text">
-                    <div class="pf-checkbox-title">Show portfolio link on my public profile</div>
-                    <div class="pf-checkbox-sub">Anyone can view it without logging in. Uncheck to hide it.</div>
-                </div>
-            </div>
-            <div class="drive-tip">
-                <div class="drive-tip-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div>
-                <div>
-                    <div class="drive-tip-label">Suggested approach</div>
-                    <div class="drive-tip-body"><strong>Make a PDF of your fold and host it on Google Drive.</strong> Free, permanent, and accessible to anyone without an account.</div>
-                    <div class="drive-tip-steps">
-                        <div class="drive-tip-step"><span class="drive-tip-step-num">01</span><span>Upload your PDF or image to Google Drive</span></div>
-                        <div class="drive-tip-step"><span class="drive-tip-step-num">02</span><span>Right-click the file and click <strong style="color:var(--text);">Share</strong></span></div>
-                        <div class="drive-tip-step"><span class="drive-tip-step-num">03</span><span>Set access to <strong style="color:var(--text);">Anyone with the link</strong> can view</span></div>
-                        <div class="drive-tip-step"><span class="drive-tip-step-num">04</span><span>Copy the link and paste it above</span></div>
-                    </div>
-                </div>
-            </div>
-            <button class="btn-save-portfolio" id="btn-save-portfolio" onclick="savePortfolio()">Save Portfolio Link</button>
-        </div>`;
-}
-
-window.toggleVisibility = function() {
-    pfVisible = !pfVisible;
-    const row = el('pf-vis-row');
-    if (row) row.classList.toggle('checked', pfVisible);
-};
-
-window.savePortfolio = async function() {
-    const btn = el('btn-save-portfolio');
-    const urlVal = el('pf-url') ? el('pf-url').value.trim() : '';
-    const titleVal = el('pf-title') ? el('pf-title').value.trim() : '';
-    if (pfVisible && !urlVal) { showToast('Please enter a URL before making it visible.', true); return; }
-    btn.disabled = true; btn.textContent = 'Saving…';
-    const { error } = await sb.from('profiles').update({ portfolio_url: urlVal, portfolio_title: titleVal, portfolio_visible: pfVisible }).eq('id', currentUserId);
-    if (error) { showToast('Could not save. Please try again.', true); }
-    else { pfUrl = urlVal; pfTitle = titleVal; showToast('Portfolio link saved'); }
-    btn.disabled = false; btn.textContent = 'Save Portfolio Link';
-};
 
 function renderSidebar(p) {
     const DEFS = [

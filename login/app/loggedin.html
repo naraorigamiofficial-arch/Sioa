@@ -93,7 +93,7 @@
         }
         .nav-avatar {
             width: 36px; height: 36px; border-radius: 50%;
-            background: linear-gradient(135deg, var(--cyan-blue), var(--bright-cyan));
+            background: #2b070a;
             border: 1.5px solid var(--border-strong);
             display: flex; align-items: center; justify-content: center;
             font-size: 13px; font-weight: 700; color: var(--white);
@@ -187,7 +187,7 @@
         .profile-avatar-wrap { text-align: center; margin-bottom: 24px; }
         .profile-avatar {
             width: 84px; height: 84px; border-radius: 50%;
-            background: linear-gradient(135deg, rgba(125,32,54,0.55), rgba(202,137,93,0.45));
+            background: #2b070a;
             border: 2px solid var(--border-strong);
             display: flex; align-items: center; justify-content: center;
             font-size: 30px; font-weight: 700; color: var(--white);
@@ -440,16 +440,12 @@
                         <span class="meta-val meta-empty" id="metaSpecialty">-</span>
                     </div>
                     <div class="meta-row">
-                        <span class="meta-key">State Chapter</span>
+                        <span class="meta-key">State</span>
                         <span class="meta-val meta-empty" id="metaState">-</span>
                     </div>
                     <div class="meta-row">
                         <span class="meta-key">Member Since</span>
                         <span class="meta-val meta-empty" id="metaSince">-</span>
-                    </div>
-                    <div class="meta-row">
-                        <span class="meta-key">Competitions</span>
-                        <span class="meta-val meta-empty" id="metaCompetitions">-</span>
                     </div>
                 </div>
             </div>
@@ -579,7 +575,6 @@
         el('metaSpecialty').textContent = profile.specialty || '-';
         el('metaState').textContent = profile.state || '-';
         el('metaSince').textContent = profile.created_at ? new Date(profile.created_at).getFullYear() : '-';
-        el('metaCompetitions').textContent = (profile.competition_count || 0).toString();
 
         var fields = ['full_name', 'username', 'specialty', 'state', 'bio'];
         var filled = fields.filter(function(f) { return profile[f] && profile[f].toString().trim() !== ''; }).length;

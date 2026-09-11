@@ -454,8 +454,33 @@ body.sioa-archive-page .ri-icon svg {
 body.sioa-archive-page [class*='avatar'],
 body.sioa-archive-page [class*='-av'],
 body.sioa-archive-page .author-dot {
-  background: var(--sioa-burgundy) !important;
+  background: #2b070a !important;
+  border-color: rgba(202, 137, 93, .42) !important;
   box-shadow: none !important;
+}
+
+html,
+body,
+a,
+button,
+input,
+select,
+textarea,
+label,
+[role='button'],
+[tabindex] {
+  -webkit-tap-highlight-color: transparent;
+}
+
+::selection {
+  color: var(--sioa-ivory);
+  background: rgba(125, 32, 54, .72);
+}
+
+:focus:not(:focus-visible) { outline: none; }
+:focus-visible {
+  outline: 1px solid var(--sioa-saffron) !important;
+  outline-offset: 3px;
 }
 
 body.sioa-archive-page [class*='glow'],
@@ -571,7 +596,12 @@ body.sioa-archive-page {
 
 body.sioa-archive-page .topbar,
 body.sioa-archive-page .navbar,
-body.sioa-archive-page .bar {
+body.sioa-archive-page .bar,
+body.sioa-archive-page .login-header {
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
   min-height: 72px;
   border-bottom: 1px solid rgba(226, 177, 157, .18) !important;
 }
