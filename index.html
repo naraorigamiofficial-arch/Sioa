@@ -2,249 +2,34 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>SIOA | Society of Indian Origami Artists</title>
-  <meta name="description" content="Society of Indian Origami Artists">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <title>SIOA | Under redevelopment</title>
+  <meta name="description" content="The Society of Indian Origami Artists website is under redevelopment.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Noto+Serif+Devanagari:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500&display=swap" rel="stylesheet">
   <style>
-    :root{--ivory:#dfb7aa;--ivory-strong:#f0d3c8;--quiet:#ae7c76;--line:#a96361;--x:0px;--y:0px;--open-scale:1.015}
     *{box-sizing:border-box;margin:0;padding:0}
-    html,body{width:100%;min-height:100%;background:#160304}
-    html{scroll-behavior:auto}
-    body{overflow-x:hidden;color:var(--ivory);font-family:'Cormorant Garamond',Georgia,serif}
-    a{color:inherit;text-decoration:none}
-    .story{position:relative;height:440svh;background:#160304}
-    .opening{--opening-content-opacity:1;position:sticky;top:0;z-index:1;width:100%;height:100svh;min-height:620px;overflow:hidden;isolation:isolate}
-    .opening-art{position:absolute;inset:-2%;width:104%;height:104%;object-fit:cover;object-position:center;transform:translate3d(var(--x),var(--y),0) scale(var(--open-scale));animation:arrive 2.4s cubic-bezier(.16,1,.3,1) both;will-change:transform}
-    .tone{position:absolute;inset:0;background:rgba(24,2,4,.08);z-index:1;pointer-events:none}
-    .opening-ui{position:absolute;inset:0;z-index:3;opacity:var(--opening-content-opacity);transition:opacity .45s ease;pointer-events:none}
-    .topbar{position:fixed;z-index:20;top:0;left:0;width:100%;height:96px;padding:0 clamp(34px,4.8vw,82px);display:grid;grid-template-columns:1fr auto 1fr;align-items:center;text-transform:uppercase;font-size:clamp(.69rem,.73vw,.82rem);font-weight:500;letter-spacing:.28em}
-    .identity{justify-self:start;display:flex;align-items:center;gap:30px;color:var(--ivory-strong);font-size:clamp(.98rem,1.1vw,1.22rem);letter-spacing:.32em}
-    .identity::after{content:'';display:block;width:48px;height:1px;background:var(--line);opacity:.75}
-    .main-nav{display:flex;align-items:center;gap:clamp(24px,3vw,56px);list-style:none}
-    .main-nav a,.main-nav .nav-placeholder,.utility a{position:relative;opacity:.82;transition:opacity .25s ease}
-    .main-nav a::after,.utility a::after{content:'';position:absolute;left:0;right:100%;bottom:-8px;height:1px;background:var(--ivory);transition:right .4s cubic-bezier(.16,1,.3,1)}
-    .main-nav a:hover,.main-nav a:focus-visible,.utility a:hover,.utility a:focus-visible{opacity:1}
-    .main-nav a:hover::after,.main-nav a:focus-visible::after,.utility a:hover::after,.utility a:focus-visible::after{right:.28em}
-    .nav-placeholder{cursor:default}
-    .utility{justify-self:end;display:flex;align-items:center;gap:22px}
-    .search{display:flex;align-items:center;gap:10px}.search svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:1.4}
-    .utility-rule{width:1px;height:18px;background:var(--line);opacity:.7}
-    .mobile-menu-toggle,.mobile-menu{display:none}
-    .mobile-menu-toggle{appearance:none;border:0;background:transparent;color:var(--ivory-strong);font:500 .7rem/1 'Cormorant Garamond',Georgia,serif;letter-spacing:.24em;text-transform:uppercase;cursor:pointer}
-    .mobile-menu-icon{display:inline-grid;gap:4px;margin-left:10px;vertical-align:middle}
-    .mobile-menu-icon span{display:block;width:18px;height:1px;background:currentColor;transition:transform .35s ease,opacity .25s ease}
-    .mobile-menu-toggle[aria-expanded="true"] .mobile-menu-icon span:first-child{transform:translateY(2.5px) rotate(45deg)}
-    .mobile-menu-toggle[aria-expanded="true"] .mobile-menu-icon span:last-child{transform:translateY(-2.5px) rotate(-45deg)}
-    .mobile-menu{position:fixed;z-index:19;top:76px;left:0;width:100%;padding:20px 24px 26px;background:rgba(31,3,6,.92);border-top:1px solid rgba(223,183,170,.14);border-bottom:1px solid rgba(223,183,170,.28);backdrop-filter:blur(18px);transform:translateY(-12px);opacity:0;visibility:hidden;transition:opacity .3s ease,transform .4s cubic-bezier(.16,1,.3,1),visibility .3s}
-    .mobile-menu.open{transform:none;opacity:1;visibility:visible}
-    .mobile-menu ul{list-style:none;display:grid;grid-template-columns:1fr 1fr}
-    .mobile-menu li{border-bottom:1px solid rgba(223,183,170,.16)}
-    .mobile-menu li:nth-child(odd){border-right:1px solid rgba(223,183,170,.16)}
-    .mobile-menu a{display:flex;align-items:center;justify-content:space-between;min-height:58px;padding:0 14px;color:var(--ivory);font-size:.76rem;letter-spacing:.2em;text-transform:uppercase}
-    .mobile-menu a::after{content:'↗';color:var(--quiet);font-size:.8rem}
-    .center-copy{position:absolute;z-index:3;left:50%;top:8.5%;transform:translateX(-50%);width:min(760px,58vw);text-align:center;text-transform:uppercase}
-    .ornament{display:flex;flex-direction:column;align-items:center;color:var(--quiet);font-size:1.05rem;line-height:1;opacity:0;animation:fadeUp 1.2s ease .45s forwards}
-    .ornament::before{content:'';width:1px;height:38px;margin-bottom:8px;background:var(--line)}
-    .headline{margin-top:42px;color:var(--ivory-strong);font-size:clamp(2.7rem,5.35vw,6.35rem);font-weight:400;line-height:1;letter-spacing:.32em;text-indent:.32em;text-shadow:0 2px 16px rgba(15,0,2,.5);opacity:0;animation:fadeUp 1.4s cubic-bezier(.16,1,.3,1) .72s forwards}
-    .headline span{display:block}
-    .organization-name{margin-top:24px;color:var(--quiet);font-size:clamp(.78rem,.84vw,1rem);font-weight:600;line-height:1.5;letter-spacing:.3em;text-indent:.3em;opacity:0;animation:fadeUp 1.2s ease 1.02s forwards}
-    .center-rule{width:1px;height:42px;margin:24px auto 18px;background:var(--line);opacity:0;animation:lineIn 1s ease 1.15s forwards}
-    .keywords{color:var(--quiet);font-size:clamp(.7rem,.66vw,.82rem);font-weight:600;line-height:1.85;letter-spacing:.34em;text-indent:.34em;opacity:0;animation:fadeUp 1.2s ease 1.3s forwards}
-    .keywords span{display:block}
-    .side-words{position:absolute;z-index:3;top:24.5%;display:flex;flex-direction:column;align-items:center;gap:23px;color:var(--quiet);font-size:clamp(.68rem,.71vw,.82rem);font-weight:500;letter-spacing:.22em;text-transform:uppercase;opacity:0;animation:fadeIn 1.4s ease 1.15s forwards}
-    .side-words::after{content:'';width:25px;height:1px;margin-top:3px;background:var(--line)}
-    .side-words span:not(:last-child)::after{content:'•';display:block;margin-top:17px;text-align:center;font-size:.45rem;line-height:1;color:var(--ivory);opacity:.9}
-    .side-left{left:6.1%;color:var(--ivory);font-family:'Noto Serif Devanagari',serif;text-transform:none;font-size:clamp(1rem,1.12vw,1.25rem);font-weight:500;letter-spacing:.06em;text-shadow:0 2px 12px rgba(15,0,2,.72)}
-    .side-right{right:5.9%}
-    .scroll-note{position:absolute;z-index:3;left:5.25%;bottom:6.2%;display:flex;align-items:flex-end;gap:11px;color:var(--quiet);font-size:.62rem;font-weight:600;line-height:1.45;letter-spacing:.22em;text-transform:uppercase}
-    .scroll-note::before{content:'';width:1px;height:32px;background:var(--line)}
-    .hero-tagline{position:absolute;z-index:3;left:50%;bottom:6.2%;transform:translateX(-50%);color:var(--ivory);font-size:clamp(.68rem,.72vw,.84rem);font-weight:600;letter-spacing:.34em;text-indent:.34em;text-align:center;text-transform:uppercase;text-shadow:0 2px 12px rgba(15,0,2,.7);white-space:nowrap}
-    .folio{position:absolute;z-index:3;right:5.2%;bottom:7.3%;display:flex;align-items:center;gap:12px;color:var(--quiet);font-size:.64rem;font-weight:600;letter-spacing:.18em}
-    .folio-line{width:42px;height:1px;background:var(--line)}
-    .portal{--content-opacity:1;position:sticky;top:0;width:100%;height:100svh;min-height:620px;overflow:hidden;isolation:isolate}
-    .second{--mask-solid:0%;--mask-fade:34%;z-index:3;transform:scale(1.055);transform-origin:center bottom;-webkit-mask-image:radial-gradient(ellipse 100% 125% at 50% 104%,#000 0%,#000 var(--mask-solid),transparent var(--mask-fade));mask-image:radial-gradient(ellipse 100% 125% at 50% 104%,#000 0%,#000 var(--mask-solid),transparent var(--mask-fade));-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;-webkit-mask-size:100% 100%;mask-size:100% 100%;will-change:mask-image,transform}
-    .second.revealed{-webkit-mask-image:none;mask-image:none}
-    .third{--content-opacity:0;--enter-shift:0px;z-index:4}.fourth{--content-opacity:0;--enter-shift:0px;z-index:5}
-    .portal-art{position:absolute;inset:-2%;width:104%;height:104%;object-fit:cover;object-position:center;transform:scale(1.018)}
-    .portal-tone{position:absolute;inset:0;z-index:1;background:rgba(22,1,3,.1)}
-    .portal-copy{position:absolute;z-index:3;left:50%;top:14%;width:min(670px,52vw);transform:translateX(-50%);text-align:center;text-transform:uppercase;opacity:0;transition:opacity 1.2s cubic-bezier(.16,1,.3,1)}
-    .portal.ready .portal-copy{opacity:var(--content-opacity);transform:translateX(-50%) translateY(0)}
-    .portal:not(.second) .portal-copy{transform:translateX(-50%) translateY(var(--enter-shift))}
-    .portal-ornament{display:flex;flex-direction:column;align-items:center;color:var(--quiet);font-size:1.05rem;line-height:1}
-    .portal-ornament::before{content:'';width:1px;height:38px;margin-bottom:8px;background:var(--line)}
-    .portal-kicker{margin-top:16px;color:var(--quiet);font-size:clamp(.58rem,.54vw,.69rem);font-weight:600;letter-spacing:.36em;text-indent:.36em}
-    .portal-title{margin-top:42px;color:var(--ivory-strong);font-size:clamp(1.52rem,1.82vw,2.2rem);font-weight:500;line-height:1.72;letter-spacing:.5em;text-indent:.5em;text-shadow:0 2px 16px rgba(15,0,2,.5)}
-    .portal-title span,.portal-keywords span{display:block}
-    .portal-rule{width:1px;height:42px;margin:24px auto 18px;background:var(--line)}
-    .portal-keywords{color:var(--quiet);font-size:clamp(.6rem,.56vw,.72rem);font-weight:600;line-height:1.9;letter-spacing:.36em;text-indent:.36em}
-    .portal-description{max-width:520px;margin:0 auto;color:var(--quiet);font-size:clamp(.86rem,.88vw,1.02rem);font-weight:500;line-height:1.7;letter-spacing:.08em;text-indent:.08em;text-transform:none}
-    .portal .side-words{opacity:0;animation:none;transition:opacity .8s ease}
-    .portal.ready .side-words{opacity:var(--content-opacity)}
-    .portal-discover{position:absolute;z-index:3;left:5.25%;bottom:6.2%;display:flex;align-items:flex-end;gap:11px;color:var(--quiet);font-size:.62rem;font-weight:600;line-height:1.45;letter-spacing:.22em;text-transform:uppercase;opacity:var(--content-opacity);transition:opacity .8s ease}
-    .portal-discover::before{content:'';width:1px;height:32px;background:var(--line)}
-    .portal .folio{z-index:3;opacity:var(--content-opacity);transition:opacity .8s ease}
-    .portal:not(.second) .side-words,.portal:not(.second) .portal-discover,.portal:not(.second) .folio{transform:translateY(var(--enter-shift))}
-    @keyframes arrive{from{opacity:0;transform:scale(1.07)}to{opacity:1;transform:translate3d(var(--x),var(--y),0) scale(var(--open-scale))}}
-    @keyframes fadeUp{from{opacity:0}to{opacity:1}}
-    @keyframes fadeIn{to{opacity:1}}@keyframes lineIn{from{opacity:0;transform:scaleY(0)}to{opacity:1;transform:scaleY(1)}}
-    :focus-visible{outline:1px solid var(--ivory);outline-offset:6px}
-    @media(max-width:920px){.topbar{grid-template-columns:1fr auto;height:76px}.identity{gap:20px}.identity::after{width:30px}.main-nav,.utility{display:none}.mobile-menu-toggle,.mobile-menu{display:block}.center-copy{top:12%;width:76vw}.headline{font-size:clamp(2.3rem,8vw,4.2rem)}.side-words{display:none}.scroll-note,.portal-discover{left:24px;bottom:24px}.hero-tagline{bottom:27px}.folio{right:24px;bottom:28px}.portal-copy{top:16%;width:78vw}.portal-title{font-size:clamp(1.28rem,3.8vw,1.85rem)}}
-    @media(max-width:560px){.opening,.portal{min-height:560px}.opening-art,.portal-art{object-position:center center}.topbar{padding:0 20px}.identity{font-size:.96rem}.center-copy{top:11%;width:90vw}.ornament::before,.portal-ornament::before{height:28px}.headline{margin-top:30px;font-size:2.65rem;line-height:1;letter-spacing:.26em;text-indent:.26em}.organization-name{font-size:.67rem;line-height:1.75;letter-spacing:.22em;text-indent:.22em}.portal-title{margin-top:30px;font-size:1.28rem;line-height:1.8;letter-spacing:.4em;text-indent:.4em}.keywords,.portal-keywords{font-size:.59rem}.scroll-note,.portal-discover{font-size:.56rem}.hero-tagline{bottom:58px;width:90vw;font-size:.62rem;white-space:normal}.folio{font-size:.58rem}.portal-copy{top:13%;width:92vw}}
-    @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}.opening-art,.second{transform:none}.second{-webkit-mask-image:none;mask-image:none}.ornament,.headline,.organization-name,.center-rule,.keywords,.side-words,.portal-copy{opacity:1}}
+    html,body{width:100%;min-height:100%;background:#1b0305}
+    body{min-height:100svh;overflow:hidden;color:#f0d3c8;font-family:'Cormorant Garamond',Georgia,serif}
+    main{position:relative;display:grid;place-items:center;min-height:100svh;padding:32px;text-align:center;isolation:isolate}
+    main::before{content:'';position:absolute;inset:0;z-index:-2;background:url('assets/sioa-constant-bg.png') center/cover no-repeat}
+    main::after{content:'';position:absolute;inset:0;z-index:-1;background:rgba(24,2,4,.38)}
+    .message{width:min(720px,92vw);text-transform:uppercase}
+    .ornament{display:flex;flex-direction:column;align-items:center;color:#ae7c76;font-size:1rem;line-height:1}
+    .ornament::before{content:'';width:1px;height:52px;margin-bottom:14px;background:#a96361}
+    h1{margin-top:42px;font-size:clamp(3.4rem,9vw,7.5rem);font-weight:400;line-height:.9;letter-spacing:.32em;text-indent:.32em;text-shadow:0 3px 24px rgba(10,0,1,.6)}
+    p{margin-top:34px;color:#c99d91;font-size:clamp(.82rem,1.3vw,1.05rem);font-weight:500;letter-spacing:.38em;text-indent:.38em}
+    @media(max-width:560px){main{padding:24px}.ornament::before{height:38px}h1{font-size:3.25rem;letter-spacing:.25em;text-indent:.25em}p{font-size:.76rem;line-height:1.7;letter-spacing:.25em;text-indent:.25em}}
   </style>
 </head>
 <body>
-  <header class="topbar">
-    <a class="identity" href="index.html" aria-label="SIOA home">SIOA</a>
-    <nav aria-label="Primary navigation">
-      <ul class="main-nav">
-        <li><a href="Vagh2026/about.html">Competition</a></li>
-        <li><a href="net/index.html">Artists</a></li>
-        <li><a href="Blog/index.html">Magazine</a></li>
-        <li><a href="#about">About</a></li>
-      </ul>
-    </nav>
-    <div class="utility">
-      <a class="search" href="net/index.html"><span>Search</span><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"></circle><path d="m16 16 4 4"></path></svg></a>
-      <span class="utility-rule"></span>
-      <a id="accountLink" href="login/login.html">Login</a>
-    </div>
-    <button class="mobile-menu-toggle" type="button" aria-expanded="false" aria-controls="mobileMenu">Menu<span class="mobile-menu-icon" aria-hidden="true"><span></span><span></span></span></button>
-  </header>
-  <nav class="mobile-menu" id="mobileMenu" aria-label="Mobile navigation" aria-hidden="true">
-    <ul>
-      <li><a href="Vagh2026/about.html">Competition</a></li>
-      <li><a href="net/index.html">Artists</a></li>
-      <li><a href="Blog/index.html">Magazine</a></li>
-      <li><a href="#about">About</a></li>
-      <li><a href="net/index.html">Search</a></li>
-      <li><a id="mobileAccountLink" href="login/login.html">Login</a></li>
-    </ul>
-  </nav>
-
-  <main class="story" id="story">
-  <section class="opening" id="opening">
-    <img class="opening-art" src="assets/sioa-front-arch-v2.png" alt="A burgundy Indian palace arch opening toward a mountain fort at sunset">
-    <div class="tone"></div>
-
-    <div class="opening-ui">
-      <div class="center-copy">
-        <div class="ornament" aria-hidden="true">✥</div>
-        <h1 class="headline"><span>SIOA</span></h1>
-        <p class="organization-name">Society of Indian Origami Artists</p>
-        <div class="center-rule"></div>
-      </div>
-
-      <aside class="side-words side-left" aria-label="SIOA values in Hindi"><span>विधान</span><span>अभ्यास</span><span>गौरव</span><span>हस्त</span></aside>
-      <aside class="side-words side-right" aria-label="SIOA values in English"><span>Order</span><span>Practice</span><span>Honour</span><span>Hand</span></aside>
-
-      <div class="scroll-note" aria-hidden="true"><span>Scroll<br>down</span></div>
-      <p class="hero-tagline">Tradition in a different form</p>
-      <div class="folio" aria-hidden="true"><span>01</span><span class="folio-line"></span><span>04</span></div>
-    </div>
-  </section>
-
-  <section class="portal second" id="about" aria-labelledby="secondTitle">
-    <img class="portal-art" src="assets/sioa-second-arch.png" alt="An ornate burgundy Indian arch prepared as an exhibition space">
-    <div class="portal-tone"></div>
-
-    <div class="portal-copy">
-      <div class="portal-ornament" aria-hidden="true">✥</div>
-      <p class="portal-kicker">About SIOA</p>
-      <h2 class="portal-title" id="secondTitle"><span>A community</span><span>for origami</span><span>across India</span></h2>
-      <div class="portal-rule"></div>
-      <p class="portal-description">SIOA brings India's origami community together, giving artists a place to learn, exchange ideas and grow through shared practice.</p>
-    </div>
-
-    <aside class="side-words side-left" aria-label="Archive values in Hindi"><span>कलाकार</span><span>अभ्यास</span><span>विचार</span><span>समुदाय</span></aside>
-    <aside class="side-words side-right" aria-label="Archive values"><span>Artists</span><span>Practice</span><span>Ideas</span><span>Community</span></aside>
-
-    <a class="portal-discover" href="net/index.html"><span>Meet<br>artists</span></a>
-    <div class="folio" aria-hidden="true"><span>02</span><span class="folio-line"></span><span>04</span></div>
-  </section>
-
-  <section class="portal third" id="third" aria-labelledby="thirdTitle">
-    <div class="portal-copy">
-      <div class="portal-ornament" aria-hidden="true">✥</div>
-      <h2 class="portal-title" id="thirdTitle"><span>Knowledge</span><span>shared through</span><span>collaboration</span></h2>
-      <div class="portal-rule"></div>
-      <p class="portal-description">Knowledge grows when artists share methods, support one another and contribute thoughtfully to projects shaped by collective practice.</p>
-    </div>
-
-    <aside class="side-words side-left" aria-label="Collaboration values in Hindi"><span>साझा</span><span>ज्ञान</span><span>सहयोग</span><span>योगदान</span></aside>
-    <aside class="side-words side-right" aria-label="Collaboration values"><span>Sharing</span><span>Knowledge</span><span>Support</span><span>Contribution</span></aside>
-
-    <a class="portal-discover" href="Blog/index.html"><span>Open<br>magazine</span></a>
-    <div class="folio" aria-hidden="true"><span>03</span><span class="folio-line"></span><span>04</span></div>
-  </section>
-
-  <section class="portal fourth" id="fourth" aria-labelledby="fourthTitle">
-    <div class="portal-copy">
-      <div class="portal-ornament" aria-hidden="true">✥</div>
-      <h2 class="portal-title" id="fourthTitle"><span>Built by</span><span>the people</span><span>who are part of it</span></h2>
-      <div class="portal-rule"></div>
-      <p class="portal-description">SIOA is shaped by its members, where every contribution strengthens the community and helps Indian origami grow together.</p>
-    </div>
-
-    <aside class="side-words side-left" aria-label="Community values in Hindi"><span>सहभागिता</span><span>सामूहिकता</span><span>विकास</span><span>समुदाय</span></aside>
-    <aside class="side-words side-right" aria-label="Community values"><span>Participation</span><span>Collective</span><span>Growth</span><span>Community</span></aside>
-
-    <a class="portal-discover" href="net/index.html"><span>Meet<br>artists</span></a>
-    <div class="folio" aria-hidden="true"><span>04</span><span class="folio-line"></span><span>04</span></div>
-  </section>
+  <main>
+    <section class="message" aria-labelledby="holdingTitle">
+      <div class="ornament" aria-hidden="true">✥</div>
+      <h1 id="holdingTitle">SIOA</h1>
+      <p>Under redevelopment</p>
+    </section>
   </main>
-
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script>
-    const opening=document.getElementById('opening');
-    opening.addEventListener('pointermove',event=>{if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;const x=(event.clientX/innerWidth-.5)*-7;const y=(event.clientY/innerHeight-.5)*-5;document.documentElement.style.setProperty('--x',x+'px');document.documentElement.style.setProperty('--y',y+'px')});
-    const portals=[...document.querySelectorAll('.portal')];
-    const second=portals[0];
-    let transitionFrame=0;
-    function smoothRange(value,start,end){const progress=Math.max(0,Math.min(1,(value-start)/(end-start)));return progress*progress*(3-2*progress)}
-    function updateTransition(){
-      const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
-      if(reduced){portals.forEach(portal=>{portal.classList.add('ready');portal.style.setProperty('--content-opacity','1')});return}
-      const states=portals.map(portal=>{
-        const progress=Math.max(0,Math.min(1,1-portal.getBoundingClientRect().top/innerHeight));
-        return{progress,eased:progress*progress*(3-2*progress)};
-      });
-      const reveal=states[0];
-      second.style.setProperty('--mask-solid',Math.max(0,148*reveal.eased-46)+'%');
-      second.style.setProperty('--mask-fade',34+230*reveal.eased+'%');
-      second.style.transform=`scale(${1.055-.055*reveal.eased})`;
-      second.classList.toggle('ready',reveal.progress>.68);
-      second.classList.toggle('revealed',reveal.progress>.985);
-      opening.style.setProperty('--opening-content-opacity',String(1-smoothRange(reveal.progress,.08,.5)));
-      document.documentElement.style.setProperty('--open-scale',String(1.015+.035*reveal.eased));
-      portals.forEach((portal,index)=>{
-        const nextProgress=states[index+1]?.progress||0;
-        const fadeOut=1-smoothRange(nextProgress,.08,.43);
-        const fadeIn=index===0?1:smoothRange(states[index].progress,.57,.92);
-        const opacity=fadeIn*fadeOut;
-        portal.style.setProperty('--content-opacity',String(opacity));
-        if(index>0){
-          portal.style.setProperty('--enter-shift',-Math.max(0,portal.offsetTop-scrollY)+'px');
-          portal.classList.toggle('ready',states[index].progress>.04);
-        }
-      });
-    }
-    function queueTransition(){if(transitionFrame)return;transitionFrame=requestAnimationFrame(()=>{transitionFrame=0;updateTransition()})}
-    addEventListener('scroll',queueTransition,{passive:true});
-    addEventListener('resize',queueTransition);
-    updateTransition();
-    const menuToggle=document.querySelector('.mobile-menu-toggle');
-    const mobileMenu=document.getElementById('mobileMenu');
-    function setMobileMenu(open){menuToggle.setAttribute('aria-expanded',String(open));mobileMenu.setAttribute('aria-hidden',String(!open));mobileMenu.classList.toggle('open',open)}
-    menuToggle.addEventListener('click',()=>setMobileMenu(menuToggle.getAttribute('aria-expanded')!=='true'));
-    mobileMenu.addEventListener('click',event=>{if(event.target.closest('a'))setMobileMenu(false)});
-    addEventListener('keydown',event=>{if(event.key==='Escape')setMobileMenu(false)});
-    addEventListener('resize',()=>{if(innerWidth>920)setMobileMenu(false)});
-    (async()=>{try{const client=window.supabase.createClient('https://zbgvgzzaejaxrgcjjovc.supabase.co','sb_publishable_gCLTB6WM95Iw6Txcf2fjCA_5fnXPw77');const result=await client.auth.getSession();if(result.data&&result.data.session){[document.getElementById('accountLink'),document.getElementById('mobileAccountLink')].forEach(link=>{link.textContent='Account';link.href='login/app/loggedin.html'})}}catch(error){}})();
-  </script>
-<script src="assets/sioa-mobile.js"></script>
 </body>
 </html>
