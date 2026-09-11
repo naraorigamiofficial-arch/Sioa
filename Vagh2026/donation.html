@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Support SIOA — Make a Donation</title>
+<title>Support SIOA | Make a Donation</title>
 <meta name="description" content="Support the Society of Indian Origami Artists. Your contributions help us host national competitions and grow the origami community in India.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -11,20 +11,20 @@
 <style>
 :root {
   --black: #000000;
-  --deep-blue: #0a1628;
-  --navy-blue: #0f2847;
-  --cyan-blue: #1a5f7a;
-  --bright-cyan: #2d89b0;
-  --metallic-blue: #4a90a4;
-  --light-cyan: #57a6bb;
-  --white: #e8f4f8;
-  --light-grey: #c5d9e0;
+  --deep-blue: #310509;
+  --navy-blue: #220204;
+  --cyan-blue: #7d2036;
+  --bright-cyan: #ca895d;
+  --metallic-blue: #a6545e;
+  --light-cyan: #f0d0c2;
+  --white: #f8dfd4;
+  --light-grey: #c39b94;
 }
 *{margin:0;padding:0;box-sizing:border-box;}
 body{font-family:'Inter',-apple-system,sans-serif;background:var(--black);color:var(--white);overflow-x:hidden;padding-top:116px;}
 
 /* NAVBAR */
-.navbar{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(0,0,0,0.85);backdrop-filter:blur(10px);border-bottom:1px solid rgba(26,95,122,0.15);padding:20px 0;transition:all 0.4s cubic-bezier(0.16,1,0.3,1);}
+.navbar{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(0,0,0,0.85);backdrop-filter:blur(10px);border-bottom:1px solid rgba(125,32,54,0.15);padding:20px 0;transition:all 0.4s cubic-bezier(0.16,1,0.3,1);}
 .nav-container{max-width:1400px;margin:0 auto;padding:0 40px;display:flex;justify-content:space-between;align-items:center;}
 .nav-logo{font-size:28px;font-weight:800;letter-spacing:0.1em;color:var(--white);text-decoration:none;transition:all 0.3s ease;}
 .nav-logo:hover{color:var(--bright-cyan);}
@@ -49,22 +49,22 @@ body{font-family:'Inter',-apple-system,sans-serif;background:var(--black);color:
 
 /* ── DONATION CARD ── */
 .donate-wrapper{opacity:0;animation:fadeInUp 0.9s ease forwards 0.55s;margin-bottom:80px;}
-.donate-card{background:linear-gradient(135deg,rgba(10,22,40,0.8),rgba(15,40,71,0.5));border:1px solid rgba(26,95,122,0.35);border-radius:12px;padding:56px;text-align:center;position:relative;overflow:hidden;}
+.donate-card{background:linear-gradient(135deg,rgba(49,5,9,0.8),rgba(34,2,4,0.5));border:1px solid rgba(125,32,54,0.35);border-radius:12px;padding:56px;text-align:center;position:relative;overflow:hidden;}
 .donate-card::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--cyan-blue),var(--bright-cyan));}
 
 .impact-grid{display:grid;grid-template-columns:repeat(3, 1fr);gap:24px;margin:40px 0;text-align:left;}
-.impact-item{padding:24px;background:rgba(26,95,122,0.06);border:1px solid rgba(26,95,122,0.2);border-radius:8px;transition:all 0.3s ease;}
-.impact-item:hover{border-color:rgba(45,137,176,0.4);background:rgba(26,95,122,0.1);}
-.impact-icon{width:40px;height:40px;border:1px solid rgba(26,95,122,0.5);border-radius:50%;display:flex;align-items:center;justify-content:center;background:rgba(26,95,122,0.1);margin-bottom:16px;}
+.impact-item{padding:24px;background:rgba(125,32,54,0.06);border:1px solid rgba(125,32,54,0.2);border-radius:8px;transition:all 0.3s ease;}
+.impact-item:hover{border-color:rgba(202,137,93,0.4);background:rgba(125,32,54,0.1);}
+.impact-icon{width:40px;height:40px;border:1px solid rgba(125,32,54,0.5);border-radius:50%;display:flex;align-items:center;justify-content:center;background:rgba(125,32,54,0.1);margin-bottom:16px;}
 .impact-icon svg{width:18px;height:18px;stroke:var(--bright-cyan);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;}
 .impact-title{font-size:14px;font-weight:600;color:var(--white);margin-bottom:8px;}
 .impact-desc{font-size:12px;font-weight:300;color:var(--light-grey);line-height:1.6;}
 
 /* RAZORPAY BUTTON */
-.btn-donate{display:inline-flex;align-items:center;justify-content:center;gap:12px;padding:18px 48px;background:linear-gradient(135deg,var(--cyan-blue),var(--bright-cyan));color:var(--white);font-family:'Inter',sans-serif;font-size:16px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;text-decoration:none;border:none;border-radius:6px;cursor:pointer;transition:all 0.3s ease;box-shadow:0 8px 32px rgba(26,95,122,0.25);width:100%;max-width:400px;margin:0 auto;}
-.btn-donate:hover{transform:translateY(-3px);box-shadow:0 12px 40px rgba(45,137,176,0.4);}
+.btn-donate{display:inline-flex;align-items:center;justify-content:center;gap:12px;padding:18px 48px;background:linear-gradient(135deg,var(--cyan-blue),var(--bright-cyan));color:var(--white);font-family:'Inter',sans-serif;font-size:16px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;text-decoration:none;border:none;border-radius:6px;cursor:pointer;transition:all 0.3s ease;box-shadow:0 8px 32px rgba(125,32,54,0.25);width:100%;max-width:400px;margin:0 auto;}
+.btn-donate:hover{transform:translateY(-3px);box-shadow:0 12px 40px rgba(202,137,93,0.4);}
 .btn-donate svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
-.secure-note{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:20px;font-size:11px;letter-spacing:0.1em;color:rgba(197,217,224,0.4);text-transform:uppercase;}
+.secure-note{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:20px;font-size:11px;letter-spacing:0.1em;color:rgba(195,155,148,0.4);text-transform:uppercase;}
 .secure-note svg{width:12px;height:12px;}
 
 /* RESPONSIVE */
@@ -75,6 +75,7 @@ body{font-family:'Inter',-apple-system,sans-serif;background:var(--black);color:
   .impact-grid{grid-template-columns:1fr;gap:16px;}
 }
 </style>
+    <link rel="stylesheet" href="../assets/sioa-archive.css">
 </head>
 <body>
 
@@ -101,7 +102,7 @@ body{font-family:'Inter',-apple-system,sans-serif;background:var(--black);color:
 <div class="container">
   <div class="donate-wrapper">
     <div class="donate-card">
-      
+
       <div class="impact-grid">
         <div class="impact-item">
           <div class="impact-icon"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
@@ -123,20 +124,20 @@ body{font-family:'Inter',-apple-system,sans-serif;background:var(--black);color:
       <a href="https://razorpay.me/@sioadonation" target="_blank" rel="noopener noreferrer" class="btn-donate">
         Make a Donation <svg viewBox="0 0 24 24"><polyline points="5 12 12 5 19 12"/><line x1="12" y1="19" x2="12" y2="5"/></svg>
       </a>
-      
+
       <div class="secure-note">
         <svg viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
         Payments secured by Razorpay
       </div>
-      
+
     </div>
   </div>
 </div>
 
-<footer style="padding:40px 0;border-top:1px solid rgba(10,22,40,0.8);position:relative;z-index:1;">
+<footer style="padding:40px 0;border-top:1px solid rgba(49,5,9,0.8);position:relative;z-index:1;">
   <div class="container" style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;">
-    <span style="font-size:13px;color:rgba(197,217,224,0.3);letter-spacing:0.06em;">© 2026 SIOA — Society of Indian Origami Artists</span>
-    <span style="font-size:12px;color:rgba(197,217,224,0.2);letter-spacing:0.18em;">विधान · अभ्यास · गौरव · हस्त</span>
+    <span style="font-size:13px;color:rgba(195,155,148,0.3);letter-spacing:0.06em;">© 2026 SIOA | Society of Indian Origami Artists</span>
+    <span style="font-size:12px;color:rgba(195,155,148,0.2);letter-spacing:0.18em;">विधान · अभ्यास · गौरव · हस्त</span>
   </div>
 </footer>
 
@@ -175,7 +176,7 @@ for (var i = 0; i < 60; i++) particles.push(new Particle());
       var d = Math.sqrt(dx*dx + dy*dy);
       if (d < 130){
         ctx.save(); ctx.globalAlpha = (1 - d/130) * 0.12;
-        ctx.strokeStyle = 'hsl(190,70%,50%)'; ctx.lineWidth = 0.8;
+        ctx.strokeStyle = 'rgb(202,137,93)'; ctx.lineWidth = 0.8;
         ctx.beginPath(); ctx.moveTo(particles[i].x, particles[i].y);
         ctx.lineTo(particles[j].x, particles[j].y); ctx.stroke(); ctx.restore();
       }
@@ -185,5 +186,7 @@ for (var i = 0; i < 60; i++) particles.push(new Particle());
   requestAnimationFrame(animate);
 })();
 </script>
+<script src="../assets/sioa-archive.js"></script>
+<script src="../assets/sioa-mobile.js"></script>
 </body>
 </html>

@@ -9,16 +9,16 @@
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,300&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg:          #04080f;
-            --surface:     #070d1a;
+            --bg:          #210205;
+            --surface:     #2a0307;
             --border:      rgba(255,255,255,0.065);
-            --border-cyan: rgba(45,137,176,0.28);
-            --cyan:        #2d89b0;
-            --cyan-light:  #57a6bb;
-            --cyan-dim:    rgba(45,137,176,0.15);
-            --text:        #dce8ed;
-            --muted:       rgba(220,232,237,0.40);
-            --muted-2:     rgba(220,232,237,0.22);
+            --border-cyan: rgba(202,137,93,0.28);
+            --cyan:        #ca895d;
+            --cyan-light:  #f0d0c2;
+            --cyan-dim:    rgba(202,137,93,0.15);
+            --text:        #f0d0c2;
+            --muted:       rgba(240,208,194,0.40);
+            --muted-2:     rgba(240,208,194,0.22);
         }
 
         *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
@@ -35,8 +35,8 @@
             content: '';
             position: fixed; inset: 0;
             background-image:
-                linear-gradient(rgba(45,137,176,0.025) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(45,137,176,0.025) 1px, transparent 1px);
+                linear-gradient(rgba(202,137,93,0.025) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(202,137,93,0.025) 1px, transparent 1px);
             background-size: 52px 52px;
             pointer-events: none; z-index: 0;
         }
@@ -44,7 +44,7 @@
         .glow-orb {
             position: fixed; top: -200px; left: 30%;
             width: 600px; height: 600px;
-            background: radial-gradient(circle, rgba(45,137,176,0.07) 0%, transparent 68%);
+            background: radial-gradient(circle, rgba(202,137,93,0.07) 0%, transparent 68%);
             pointer-events: none; z-index: 0;
         }
 
@@ -80,7 +80,7 @@
         }
         .loading-pulse {
             width: 36px; height: 36px; border-radius: 50%;
-            border: 2px solid rgba(45,137,176,0.15);
+            border: 2px solid rgba(202,137,93,0.15);
             border-top-color: var(--cyan-light);
             animation: spin 0.8s linear infinite; margin-bottom: 16px;
         }
@@ -123,8 +123,8 @@
         }
         .author-avatar {
             width: 38px; height: 38px; border-radius: 50%; flex-shrink: 0;
-            background: linear-gradient(135deg, #1a5f7a, #2d89b0);
-            border: 1px solid rgba(45,137,176,0.3);
+            background: linear-gradient(135deg, #7d2036, #ca895d);
+            border: 1px solid rgba(202,137,93,0.3);
             display: flex; align-items: center; justify-content: center;
             font-family: 'DM Serif Display', serif;
             font-size: 14px; color: #fff;
@@ -156,7 +156,7 @@
         /* Post body */
         .post-body {
             font-size: 16px; font-weight: 300; line-height: 1.85;
-            color: rgba(220,232,237,0.85);
+            color: rgba(240,208,194,0.85);
             white-space: pre-wrap;
             word-break: break-word;
         }
@@ -187,7 +187,7 @@
             font-size: 12px; font-weight: 600; text-decoration: none;
             transition: all 0.18s;
         }
-        .btn-view-profile:hover { background: #3899c4; transform: translateY(-1px); box-shadow: 0 5px 16px rgba(45,137,176,0.3); }
+        .btn-view-profile:hover { background: #dda47d; transform: translateY(-1px); box-shadow: 0 5px 16px rgba(202,137,93,0.3); }
 
         @media (max-width: 600px) {
             .article-wrap { padding: 32px 20px 60px; }
@@ -195,6 +195,7 @@
             .topbar-nav { display: none; }
         }
     </style>
+    <link rel="stylesheet" href="../assets/sioa-archive.css">
 </head>
 <body>
 <div class="glow-orb"></div>
@@ -205,7 +206,7 @@
     <nav class="topbar-nav">
         <a href="/home/index.html">Home</a>
         <a href="/network/index.html">Browse Artists</a>
-        <a href="/competition/index.html">Competition</a>
+            <a href="/Vagh2026/about.html">Competition</a>
         <a href="/dashbord/index.html">Dashboard</a>
     </nav>
 </header>
@@ -236,23 +237,23 @@
 
         <!-- Author -->
         <div class="author-strip">
-            <div class="author-avatar" id="author-avatar">—</div>
+            <div class="author-avatar" id="author-avatar">-</div>
             <div class="author-info">
-                <a class="author-name" id="author-name" href="#">—</a>
+                <a class="author-name" id="author-name" href="#">-</a>
                 <div class="author-meta" id="author-meta">SIOA Member</div>
             </div>
         </div>
 
         <!-- Title -->
-        <h1 class="post-title" id="post-title">—</h1>
+        <h1 class="post-title" id="post-title">-</h1>
 
         <!-- Meta -->
         <div class="post-meta">
-            <span id="post-date">—</span>
+            <span id="post-date">-</span>
             <span class="post-meta-dot"></span>
-            <span id="post-words">—</span>
+            <span id="post-words">-</span>
             <span class="post-meta-dot"></span>
-            <span id="post-read-time">—</span>
+            <span id="post-read-time">-</span>
         </div>
 
         <!-- Body -->
@@ -352,5 +353,6 @@
     boot();
 })();
 </script>
+<script src="../assets/sioa-archive.js"></script>
 </body>
 </html>

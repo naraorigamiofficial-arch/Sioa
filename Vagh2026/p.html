@@ -3,24 +3,24 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>VAGH 2026 — Judging | SIOA</title>
+<title>VAGH 2026 | Judging | SIOA</title>
 <meta name="robots" content="noindex, nofollow">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#0b0f14;
-  --panel:#141a21;
-  --panel-2:#1a212a;
-  --panel-3:#212a34;
-  --border:#262f39;
-  --border-soft:#1d252e;
-  --text:#f0f3f6;
-  --muted:#9aa6b2;
-  --faint:#6b7885;
-  --accent:#4fa8c9;
-  --accent-strong:#63b9d8;
+  --bg:#220204;
+  --panel:#2a0307;
+  --panel-2:#35050a;
+  --panel-3:#41070f;
+  --border:#6f3038;
+  --border-soft:#3a0710;
+  --text:#f8dfd4;
+  --muted:#c39b94;
+  --faint:#9e7470;
+  --accent:#ca895d;
+  --accent-strong:#dda47d;
   --green:#5ec98e;
   --amber:#e0b155;
   --red:#e07272;
@@ -68,7 +68,7 @@ select{appearance:none;background-image:url("data:image/svg+xml;charset=UTF-8,%3
 .gate-input{margin-bottom:16px;}
 .gate-btn{
   width:100%;padding:15px;background:var(--accent);
-  color:#0b0f14;border:none;border-radius:10px;font-family:'Inter',sans-serif;
+  color:#220204;border:none;border-radius:10px;font-family:'Inter',sans-serif;
   font-size:15px;font-weight:700;cursor:pointer;margin-top:6px;min-height:48px;transition:background .15s;
 }
 .gate-btn:hover{background:var(--accent-strong);}
@@ -77,7 +77,7 @@ select{appearance:none;background-image:url("data:image/svg+xml;charset=UTF-8,%3
 /* ============ TOPBAR ============ */
 #dashboard{display:none;}
 .topbar{
-  position:sticky;top:0;z-index:100;background:rgba(11,15,20,.94);backdrop-filter:blur(10px);
+  position:sticky;top:0;z-index:100;background:rgba(34,2,4,.94);backdrop-filter:blur(10px);
   border-bottom:1px solid var(--border);
 }
 .topbar-inner{
@@ -89,7 +89,7 @@ select{appearance:none;background-image:url("data:image/svg+xml;charset=UTF-8,%3
 .dot-sep{width:4px;height:4px;border-radius:50%;background:var(--border);}
 .topbar-right{display:flex;align-items:center;gap:14px;flex-wrap:wrap;}
 .progress-pill{
-  font-size:12.5px;color:var(--accent);font-weight:700;background:rgba(79,168,201,.11);
+  font-size:12.5px;color:var(--accent);font-weight:700;background:rgba(202,137,93,.11);
   padding:6px 12px;border-radius:100px;letter-spacing:.02em;
 }
 .judge-pill{display:flex;align-items:center;gap:9px;font-size:13.5px;color:var(--muted);}
@@ -136,18 +136,18 @@ select{appearance:none;background-image:url("data:image/svg+xml;charset=UTF-8,%3
   overflow:hidden;display:flex;flex-direction:column;box-shadow:var(--shadow);
   transition:border-color .18s;
 }
-.card:hover{border-color:#31404e;}
+.card:hover{border-color:#7d2036;}
 .card.is-disqualified{opacity:.55;}
 .card.is-scored{border-left:2px solid var(--green);}
 
 /* photos */
-.photo-wrap{position:relative;background:#050709;flex-shrink:0;}
+.photo-wrap{position:relative;background:#210205;flex-shrink:0;}
 .card-photos{display:flex;gap:2px;height:270px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;}
 .card-photos::-webkit-scrollbar{display:none;}
-.card-photos img{height:100%;width:100%;flex:0 0 100%;object-fit:contain;cursor:zoom-in;scroll-snap-align:center;background:#050709;}
+.card-photos img{height:100%;width:100%;flex:0 0 100%;object-fit:contain;cursor:zoom-in;scroll-snap-align:center;background:#210205;}
 .photo-nav{
   position:absolute;top:50%;transform:translateY(-50%);width:34px;height:34px;border-radius:50%;
-  background:rgba(11,15,20,.72);border:1px solid var(--border);color:var(--text);cursor:pointer;
+  background:rgba(34,2,4,.72);border:1px solid var(--border);color:var(--text);cursor:pointer;
   display:flex;align-items:center;justify-content:center;backdrop-filter:blur(4px);opacity:0;transition:opacity .15s;
 }
 .photo-wrap:hover .photo-nav{opacity:1;}
@@ -156,11 +156,11 @@ select{appearance:none;background-image:url("data:image/svg+xml;charset=UTF-8,%3
 .photo-nav.prev{left:10px;} .photo-nav.next{right:10px;}
 .photo-count{
   position:absolute;right:10px;bottom:10px;font-size:11.5px;font-weight:600;color:var(--text);
-  background:rgba(11,15,20,.75);border:1px solid var(--border);border-radius:100px;padding:3px 9px;backdrop-filter:blur(4px);
+  background:rgba(34,2,4,.75);border:1px solid var(--border);border-radius:100px;padding:3px 9px;backdrop-filter:blur(4px);
 }
 .photo-fallback{
   height:180px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:9px;
-  color:var(--faint);font-size:13px;background:#10151b;text-align:center;padding:0 30px;line-height:1.5;
+  color:var(--faint);font-size:13px;background:#35050a;text-align:center;padding:0 30px;line-height:1.5;
 }
 .photo-fallback svg{width:26px;height:26px;stroke:var(--faint);fill:none;stroke-width:1.5;opacity:.7;}
 
@@ -194,7 +194,7 @@ select{appearance:none;background-image:url("data:image/svg+xml;charset=UTF-8,%3
 .crit-top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:10px;}
 .crit-name{font-size:15px;font-weight:600;display:flex;align-items:center;gap:8px;}
 .weight-tag{
-  font-size:10.5px;font-weight:700;color:var(--accent);background:rgba(79,168,201,.11);
+  font-size:10.5px;font-weight:700;color:var(--accent);background:rgba(202,137,93,.11);
   padding:2px 7px;border-radius:5px;letter-spacing:.03em;
 }
 .stepper{display:flex;align-items:center;gap:8px;flex-shrink:0;}
@@ -205,7 +205,7 @@ select{appearance:none;background-image:url("data:image/svg+xml;charset=UTF-8,%3
   user-select:none;font-family:inherit;transition:.12s;
 }
 .step-btn:hover{color:var(--text);border-color:var(--accent);}
-.step-btn:active{background:var(--accent);border-color:var(--accent);color:#0b0f14;}
+.step-btn:active{background:var(--accent);border-color:var(--accent);color:#220204;}
 .crit input[type=number]{
   width:70px;text-align:center;font-size:16px;font-weight:700;padding:8px 4px;
   font-family:'JetBrains Mono',monospace;font-variant-numeric:tabular-nums;
@@ -237,12 +237,12 @@ textarea.comments{min-height:62px;resize:vertical;font-size:14.5px;margin-top:14
 
 .save-row{display:flex;align-items:center;gap:12px;margin-top:14px;}
 .save-btn{
-  flex:1;padding:14px;background:var(--accent);color:#0b0f14;border:none;border-radius:10px;
+  flex:1;padding:14px;background:var(--accent);color:#220204;border:none;border-radius:10px;
   font-family:'Inter',sans-serif;font-size:15px;font-weight:700;cursor:pointer;min-height:48px;transition:.15s;
 }
 .save-btn:hover:not(:disabled){background:var(--accent-strong);}
 .save-btn:disabled{opacity:.45;cursor:default;}
-.save-btn.is-dirty{box-shadow:0 0 0 3px rgba(79,168,201,.16);}
+.save-btn.is-dirty{box-shadow:0 0 0 3px rgba(202,137,93,.16);}
 .save-status{font-size:12.5px;min-height:15px;color:var(--green);white-space:nowrap;font-weight:600;}
 
 /* ============ OTHER JUDGES ============ */
@@ -304,6 +304,7 @@ textarea.comments{min-height:62px;resize:vertical;font-size:14.5px;margin-top:14
   .photo-nav{opacity:1;}
 }
 </style>
+    <link rel="stylesheet" href="../assets/sioa-archive.css">
 </head>
 <body>
 
@@ -450,7 +451,7 @@ async function loadData() {
   ]);
 
   if (subsRes.error) {
-    stateMsg.innerHTML = '<b>Submissions did not load</b>' + escapeHtml(subsRes.error.message) + ' — reload the page, or check that judging_get_submissions is exposed.';
+    stateMsg.innerHTML = '<b>Submissions did not load</b>' + escapeHtml(subsRes.error.message) + ' | reload the page, or check that judging_get_submissions is exposed.';
     return;
   }
   submissions = subsRes.data || [];
@@ -537,8 +538,8 @@ function renderGrid() {
 }
 
 // ============================================================
-// SCORING MATH — weighted total out of 100
-// weights sum to 100, scores are 1–10  =>  Σ(score × weight) / 10
+// SCORING MATH | weighted total out of 100
+// weights sum to 100, scores are 1-10  =>  Σ(score × weight) / 10
 // ============================================================
 function clampVal(v) {
   v = parseFloat(v);
@@ -617,7 +618,7 @@ function renderCard(sub) {
           <button class="admin-toggle${flag && flag.flagged ? ' active-flag' : ''}" id="toggle-flag-${sub.id}" data-active="${flag && flag.flagged ? '1' : '0'}">Flagged</button>
           <button class="admin-toggle${flag && flag.disqualified ? ' active-dq' : ''}" id="toggle-dq-${sub.id}" data-active="${flag && flag.disqualified ? '1' : '0'}">Disqualified</button>
         </div>
-        <textarea class="admin-reason" id="reason-${sub.id}" placeholder="Reason — kept on the record for this entry">${flag ? escapeHtml(flag.reason || '') : ''}</textarea>
+        <textarea class="admin-reason" id="reason-${sub.id}" placeholder="Reason | kept on the record for this entry">${flag ? escapeHtml(flag.reason || '') : ''}</textarea>
         <button class="admin-save" id="save-flag-${sub.id}">Save flag status</button>
         <div class="save-status" id="flag-status-${sub.id}"></div>
         <p class="admin-note">Flagged and disqualified entries drop out of Boice's and Sampreet's lists straight away.</p>
@@ -655,7 +656,7 @@ function renderCard(sub) {
             </div>
             <input type="range" min="1" max="10" step="0.05" value="${initial[c.key]}" id="range-${c.key}-${sub.id}" data-key="${c.key}" aria-label="${c.label} slider">
             <div class="crit-foot">
-              <span>1 — 10</span>
+              <span>1 | 10</span>
               <span class="contrib mono" id="contrib-${c.key}-${sub.id}">${(initial[c.key] * c.weight / 10).toFixed(2)} pts</span>
             </div>
           </div>`).join('')}
@@ -665,7 +666,7 @@ function renderCard(sub) {
           <span class="total-val mono" id="total-${sub.id}">${weightedTotalFromValues(initial)}<small> / 100</small></span>
         </div>
 
-        <textarea class="comments" id="comments-${sub.id}" placeholder="Notes for the record — optional">${myScore ? escapeHtml(myScore.comments || '') : ''}</textarea>
+        <textarea class="comments" id="comments-${sub.id}" placeholder="Notes for the record | optional">${myScore ? escapeHtml(myScore.comments || '') : ''}</textarea>
         <div class="save-row">
           <button class="save-btn" id="save-${sub.id}">${myScore ? 'Update score' : 'Save score'}</button>
           <span class="save-status" id="status-${sub.id}"></span>
@@ -767,7 +768,7 @@ function handleImgError(imgEl) {
   const container = imgEl.closest('.photo-wrap');
   if (container && !container.dataset.fallbackShown) {
     container.dataset.fallbackShown = '1';
-    container.outerHTML = `<div class="photo-fallback">${brokenImageIcon}Photo did not load — check that IMAGE_BUCKET matches a public bucket in Supabase Storage</div>`;
+    container.outerHTML = `<div class="photo-fallback">${brokenImageIcon}Photo did not load | check that IMAGE_BUCKET matches a public bucket in Supabase Storage</div>`;
   }
 }
 
@@ -853,5 +854,7 @@ async function saveFlag(subId, card) {
   renderGrid();
 }
 </script>
+<script src="../assets/sioa-archive.js"></script>
+<script src="../assets/sioa-mobile.js"></script>
 </body>
 </html>

@@ -11,14 +11,14 @@
 
     <style>
         :root {
-            --bg:         #04080f;
-            --surface:    #080e1a;
+            --bg:         #210205;
+            --surface:    #2a0307;
             --border:     rgba(255,255,255,0.07);
             --border-mid: rgba(255,255,255,0.11);
-            --cyan:       #2d89b0;
-            --cyan-light: #57a6bb;
-            --text:       #dce8ed;
-            --muted:      rgba(220,232,237,0.38);
+            --cyan:       #ca895d;
+            --cyan-light: #f0d0c2;
+            --text:       #f0d0c2;
+            --muted:      rgba(240,208,194,0.38);
         }
 
         *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
@@ -35,8 +35,8 @@
             content: '';
             position: fixed; inset: 0;
             background-image:
-                linear-gradient(rgba(45,137,176,0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(45,137,176,0.03) 1px, transparent 1px);
+                linear-gradient(rgba(202,137,93,0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(202,137,93,0.03) 1px, transparent 1px);
             background-size: 48px 48px;
             pointer-events: none;
             z-index: 0;
@@ -47,7 +47,7 @@
             top: -300px; left: 50%;
             transform: translateX(-50%);
             width: 700px; height: 700px;
-            background: radial-gradient(circle, rgba(45,137,176,0.08) 0%, transparent 70%);
+            background: radial-gradient(circle, rgba(202,137,93,0.08) 0%, transparent 70%);
             pointer-events: none;
             z-index: 0;
         }
@@ -92,7 +92,7 @@
         }
 
         .topbar-nav a:hover { color: var(--text); background: rgba(255,255,255,0.05); }
-        .topbar-nav a.active { color: var(--cyan-light); background: rgba(45,137,176,0.10); }
+        .topbar-nav a.active { color: var(--cyan-light); background: rgba(202,137,93,0.10); }
 
         .topbar-user {
             display: flex;
@@ -110,7 +110,7 @@
         .topbar-avatar {
             width: 28px; height: 28px;
             border-radius: 50%;
-            background: linear-gradient(135deg, #1a5f7a, #2d89b0);
+            background: linear-gradient(135deg, #7d2036, #ca895d);
             display: flex; align-items: center; justify-content: center;
             font-size: 11px; font-weight: 600; color: #fff;
             flex-shrink: 0;
@@ -147,7 +147,7 @@
             font-weight: 600;
             letter-spacing: 0.18em;
             text-transform: uppercase;
-            color: rgba(220,232,237,0.20);
+            color: rgba(240,208,194,0.20);
             padding: 14px 12px 6px;
         }
 
@@ -173,7 +173,7 @@
         }
 
         .nav-item:hover { color: var(--text); background: rgba(255,255,255,0.05); }
-        .nav-item.active { color: var(--cyan-light); background: rgba(45,137,176,0.10); font-weight: 500; }
+        .nav-item.active { color: var(--cyan-light); background: rgba(202,137,93,0.10); font-weight: 500; }
         .nav-icon { font-size: 14px; width: 16px; text-align: center; flex-shrink: 0; }
         .sidebar-spacer { flex: 1; }
 
@@ -232,7 +232,7 @@
             font-weight: 600;
             letter-spacing: 0.16em;
             text-transform: uppercase;
-            color: rgba(220,232,237,0.28);
+            color: rgba(240,208,194,0.28);
             margin-bottom: 12px;
         }
 
@@ -256,8 +256,8 @@
             width: 64px; height: 64px;
             margin: 0 auto 20px;
             border-radius: 50%;
-            background: rgba(45,137,176,0.08);
-            border: 1px solid rgba(45,137,176,0.15);
+            background: rgba(202,137,93,0.08);
+            border: 1px solid rgba(202,137,93,0.15);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -332,7 +332,7 @@
             font-size: 10.5px;
             font-weight: 500;
             letter-spacing: 0.10em;
-            color: rgba(220,232,237,0.35);
+            color: rgba(240,208,194,0.35);
             text-transform: uppercase;
         }
 
@@ -355,9 +355,9 @@
 
         .btn-primary { background: var(--cyan); color: #fff; }
         .btn-primary:hover {
-            background: #3899c4;
+            background: #dda47d;
             transform: translateY(-1px);
-            box-shadow: 0 6px 18px rgba(45,137,176,0.32);
+            box-shadow: 0 6px 18px rgba(202,137,93,0.32);
         }
         .btn-primary:disabled {
             opacity: 0.35;
@@ -365,12 +365,12 @@
             transform: none;
             box-shadow: none;
             background: rgba(255,255,255,0.05);
-            color: rgba(220,232,237,0.30);
+            color: rgba(240,208,194,0.30);
         }
 
         .btn-ghost {
             background: transparent;
-            color: rgba(220,232,237,0.40);
+            color: rgba(240,208,194,0.40);
             border: 1px solid rgba(201,96,96,0.22);
         }
         .btn-ghost:hover {
@@ -395,6 +395,7 @@
             .main { padding: 24px 18px; }
         }
     </style>
+    <link rel="stylesheet" href="../assets/sioa-archive.css">
 </head>
 <body>
 
@@ -406,11 +407,11 @@
     <nav class="topbar-nav">
         <a href="/#about">About</a>
         <a href="/#offerings">Platform</a>
-        <a href="/#competition">Competition</a>
+        <a href="/Vagh2026/about.html">Competition</a>
         <a href="/dashbord/index.html" class="active">Dashboard</a>
     </nav>
     <div class="topbar-user">
-        <div class="topbar-avatar" id="top-avatar">—</div>
+        <div class="topbar-avatar" id="top-avatar">-</div>
         <span id="top-name" style="font-size:13px; color:var(--muted);">Loading…</span>
     </div>
 </header>
@@ -424,7 +425,7 @@
             <a href="/dashbord/index.html" class="nav-item">
                 <span class="nav-icon">◈</span> Profile
             </a>
-            <a href="/dashbord/competition.html" class="nav-item active">
+            <a href="/Vagh2026/about.html" class="nav-item active">
                 <span class="nav-icon">✦</span> Competition
             </a>
             <a href="/#offerings" class="nav-item">
@@ -475,7 +476,7 @@
                             <div class="event-status">Coming Soon</div>
                         </div>
                         <p class="event-desc">
-                            The annual Vagh competition celebrates excellence in origami craftsmanship. Applications will open soon — stay tuned for details.
+                            The annual Vagh competition celebrates excellence in origami craftsmanship. Applications will open soon | stay tuned for details.
                         </p>
                         <button class="btn btn-primary" disabled>
                             Apply
@@ -496,5 +497,7 @@
         "sb_publishable_gCLTB6WM95Iw6Txcf2fjCA_5fnXPw77"
     );
 </script>
+<script src="../assets/sioa-archive.js"></script>
+<script src="../assets/sioa-mobile.js"></script>
 </body>
 </html>

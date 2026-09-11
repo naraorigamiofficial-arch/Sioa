@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>VAGH 2026 — All Entries | SIOA</title>
+<title>VAGH 2026 | All Entries | SIOA</title>
 <meta name="description" content="Browse all competition entries for VAGH 2026, India's National Origami Competition by SIOA.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -11,13 +11,13 @@
 <style>
 :root {
   --black: #000000;
-  --deep-blue: #0a1628;
-  --navy-blue: #0f2847;
-  --cyan-blue: #1a5f7a;
-  --bright-cyan: #2d89b0;
-  --light-cyan: #57a6bb;
-  --white: #e8f4f8;
-  --light-grey: #c5d9e0;
+  --deep-blue: #310509;
+  --navy-blue: #220204;
+  --cyan-blue: #7d2036;
+  --bright-cyan: #ca895d;
+  --light-cyan: #f0d0c2;
+  --white: #f8dfd4;
+  --light-grey: #c39b94;
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -34,12 +34,12 @@ body {
 .navbar {
   position: fixed; top: 0; left: 0; right: 0; z-index: 100;
   background: rgba(0,0,0,0.88); backdrop-filter: blur(12px);
-  border-bottom: 1px solid rgba(26,95,122,0.18);
+  border-bottom: 1px solid rgba(125,32,54,0.18);
   padding: 18px 0; transition: all 0.4s ease;
 }
 .navbar.scrolled {
   padding: 12px 0; background: rgba(0,0,0,0.98);
-  border-bottom-color: rgba(26,95,122,0.3);
+  border-bottom-color: rgba(125,32,54,0.3);
   box-shadow: 0 8px 40px rgba(0,0,0,0.5);
 }
 .nav-inner {
@@ -54,12 +54,12 @@ body {
 .nav-center {
   display: flex; align-items: center; gap: 6px;
   font-size: 11px; font-weight: 500; letter-spacing: 0.22em;
-  text-transform: uppercase; color: rgba(197,217,224,0.4);
+  text-transform: uppercase; color: rgba(195,155,148,0.4);
 }
 .nav-center span { color: var(--bright-cyan); }
 .nav-back {
   display: inline-flex; align-items: center; gap: 8px;
-  font-size: 12px; letter-spacing: 0.08em; color: rgba(197,217,224,0.5);
+  font-size: 12px; letter-spacing: 0.08em; color: rgba(195,155,148,0.5);
   text-decoration: none; transition: color 0.3s;
 }
 .nav-back svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; transition: transform 0.3s; }
@@ -75,7 +75,7 @@ body {
   max-width: 1400px; margin: 0 auto;
   display: flex; align-items: flex-end; justify-content: space-between;
   gap: 30px; flex-wrap: wrap;
-  border-bottom: 1px solid rgba(26,95,122,0.18);
+  border-bottom: 1px solid rgba(125,32,54,0.18);
 }
 .header-left {}
 .header-eyebrow {
@@ -92,7 +92,7 @@ body {
 }
 .header-title span { color: var(--bright-cyan); }
 .header-meta {
-  font-size: 13px; font-weight: 300; color: rgba(197,217,224,0.45); letter-spacing: 0.06em;
+  font-size: 13px; font-weight: 300; color: rgba(195,155,148,0.45); letter-spacing: 0.06em;
 }
 .header-meta strong { color: var(--light-grey); font-weight: 500; }
 .header-right { display: flex; flex-direction: column; align-items: flex-end; gap: 14px; }
@@ -103,17 +103,17 @@ body {
   max-width: 1400px; margin: 0 auto;
   padding: 28px 40px;
   display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
-  border-bottom: 1px solid rgba(26,95,122,0.12);
+  border-bottom: 1px solid rgba(125,32,54,0.12);
 }
 .search-wrap {
   flex: 1; min-width: 220px;
   display: flex; align-items: center; gap: 0;
-  background: rgba(10,22,40,0.6); border: 1px solid rgba(26,95,122,0.35);
+  background: rgba(49,5,9,0.6); border: 1px solid rgba(125,32,54,0.35);
   border-radius: 6px; overflow: hidden; transition: border-color 0.3s, box-shadow 0.3s;
 }
-.search-wrap:focus-within { border-color: var(--bright-cyan); box-shadow: 0 0 0 3px rgba(45,137,176,0.08); }
+.search-wrap:focus-within { border-color: var(--bright-cyan); box-shadow: 0 0 0 3px rgba(202,137,93,0.08); }
 .search-icon {
-  padding: 0 14px; color: rgba(197,217,224,0.3); flex-shrink: 0;
+  padding: 0 14px; color: rgba(195,155,148,0.3); flex-shrink: 0;
   display: flex; align-items: center;
 }
 .search-icon svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
@@ -122,18 +122,18 @@ body {
   padding: 11px 14px 11px 0; font-family: 'Inter', sans-serif;
   font-size: 13px; color: var(--white); letter-spacing: 0.04em;
 }
-.search-wrap input::placeholder { color: rgba(197,217,224,0.22); }
+.search-wrap input::placeholder { color: rgba(195,155,148,0.22); }
 
 .filter-group { display: flex; gap: 6px; flex-wrap: wrap; }
 .filter-btn {
   padding: 9px 16px; border-radius: 4px; font-family: 'Inter', sans-serif;
   font-size: 11px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase;
-  cursor: pointer; transition: all 0.25s ease; border: 1px solid rgba(26,95,122,0.35);
-  background: transparent; color: rgba(197,217,224,0.45);
+  cursor: pointer; transition: all 0.25s ease; border: 1px solid rgba(125,32,54,0.35);
+  background: transparent; color: rgba(195,155,148,0.45);
 }
-.filter-btn:hover { border-color: rgba(45,137,176,0.5); color: var(--light-grey); }
+.filter-btn:hover { border-color: rgba(202,137,93,0.5); color: var(--light-grey); }
 .filter-btn.active {
-  background: rgba(45,137,176,0.1); border-color: var(--bright-cyan);
+  background: rgba(202,137,93,0.1); border-color: var(--bright-cyan);
   color: var(--bright-cyan);
 }
 
@@ -141,17 +141,17 @@ body {
   padding: 9px 36px 9px 14px; border-radius: 4px;
   font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 500;
   letter-spacing: 0.12em; text-transform: uppercase;
-  background: rgba(10,22,40,0.6) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 24 24' fill='none' stroke='%2357a6bb' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E") no-repeat right 12px center;
-  border: 1px solid rgba(26,95,122,0.35); color: rgba(197,217,224,0.5);
+  background: rgba(49,5,9,0.6) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 24 24' fill='none' stroke='%2357a6bb' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E") no-repeat right 12px center;
+  border: 1px solid rgba(125,32,54,0.35); color: rgba(195,155,148,0.5);
   cursor: pointer; appearance: none; outline: none;
   transition: border-color 0.25s;
 }
 .sort-select:focus { border-color: var(--bright-cyan); }
-.sort-select option { background: #0a1628; color: var(--white); }
+.sort-select option { background: #310509; color: var(--white); }
 
 .results-count {
   margin-left: auto; font-size: 11px; font-weight: 500; letter-spacing: 0.12em;
-  color: rgba(197,217,224,0.3); white-space: nowrap;
+  color: rgba(195,155,148,0.3); white-space: nowrap;
 }
 .results-count strong { color: var(--bright-cyan); }
 
@@ -167,7 +167,7 @@ body {
 /* ENTRY CARD */
 .entry-card {
   position: relative; overflow: hidden; cursor: pointer;
-  background: rgba(10,22,40,0.4);
+  background: rgba(49,5,9,0.4);
   aspect-ratio: 3 / 4;
   transition: z-index 0s;
 }
@@ -187,11 +187,11 @@ body {
 /* Placeholder when no image */
 .entry-placeholder {
   width: 100%; height: 100%;
-  background: linear-gradient(135deg, rgba(10,22,40,0.9), rgba(15,40,71,0.7));
+  background: linear-gradient(135deg, rgba(49,5,9,0.9), rgba(34,2,4,0.7));
   display: flex; align-items: center; justify-content: center;
 }
 .entry-placeholder svg {
-  width: 40px; height: 40px; stroke: rgba(45,137,176,0.25);
+  width: 40px; height: 40px; stroke: rgba(202,137,93,0.25);
   fill: none; stroke-width: 1.2; stroke-linecap: round; stroke-linejoin: round;
 }
 
@@ -209,11 +209,11 @@ body {
   margin-bottom: 3px;
 }
 .entry-artist-name {
-  font-size: 11px; font-weight: 300; color: rgba(197,217,224,0.55);
+  font-size: 11px; font-weight: 300; color: rgba(195,155,148,0.55);
   letter-spacing: 0.06em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
 }
 
-/* Hover overlay — all details */
+/* Hover overlay | all details */
 .entry-overlay {
   position: absolute; inset: 0; padding: 24px 22px;
   display: flex; flex-direction: column; justify-content: flex-end;
@@ -222,7 +222,7 @@ body {
 }
 .entry-card:hover .entry-overlay { opacity: 1; pointer-events: auto; }
 
-/* Difficulty badge — top right, only on hover */
+/* Difficulty badge | top right, only on hover */
 .entry-difficulty {
   position: absolute; top: 16px; right: 16px;
   padding: 4px 11px; border-radius: 3px;
@@ -231,10 +231,10 @@ body {
   transition: opacity 0.35s ease 0.1s, transform 0.35s cubic-bezier(0.16,1,0.3,1) 0.1s;
 }
 .entry-card:hover .entry-difficulty { opacity: 1; transform: translateY(0); }
-.diff-beginner { background: rgba(45,137,176,0.18); color: var(--bright-cyan); border: 1px solid rgba(45,137,176,0.35); }
-.diff-intermediate { background: rgba(74,144,164,0.18); color: var(--light-cyan); border: 1px solid rgba(74,144,164,0.35); }
-.diff-advanced { background: rgba(15,40,71,0.6); color: var(--light-grey); border: 1px solid rgba(197,217,224,0.25); }
-.diff-open { background: rgba(10,22,40,0.6); color: rgba(197,217,224,0.5); border: 1px solid rgba(26,95,122,0.3); }
+.diff-beginner { background: rgba(202,137,93,0.18); color: var(--bright-cyan); border: 1px solid rgba(202,137,93,0.35); }
+.diff-intermediate { background: rgba(166,84,94,0.18); color: var(--light-cyan); border: 1px solid rgba(166,84,94,0.35); }
+.diff-advanced { background: rgba(34,2,4,0.6); color: var(--light-grey); border: 1px solid rgba(195,155,148,0.25); }
+.diff-open { background: rgba(49,5,9,0.6); color: rgba(195,155,148,0.5); border: 1px solid rgba(125,32,54,0.3); }
 
 /* Overlay content */
 .overlay-model {
@@ -251,7 +251,7 @@ body {
 .entry-card:hover .overlay-artist { transform: translateY(0); }
 
 .overlay-divider {
-  width: 100%; height: 1px; background: rgba(197,217,224,0.12); margin-bottom: 14px;
+  width: 100%; height: 1px; background: rgba(195,155,148,0.12); margin-bottom: 14px;
   transform: scaleX(0); transform-origin: left;
   transition: transform 0.4s cubic-bezier(0.16,1,0.3,1) 0.15s;
 }
@@ -264,18 +264,18 @@ body {
 .entry-card:hover .overlay-meta { transform: translateY(0); }
 .meta-line {
   display: flex; align-items: center; gap: 8px;
-  font-size: 11px; color: rgba(197,217,224,0.5); letter-spacing: 0.05em;
+  font-size: 11px; color: rgba(195,155,148,0.5); letter-spacing: 0.05em;
 }
-.meta-line .meta-label { color: rgba(197,217,224,0.28); letter-spacing: 0.14em; font-size: 9px; text-transform: uppercase; min-width: 52px; }
-.meta-line .meta-val { color: rgba(197,217,224,0.65); font-weight: 400; }
+.meta-line .meta-label { color: rgba(195,155,148,0.28); letter-spacing: 0.14em; font-size: 9px; text-transform: uppercase; min-width: 52px; }
+.meta-line .meta-val { color: rgba(195,155,148,0.65); font-weight: 400; }
 
 /* State badge */
 .overlay-state {
   position: absolute; top: 16px; left: 16px;
   padding: 3px 9px; border-radius: 3px;
-  background: rgba(10,22,40,0.7); border: 1px solid rgba(26,95,122,0.3);
+  background: rgba(49,5,9,0.7); border: 1px solid rgba(125,32,54,0.3);
   font-size: 9px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase;
-  color: rgba(197,217,224,0.45);
+  color: rgba(195,155,148,0.45);
   opacity: 0; transform: translateY(-6px);
   transition: opacity 0.35s ease 0.05s, transform 0.35s cubic-bezier(0.16,1,0.3,1) 0.05s;
 }
@@ -289,10 +289,10 @@ body {
 .loading-grid {
   display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 2px;
 }
-.skeleton-card { aspect-ratio: 3/4; background: rgba(10,22,40,0.5); position: relative; overflow: hidden; }
+.skeleton-card { aspect-ratio: 3/4; background: rgba(49,5,9,0.5); position: relative; overflow: hidden; }
 .skeleton-card::after {
   content: ''; position: absolute; inset: 0;
-  background: linear-gradient(90deg, transparent 0%, rgba(26,95,122,0.07) 50%, transparent 100%);
+  background: linear-gradient(90deg, transparent 0%, rgba(125,32,54,0.07) 50%, transparent 100%);
   animation: shimmer 1.8s ease infinite; background-size: 200% 100%;
 }
 @keyframes shimmer {
@@ -303,7 +303,7 @@ body {
   padding: 100px 40px; text-align: center;
 }
 .empty-title { font-size: 22px; font-weight: 600; color: var(--white); margin-bottom: 12px; }
-.empty-sub { font-size: 14px; font-weight: 300; color: rgba(197,217,224,0.4); line-height: 1.7; }
+.empty-sub { font-size: 14px; font-weight: 300; color: rgba(195,155,148,0.4); line-height: 1.7; }
 
 /* LIGHTBOX */
 .lightbox {
@@ -317,7 +317,7 @@ body {
 .lightbox.open { opacity: 1; pointer-events: auto; }
 .lb-inner {
   display: flex; max-width: 1100px; width: 95vw; max-height: 90vh;
-  background: rgba(10,22,40,0.95); border: 1px solid rgba(26,95,122,0.35);
+  background: rgba(49,5,9,0.95); border: 1px solid rgba(125,32,54,0.35);
   border-radius: 10px; overflow: hidden;
   transform: scale(0.96) translateY(12px);
   transition: transform 0.4s cubic-bezier(0.16,1,0.3,1);
@@ -335,7 +335,7 @@ body {
   overflow-x: auto;
 }
 .lb-thumb-strip::-webkit-scrollbar { height: 3px; }
-.lb-thumb-strip::-webkit-scrollbar-thumb { background: rgba(45,137,176,0.3); border-radius: 2px; }
+.lb-thumb-strip::-webkit-scrollbar-thumb { background: rgba(202,137,93,0.3); border-radius: 2px; }
 .lb-thumb {
   width: 52px; height: 52px; object-fit: cover; border-radius: 4px;
   border: 1.5px solid transparent; cursor: pointer; flex-shrink: 0;
@@ -346,25 +346,25 @@ body {
 
 .lb-info-side {
   width: 320px; flex-shrink: 0; padding: 36px 32px;
-  overflow-y: auto; border-left: 1px solid rgba(26,95,122,0.2);
+  overflow-y: auto; border-left: 1px solid rgba(125,32,54,0.2);
   display: flex; flex-direction: column;
 }
 .lb-info-side::-webkit-scrollbar { width: 4px; }
-.lb-info-side::-webkit-scrollbar-thumb { background: rgba(26,95,122,0.3); border-radius: 2px; }
+.lb-info-side::-webkit-scrollbar-thumb { background: rgba(125,32,54,0.3); border-radius: 2px; }
 .lb-close {
   position: absolute; top: 16px; right: 16px;
   width: 34px; height: 34px; border-radius: 50%;
-  background: rgba(10,22,40,0.8); border: 1px solid rgba(26,95,122,0.35);
+  background: rgba(49,5,9,0.8); border: 1px solid rgba(125,32,54,0.35);
   display: flex; align-items: center; justify-content: center;
   cursor: pointer; color: var(--light-grey); font-size: 14px;
   transition: all 0.25s; z-index: 10;
 }
-.lb-close:hover { background: rgba(26,95,122,0.3); color: var(--white); }
+.lb-close:hover { background: rgba(125,32,54,0.3); color: var(--white); }
 .lb-close svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; }
 
 .lb-entry-num {
   font-size: 10px; font-weight: 700; letter-spacing: 0.3em; text-transform: uppercase;
-  color: rgba(45,137,176,0.5); margin-bottom: 16px;
+  color: rgba(202,137,93,0.5); margin-bottom: 16px;
 }
 .lb-model-name {
   font-size: 22px; font-weight: 700; color: var(--white);
@@ -374,14 +374,14 @@ body {
   font-size: 13px; font-weight: 400; color: var(--light-cyan); letter-spacing: 0.06em;
   margin-bottom: 28px;
 }
-.lb-section-rule { width: 100%; height: 1px; background: rgba(26,95,122,0.2); margin-bottom: 20px; }
+.lb-section-rule { width: 100%; height: 1px; background: rgba(125,32,54,0.2); margin-bottom: 20px; }
 .lb-detail-row {
   display: flex; align-items: flex-start; gap: 12px;
   margin-bottom: 14px; font-size: 13px;
 }
 .lb-detail-label {
   font-size: 9px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase;
-  color: rgba(197,217,224,0.28); min-width: 60px; padding-top: 2px; flex-shrink: 0;
+  color: rgba(195,155,148,0.28); min-width: 60px; padding-top: 2px; flex-shrink: 0;
 }
 .lb-detail-val { color: var(--light-grey); font-weight: 300; line-height: 1.6; }
 .lb-difficulty-badge {
@@ -389,25 +389,25 @@ body {
   font-size: 10px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase;
 }
 .lb-statement {
-  flex: 1; margin-top: 20px; padding-top: 20px; border-top: 1px solid rgba(26,95,122,0.15);
+  flex: 1; margin-top: 20px; padding-top: 20px; border-top: 1px solid rgba(125,32,54,0.15);
 }
 .lb-statement-label {
   font-size: 9px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase;
-  color: rgba(197,217,224,0.28); margin-bottom: 10px;
+  color: rgba(195,155,148,0.28); margin-bottom: 10px;
 }
 .lb-statement-text {
-  font-size: 13px; font-weight: 300; color: rgba(197,217,224,0.55); line-height: 1.75;
+  font-size: 13px; font-weight: 300; color: rgba(195,155,148,0.55); line-height: 1.75;
   font-style: italic;
 }
 .lb-nav {
   position: absolute; top: 50%; transform: translateY(-50%);
   width: 38px; height: 38px; border-radius: 50%;
-  background: rgba(10,22,40,0.8); border: 1px solid rgba(26,95,122,0.35);
+  background: rgba(49,5,9,0.8); border: 1px solid rgba(125,32,54,0.35);
   display: flex; align-items: center; justify-content: center;
   cursor: pointer; color: var(--light-grey); z-index: 5;
   transition: all 0.25s;
 }
-.lb-nav:hover { background: rgba(26,95,122,0.3); color: var(--white); border-color: var(--bright-cyan); }
+.lb-nav:hover { background: rgba(125,32,54,0.3); color: var(--white); border-color: var(--bright-cyan); }
 .lb-nav svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 .lb-prev { left: 12px; }
 .lb-next { right: 12px; }
@@ -421,7 +421,7 @@ body {
   .gallery-wrap { padding: 24px 20px 80px; }
   .gallery-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 2px; }
   .lb-inner { flex-direction: column; max-height: 95vh; }
-  .lb-info-side { width: 100%; border-left: none; border-top: 1px solid rgba(26,95,122,0.2); max-height: 40vh; }
+  .lb-info-side { width: 100%; border-left: none; border-top: 1px solid rgba(125,32,54,0.2); max-height: 40vh; }
   .state-container { padding: 0 20px; }
   .loading-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); }
   .results-count { display: none; }
@@ -432,8 +432,9 @@ body {
   .header-title { font-size: 32px; }
 }
 </style>
+    <link rel="stylesheet" href="../assets/sioa-archive.css">
 </head>
-<body>
+<body class="competition-gallery">
 
 <!-- NAVBAR -->
 <nav class="navbar" id="navbar">
@@ -461,7 +462,7 @@ body {
     <div class="header-meta">Society of Indian Origami Artists &nbsp;·&nbsp; National Origami Competition</div>
   </div>
   <div class="header-right">
-    <div id="totalBadge" style="font-size:11px;letter-spacing:0.14em;color:rgba(197,217,224,0.3);text-transform:uppercase;">Loading entries...</div>
+    <div id="totalBadge" style="font-size:11px;letter-spacing:0.14em;color:rgba(195,155,148,0.3);text-transform:uppercase;">Loading entries...</div>
   </div>
 </header>
 
@@ -515,27 +516,27 @@ body {
 </div>
 
 <!-- LIGHTBOX -->
-<div class="lightbox" id="lightbox" onclick="closeLightbox(event)">
-  <div class="lb-inner" id="lbInner">
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="lbModelName" onclick="closeLightbox(event)">
+  <div class="lb-inner" id="lbInner" tabindex="-1">
 
     <!-- Image side -->
     <div class="lb-image-side" id="lbImageSide">
       <img id="lbMainImg" class="lb-main-img" src="" alt="">
       <div class="lb-thumb-strip" id="lbThumbs"></div>
-      <button class="lb-nav lb-prev" id="lbPrev" onclick="lbNavEntry(-1)">
+      <button class="lb-nav lb-prev" id="lbPrev" type="button" aria-label="Previous entry" onclick="lbNavEntry(-1)">
         <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
       </button>
-      <button class="lb-nav lb-next" id="lbNext" onclick="lbNavEntry(1)">
+      <button class="lb-nav lb-next" id="lbNext" type="button" aria-label="Next entry" onclick="lbNavEntry(1)">
         <svg viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>
       </button>
     </div>
 
     <!-- Info side -->
     <div class="lb-info-side">
-      <div class="lb-close" onclick="closeLightbox()">
+      <button class="lb-close" id="lbClose" type="button" aria-label="Close artwork viewer" onclick="closeLightbox()">
         <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-      </div>
-      <div class="lb-entry-num" id="lbEntryNum">Entry 001</div>
+      </button>
+      <div class="lb-entry-num" id="lbEntryNum" aria-live="polite">Entry 001</div>
       <div class="lb-model-name" id="lbModelName">Model Name</div>
       <div class="lb-artist" id="lbArtist">Artist Name</div>
       <div class="lb-section-rule"></div>
@@ -545,34 +546,35 @@ body {
       </div>
       <div class="lb-detail-row">
         <div class="lb-detail-label">Designer</div>
-        <div class="lb-detail-val" id="lbDesigner">—</div>
+        <div class="lb-detail-val" id="lbDesigner">-</div>
       </div>
       <div class="lb-detail-row">
         <div class="lb-detail-label">Paper</div>
-        <div class="lb-detail-val" id="lbPaper">—</div>
+        <div class="lb-detail-val" id="lbPaper">-</div>
       </div>
       <div class="lb-detail-row">
         <div class="lb-detail-label">Time</div>
-        <div class="lb-detail-val" id="lbTime">—</div>
+        <div class="lb-detail-val" id="lbTime">-</div>
       </div>
       <div class="lb-detail-row">
         <div class="lb-detail-label">State</div>
-        <div class="lb-detail-val" id="lbState">—</div>
+        <div class="lb-detail-val" id="lbState">-</div>
       </div>
       <div class="lb-statement" id="lbStatementWrap">
         <div class="lb-statement-label">Artist Statement</div>
         <div class="lb-statement-text" id="lbStatement"></div>
       </div>
+      <div class="lb-help"><span>← → Browse entries</span><span>Esc Close</span></div>
     </div>
 
   </div>
 </div>
 
-<footer style="position:relative;z-index:1;border-top:1px solid rgba(10,22,40,0.8);padding:44px 0;">
+<footer style="position:relative;z-index:1;border-top:1px solid rgba(49,5,9,0.8);padding:44px 0;">
   <div style="max-width:1400px;margin:0 auto;padding:0 40px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;">
-    <span style="font-size:12px;color:rgba(197,217,224,0.25);letter-spacing:0.06em;">2026 SIOA — Society of Indian Origami Artists</span>
-    <span style="font-size:11px;color:rgba(197,217,224,0.15);letter-spacing:0.2em;">विधान · अभ्यास · गौरव · हस्त</span>
-    <a href="mailto:sioa.paper@gmail.com" style="font-size:12px;color:rgba(45,137,176,0.5);text-decoration:none;transition:color 0.3s;" onmouseover="this.style.color='var(--bright-cyan)'" onmouseout="this.style.color='rgba(45,137,176,0.5)'">sioa.paper@gmail.com</a>
+    <span style="font-size:12px;color:rgba(195,155,148,0.25);letter-spacing:0.06em;">2026 SIOA | Society of Indian Origami Artists</span>
+    <span style="font-size:11px;color:rgba(195,155,148,0.15);letter-spacing:0.2em;">विधान · अभ्यास · गौरव · हस्त</span>
+    <a href="mailto:sioa.paper@gmail.com" style="font-size:12px;color:rgba(202,137,93,0.5);text-decoration:none;transition:color 0.3s;" onmouseover="this.style.color='var(--bright-cyan)'" onmouseout="this.style.color='rgba(202,137,93,0.5)'">sioa.paper@gmail.com</a>
   </div>
 </footer>
 
@@ -587,6 +589,7 @@ var allEntries = [];
 var filtered = [];
 var currentLbIndex = 0;
 var currentImageIndex = 0;
+var lastFocusedElement = null;
 var activeDiff = 'all';
 var searchQuery = '';
 var sortMode = 'newest';
@@ -681,7 +684,7 @@ function renderGallery() {
     var thumbUrl = entry.signedUrls && entry.signedUrls[0] ? entry.signedUrls[0] : null;
     var diffClass = getDiffClass(entry.difficulty);
 
-    return '<div class="entry-card" onclick="openLightbox(' + idx + ')">'
+    return '<button class="entry-card" type="button" aria-label="View ' + escHtml(entry.model_name || 'Untitled') + ' by ' + escHtml(displayName) + '" onclick="openLightbox(' + idx + ')">'
       + (thumbUrl
           ? '<img class="entry-img" src="' + thumbUrl + '" alt="' + escHtml(entry.model_name||'') + '" loading="lazy">'
           : '<div class="entry-placeholder"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></div>'
@@ -702,23 +705,30 @@ function renderGallery() {
       +     (entry.state ? '<div class="meta-line"><span class="meta-label">State</span><span class="meta-val">' + escHtml(entry.state) + '</span></div>' : '')
       +   '</div>'
       + '</div>'
-      + '</div>';
+      + '</button>';
   }).join('');
 }
 
 /* ── LIGHTBOX ── */
 function openLightbox(idx) {
+  lastFocusedElement = document.activeElement;
   currentLbIndex = idx;
   currentImageIndex = 0;
   renderLightbox();
-  document.getElementById('lightbox').classList.add('open');
+  var lightbox = document.getElementById('lightbox');
+  lightbox.classList.add('open');
+  lightbox.setAttribute('aria-hidden', 'false');
   document.body.style.overflow = 'hidden';
+  window.setTimeout(function() { document.getElementById('lbClose').focus(); }, 80);
 }
 
 function closeLightbox(e) {
   if (e && e.target !== document.getElementById('lightbox') && !e.target.closest('.lb-close')) return;
-  document.getElementById('lightbox').classList.remove('open');
+  var lightbox = document.getElementById('lightbox');
+  lightbox.classList.remove('open');
+  lightbox.setAttribute('aria-hidden', 'true');
   document.body.style.overflow = '';
+  if (lastFocusedElement && lastFocusedElement.focus) lastFocusedElement.focus();
 }
 
 function lbNavEntry(dir) {
@@ -731,7 +741,7 @@ function lbSelectImage(idx) {
   currentImageIndex = idx;
   var entry = filtered[currentLbIndex];
   document.getElementById('lbMainImg').src = entry.signedUrls[idx] || '';
-  document.querySelectorAll('.lb-thumb').forEach(function(t, i) { t.classList.toggle('active', i === idx); });
+  document.querySelectorAll('.lb-thumb-button').forEach(function(t, i) { t.classList.toggle('active', i === idx); });
 }
 
 function renderLightbox() {
@@ -760,6 +770,7 @@ function renderLightbox() {
   // Images
   var thumbsEl = document.getElementById('lbThumbs');
   var mainImg = document.getElementById('lbMainImg');
+  mainImg.alt = (entry.model_name || 'Origami artwork') + ' by ' + displayName;
   var urls = entry.signedUrls || [];
 
   if (urls.length) {
@@ -767,7 +778,7 @@ function renderLightbox() {
     mainImg.style.display = '';
     thumbsEl.style.display = urls.length > 1 ? '' : 'none';
     thumbsEl.innerHTML = urls.map(function(url, i) {
-      return '<img class="lb-thumb' + (i === currentImageIndex ? ' active' : '') + '" src="' + url + '" onclick="lbSelectImage(' + i + ')" alt="Image ' + (i+1) + '">';
+      return '<button class="lb-thumb-button' + (i === currentImageIndex ? ' active' : '') + '" type="button" onclick="lbSelectImage(' + i + ')" aria-label="View image ' + (i+1) + '"><img class="lb-thumb" src="' + url + '" alt=""></button>';
     }).join('');
   } else {
     mainImg.src = '';
@@ -805,7 +816,13 @@ document.getElementById('sortSelect').addEventListener('change', function() {
 document.addEventListener('keydown', function(e) {
   var lb = document.getElementById('lightbox');
   if (!lb.classList.contains('open')) return;
-  if (e.key === 'Escape') { lb.classList.remove('open'); document.body.style.overflow = ''; }
+  if (e.key === 'Tab') {
+    var controls = Array.from(lb.querySelectorAll('button,a[href],[tabindex="0"]')).filter(function(el) { return el.getClientRects().length && !el.disabled; });
+    var first = controls[0], last = controls[controls.length - 1];
+    if (e.shiftKey && (document.activeElement === first || !lb.contains(document.activeElement))) { e.preventDefault(); last.focus(); }
+    else if (!e.shiftKey && (document.activeElement === last || !lb.contains(document.activeElement))) { e.preventDefault(); first.focus(); }
+  }
+  if (e.key === 'Escape') closeLightbox();
   if (e.key === 'ArrowRight') lbNavEntry(1);
   if (e.key === 'ArrowLeft') lbNavEntry(-1);
 });
@@ -855,5 +872,7 @@ function escHtml(str) {
 // Boot
 loadEntries();
 </script>
+<script src="../assets/sioa-archive.js"></script>
+<script src="../assets/sioa-mobile.js"></script>
 </body>
 </html>

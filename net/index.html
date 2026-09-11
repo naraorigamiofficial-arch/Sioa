@@ -11,16 +11,16 @@
     <style>
         :root {
             --black: #000000;
-            --deep-blue: #0a1628;
-            --navy-blue: #0f2847;
-            --cyan-blue: #1a5f7a;
-            --bright-cyan: #2d89b0;
-            --light-cyan: #57a6bb;
-            --white: #e8f4f8;
-            --light-grey: #c5d9e0;
-            --border: rgba(26,95,122,0.25);
-            --border-strong: rgba(45,137,176,0.4);
-            --card-bg: linear-gradient(135deg, rgba(10,22,40,0.75), rgba(15,40,71,0.5));
+            --deep-blue: #310509;
+            --navy-blue: #220204;
+            --cyan-blue: #7d2036;
+            --bright-cyan: #ca895d;
+            --light-cyan: #f0d0c2;
+            --white: #f8dfd4;
+            --light-grey: #c39b94;
+            --border: rgba(125,32,54,0.25);
+            --border-strong: rgba(202,137,93,0.4);
+            --card-bg: linear-gradient(135deg, rgba(49,5,9,0.75), rgba(34,2,4,0.5));
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -52,7 +52,7 @@
         .navbar.scrolled {
             padding: 12px 0;
             background: rgba(0,0,0,0.98);
-            box-shadow: 0 10px 40px rgba(0,0,0,0.5), 0 2px 10px rgba(26,95,122,0.2);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5), 0 2px 10px rgba(125,32,54,0.2);
             border-bottom: 1px solid var(--border-strong);
         }
         .nav-container {
@@ -102,7 +102,7 @@
         }
         .nav-user:hover .nav-avatar {
             border-color: var(--bright-cyan);
-            box-shadow: 0 0 14px rgba(45,137,176,0.3);
+            box-shadow: 0 0 14px rgba(202,137,93,0.3);
         }
         .nav-username {
             font-size: 13px; font-weight: 500; color: var(--light-grey);
@@ -110,7 +110,7 @@
         }
         .btn-signout {
             padding: 8px 18px; background: transparent;
-            border: 1px solid rgba(26,95,122,0.45); border-radius: 4px;
+            border: 1px solid rgba(125,32,54,0.45); border-radius: 4px;
             color: var(--light-grey); font-family: 'Inter', sans-serif;
             font-size: 12px; font-weight: 500; letter-spacing: 0.1em;
             text-transform: uppercase; cursor: pointer;
@@ -118,7 +118,7 @@
         }
         .btn-signout:hover {
             border-color: var(--bright-cyan); color: var(--white);
-            background: rgba(26,95,122,0.12);
+            background: rgba(125,32,54,0.12);
         }
 
         /* PAGE */
@@ -179,7 +179,7 @@
         }
         .search-input {
             width: 100%; padding: 13px 16px 13px 46px;
-            background: rgba(10,22,40,0.7);
+            background: rgba(49,5,9,0.7);
             border: 1px solid var(--border);
             border-radius: 6px;
             color: var(--white); font-family: 'Inter', sans-serif;
@@ -187,10 +187,10 @@
             outline: none;
             transition: border-color 0.3s, box-shadow 0.3s;
         }
-        .search-input::placeholder { color: rgba(197,217,224,0.3); }
+        .search-input::placeholder { color: rgba(195,155,148,0.3); }
         .search-input:focus {
             border-color: var(--bright-cyan);
-            box-shadow: 0 0 0 3px rgba(45,137,176,0.1);
+            box-shadow: 0 0 0 3px rgba(202,137,93,0.1);
         }
         .btn-search {
             padding: 13px 28px;
@@ -204,7 +204,7 @@
         }
         .btn-search:hover {
             opacity: 0.9; transform: translateY(-1px);
-            box-shadow: 0 6px 20px rgba(45,137,176,0.3);
+            box-shadow: 0 6px 20px rgba(202,137,93,0.3);
         }
         .btn-search:active { transform: translateY(0); }
 
@@ -216,11 +216,11 @@
         }
         .filter-label {
             font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase;
-            color: rgba(197,217,224,0.4);
+            color: rgba(195,155,148,0.4);
         }
         .filter-select {
             padding: 9px 34px 9px 14px;
-            background: rgba(10,22,40,0.7) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%232d89b0' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E") no-repeat right 10px center;
+            background: rgba(49,5,9,0.7) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23ca895d' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E") no-repeat right 10px center;
             border: 1px solid var(--border);
             border-radius: 6px;
             color: var(--white); font-family: 'Inter', sans-serif;
@@ -230,7 +230,7 @@
             min-width: 170px;
             transition: border-color 0.3s;
         }
-        .filter-select option { background: #0a1628; color: var(--white); }
+        .filter-select option { background: #310509; color: var(--white); }
         .filter-select:focus { border-color: var(--bright-cyan); }
 
         .filter-divider {
@@ -244,7 +244,7 @@
             opacity: 0; animation: fadeUp 0.7s ease forwards 0.3s;
         }
         .results-count {
-            font-size: 12px; letter-spacing: 0.08em; color: rgba(197,217,224,0.5);
+            font-size: 12px; letter-spacing: 0.08em; color: rgba(195,155,148,0.5);
         }
         .results-count span { color: var(--bright-cyan); font-weight: 600; }
 
@@ -275,7 +275,7 @@
         .artist-card:hover {
             transform: translateY(-4px);
             border-color: var(--border-strong);
-            box-shadow: 0 12px 40px rgba(0,0,0,0.4), 0 0 20px rgba(45,137,176,0.08);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.4), 0 0 20px rgba(202,137,93,0.08);
         }
         .artist-card:hover::before { transform: scaleX(1); }
 
@@ -285,17 +285,17 @@
         }
         .artist-avatar {
             width: 56px; height: 56px; border-radius: 50%; flex-shrink: 0;
-            background: linear-gradient(135deg, rgba(26,95,122,0.55), rgba(45,137,176,0.45));
+            background: linear-gradient(135deg, rgba(125,32,54,0.55), rgba(202,137,93,0.45));
             border: 2px solid var(--border-strong);
             display: flex; align-items: center; justify-content: center;
             font-size: 19px; font-weight: 700; color: var(--white);
             letter-spacing: 0.03em;
-            box-shadow: 0 0 20px rgba(45,137,176,0.12);
+            box-shadow: 0 0 20px rgba(202,137,93,0.12);
             transition: box-shadow 0.35s, border-color 0.35s;
         }
         .artist-card:hover .artist-avatar {
             border-color: var(--bright-cyan);
-            box-shadow: 0 0 24px rgba(45,137,176,0.3);
+            box-shadow: 0 0 24px rgba(202,137,93,0.3);
         }
         .artist-info { flex: 1; min-width: 0; }
         .artist-name {
@@ -309,10 +309,10 @@
         }
         .artist-location {
             display: flex; align-items: center; gap: 5px;
-            font-size: 11px; color: rgba(197,217,224,0.5); letter-spacing: 0.06em;
+            font-size: 11px; color: rgba(195,155,148,0.5); letter-spacing: 0.06em;
         }
         .artist-location svg {
-            width: 11px; height: 11px; stroke: rgba(45,137,176,0.5);
+            width: 11px; height: 11px; stroke: rgba(202,137,93,0.5);
             stroke-width: 1.8; fill: none;
             stroke-linecap: round; stroke-linejoin: round;
             flex-shrink: 0;
@@ -325,7 +325,7 @@
         .artist-specialty {
             display: inline-flex; align-items: center;
             padding: 4px 12px;
-            background: rgba(26,95,122,0.15);
+            background: rgba(125,32,54,0.15);
             border: 1px solid var(--border);
             border-radius: 100px;
             font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase;
@@ -342,7 +342,7 @@
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
-  line-clamp: 2; 
+  line-clamp: 2;
 }
         .artist-card-stats {
             padding: 16px 24px;
@@ -360,7 +360,7 @@
         }
         .stat-key {
             font-size: 9px; letter-spacing: 0.18em; text-transform: uppercase;
-            color: rgba(197,217,224,0.4); margin-top: 5px;
+            color: rgba(195,155,148,0.4); margin-top: 5px;
         }
 
         .ter {
@@ -381,7 +381,7 @@
         }
         .btn-view-profile:hover {
             border-color: var(--bright-cyan); color: var(--white);
-            background: rgba(26,95,122,0.12);
+            background: rgba(125,32,54,0.12);
         }
 
         /* STATES */
@@ -393,7 +393,7 @@
         .state-icon {
             width: 56px; height: 56px;
             margin: 0 auto 20px;
-            background: rgba(26,95,122,0.1);
+            background: rgba(125,32,54,0.1);
             border: 1px solid var(--border);
             border-radius: 50%;
             display: flex; align-items: center; justify-content: center;
@@ -408,14 +408,14 @@
             margin-bottom: 8px; letter-spacing: 0.02em;
         }
         .state-sub {
-            font-size: 13px; font-weight: 300; color: rgba(197,217,224,0.4);
+            font-size: 13px; font-weight: 300; color: rgba(195,155,148,0.4);
             letter-spacing: 0.04em;
         }
 
         /* Loading spinner */
         .spinner {
             width: 28px; height: 28px;
-            border: 2px solid rgba(45,137,176,0.2);
+            border: 2px solid rgba(202,137,93,0.2);
             border-top-color: var(--bright-cyan);
             border-radius: 50%;
             animation: spin 0.8s linear infinite;
@@ -432,7 +432,7 @@
             padding: 24px;
         }
         .skel {
-            background: linear-gradient(90deg, rgba(26,95,122,0.15) 25%, rgba(45,137,176,0.1) 50%, rgba(26,95,122,0.15) 75%);
+            background: linear-gradient(90deg, rgba(125,32,54,0.15) 25%, rgba(202,137,93,0.1) 50%, rgba(125,32,54,0.15) 75%);
             background-size: 200% 100%;
             animation: shimmer 1.4s infinite;
             border-radius: 4px;
@@ -456,7 +456,7 @@
         }
         .btn-page {
             padding: 9px 18px;
-            background: rgba(10,22,40,0.6);
+            background: rgba(49,5,9,0.6);
             border: 1px solid var(--border); border-radius: 6px;
             color: var(--light-grey); font-family: 'Inter', sans-serif;
             font-size: 12px; font-weight: 500; letter-spacing: 0.08em;
@@ -464,11 +464,11 @@
         }
         .btn-page:hover:not(:disabled) {
             border-color: var(--bright-cyan); color: var(--white);
-            background: rgba(26,95,122,0.12);
+            background: rgba(125,32,54,0.12);
         }
         .btn-page:disabled { opacity: 0.3; cursor: not-allowed; }
         .page-info {
-            font-size: 12px; color: rgba(197,217,224,0.4); letter-spacing: 0.06em;
+            font-size: 12px; color: rgba(195,155,148,0.4); letter-spacing: 0.06em;
             padding: 0 8px;
         }
 
@@ -479,12 +479,12 @@
             padding: 28px 40px;
             display: flex; align-items: center; justify-content: space-between;
             max-width: 1300px; margin: 0 auto;
-            font-size: 12px; color: rgba(197,217,224,0.4); letter-spacing: 0.06em;
+            font-size: 12px; color: rgba(195,155,148,0.4); letter-spacing: 0.06em;
             flex-wrap: wrap; gap: 12px;
         }
         .footer-beta {
             display: inline-flex; align-items: center; gap: 7px;
-            padding: 4px 12px; background: rgba(26,95,122,0.1);
+            padding: 4px 12px; background: rgba(125,32,54,0.1);
             border: 1px solid var(--border); border-radius: 100px;
             font-size: 10px; letter-spacing: 0.14em; color: var(--bright-cyan);
         }
@@ -498,7 +498,7 @@
         .toast {
             position: fixed; bottom: 32px; right: 32px; z-index: 9999;
             padding: 14px 22px;
-            background: rgba(10,22,40,0.96);
+            background: rgba(49,5,9,0.96);
             border: 1px solid var(--border-strong);
             border-radius: 8px;
             font-size: 13px; font-weight: 400; color: var(--white);
@@ -533,6 +533,417 @@
             .toast { bottom: 16px; right: 16px; left: 16px; }
         }
     </style>
+    <link rel="stylesheet" href="../assets/sioa-archive.css">
+    <style id="artists-redesign">
+        body.sioa-archive-page {
+            --registry-surface: rgba(37, 3, 7, 0.78);
+            --registry-surface-hover: rgba(47, 5, 10, 0.88);
+            --registry-line: rgba(226, 177, 157, 0.28);
+            --registry-line-strong: rgba(226, 177, 157, 0.54);
+            --registry-ink: #f7ded2;
+            --registry-muted: #c9a39b;
+            --registry-accent: #d09164;
+        }
+
+        body.sioa-archive-page #bg-canvas { display: none !important; }
+
+        body.sioa-archive-page .navbar,
+        body.sioa-archive-page .navbar.scrolled {
+            padding: 25px 0 !important;
+            background: transparent !important;
+            border: 0 !important;
+            box-shadow: none !important;
+            backdrop-filter: none !important;
+        }
+
+        body.sioa-archive-page .nav-container {
+            width: min(100%, 1300px);
+            padding: 0 34px;
+        }
+
+        body.sioa-archive-page .nav-logo {
+            font-size: 1.24rem !important;
+            letter-spacing: .22em !important;
+        }
+
+        body.sioa-archive-page .nav-right { gap: 19px; }
+        body.sioa-archive-page .nav-links { gap: 28px; }
+        body.sioa-archive-page .nav-links a {
+            padding: 5px 0 8px;
+            font-size: .82rem !important;
+            letter-spacing: .16em !important;
+        }
+
+        body.sioa-archive-page .nav-links a::after {
+            left: 0;
+            transform: none;
+            height: 1px;
+            background: var(--registry-accent) !important;
+        }
+
+        body.sioa-archive-page .nav-avatar {
+            width: 31px;
+            height: 31px;
+            border: 1px solid var(--registry-line-strong);
+            background: #6d172b !important;
+            font-family: 'Cormorant Garamond', Georgia, serif;
+            font-size: .78rem;
+            box-shadow: none;
+        }
+
+        body.sioa-archive-page .nav-username {
+            max-width: 110px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            font-size: .72rem !important;
+        }
+
+        body.sioa-archive-page .btn-signout,
+        body.sioa-archive-page .sioa-language,
+        body.sioa-archive-page .sioa-sound {
+            min-height: 34px !important;
+            padding: 7px 11px !important;
+            border-radius: 6px !important;
+            background: rgba(32, 2, 5, .4) !important;
+            font-size: .7rem !important;
+        }
+
+        body.sioa-archive-page .sioa-controls {
+            margin-left: 0;
+            gap: 7px;
+        }
+
+        body.sioa-archive-page .page {
+            width: min(100%, 1300px);
+            max-width: none;
+            padding: 142px 34px 86px;
+        }
+
+        body.sioa-archive-page .page-header {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) minmax(240px, 360px);
+            align-items: end;
+            gap: 44px;
+            margin: 0 0 38px;
+            padding: 0 0 30px;
+            border-bottom: 1px solid var(--registry-line);
+            opacity: 1;
+            animation: registryFade .7s ease both;
+        }
+
+        body.sioa-archive-page .page-eyebrow {
+            margin: 0 0 13px;
+            color: var(--registry-accent) !important;
+            font: 500 .7rem/1.2 'Noto Sans', sans-serif;
+            letter-spacing: .27em;
+        }
+
+        body.sioa-archive-page .page-title {
+            margin: 0;
+            max-width: 760px;
+            font-size: clamp(3.3rem, 6.4vw, 5.9rem) !important;
+            line-height: .91 !important;
+            letter-spacing: -.035em !important;
+        }
+
+        body.sioa-archive-page .page-sub {
+            max-width: 330px;
+            margin: 0 0 6px auto;
+            color: var(--registry-muted) !important;
+            font: 400 .88rem/1.75 'Noto Sans', sans-serif;
+            letter-spacing: .02em;
+        }
+
+        body.sioa-archive-page .search-section {
+            margin: 0 0 29px;
+            padding: 0 0 26px;
+            border: 0;
+            border-bottom: 1px solid var(--registry-line);
+            border-radius: 0 !important;
+            opacity: 1;
+            animation: registryFade .7s .08s ease both;
+        }
+
+        body.sioa-archive-page .search-row {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) auto;
+            gap: 10px;
+            margin: 0 0 17px;
+        }
+
+        body.sioa-archive-page .search-input,
+        body.sioa-archive-page .filter-select {
+            min-height: 46px;
+            border: 1px solid var(--registry-line) !important;
+            border-radius: 8px !important;
+            background-color: rgba(31, 2, 5, .7) !important;
+            color: var(--registry-ink) !important;
+            font-family: 'Noto Sans', sans-serif !important;
+        }
+
+        body.sioa-archive-page .search-input { padding-left: 45px; }
+        body.sioa-archive-page .search-icon svg { stroke: var(--registry-accent); }
+
+        body.sioa-archive-page .btn-search {
+            min-width: 132px;
+            border: 1px solid var(--registry-accent) !important;
+            border-radius: 8px !important;
+            background: var(--registry-accent) !important;
+            color: #280306 !important;
+            font: 600 .73rem/1 'Noto Sans', sans-serif !important;
+            box-shadow: none !important;
+        }
+
+        body.sioa-archive-page .btn-search:hover {
+            transform: none;
+            background: #dda47d !important;
+        }
+
+        body.sioa-archive-page .filters-row {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 18px;
+            align-items: end;
+        }
+
+        body.sioa-archive-page .filter-group { gap: 7px; }
+        body.sioa-archive-page .filter-label {
+            color: rgba(224, 187, 172, .7) !important;
+            font-size: .63rem;
+            letter-spacing: .19em;
+        }
+        body.sioa-archive-page .filter-select {
+            width: 100%;
+            min-width: 0;
+            padding: 10px 36px 10px 13px;
+            background-image: none !important;
+        }
+        body.sioa-archive-page .filter-divider { display: none; }
+
+        body.sioa-archive-page .results-meta {
+            margin: 0 0 17px;
+            opacity: 1;
+            animation: registryFade .7s .14s ease both;
+        }
+
+        body.sioa-archive-page .results-count {
+            color: rgba(224, 187, 172, .68);
+            font: 500 .68rem/1.3 'Noto Sans', sans-serif;
+            letter-spacing: .13em;
+            text-transform: uppercase;
+        }
+
+        body.sioa-archive-page .results-count span { color: var(--registry-accent); }
+
+        body.sioa-archive-page .artists-grid {
+            counter-reset: artist;
+            gap: 14px;
+            opacity: 1;
+            animation: registryFade .7s .18s ease both;
+        }
+
+        body.sioa-archive-page .artist-card {
+            counter-increment: artist;
+            display: flex;
+            min-height: 330px;
+            flex-direction: column;
+            overflow: hidden;
+            border: 1px solid var(--registry-line) !important;
+            border-radius: 10px !important;
+            background: var(--registry-surface) !important;
+            backdrop-filter: none;
+            transition: border-color .25s ease, background-color .25s ease;
+        }
+
+        body.sioa-archive-page .artist-card:hover {
+            transform: none;
+            border-color: var(--registry-line-strong) !important;
+            background: var(--registry-surface-hover) !important;
+            box-shadow: none;
+        }
+
+        body.sioa-archive-page .artist-card::before { display: none; }
+        body.sioa-archive-page .artist-card::after {
+            content: counter(artist, decimal-leading-zero);
+            position: absolute;
+            top: 18px;
+            right: 19px;
+            color: rgba(226, 177, 157, .45);
+            font: 500 .68rem/1 'Cormorant Garamond', Georgia, serif;
+            letter-spacing: .13em;
+        }
+
+        body.sioa-archive-page .artist-card-top {
+            padding: 23px 46px 18px 20px;
+            gap: 13px;
+        }
+
+        body.sioa-archive-page .artist-avatar {
+            width: 48px;
+            height: 48px;
+            border: 1px solid var(--registry-line-strong);
+            background: #731a2e !important;
+            font-family: 'Cormorant Garamond', Georgia, serif;
+            font-size: 1rem;
+            box-shadow: none;
+        }
+
+        body.sioa-archive-page .artist-name {
+            color: var(--registry-ink);
+            font: 500 1.2rem/1.15 'Cormorant Garamond', Georgia, serif;
+            letter-spacing: 0;
+        }
+
+        body.sioa-archive-page .artist-handle {
+            color: var(--registry-accent);
+            font-size: .67rem;
+        }
+
+        body.sioa-archive-page .artist-location {
+            color: rgba(210, 176, 165, .64);
+            font-size: .67rem;
+        }
+
+        body.sioa-archive-page .artist-card-mid {
+            flex: 1;
+            padding: 0 20px 20px;
+            border-bottom: 1px solid var(--registry-line);
+        }
+
+        body.sioa-archive-page .artist-specialty {
+            padding: 3px 7px;
+            border: 1px solid var(--registry-line);
+            border-radius: 4px;
+            background: transparent;
+            color: #dfad8b;
+            font-size: .57rem;
+            line-height: 1.35;
+        }
+
+        body.sioa-archive-page .artist-bio {
+            color: rgba(216, 182, 172, .68);
+            font-size: .72rem;
+            line-height: 1.62;
+        }
+
+        body.sioa-archive-page .artist-card-stats {
+            padding: 14px 20px;
+            border-bottom: 1px solid var(--registry-line);
+        }
+
+        body.sioa-archive-page .stat-val {
+            color: var(--registry-accent);
+            font: 500 1.3rem/1 'Cormorant Garamond', Georgia, serif;
+        }
+
+        body.sioa-archive-page .stat-key {
+            color: rgba(210, 176, 165, .57);
+            font-size: .56rem;
+        }
+
+        body.sioa-archive-page .stat-item { border-color: var(--registry-line); }
+        body.sioa-archive-page .artist-card-footer { padding: 12px 20px; }
+
+        body.sioa-archive-page .btn-view-profile {
+            min-height: 38px;
+            border: 1px solid var(--registry-line) !important;
+            border-radius: 7px !important;
+            background: transparent !important;
+            color: var(--registry-ink) !important;
+            font: 500 .7rem/1 'Cormorant Garamond', Georgia, serif !important;
+            letter-spacing: .14em;
+            text-transform: uppercase;
+        }
+
+        body.sioa-archive-page .btn-view-profile:hover {
+            border-color: var(--registry-accent) !important;
+            color: #ffe8dd !important;
+        }
+
+        body.sioa-archive-page .state-icon {
+            border-radius: 10px;
+            background: rgba(77, 10, 20, .5);
+            border-color: var(--registry-line);
+        }
+
+        body.sioa-archive-page .skeleton-card {
+            border-radius: 10px !important;
+            background: var(--registry-surface) !important;
+        }
+
+        body.sioa-archive-page .skel {
+            background: rgba(226, 177, 157, .12) !important;
+            animation: registryPulse 1.3s ease-in-out infinite;
+        }
+
+        body.sioa-archive-page .btn-page {
+            border-radius: 7px !important;
+            background: rgba(42, 3, 7, .72) !important;
+        }
+
+        body.sioa-archive-page footer {
+            width: min(calc(100% - 68px), 1232px);
+            max-width: none;
+            padding: 27px 0 32px;
+            border-color: var(--registry-line);
+            color: rgba(210, 176, 165, .6);
+        }
+
+        body.sioa-archive-page .footer-beta {
+            padding: 0;
+            border: 0;
+            border-radius: 0;
+            background: transparent;
+            color: var(--registry-accent);
+        }
+
+        @keyframes registryFade {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes registryPulse {
+            0%, 100% { opacity: .45; }
+            50% { opacity: .9; }
+        }
+
+        @media (max-width: 1080px) {
+            body.sioa-archive-page .nav-username { display: none; }
+            body.sioa-archive-page .nav-right { gap: 12px; }
+            body.sioa-archive-page .nav-links { gap: 18px; }
+        }
+
+        @media (max-width: 860px) {
+            body.sioa-archive-page .page-header { grid-template-columns: 1fr; gap: 18px; }
+            body.sioa-archive-page .page-sub { margin-left: 0; }
+            body.sioa-archive-page .filters-row { grid-template-columns: 1fr 1fr; }
+            body.sioa-archive-page .filter-group:last-child { grid-column: 1 / -1; }
+            body.sioa-archive-page .nav-user { display: none; }
+            body.sioa-archive-page .nav-links { display: none; }
+        }
+
+        @media (max-width: 640px) {
+            body.sioa-archive-page .navbar,
+            body.sioa-archive-page .navbar.scrolled { padding: 18px 0 !important; }
+            body.sioa-archive-page .nav-container { padding: 0 18px; }
+            body.sioa-archive-page .nav-right { gap: 7px; }
+            body.sioa-archive-page .btn-signout { display: none; }
+            body.sioa-archive-page .sioa-sound { display: none; }
+            body.sioa-archive-page .page { padding: 108px 18px 60px; }
+            body.sioa-archive-page .page-title { font-size: clamp(3rem, 16vw, 4.3rem) !important; }
+            body.sioa-archive-page .search-row,
+            body.sioa-archive-page .filters-row { grid-template-columns: 1fr; }
+            body.sioa-archive-page .filter-group,
+            body.sioa-archive-page .filter-group:last-child { grid-column: auto; }
+            body.sioa-archive-page .btn-search { width: 100%; }
+            body.sioa-archive-page footer {
+                width: calc(100% - 36px);
+                align-items: flex-start;
+                flex-direction: column;
+            }
+        }
+    </style>
 </head>
 <body>
 
@@ -543,24 +954,26 @@
             <a href="/" class="nav-logo">SIOA</a>
             <div class="nav-right">
                 <ul class="nav-links">
-                    <li><a href="/index.html">Home</a></li>
-                    <li><a href="/net/index.html" class="active">Browse Artists</a></li>
-                    <li><a href="/index.html">Competition</a></li>
+                    <li><a href="/index.html" data-i18n="home">Home</a></li>
+                    <li><a href="/net/index.html" class="active" data-i18n="artists">Artists</a></li>
+          <li><a href="/Vagh2026/about.html" data-i18n="competition">Competition</a></li>
                 </ul>
                 <div class="nav-user" id="navUser">
-                    <div class="nav-avatar" id="navAvatar">—</div>
-                    <span class="nav-username" id="navUsername">Loading…</span>
+                    <div class="nav-avatar" id="navAvatar">-</div>
+                    <span class="nav-username" id="navUsername" data-i18n="loading">Loading</span>
                 </div>
-                <button class="btn-signout" id="signOutBtn">Sign Out</button>
+                <button class="btn-signout" id="signOutBtn" data-i18n="signOut">Sign Out</button>
             </div>
         </div>
     </nav>
 
     <main class="page">
         <div class="page-header">
-            <p class="page-eyebrow">Network</p>
-            <h1 class="page-title">Browse Artists</h1>
-            <p class="page-sub">Discover origami artists across India</p>
+            <div>
+                <p class="page-eyebrow" data-i18n="eyebrow">National Artist Registry</p>
+                <h1 class="page-title" data-i18n="title">Artists of India</h1>
+            </div>
+            <p class="page-sub" data-i18n="subtitle">A living archive of paper artists across the country.</p>
         </div>
 
         <!-- SEARCH -->
@@ -571,28 +984,29 @@
                         <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
                     </span>
                     <input type="text" class="search-input" id="searchInput"
-                        placeholder="Search by name or username…"
+                        placeholder="Search by name or username"
+                        data-i18n-placeholder="searchPlaceholder"
                         autocomplete="off" spellcheck="false">
                 </div>
-                <button class="btn-search" id="searchBtn">Search</button>
+                <button class="btn-search" id="searchBtn" data-i18n="search">Search</button>
             </div>
-            <div class="filter-group">
-    <span class="filter-label">Specialty</span>
-    <select class="filter-select" id="filterSpecialty">
-        <option value="">All Specialties</option>
-        <option value="22.5 designer">22.5 Designer</option>
-        <option value="Box pleating designer">Box Pleating Designer</option>
-        <option value="casual folder">Casual Folder</option>
-        <option value="serious folder">Serious Folder</option>
-        <option value="casual designer">Casual Designer</option>
-        <option value="serious designer">Serious Designer</option>
-    </select>
-</div>
-
+            <div class="filters-row">
                 <div class="filter-group">
-                    <span class="filter-label">State</span>
+                    <span class="filter-label" data-i18n="specialty">Specialty</span>
+                    <select class="filter-select" id="filterSpecialty">
+                        <option value="" data-specialty-key="allSpecialties">All Specialties</option>
+                        <option value="22.5 designer" data-specialty-key="designer225">22.5 Designer</option>
+                        <option value="Box pleating designer" data-specialty-key="boxPleating">Box Pleating Designer</option>
+                        <option value="casual folder" data-specialty-key="casualFolder">Casual Folder</option>
+                        <option value="serious folder" data-specialty-key="seriousFolder">Serious Folder</option>
+                        <option value="casual designer" data-specialty-key="casualDesigner">Casual Designer</option>
+                        <option value="serious designer" data-specialty-key="seriousDesigner">Serious Designer</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <span class="filter-label" data-i18n="state">State</span>
                     <select class="filter-select" id="filterState">
-                        <option value="">All States</option>
+                        <option value="" data-state-key="allStates">All States</option>
                         <option value="Andhra Pradesh">Andhra Pradesh</option>
                         <option value="Assam">Assam</option>
                         <option value="Bihar">Bihar</option>
@@ -616,13 +1030,12 @@
                         <option value="West Bengal">West Bengal</option>
                     </select>
                 </div>
-                <div class="filter-divider"></div>
                 <div class="filter-group">
-                    <span class="filter-label">Sort By</span>
+                    <span class="filter-label" data-i18n="sortBy">Sort By</span>
                     <select class="filter-select" id="filterSort">
-                        <option value="newest">Newest Members</option>
-                        <option value="competitions">Most Competitions</option>
-                        <option value="alpha">Alphabetical (A–Z)</option>
+                        <option value="newest" data-i18n="newest">Newest Members</option>
+                        <option value="competitions" data-i18n="mostCompetitions">Most Competitions</option>
+                        <option value="alpha" data-i18n="alphabetical">Alphabetical A to Z</option>
                     </select>
                 </div>
             </div>
@@ -676,16 +1089,16 @@
 
         <!-- PAGINATION -->
         <div class="pagination" id="pagination" style="display:none;">
-            <button class="btn-page" id="prevPage" disabled>← Prev</button>
+            <button class="btn-page" id="prevPage" disabled data-i18n="previous">Previous</button>
             <span class="page-info" id="pageInfo">Page 1</span>
-            <button class="btn-page" id="nextPage">Next →</button>
+            <button class="btn-page" id="nextPage" data-i18n="next">Next</button>
         </div>
     </main>
 
     <footer>
-        <span>© 2026 SIOA – Society of Indian Origami Artists</span>
-        <span class="footer-beta">BETA — platform in active development</span>
-        <span>विधान · अभ्यास · गौरव · हस्त</span>
+        <span data-i18n="copyright">© 2026 SIOA, Society of Indian Origami Artists</span>
+        <span class="footer-beta" data-i18n="beta">Beta, platform in active development</span>
+        <span data-i18n="motto">Craft · Study · Community</span>
     </footer>
 
     <div class="toast" id="toast"></div>
@@ -703,6 +1116,8 @@
 
     // ─── STATE ────────────────────────────────────────────────────────────────
     var currentUserId = null;
+    var currentLanguage = localStorage.getItem('sioa-language') || 'en';
+    var lastProfiles = null;
 
     var currentPage = 1;
     var pageSize = 12;
@@ -712,6 +1127,180 @@
 
     // ─── DOM REFS ─────────────────────────────────────────────────────────────
     function el(id) { return document.getElementById(id); }
+
+    var registryI18n = {
+        en: {
+            home: 'Home', artists: 'Artists', competition: 'Competition', loading: 'Loading',
+            signOut: 'Sign Out', signIn: 'Sign In', guest: 'Guest',
+            eyebrow: 'National Artist Registry', title: 'Artists of India',
+            subtitle: 'A living archive of paper artists across the country.',
+            searchPlaceholder: 'Search by name or username', search: 'Search',
+            specialty: 'Specialty', state: 'State', sortBy: 'Sort By',
+            newest: 'Newest Members', mostCompetitions: 'Most Competitions', alphabetical: 'Alphabetical A to Z',
+            previous: 'Previous', next: 'Next',
+            copyright: '© 2026 SIOA, Society of Indian Origami Artists',
+            beta: 'Beta, platform in active development', motto: 'Craft · Study · Community',
+            allSpecialties: 'All Specialties', designer225: '22.5 Designer', boxPleating: 'Box Pleating Designer',
+            casualFolder: 'Casual Folder', seriousFolder: 'Serious Folder',
+            casualDesigner: 'Casual Designer', seriousDesigner: 'Serious Designer',
+            competitionsLabel: 'Competitions', joined: 'Joined', viewProfile: 'View Profile',
+            noArtists: 'No artists found', adjustFilters: 'Try adjusting your search or filters',
+            loadingArtists: 'Loading artists', errorTitle: 'Something went wrong',
+            errorBody: 'Could not load artists. Please try again.',
+            showing: 'Showing {shown} of {total} artists', page: 'Page {page} of {total}', allStates: 'All States'
+        },
+        hi: {
+            home: 'मुखपृष्ठ', artists: 'कलाकार', competition: 'प्रतियोगिता', loading: 'लोड हो रहा है',
+            signOut: 'बाहर निकलें', signIn: 'प्रवेश करें', guest: 'अतिथि',
+            eyebrow: 'राष्ट्रीय कलाकार अभिलेख', title: 'भारत के कलाकार',
+            subtitle: 'देश भर के कागज कलाकारों का जीवंत अभिलेख।',
+            searchPlaceholder: 'नाम या उपयोगकर्ता नाम से खोजें', search: 'खोजें',
+            specialty: 'विशेषज्ञता', state: 'राज्य', sortBy: 'क्रम',
+            newest: 'नवीनतम सदस्य', mostCompetitions: 'सर्वाधिक प्रतियोगिताएँ', alphabetical: 'वर्णक्रमानुसार',
+            previous: 'पिछला', next: 'अगला',
+            copyright: '© 2026 SIOA, भारतीय ओरिगामी कलाकार संस्था',
+            beta: 'बीटा, मंच का विकास जारी है', motto: 'शिल्प · अध्ययन · समुदाय',
+            allSpecialties: 'सभी विशेषज्ञताएँ', designer225: '22.5 डिज़ाइनर', boxPleating: 'बॉक्स प्लीटिंग डिज़ाइनर',
+            casualFolder: 'शौकिया तह कलाकार', seriousFolder: 'समर्पित तह कलाकार',
+            casualDesigner: 'शौकिया डिज़ाइनर', seriousDesigner: 'समर्पित डिज़ाइनर',
+            competitionsLabel: 'प्रतियोगिताएँ', joined: 'सदस्यता', viewProfile: 'प्रोफ़ाइल देखें',
+            noArtists: 'कोई कलाकार नहीं मिला', adjustFilters: 'खोज या फ़िल्टर बदलकर देखें',
+            loadingArtists: 'कलाकार लोड हो रहे हैं', errorTitle: 'कुछ गलत हुआ',
+            errorBody: 'कलाकार लोड नहीं हो सके। फिर प्रयास करें।',
+            showing: 'कुल {total} में से {shown} कलाकार', page: 'पृष्ठ {page} / {total}', allStates: 'सभी राज्य'
+        },
+        ta: {
+            home: 'முகப்பு', artists: 'கலைஞர்கள்', competition: 'போட்டி', loading: 'ஏற்றப்படுகிறது',
+            signOut: 'வெளியேறு', signIn: 'உள்நுழைக', guest: 'விருந்தினர்',
+            eyebrow: 'தேசிய கலைஞர் பதிவகம்', title: 'இந்தியாவின் கலைஞர்கள்',
+            subtitle: 'நாடெங்குமுள்ள காகிதக் கலைஞர்களின் உயிர்ப்புள்ள ஆவணம்.',
+            searchPlaceholder: 'பெயர் அல்லது பயனர் பெயரில் தேடுங்கள்', search: 'தேடுக',
+            specialty: 'சிறப்புத்துறை', state: 'மாநிலம்', sortBy: 'வரிசை',
+            newest: 'புதிய உறுப்பினர்கள்', mostCompetitions: 'அதிக போட்டிகள்', alphabetical: 'அகர வரிசை',
+            previous: 'முந்தைய', next: 'அடுத்த',
+            copyright: '© 2026 SIOA, இந்திய ஓரிகாமி கலைஞர்கள் சங்கம்',
+            beta: 'பீட்டா, தளம் உருவாக்கத்தில் உள்ளது', motto: 'கைவினை · பயில் · சமூகம்',
+            allSpecialties: 'அனைத்து சிறப்புத்துறைகள்', designer225: '22.5 வடிவமைப்பாளர்', boxPleating: 'பெட்டி மடிப்பு வடிவமைப்பாளர்',
+            casualFolder: 'பொழுதுபோக்கு மடிப்பாளர்', seriousFolder: 'தீவிர மடிப்பாளர்',
+            casualDesigner: 'பொழுதுபோக்கு வடிவமைப்பாளர்', seriousDesigner: 'தீவிர வடிவமைப்பாளர்',
+            competitionsLabel: 'போட்டிகள்', joined: 'இணைந்த ஆண்டு', viewProfile: 'சுயவிவரம் பார்க்க',
+            noArtists: 'கலைஞர்கள் கிடைக்கவில்லை', adjustFilters: 'தேடல் அல்லது வடிகட்டியை மாற்றிப் பாருங்கள்',
+            loadingArtists: 'கலைஞர்கள் ஏற்றப்படுகின்றனர்', errorTitle: 'சிக்கல் ஏற்பட்டது',
+            errorBody: 'கலைஞர்களை ஏற்ற முடியவில்லை. மீண்டும் முயலுங்கள்.',
+            showing: 'மொத்தம் {total}, காட்டப்படுவது {shown}', page: 'பக்கம் {page} / {total}', allStates: 'அனைத்து மாநிலங்கள்'
+        },
+        te: {
+            home: 'ముఖపుట', artists: 'కళాకారులు', competition: 'పోటీ', loading: 'లోడ్ అవుతోంది',
+            signOut: 'నిష్క్రమించండి', signIn: 'ప్రవేశించండి', guest: 'అతిథి',
+            eyebrow: 'జాతీయ కళాకారుల నమోదు', title: 'భారతదేశ కళాకారులు',
+            subtitle: 'దేశవ్యాప్తంగా కాగిత కళాకారుల సజీవ భాండాగారం.',
+            searchPlaceholder: 'పేరు లేదా వినియోగదారు పేరుతో వెతకండి', search: 'వెతకండి',
+            specialty: 'ప్రత్యేకత', state: 'రాష్ట్రం', sortBy: 'క్రమం',
+            newest: 'కొత్త సభ్యులు', mostCompetitions: 'అత్యధిక పోటీలు', alphabetical: 'అక్షర క్రమం',
+            previous: 'మునుపటి', next: 'తదుపరి',
+            copyright: '© 2026 SIOA, భారతీయ ఓరిగామి కళాకారుల సంఘం',
+            beta: 'బీటా, వేదిక అభివృద్ధిలో ఉంది', motto: 'హస్తకళ · అధ్యయనం · సమాజం',
+            allSpecialties: 'అన్ని ప్రత్యేకతలు', designer225: '22.5 రూపకర్త', boxPleating: 'బాక్స్ మడత రూపకర్త',
+            casualFolder: 'అభిరుచి మడత కళాకారుడు', seriousFolder: 'నిబద్ధ మడత కళాకారుడు',
+            casualDesigner: 'అభిరుచి రూపకర్త', seriousDesigner: 'నిబద్ధ రూపకర్త',
+            competitionsLabel: 'పోటీలు', joined: 'చేరిన సంవత్సరం', viewProfile: 'ప్రొఫైల్ చూడండి',
+            noArtists: 'కళాకారులు కనబడలేదు', adjustFilters: 'వెతుకులాట లేదా వడపోతను మార్చండి',
+            loadingArtists: 'కళాకారులు లోడ్ అవుతున్నారు', errorTitle: 'సమస్య ఏర్పడింది',
+            errorBody: 'కళాకారులను లోడ్ చేయలేకపోయాం. మళ్లీ ప్రయత్నించండి.',
+            showing: 'మొత్తం {total}లో {shown} మంది', page: 'పేజీ {page} / {total}', allStates: 'అన్ని రాష్ట్రాలు'
+        },
+        mr: {
+            home: 'मुख्यपृष्ठ', artists: 'कलाकार', competition: 'स्पर्धा', loading: 'लोड होत आहे',
+            signOut: 'बाहेर पडा', signIn: 'प्रवेश करा', guest: 'अतिथी',
+            eyebrow: 'राष्ट्रीय कलाकार अभिलेख', title: 'भारतातील कलाकार',
+            subtitle: 'देशभरातील कागद कलाकारांचा जिवंत अभिलेख.',
+            searchPlaceholder: 'नाव किंवा वापरकर्ता नावाने शोधा', search: 'शोधा',
+            specialty: 'विशेषता', state: 'राज्य', sortBy: 'क्रम',
+            newest: 'नवीन सदस्य', mostCompetitions: 'सर्वाधिक स्पर्धा', alphabetical: 'वर्णक्रमानुसार',
+            previous: 'मागील', next: 'पुढील',
+            copyright: '© 2026 SIOA, भारतीय ओरिगामी कलाकार संस्था',
+            beta: 'बीटा, मंच विकसित होत आहे', motto: 'हस्तकला · अभ्यास · समुदाय',
+            allSpecialties: 'सर्व विशेषता', designer225: '22.5 रचनाकार', boxPleating: 'बॉक्स घडी रचनाकार',
+            casualFolder: 'छंदिष्ट घडी कलाकार', seriousFolder: 'समर्पित घडी कलाकार',
+            casualDesigner: 'छंदिष्ट रचनाकार', seriousDesigner: 'समर्पित रचनाकार',
+            competitionsLabel: 'स्पर्धा', joined: 'सदस्यत्व', viewProfile: 'प्रोफाइल पहा',
+            noArtists: 'कलाकार सापडले नाहीत', adjustFilters: 'शोध किंवा गाळणी बदलून पाहा',
+            loadingArtists: 'कलाकार लोड होत आहेत', errorTitle: 'काहीतरी चुकले',
+            errorBody: 'कलाकार लोड करता आले नाहीत. पुन्हा प्रयत्न करा.',
+            showing: 'एकूण {total} पैकी {shown} कलाकार', page: 'पृष्ठ {page} / {total}', allStates: 'सर्व राज्ये'
+        }
+    };
+
+    var stateI18n = {
+        hi: ['आंध्र प्रदेश','असम','बिहार','दिल्ली','गोवा','गुजरात','हरियाणा','हिमाचल प्रदेश','झारखंड','कर्नाटक','केरल','मध्य प्रदेश','महाराष्ट्र','ओडिशा','पंजाब','राजस्थान','तमिलनाडु','तेलंगाना','उत्तर प्रदेश','उत्तराखंड','पश्चिम बंगाल'],
+        ta: ['ஆந்திரப் பிரதேசம்','அசாம்','பீகார்','தில்லி','கோவா','குஜராத்','ஹரியானா','இமாச்சலப் பிரதேசம்','ஜார்க்கண்ட்','கர்நாடகா','கேரளா','மத்தியப் பிரதேசம்','மகாராஷ்டிரா','ஒடிசா','பஞ்சாப்','ராஜஸ்தான்','தமிழ்நாடு','தெலங்கானா','உத்தரப் பிரதேசம்','உத்தராகண்ட்','மேற்கு வங்காளம்'],
+        te: ['ఆంధ్ర ప్రదేశ్','అస్సాం','బీహార్','ఢిల్లీ','గోవా','గుజరాత్','హర్యానా','హిమాచల్ ప్రదేశ్','ఝార్ఖండ్','కర్ణాటక','కేరళ','మధ్య ప్రదేశ్','మహారాష్ట్ర','ఒడిశా','పంజాబ్','రాజస్థాన్','తమిళనాడు','తెలంగాణ','ఉత్తర ప్రదేశ్','ఉత్తరాఖండ్','పశ్చిమ బెంగాల్'],
+        mr: ['आंध्र प्रदेश','आसाम','बिहार','दिल्ली','गोवा','गुजरात','हरियाणा','हिमाचल प्रदेश','झारखंड','कर्नाटक','केरळ','मध्य प्रदेश','महाराष्ट्र','ओडिशा','पंजाब','राजस्थान','तमिळनाडू','तेलंगणा','उत्तर प्रदेश','उत्तराखंड','पश्चिम बंगाल']
+    };
+
+    var stateNames = ['Andhra Pradesh','Assam','Bihar','Delhi','Goa','Gujarat','Haryana','Himachal Pradesh','Jharkhand','Karnataka','Kerala','Madhya Pradesh','Maharashtra','Odisha','Punjab','Rajasthan','Tamil Nadu','Telangana','Uttar Pradesh','Uttarakhand','West Bengal'];
+
+    function tr(key, vars) {
+        var dict = registryI18n[currentLanguage] || registryI18n.en;
+        var value = dict[key] || registryI18n.en[key] || key;
+        Object.keys(vars || {}).forEach(function(name) {
+            value = value.replace('{' + name + '}', vars[name]);
+        });
+        return value;
+    }
+
+    function translatedState(value) {
+        var index = stateNames.indexOf(value);
+        var names = stateI18n[currentLanguage];
+        return index >= 0 && names ? names[index] : value;
+    }
+
+    function translatedSpecialty(value) {
+        var keys = {
+            '22.5 designer': 'designer225',
+            'box pleating designer': 'boxPleating',
+            'casual folder': 'casualFolder',
+            'serious folder': 'seriousFolder',
+            'casual designer': 'casualDesigner',
+            'serious designer': 'seriousDesigner'
+        };
+        return String(value).split(',').map(function(part) {
+            var clean = part.trim();
+            var key = keys[clean.toLowerCase()];
+            return key ? tr(key) : clean;
+        }).join(', ');
+    }
+
+    function applyRegistryLanguage(language) {
+        currentLanguage = registryI18n[language] ? language : 'en';
+        document.documentElement.lang = currentLanguage;
+
+        document.querySelectorAll('[data-i18n]').forEach(function(node) {
+            node.textContent = tr(node.dataset.i18n);
+        });
+        document.querySelectorAll('[data-i18n-placeholder]').forEach(function(node) {
+            node.placeholder = tr(node.dataset.i18nPlaceholder);
+        });
+        document.querySelectorAll('[data-specialty-key]').forEach(function(node) {
+            node.textContent = tr(node.dataset.specialtyKey);
+        });
+
+        var stateOptions = el('filterState').options;
+        for (var i = 0; i < stateOptions.length; i++) {
+            stateOptions[i].textContent = i === 0 ? tr('allStates') : translatedState(stateOptions[i].value);
+        }
+
+        if (!currentUserId) {
+            el('navUsername').textContent = tr('guest');
+            el('signOutBtn').textContent = tr('signIn');
+        }
+        if (lastProfiles) renderProfiles(lastProfiles);
+        renderPagination();
+    }
+
+    window.addEventListener('sioa:languagechange', function(event) {
+        applyRegistryLanguage(event.detail && event.detail.language || 'en');
+    });
 
     // ─── AUTH ─────────────────────────────────────────────────────────────────
     async function checkAuth() {
@@ -755,26 +1344,27 @@ if (currentUserId) {
         return { data: res.data || [], count: res.count || 0 };
     }
 
-    
+
 
     // ─── RENDER PROFILES ──────────────────────────────────────────────────────
     function renderProfiles(profiles) {
         var grid = el('artistsGrid');
+        lastProfiles = profiles || [];
         grid.innerHTML = '';
 
         if (!profiles || profiles.length === 0) {
             grid.innerHTML =
                 '<div class="state-empty">' +
                     '<div class="state-icon"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div>' +
-                    '<div class="state-title">No artists found</div>' +
-                    '<div class="state-sub">Try adjusting your search or filters</div>' +
+                    '<div class="state-title">' + escHtml(tr('noArtists')) + '</div>' +
+                    '<div class="state-sub">' + escHtml(tr('adjustFilters')) + '</div>' +
                 '</div>';
             return;
         }
 
         profiles.forEach(function(p) {
             var initials = getInitials(p.full_name, p.username);
-            var location = [p.city, p.state].filter(Boolean).join(', ') || '—';
+            var location = [p.city, translatedState(p.state)].filter(Boolean).join(', ') || '-';
             var profileUrl = '/artists/' + (p.username || p.id);
 
             var card = document.createElement('div');
@@ -783,7 +1373,7 @@ if (currentUserId) {
                 '<div class="artist-card-top">' +
                     '<div class="artist-avatar">' + escHtml(initials) + '</div>' +
                     '<div class="artist-info">' +
-                        '<div class="artist-name">' + escHtml(p.full_name || '—') + '</div>' +
+                        '<div class="artist-name">' + escHtml(p.full_name || '-') + '</div>' +
                         '<div class="artist-handle">' + (p.username ? '@' + escHtml(p.username) : '') + '</div>' +
                         '<div class="artist-location">' +
                             '<svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>' +
@@ -792,23 +1382,23 @@ if (currentUserId) {
                     '</div>' +
                 '</div>' +
                 '<div class="artist-card-mid">' +
-                    (p.specialty ? '<span class="artist-specialty">' + escHtml(p.specialty) + '</span>' : '') +
+                    (p.specialty ? '<span class="artist-specialty">' + escHtml(translatedSpecialty(p.specialty)) + '</span>' : '') +
                     (p.bio ? '<div class="artist-bio">' + escHtml(p.bio) + '</div>' : '') +
                 '</div>' +
                 '<div class="artist-card-stats">' +
-                    
+
                     '<div class="stat-item">' +
                         '<div class="stat-val">' + (p.competition_count || 0) + '</div>' +
-                        '<div class="stat-key">Competitions</div>' +
+                        '<div class="stat-key">' + escHtml(tr('competitionsLabel')) + '</div>' +
                     '</div>' +
                     '<div class="stat-item">' +
-                        '<div class="stat-val">' + (p.created_at ? new Date(p.created_at).getFullYear() : '—') + '</div>' +
-                        '<div class="stat-key">Joined</div>' +
+                        '<div class="stat-val">' + (p.created_at ? new Date(p.created_at).getFullYear() : '-') + '</div>' +
+                        '<div class="stat-key">' + escHtml(tr('joined')) + '</div>' +
                     '</div>' +
                 '</div>' +
-                    
+
 '<div class="artist-card-footer">' +
-    '<a class="btn-view-profile" style="flex:1;justify-content:center;" href="/artists/index.html?u=' + (p.username || p.id) + '">View Profile</a>' +
+    '<a class="btn-view-profile" style="flex:1;justify-content:center;" href="/artists/index.html?u=' + encodeURIComponent(p.username || p.id) + '">' + escHtml(tr('viewProfile')) + '</a>' +
 '</div>';
 
             grid.appendChild(card);
@@ -830,7 +1420,7 @@ if (currentUserId) {
         pagEl.style.display = 'flex';
         prevBtn.disabled = currentPage <= 1;
         nextBtn.disabled = currentPage >= totalPages;
-        info.textContent = 'Page ' + currentPage + ' of ' + totalPages;
+        info.textContent = tr('page', { page: currentPage, total: totalPages });
     }
 
     // ─── MAIN SEARCH / LOAD ───────────────────────────────────────────────────
@@ -850,7 +1440,7 @@ if (currentUserId) {
         grid.innerHTML =
             '<div class="state-loading">' +
                 '<div class="spinner"></div>' +
-                '<div class="state-title">Loading artists…</div>' +
+                '<div class="state-title">' + escHtml(tr('loadingArtists')) + '</div>' +
             '</div>';
         el('resultsCount').innerHTML = '&nbsp;';
 
@@ -863,8 +1453,8 @@ if (currentUserId) {
     renderPagination();
 
     var countText = totalCount === 0
-        ? 'No artists found'
-        : 'Showing <span>' + profiles.length + '</span> of <span>' + totalCount + '</span> artists';
+        ? escHtml(tr('noArtists'))
+        : tr('showing', { shown: '<span>' + profiles.length + '</span>', total: '<span>' + totalCount + '</span>' });
     el('resultsCount').innerHTML = countText;
 
 } catch (err) {
@@ -872,8 +1462,8 @@ if (currentUserId) {
     el('artistsGrid').innerHTML =
         '<div class="state-error">' +
             '<div class="state-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div>' +
-            '<div class="state-title">Something went wrong</div>' +
-            '<div class="state-sub">Could not load artists. Please try again.</div>' +
+            '<div class="state-title">' + escHtml(tr('errorTitle')) + '</div>' +
+            '<div class="state-sub">' + escHtml(tr('errorBody')) + '</div>' +
         '</div>';
     el('resultsCount').innerHTML = '&nbsp;';
     }
@@ -922,6 +1512,10 @@ if (currentUserId) {
 
     // ─── SIGN OUT ─────────────────────────────────────────────────────────────
     el('signOutBtn').addEventListener('click', async function() {
+        if (!currentUserId) {
+            window.location.href = '/login/index.html';
+            return;
+        }
         await sb.auth.signOut();
         window.location.href = '/';
     });
@@ -943,73 +1537,11 @@ if (currentUserId) {
         if (currentPage < Math.ceil(totalCount / pageSize)) { currentPage++; performSearch(false); window.scrollTo({ top: 0, behavior: 'smooth' }); }
     });
 
-    // ─── BACKGROUND CANVAS ────────────────────────────────────────────────────
-    (function initCanvas() {
-        var canvas = el('bg-canvas');
-        var ctx = canvas.getContext('2d');
-        function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
-        resize();
-        window.addEventListener('resize', resize);
-
-        function P() { this.reset(); this.y = Math.random() * canvas.height; }
-        P.prototype.reset = function() {
-            this.x = Math.random() * canvas.width;
-            this.y = -10;
-            this.s = Math.random() * 2.5 + 0.8;
-            this.vy = Math.random() * 0.25 + 0.08;
-            this.vx = (Math.random() - 0.5) * 0.15;
-            this.o = Math.random() * 0.45 + 0.2;
-            this.h = Math.random() * 40 + 180;
-        };
-        P.prototype.update = function() {
-            this.y += this.vy;
-            this.x += this.vx + Math.sin(this.y * 0.01) * 0.25;
-            if (this.y > canvas.height + 10) this.reset();
-            if (this.x < 0) this.x = canvas.width;
-            if (this.x > canvas.width) this.x = 0;
-        };
-        P.prototype.draw = function() {
-            ctx.save();
-            ctx.globalAlpha = this.o;
-            ctx.fillStyle = 'hsl(' + this.h + ',70%,50%)';
-            ctx.shadowBlur = 12;
-            ctx.shadowColor = ctx.fillStyle;
-            ctx.beginPath();
-            ctx.arc(this.x, this.y, this.s, 0, Math.PI * 2);
-            ctx.fill();
-            ctx.restore();
-        };
-        var pts = [];
-        for (var i = 0; i < 60; i++) pts.push(new P());
-        (function loop() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            for (var i = 0; i < pts.length; i++) {
-                for (var j = i + 1; j < pts.length; j++) {
-                    var dx = pts[i].x - pts[j].x;
-                    var dy = pts[i].y - pts[j].y;
-                    var d = Math.sqrt(dx*dx + dy*dy);
-                    if (d < 130) {
-                        ctx.save();
-                        ctx.globalAlpha = (1 - d/130) * 0.12;
-                        ctx.strokeStyle = 'hsl(190,70%,50%)';
-                        ctx.lineWidth = 1;
-                        ctx.beginPath();
-                        ctx.moveTo(pts[i].x, pts[i].y);
-                        ctx.lineTo(pts[j].x, pts[j].y);
-                        ctx.stroke();
-                        ctx.restore();
-                    }
-                }
-            }
-            pts.forEach(function(p) { p.update(); p.draw(); });
-            requestAnimationFrame(loop);
-        })();
-    })();
-
     // ─── BOOT ─────────────────────────────────────────────────────────────────
     (async function boot() {
+    applyRegistryLanguage(currentLanguage);
     var user = await checkAuth();
-    // Don't redirect — just note if guest
+    // Don't redirect | just note if guest
     currentUserId = user ? user.id : null;
     document.body.classList.add('auth-ready');  // always show page
 
@@ -1023,8 +1555,14 @@ if (currentUserId) {
             if (!profileRes.error && profileRes.data) {
                 var p = profileRes.data;
                 el('navAvatar').textContent = getInitials(p.full_name, p.username);
+                el('navUsername').removeAttribute('data-i18n');
+                el('navUsername').textContent = p.full_name || (p.username ? '@' + p.username : 'SIOA');
+                el('signOutBtn').textContent = tr('signOut');
             }
         } catch (e) { console.error('Nav profile error:', e); }
+    } else {
+        el('navUsername').textContent = tr('guest');
+        el('signOutBtn').textContent = tr('signIn');
     }
 
     await performSearch(true);
@@ -1032,5 +1570,7 @@ if (currentUserId) {
 
 })();
 </script>
+<script src="../assets/sioa-archive.js"></script>
+<script src="../assets/sioa-mobile.js"></script>
 </body>
 </html>

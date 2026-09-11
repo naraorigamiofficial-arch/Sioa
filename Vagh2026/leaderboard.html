@@ -10,22 +10,22 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#0b0f14;
-  --panel:#141a21;
-  --panel-2:#1a212a;
-  --panel-3:#212a34;
-  --border:#262f39;
-  --border-soft:#1d252e;
-  --text:#f0f3f6;
-  --muted:#9aa6b2;
-  --faint:#6b7885;
-  --accent:#4fa8c9;
-  --accent-strong:#63b9d8;
+  --bg:#220204;
+  --panel:#2a0307;
+  --panel-2:#35050a;
+  --panel-3:#41070f;
+  --border:#6f3038;
+  --border-soft:#3a0710;
+  --text:#f8dfd4;
+  --muted:#c39b94;
+  --faint:#9e7470;
+  --accent:#ca895d;
+  --accent-strong:#dda47d;
   --green:#5ec98e;
   --amber:#e0b155;
   --red:#e07272;
   --gold:#e3b65a;
-  --silver:#aab7c4;
+  --silver:#c39b94;
   --bronze:#c9895c;
   --shadow:0 1px 2px rgba(0,0,0,.4),0 12px 32px -18px rgba(0,0,0,.9);
 }
@@ -46,7 +46,7 @@ button{font-family:inherit;}
 
 /* ============ TOPBAR ============ */
 .topbar{
-  position:sticky;top:0;z-index:100;background:rgba(11,15,20,.94);backdrop-filter:blur(10px);
+  position:sticky;top:0;z-index:100;background:rgba(34,2,4,.94);backdrop-filter:blur(10px);
   border-bottom:1px solid var(--border);
 }
 .topbar-inner{
@@ -63,7 +63,7 @@ button{font-family:inherit;}
   border:1px solid var(--border);border-radius:9px;color:var(--muted);font-size:13px;font-weight:600;
   cursor:pointer;transition:.15s;
 }
-.refresh-btn:hover{color:var(--text);border-color:#31404e;}
+.refresh-btn:hover{color:var(--text);border-color:#7d2036;}
 .refresh-btn svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
 .refresh-btn.is-loading svg{animation:spin 0.8s linear infinite;}
 @keyframes spin{to{transform:rotate(360deg);}}
@@ -114,11 +114,11 @@ button{font-family:inherit;}
 
 .pod-thumb{
   width:96px;height:96px;border-radius:12px;object-fit:cover;margin:0 auto 14px;
-  background:#050709;border:1px solid var(--border-soft);
+  background:#210205;border:1px solid var(--border-soft);
 }
 .rank-1 .pod-thumb{width:112px;height:112px;}
 .pod-thumb-fallback{
-  width:96px;height:96px;border-radius:12px;margin:0 auto 14px;background:#10151b;
+  width:96px;height:96px;border-radius:12px;margin:0 auto 14px;background:#35050a;
   display:flex;align-items:center;justify-content:center;border:1px solid var(--border-soft);
 }
 .pod-thumb-fallback svg{width:26px;height:26px;stroke:var(--faint);fill:none;stroke-width:1.5;}
@@ -179,8 +179,8 @@ button{font-family:inherit;}
 .lb-rank{font-family:'JetBrains Mono',monospace;font-weight:700;color:var(--faint);font-size:14px;}
 .lb-rank.top{color:var(--text);}
 .lb-entry{display:flex;align-items:center;gap:11px;min-width:0;}
-.lb-thumb{width:38px;height:38px;border-radius:8px;object-fit:cover;flex-shrink:0;background:#050709;border:1px solid var(--border-soft);}
-.lb-thumb-fallback{width:38px;height:38px;border-radius:8px;flex-shrink:0;background:#10151b;border:1px solid var(--border-soft);}
+.lb-thumb{width:38px;height:38px;border-radius:8px;object-fit:cover;flex-shrink:0;background:#210205;border:1px solid var(--border-soft);}
+.lb-thumb-fallback{width:38px;height:38px;border-radius:8px;flex-shrink:0;background:#35050a;border:1px solid var(--border-soft);}
 .lb-entry-text{min-width:0;}
 .lb-entry-name{font-size:14px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 .lb-entry-tag{font-size:11.5px;color:var(--faint);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
@@ -207,13 +207,15 @@ button{font-family:inherit;}
   .lb-final{font-size:14.5px;}
 }
 </style>
+    <link rel="stylesheet" href="../assets/sioa-archive.css">
 </head>
 <body>
 
 <div class="topbar">
   <div class="topbar-inner">
-    <div class="topbar-title">VAGH 2026 <span class="dot-sep"></span> <span>Leaderboard</span></div>
+    <div class="topbar-title"><a class="topbar-brand" href="/">SIOA</a><span class="dot-sep"></span><span>VAGH 2026 · Leaderboard</span></div>
     <div class="topbar-right">
+      <a class="competition-return" href="/Vagh2026/about.html">Competition</a>
       <span class="updated-text" id="updatedText"></span>
       <button class="refresh-btn" id="refreshBtn">
         <svg viewBox="0 0 24 24"><path d="M21 2v6h-6"/><path d="M3 12a9 9 0 0 1 15-6.7L21 8"/><path d="M3 22v-6h6"/><path d="M21 12a9 9 0 0 1-15 6.7L3 16"/></svg>
@@ -575,5 +577,7 @@ function escapeHtml(str) {
 
 loadData(false);
 </script>
+<script src="../assets/sioa-archive.js"></script>
+<script src="../assets/sioa-mobile.js"></script>
 </body>
 </html>

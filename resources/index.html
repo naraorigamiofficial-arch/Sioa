@@ -7,21 +7,21 @@
     <meta name="description" content="Diagrams, tutorials, certifications and downloads from the Society of Indian Origami Artists.">
     <style>
         :root {
-            --black:#000000; --deep-blue:#0a1628; --navy-blue:#0f2847;
-            --cyan-blue:#1a5f7a; --bright-cyan:#2d89b0; --light-cyan:#57a6bb;
-            --white:#e8f4f8; --light-grey:#c5d9e0;
+            --black:#000000; --deep-blue:#310509; --navy-blue:#220204;
+            --cyan-blue:#7d2036; --bright-cyan:#ca895d; --light-cyan:#f0d0c2;
+            --white:#f8dfd4; --light-grey:#c39b94;
         }
         * { margin:0;padding:0;box-sizing:border-box; }
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
         body { font-family:'Inter',sans-serif;background:var(--black);color:var(--white);overflow-x:hidden;cursor:none;padding-top:80px; }
 
-        .navbar { position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(0,0,0,0.85);backdrop-filter:blur(10px);border-bottom:1px solid rgba(26,95,122,0.15);padding:25px 0;transition:all 0.4s cubic-bezier(0.16,1,0.3,1); }
-        .navbar.scrolled { padding:12px 0;background:rgba(0,0,0,0.98);box-shadow:0 10px 40px rgba(0,0,0,0.5);border-bottom:1px solid rgba(26,95,122,0.3); }
+        .navbar { position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(0,0,0,0.85);backdrop-filter:blur(10px);border-bottom:1px solid rgba(125,32,54,0.15);padding:25px 0;transition:all 0.4s cubic-bezier(0.16,1,0.3,1); }
+        .navbar.scrolled { padding:12px 0;background:rgba(0,0,0,0.98);box-shadow:0 10px 40px rgba(0,0,0,0.5);border-bottom:1px solid rgba(125,32,54,0.3); }
         .navbar.hidden { transform:translateY(-100%); }
         .nav-container { max-width:1400px;margin:0 auto;padding:0 40px;display:flex;justify-content:space-between;align-items:center; }
         .nav-logo { font-size:28px;font-weight:800;letter-spacing:0.1em;color:var(--white);text-decoration:none;transition:all 0.3s ease; }
         .navbar.scrolled .nav-logo { font-size:24px; }
-        .nav-logo:hover { color:var(--bright-cyan);text-shadow:0 0 20px rgba(45,137,176,0.5); }
+        .nav-logo:hover { color:var(--bright-cyan);text-shadow:0 0 20px rgba(202,137,93,0.5); }
         .nav-back { display:inline-flex;align-items:center;gap:10px;color:var(--light-grey);text-decoration:none;font-size:14px;font-weight:400;letter-spacing:0.08em;text-transform:uppercase;transition:all 0.3s ease;position:relative; }
         .nav-back::after { content:'';position:absolute;bottom:0;left:0;width:0;height:1px;background:var(--bright-cyan);transition:width 0.4s ease; }
         .nav-back:hover { color:var(--white); }
@@ -47,7 +47,7 @@
         .res-heading.visible { opacity:1;transform:translateY(0); }
         .res-num { font-size:11px;font-weight:600;letter-spacing:0.2em;color:var(--bright-cyan);opacity:0.6; }
         .res-title { font-size:clamp(22px,2.5vw,28px);font-weight:600;color:var(--white);letter-spacing:0.02em; }
-        .res-line { flex:1;height:1px;background:linear-gradient(90deg,rgba(26,95,122,0.4),transparent); }
+        .res-line { flex:1;height:1px;background:linear-gradient(90deg,rgba(125,32,54,0.4),transparent); }
 
         /* Resource items list */
         .res-list { display:flex;flex-direction:column;gap:2px;opacity:0;transform:translateY(30px);transition:all 0.7s ease 0.1s; }
@@ -56,8 +56,8 @@
         .res-item {
             display:flex;align-items:center;justify-content:space-between;gap:20px;
             padding:22px 32px;
-            background:linear-gradient(135deg,rgba(10,22,40,0.65),rgba(15,40,71,0.45));
-            border:1px solid rgba(26,95,122,0.25);
+            background:linear-gradient(135deg,rgba(49,5,9,0.65),rgba(34,2,4,0.45));
+            border:1px solid rgba(125,32,54,0.25);
             border-radius:6px;
             cursor:none;
             text-decoration:none;
@@ -66,38 +66,38 @@
             overflow:hidden;
             transition:all 0.4s cubic-bezier(0.16,1,0.3,1);
         }
-        .res-item::before { content:'';position:absolute;top:0;left:0;width:0;height:100%;background:rgba(26,95,122,0.15);transition:width 0.45s cubic-bezier(0.16,1,0.3,1);z-index:0; }
+        .res-item::before { content:'';position:absolute;top:0;left:0;width:0;height:100%;background:rgba(125,32,54,0.15);transition:width 0.45s cubic-bezier(0.16,1,0.3,1);z-index:0; }
         .res-item:hover::before { width:100%; }
-        .res-item:hover { border-color:var(--bright-cyan);transform:translateX(6px);box-shadow:-6px 0 24px rgba(26,95,122,0.2); }
+        .res-item:hover { border-color:var(--bright-cyan);transform:translateX(6px);box-shadow:-6px 0 24px rgba(125,32,54,0.2); }
 
         .ri-left { display:flex;align-items:center;gap:20px;position:relative;z-index:1; }
-        .ri-icon { width:40px;height:40px;border:1px solid rgba(26,95,122,0.45);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:18px;background:rgba(26,95,122,0.1);flex-shrink:0;transition:all 0.35s ease; }
-        .res-item:hover .ri-icon { background:rgba(45,137,176,0.2);border-color:var(--bright-cyan); }
+        .ri-icon { width:40px;height:40px;border:1px solid rgba(125,32,54,0.45);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:18px;background:rgba(125,32,54,0.1);flex-shrink:0;transition:all 0.35s ease; }
+        .res-item:hover .ri-icon { background:rgba(202,137,93,0.2);border-color:var(--bright-cyan); }
         .ri-name { font-size:15px;font-weight:500;color:var(--white);letter-spacing:0.02em;transition:color 0.3s ease; }
-        .ri-sub { font-size:12px;font-weight:300;color:rgba(197,217,224,0.45);letter-spacing:0.04em;margin-top:3px;transition:color 0.3s ease; }
-        .res-item:hover .ri-sub { color:rgba(197,217,224,0.7); }
+        .ri-sub { font-size:12px;font-weight:300;color:rgba(195,155,148,0.45);letter-spacing:0.04em;margin-top:3px;transition:color 0.3s ease; }
+        .res-item:hover .ri-sub { color:rgba(195,155,148,0.7); }
 
         .ri-right { display:flex;align-items:center;gap:16px;position:relative;z-index:1;flex-shrink:0; }
         .ri-badge { font-size:10px;font-weight:600;letter-spacing:0.15em;text-transform:uppercase;padding:4px 10px;border-radius:2px; }
-        .badge-free { background:rgba(45,137,176,0.15);border:1px solid rgba(45,137,176,0.35);color:var(--bright-cyan); }
-        .badge-members { background:rgba(87,166,187,0.1);border:1px solid rgba(87,166,187,0.3);color:var(--light-cyan); }
-        .badge-soon { background:rgba(197,217,224,0.05);border:1px solid rgba(197,217,224,0.15);color:rgba(197,217,224,0.4); }
-        .ri-arrow { color:rgba(197,217,224,0.25);transition:all 0.35s ease; }
+        .badge-free { background:rgba(202,137,93,0.15);border:1px solid rgba(202,137,93,0.35);color:var(--bright-cyan); }
+        .badge-members { background:rgba(240,208,194,0.1);border:1px solid rgba(240,208,194,0.3);color:var(--light-cyan); }
+        .badge-soon { background:rgba(195,155,148,0.05);border:1px solid rgba(195,155,148,0.15);color:rgba(195,155,148,0.4); }
+        .ri-arrow { color:rgba(195,155,148,0.25);transition:all 0.35s ease; }
         .ri-arrow svg { width:16px;height:16px; }
         .res-item:hover .ri-arrow { color:var(--bright-cyan);transform:translateX(4px); }
 
         /* Stats row */
-        .stats-row { display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-bottom:90px;border:1px solid rgba(26,95,122,0.3);border-radius:10px;overflow:hidden;opacity:0;transform:translateY(30px);transition:all 0.7s ease; }
+        .stats-row { display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-bottom:90px;border:1px solid rgba(125,32,54,0.3);border-radius:10px;overflow:hidden;opacity:0;transform:translateY(30px);transition:all 0.7s ease; }
         .stats-row.visible { opacity:1;transform:translateY(0); }
-        .stat-block { padding:40px;text-align:center;background:linear-gradient(135deg,rgba(10,22,40,0.6),rgba(15,40,71,0.4)); }
+        .stat-block { padding:40px;text-align:center;background:linear-gradient(135deg,rgba(49,5,9,0.6),rgba(34,2,4,0.4)); }
         .stat-num { font-size:clamp(36px,5vw,56px);font-weight:800;color:var(--white);letter-spacing:0.02em;line-height:1; }
-        .stat-label { font-size:12px;font-weight:400;letter-spacing:0.15em;text-transform:uppercase;color:rgba(197,217,224,0.45);margin-top:10px; }
+        .stat-label { font-size:12px;font-weight:400;letter-spacing:0.15em;text-transform:uppercase;color:rgba(195,155,148,0.45);margin-top:10px; }
 
         footer { padding:60px 0 40px;text-align:center;border-top:1px solid var(--deep-blue);position:relative;z-index:1;margin-top:80px; }
         .contact-section { margin-bottom:30px; }
         .contact-section h3 { font-size:22px;color:var(--white);margin-bottom:12px;font-weight:600;letter-spacing:0.05em; }
         .contact-section a { color:var(--bright-cyan);text-decoration:none;font-size:18px;transition:all 0.3s ease; }
-        .contact-section a:hover { color:var(--light-cyan);text-shadow:0 0 15px rgba(45,137,176,0.4); }
+        .contact-section a:hover { color:var(--light-cyan);text-shadow:0 0 15px rgba(202,137,93,0.4); }
         footer p { font-size:15px;color:var(--light-grey);letter-spacing:0.05em;font-weight:300; }
 
         @media (max-width:768px) {
@@ -110,6 +110,7 @@
             #cursor,#cursor-light { display:none; }
         }
     </style>
+    <link rel="stylesheet" href="../assets/sioa-archive.css">
 </head>
 <body>
 
@@ -131,7 +132,7 @@
     <div class="container">
         <p class="section-label">Learn &amp; Download</p>
         <h1>Resources</h1>
-        <p>Diagrams, video tutorials, certification syllabi, and reference materials — everything you need to deepen your origami practice.</p>
+        <p>Diagrams, video tutorials, certification syllabi, and reference materials | everything you need to deepen your origami practice.</p>
     </div>
 </div>
 
@@ -231,7 +232,7 @@
             <h3>Contact Us</h3>
             <a href="mailto:sioa.paper@gmail.com">sioa.paper@gmail.com</a>
         </div>
-        <p>© 2026 SIOA – Society of Indian Origami Artists. All rights reserved.</p>
+        <p>© 2026 SIOA | Society of Indian Origami Artists. All rights reserved.</p>
     </div>
 </footer>
 
@@ -247,9 +248,10 @@
     const particles=[];
     class P{constructor(){this.reset();this.y=Math.random()*canvas.height;}reset(){this.x=Math.random()*canvas.width;this.y=-10;this.size=Math.random()*3+1;this.sy=Math.random()*0.3+0.1;this.sx=(Math.random()-0.5)*0.2;this.op=Math.random()*0.5+0.3;this.hue=Math.random()*40+180;}update(){this.y+=this.sy;this.x+=this.sx+Math.sin(this.y*0.01)*0.3;if(this.y>canvas.height+10)this.reset();if(this.x<0)this.x=canvas.width;if(this.x>canvas.width)this.x=0;}draw(){ctx.save();ctx.globalAlpha=this.op;ctx.fillStyle=`hsl(${this.hue},70%,50%)`;ctx.shadowBlur=15;ctx.shadowColor=`hsl(${this.hue},70%,50%)`;ctx.beginPath();ctx.arc(this.x,this.y,this.size,0,Math.PI*2);ctx.fill();ctx.restore();}}
     for(let i=0;i<80;i++)particles.push(new P());
-    (function animate(){ctx.clearRect(0,0,canvas.width,canvas.height);for(let i=0;i<particles.length;i++)for(let j=i+1;j<particles.length;j++){const dx=particles[i].x-particles[j].x,dy=particles[i].y-particles[j].y,d=Math.sqrt(dx*dx+dy*dy);if(d<150){ctx.save();ctx.globalAlpha=(1-d/150)*0.15;ctx.strokeStyle='hsl(190,70%,50%)';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(particles[i].x,particles[i].y);ctx.lineTo(particles[j].x,particles[j].y);ctx.stroke();ctx.restore();}}particles.forEach(p=>{p.update();p.draw();});requestAnimationFrame(animate);})();
+    (function animate(){ctx.clearRect(0,0,canvas.width,canvas.height);for(let i=0;i<particles.length;i++)for(let j=i+1;j<particles.length;j++){const dx=particles[i].x-particles[j].x,dy=particles[i].y-particles[j].y,d=Math.sqrt(dx*dx+dy*dy);if(d<150){ctx.save();ctx.globalAlpha=(1-d/150)*0.15;ctx.strokeStyle='rgb(202,137,93)';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(particles[i].x,particles[i].y);ctx.lineTo(particles[j].x,particles[j].y);ctx.stroke();ctx.restore();}}particles.forEach(p=>{p.update();p.draw();});requestAnimationFrame(animate);})();
     const io=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('visible');}),{threshold:0.1,rootMargin:'0px 0px -60px 0px'});
     document.querySelectorAll('.fade-in-section,.res-heading,.res-list,.stats-row').forEach(el=>io.observe(el));
 </script>
+<script src="../assets/sioa-archive.js"></script>
 </body>
 </html>

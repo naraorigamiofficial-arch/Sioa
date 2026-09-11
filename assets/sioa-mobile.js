@@ -1,0 +1,58 @@
+(function () {
+  const asset = new URL(document.currentScript.src);
+  const root = new URL('../', asset);
+  const css = document.createElement('link');
+  css.rel = 'stylesheet';
+  css.href = new URL('sioa-mobile.css', asset).href;
+  document.head.appendChild(css);
+  const bar = document.createElement('div');
+  bar.className = 'sioa-mobilebar';
+  const logo = document.createElement('a');
+  logo.href = root.href;
+  logo.textContent = 'SIOA';
+  logo.setAttribute('aria-label', 'SIOA home');
+  const toggle = document.createElement('button');
+  toggle.type = 'button';
+  toggle.textContent = 'Menu';
+  toggle.setAttribute('aria-expanded', 'false');
+  toggle.setAttribute('aria-controls', 'sioaMobileDialog');
+  bar.append(logo, toggle);
+  const dialog = document.createElement('dialog');
+  dialog.id = 'sioaMobileDialog';
+  dialog.className = 'sioa-mobile-dialog';
+  dialog.setAttribute('aria-label', 'Site navigation');
+  const heading = document.createElement('div');
+  heading.className = 'sioa-menu-heading';
+  const mark = document.createElement('strong');
+  mark.textContent = 'SIOA';
+  const close = document.createElement('button');
+  close.type = 'button';
+  close.textContent = 'Close';
+  heading.append(mark, close);
+  const nav = document.createElement('nav');
+  nav.setAttribute('aria-label', 'Mobile navigation');
+  const links = [ ['Home','index.html'], ['Artists','net/index.html'], ['Competition','Vagh2026/about.html'], ['Magazine','Blog/index.html'], ['About SIOA','index.html#about'], ['My account','login/app/loggedin.html'] ];
+  if (location.pathname.toLowerCase().includes('vagh2026')) links.splice(3,0,['Competition entries','Vagh2026/gallery.html'],['Leaderboard','Vagh2026/leaderboard.html']);
+  links.forEach(([text, path]) => {
+    const a=document.createElement('a');a.textContent=text;a.href=new URL(path,root).href;
+    if(a.pathname===location.pathname && !a.hash)a.setAttribute('aria-current','page');
+    nav.appendChild(a);
+  });
+  dialog.append(heading, nav);
+  const originalLanguage=document.getElementById('sioaLanguage');
+  if(originalLanguage){
+    const label=document.createElement('label');label.className='sioa-menu-language';label.textContent='Language';
+    const select=originalLanguage.cloneNode(true);select.id='sioaMobileLanguage';
+    select.value=originalLanguage.value;
+    select.addEventListener('change',()=>{originalLanguage.value=select.value;originalLanguage.dispatchEvent(new Event('change',{bubbles:true}));});
+    label.appendChild(select);dialog.appendChild(label);
+  }
+  document.body.append(bar,dialog);
+  let previousOverflow='';
+  toggle.addEventListener('click',()=>{previousOverflow=document.body.style.overflow;dialog.showModal();document.body.style.overflow='hidden';toggle.setAttribute('aria-expanded','true');});
+  close.addEventListener('click',()=>dialog.close());
+  nav.addEventListener('click',event=>{if(event.target.closest('a'))dialog.close();});
+  dialog.addEventListener('click',event=>{if(event.target===dialog && event.clientY>dialog.getBoundingClientRect().bottom)dialog.close();});
+  dialog.addEventListener('close',()=>{document.body.style.overflow=previousOverflow;toggle.setAttribute('aria-expanded','false');toggle.focus({preventScroll:true});});
+  matchMedia('(max-width:920px)').addEventListener('change',event=>{if(!event.matches && dialog.open)dialog.close();});
+})();

@@ -1,0 +1,1032 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Noto+Sans:wght@400;500;600&family=Noto+Serif+Devanagari:wght@400;500;600&family=Noto+Serif+Tamil:wght@400;500;600&family=Noto+Serif+Telugu:wght@400;500;600&display=swap');
+
+:root {
+  --sioa-paper: #220204;
+  --sioa-paper-deep: rgba(37, 3, 6, .84);
+  --sioa-surface-soft: rgba(43, 5, 8, .66);
+  --sioa-ink: #f0d0c2;
+  --sioa-ink-strong: #f8dfd4;
+  --sioa-burgundy: #7d2036;
+  --sioa-burgundy-dark: #f8dfd4;
+  --sioa-saffron: #ca895d;
+  --sioa-muted: #c39b94;
+  --sioa-line: rgba(226, 177, 157, .24);
+  --sioa-line-strong: rgba(226, 177, 157, .46);
+}
+
+html {
+  min-height: 100%;
+  background: var(--sioa-paper) !important;
+}
+
+body {
+  min-height: 100vh;
+  background: transparent !important;
+  color: var(--sioa-ink) !important;
+  isolation: isolate;
+}
+
+body::before,
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+}
+
+body::before {
+  z-index: 0;
+  background: url('sioa-constant-bg.png') center top / cover no-repeat !important;
+}
+
+body::after {
+  z-index: 0;
+  background: rgba(27, 1, 3, .28) !important;
+}
+
+body > * {
+  position: relative;
+  z-index: 1;
+}
+
+body.sioa-archive-page {
+  --cyan-blue: var(--sioa-burgundy);
+  --bright-cyan: var(--sioa-saffron);
+  --light-cyan: var(--sioa-ink);
+  --deep-blue: #310509;
+  --navy-blue: var(--sioa-paper);
+  --dark-navy: var(--sioa-paper);
+  --white: var(--sioa-ink-strong);
+  --light-grey: var(--sioa-muted);
+  --border: var(--sioa-line);
+  --card-bg: var(--sioa-paper-deep);
+  --bg: var(--sioa-paper);
+  --surface: var(--sioa-paper-deep);
+  --surface-2: rgba(48, 5, 9, .88);
+  --surface-3: rgba(60, 7, 13, .9);
+  --surface-hi: rgba(60, 7, 13, .92);
+  --panel: var(--sioa-paper-deep);
+  --panel-2: rgba(48, 5, 9, .9);
+  --panel-3: rgba(65, 8, 15, .92);
+  --accent: var(--sioa-saffron);
+  --accent-strong: #dda47d;
+  --accent-bright: var(--sioa-ink);
+  --accent-lo: rgba(202, 137, 93, .08);
+  --accent-mid: rgba(202, 137, 93, .24);
+  --text: var(--sioa-ink-strong);
+  --muted: var(--sioa-muted);
+  --muted-2: rgba(195, 155, 148, .62);
+  --faint: rgba(195, 155, 148, .52);
+  --border-mid: var(--sioa-line-strong);
+  --border-hi: var(--sioa-line-strong);
+  --border-soft: rgba(226, 177, 157, .14);
+  --border-cyan: var(--sioa-line-strong);
+  --cyan: var(--sioa-saffron);
+  --cyan-light: var(--sioa-ink);
+  --cyan-dim: rgba(202, 137, 93, .12);
+  color: var(--sioa-ink) !important;
+  font-family: 'Noto Sans', sans-serif !important;
+  line-height: 1.6;
+}
+
+body.sioa-archive-page #bg-canvas,
+body.sioa-archive-page canvas[aria-hidden='true'] {
+  display: none !important;
+}
+
+body.sioa-archive-page main,
+body.sioa-archive-page section,
+body.sioa-archive-page .page,
+body.sioa-archive-page .hero,
+body.sioa-archive-page .main,
+body.sioa-archive-page .section,
+body.sioa-archive-page .contact-section,
+body.sioa-archive-page .prizes-section,
+body.sioa-archive-page .resource-section,
+body.sioa-archive-page .review-section,
+body.sioa-archive-page .search-section,
+body.sioa-archive-page .page-hero,
+body.sioa-archive-page .page-header,
+body.sioa-archive-page .dashboard,
+body.sioa-archive-page .content-wrap,
+body.sioa-archive-page .page-wrap {
+  background-color: transparent !important;
+  background-image: none !important;
+}
+
+body.sioa-archive-page h1,
+body.sioa-archive-page h2,
+body.sioa-archive-page h3,
+body.sioa-archive-page h4,
+body.sioa-archive-page .title,
+body.sioa-archive-page .hero-title,
+body.sioa-archive-page .page-title,
+body.sioa-archive-page .entry-title,
+body.sioa-archive-page .section-title,
+body.sioa-archive-page .card-title {
+  color: var(--sioa-ink-strong) !important;
+  font-family: 'Cormorant Garamond', Georgia, serif !important;
+  font-weight: 500 !important;
+}
+
+body.sioa-archive-page .hero-title,
+body.sioa-archive-page .page-title {
+  font-size: clamp(3rem, 6vw, 5.6rem) !important;
+  line-height: .96 !important;
+  letter-spacing: -.035em !important;
+}
+
+body.sioa-archive-page p,
+body.sioa-archive-page .bio-text,
+body.sioa-archive-page .description,
+body.sioa-archive-page .article-body {
+  font-size: max(1rem, 1em);
+  line-height: 1.72;
+}
+
+html[lang='hi'] body.sioa-archive-page h1,
+html[lang='hi'] body.sioa-archive-page h2,
+html[lang='mr'] body.sioa-archive-page h1,
+html[lang='mr'] body.sioa-archive-page h2 {
+  font-family: 'Noto Serif Devanagari', serif !important;
+  letter-spacing: 0 !important;
+}
+
+html[lang='ta'] body.sioa-archive-page h1,
+html[lang='ta'] body.sioa-archive-page h2 {
+  font-family: 'Noto Serif Tamil', serif !important;
+  letter-spacing: 0 !important;
+}
+
+html[lang='te'] body.sioa-archive-page h1,
+html[lang='te'] body.sioa-archive-page h2 {
+  font-family: 'Noto Serif Telugu', serif !important;
+  letter-spacing: 0 !important;
+}
+
+body.sioa-archive-page p,
+body.sioa-archive-page li,
+body.sioa-archive-page label,
+body.sioa-archive-page .muted,
+body.sioa-archive-page .description,
+body.sioa-archive-page .card-subtitle,
+body.sioa-archive-page .card-excerpt {
+  color: var(--sioa-muted) !important;
+}
+
+body.sioa-archive-page a {
+  color: inherit;
+}
+
+body.sioa-archive-page nav,
+body.sioa-archive-page .navbar,
+body.sioa-archive-page .topbar,
+body.sioa-archive-page .topbar-nav,
+body.sioa-archive-page .bar-nav,
+body.sioa-archive-page .bar {
+  background: transparent !important;
+  border-color: rgba(226, 177, 157, .16) !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+}
+
+body.sioa-archive-page nav a,
+body.sioa-archive-page nav button,
+body.sioa-archive-page nav .nav-logo,
+body.sioa-archive-page nav .nav-username,
+body.sioa-archive-page .topbar-logo,
+body.sioa-archive-page .topbar-nav a,
+body.sioa-archive-page .navbar a,
+body.sioa-archive-page .bar-logo,
+body.sioa-archive-page .bar-nav a {
+  color: var(--sioa-ink) !important;
+  font-family: 'Cormorant Garamond', Georgia, serif !important;
+  font-weight: 500 !important;
+  letter-spacing: .16em !important;
+  text-transform: uppercase;
+}
+
+body.sioa-archive-page .topbar-nav a,
+body.sioa-archive-page .nav-links a,
+body.sioa-archive-page .navbar .nav-links a,
+body.sioa-archive-page .bar-nav a {
+  background: transparent !important;
+  border-radius: 0 !important;
+}
+
+body.sioa-archive-page .topbar-nav a.active,
+body.sioa-archive-page .nav-links a.active {
+  color: var(--sioa-saffron) !important;
+}
+
+body.sioa-archive-page nav a:hover,
+body.sioa-archive-page nav a:focus-visible,
+body.sioa-archive-page .read-link:hover {
+  color: var(--sioa-saffron) !important;
+}
+
+body.sioa-archive-page .card,
+body.sioa-archive-page .panel,
+body.sioa-archive-page .form-card,
+body.sioa-archive-page .entry-card,
+body.sioa-archive-page .blog-card,
+body.sioa-archive-page .event-card,
+body.sioa-archive-page .diff-card,
+body.sioa-archive-page .skeleton-card,
+body.sioa-archive-page .artist-card,
+body.sioa-archive-page .actions-card,
+body.sioa-archive-page .activity-card,
+body.sioa-archive-page .announcements-card,
+body.sioa-archive-page .details-card,
+body.sioa-archive-page .donate-card,
+body.sioa-archive-page .file-card,
+body.sioa-archive-page .gold-card,
+body.sioa-archive-page .silver-card,
+body.sioa-archive-page .bronze-card,
+body.sioa-archive-page .podium-card,
+body.sioa-archive-page .portfolio-link-card,
+body.sioa-archive-page .prize-card,
+body.sioa-archive-page .profile-card,
+body.sioa-archive-page .side-card,
+body.sioa-archive-page .submission-id-card,
+body.sioa-archive-page .admin-panel,
+body.sioa-archive-page .state-panel,
+body.sioa-archive-page .ws-panel,
+body.sioa-archive-page .guidelines-toggle,
+body.sioa-archive-page .profile-hero-banner,
+body.sioa-archive-page .pc-body,
+body.sioa-archive-page .stat-block,
+body.sioa-archive-page .form-section {
+  background: var(--sioa-paper-deep) !important;
+  border-color: var(--sioa-line) !important;
+  border-radius: 10px !important;
+  box-shadow: none !important;
+  backdrop-filter: blur(9px);
+}
+
+body.sioa-archive-page .card:hover,
+body.sioa-archive-page .blog-card:hover,
+body.sioa-archive-page .entry-card:hover,
+body.sioa-archive-page .event-card:hover {
+  border-color: var(--sioa-line-strong) !important;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+body.sioa-archive-page [class*='card'],
+body.sioa-archive-page [class*='panel'],
+body.sioa-archive-page [class*='banner'],
+body.sioa-archive-page [class*='hero'] {
+  background-image: none !important;
+}
+
+body.sioa-archive-page .guideline-special,
+body.sioa-archive-page .pc-header,
+body.sioa-archive-page .status-open,
+body.sioa-archive-page .status-banner,
+body.sioa-archive-page .philosophy-box,
+body.sioa-archive-page .welcome-banner,
+body.sioa-archive-page .profile-completion,
+body.sioa-archive-page .photo-overlay,
+body.sioa-archive-page .gallery-overlay,
+body.sioa-archive-page .entry-placeholder {
+  background: rgba(39, 3, 7, .9) !important;
+  border-color: var(--sioa-line) !important;
+  border-radius: 10px !important;
+  box-shadow: none !important;
+}
+
+body.sioa-archive-page .gallery-card::after {
+  background: rgba(28, 2, 5, .72) !important;
+}
+
+body.sioa-archive-page .card::before,
+body.sioa-archive-page .card::after,
+body.sioa-archive-page .blog-card::before,
+body.sioa-archive-page .blog-card::after,
+body.sioa-archive-page .entry-card::before,
+body.sioa-archive-page .entry-card::after,
+body.sioa-archive-page .artist-card::before,
+body.sioa-archive-page .artist-card::after,
+body.sioa-archive-page .profile-hero-banner::before,
+body.sioa-archive-page .action-btn::before,
+body.sioa-archive-page .hero::before,
+body.sioa-archive-page .hero::after {
+  background: none !important;
+  box-shadow: none !important;
+}
+
+body.sioa-archive-page .card-band,
+body.sioa-archive-page .progress-bar,
+body.sioa-archive-page .beta-banner,
+body.sioa-archive-page .divider-line,
+body.sioa-archive-page .section-divider,
+body.sioa-archive-page .skel-line,
+body.sioa-archive-page .skeleton-line {
+  background: var(--sioa-line) !important;
+}
+
+body.sioa-archive-page .nav-links a::after,
+body.sioa-archive-page .action-btn::after,
+body.sioa-archive-page .artist-card::before {
+  background: var(--sioa-saffron) !important;
+}
+
+body.sioa-archive-page .entry-strip,
+body.sioa-archive-page .lb-thumb-strip {
+  background: rgba(28, 2, 5, .86) !important;
+}
+
+body.sioa-archive-page table,
+body.sioa-archive-page thead,
+body.sioa-archive-page tbody,
+body.sioa-archive-page tr,
+body.sioa-archive-page th,
+body.sioa-archive-page td {
+  border-color: var(--sioa-line) !important;
+}
+
+body.sioa-archive-page th {
+  color: var(--sioa-ink-strong) !important;
+  background: rgba(38, 3, 6, .9) !important;
+}
+
+body.sioa-archive-page td,
+body.sioa-archive-page tr {
+  background: rgba(35, 2, 5, .62) !important;
+  color: var(--sioa-muted) !important;
+}
+
+body.sioa-archive-page input,
+body.sioa-archive-page textarea,
+body.sioa-archive-page select {
+  min-height: 44px;
+  background: rgba(29, 2, 5, .82) !important;
+  color: var(--sioa-ink) !important;
+  border-color: var(--sioa-line-strong) !important;
+  border-radius: 8px !important;
+  box-shadow: none !important;
+}
+
+body.sioa-archive-page input::placeholder,
+body.sioa-archive-page textarea::placeholder {
+  color: rgba(195, 155, 148, .58) !important;
+}
+
+body.sioa-archive-page input:focus,
+body.sioa-archive-page textarea:focus,
+body.sioa-archive-page select:focus {
+  border-color: var(--sioa-saffron) !important;
+  outline: none !important;
+}
+
+body.sioa-archive-page button,
+body.sioa-archive-page .btn,
+body.sioa-archive-page .button,
+body.sioa-archive-page input[type='submit'],
+body.sioa-archive-page [class^='btn-'],
+body.sioa-archive-page [class*=' btn-'],
+body.sioa-archive-page .nav-cta,
+body.sioa-archive-page .action-btn {
+  min-height: 42px;
+  background: rgba(87, 10, 22, .9) !important;
+  color: var(--sioa-ink-strong) !important;
+  border-color: var(--sioa-line-strong) !important;
+  border-radius: 8px !important;
+  box-shadow: none !important;
+}
+
+body.sioa-archive-page button:hover,
+body.sioa-archive-page .btn:hover,
+body.sioa-archive-page .button:hover,
+body.sioa-archive-page [class^='btn-']:hover,
+body.sioa-archive-page [class*=' btn-']:hover,
+body.sioa-archive-page .action-btn:hover {
+  border-color: var(--sioa-saffron) !important;
+  color: #ffe9de !important;
+  box-shadow: none !important;
+}
+
+body.sioa-archive-page .primary,
+body.sioa-archive-page .btn-primary,
+body.sioa-archive-page .btn-submit,
+body.sioa-archive-page .btn-donate,
+body.sioa-archive-page .btn-donate-main,
+body.sioa-archive-page .btn-next-step {
+  background: var(--sioa-saffron) !important;
+  color: #260305 !important;
+  border-color: var(--sioa-saffron) !important;
+}
+
+body.sioa-archive-page .primary:hover,
+body.sioa-archive-page .btn-primary:hover,
+body.sioa-archive-page .btn-submit:hover,
+body.sioa-archive-page .btn-donate:hover,
+body.sioa-archive-page .btn-donate-main:hover,
+body.sioa-archive-page .btn-next-step:hover {
+  background: #dda47d !important;
+  color: #190103 !important;
+  border-color: #dda47d !important;
+}
+
+body.sioa-archive-page [class*='pill'],
+body.sioa-archive-page [class*='badge'],
+body.sioa-archive-page [class*='tag'],
+body.sioa-archive-page .filter-btn,
+body.sioa-archive-page .status-chip {
+  border-radius: 6px !important;
+}
+
+body.sioa-archive-page svg:not(.sioa-motif svg) {
+  color: var(--sioa-saffron);
+}
+
+body.sioa-archive-page .card-icon svg,
+body.sioa-archive-page .info-icon svg,
+body.sioa-archive-page .search-icon svg,
+body.sioa-archive-page .upload-icon svg,
+body.sioa-archive-page .nav-icon svg,
+body.sioa-archive-page .resource-icon svg,
+body.sioa-archive-page .ri-icon svg {
+  stroke: var(--sioa-saffron) !important;
+}
+
+body.sioa-archive-page [class*='avatar'],
+body.sioa-archive-page [class*='-av'],
+body.sioa-archive-page .author-dot {
+  background: var(--sioa-burgundy) !important;
+  box-shadow: none !important;
+}
+
+body.sioa-archive-page [class*='glow'],
+body.sioa-archive-page #cursor-light {
+  display: none !important;
+}
+
+body.sioa-archive-page :focus-visible {
+  outline: 2px solid var(--sioa-saffron) !important;
+  outline-offset: 3px;
+}
+
+body.sioa-archive-page ::selection {
+  background: var(--sioa-saffron);
+  color: #260305;
+}
+
+.sioa-controls {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.sioa-language,
+.sioa-sound {
+  min-height: 34px;
+  padding: 6px 9px;
+  color: var(--sioa-ink) !important;
+  background: rgba(29, 2, 5, .76) !important;
+  border: 1px solid var(--sioa-line) !important;
+  border-radius: 6px !important;
+  font: 500 .72rem/1 'Cormorant Garamond', Georgia, serif !important;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+
+.sioa-sound { cursor: pointer; }
+
+.sioa-sound:hover,
+.sioa-sound:focus-visible,
+.sioa-language:hover,
+.sioa-language:focus-visible {
+  color: var(--sioa-saffron) !important;
+  border-color: var(--sioa-saffron) !important;
+}
+
+.sioa-language option {
+  color: var(--sioa-ink);
+  background: #300508;
+}
+
+.sioa-motif {
+  position: fixed;
+  right: 25px;
+  top: 50%;
+  z-index: 4;
+  width: 62px;
+  height: 62px;
+  color: var(--sioa-saffron);
+  pointer-events: none;
+  opacity: .34;
+}
+
+.sioa-motif svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.sioa-motif path,
+.sioa-motif circle,
+.sioa-motif rect {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.1;
+  vector-effect: non-scaling-stroke;
+}
+
+.sioa-motif .motif-core {
+  transform-origin: center;
+  animation: sioaMotif 12s ease-in-out infinite;
+}
+
+@keyframes sioaMotif {
+  0%, 100% { transform: rotate(0) translateY(0); }
+  50% { transform: rotate(8deg) translateY(-7px); }
+}
+
+body[data-sioa-page='competition'] .sioa-motif { transform: rotate(45deg); }
+body[data-sioa-page='artists'] .sioa-motif { color: #d8a08d; }
+body[data-sioa-page='journal'] .sioa-motif { color: var(--sioa-saffron); }
+body[data-sioa-page='account'] .sioa-motif { color: var(--sioa-ink); opacity: .28; }
+
+@media (max-width: 700px) {
+  body::before { background-position: center top !important; }
+  body.sioa-archive-page .hero-title,
+  body.sioa-archive-page .page-title { font-size: clamp(2.6rem, 13vw, 4.4rem) !important; }
+  .sioa-controls { gap: 6px; }
+  .sioa-language,
+  .sioa-sound { min-height: 32px; padding: 5px 7px; font-size: .6rem !important; }
+  .sioa-motif { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sioa-motif .motif-core { animation: none; }
+}
+
+/* Unified museum archive system */
+body.sioa-archive-page {
+  font-size: 16px;
+}
+
+body.sioa-archive-page .topbar,
+body.sioa-archive-page .navbar,
+body.sioa-archive-page .bar {
+  min-height: 72px;
+  border-bottom: 1px solid rgba(226, 177, 157, .18) !important;
+}
+
+body.sioa-archive-page .topbar-inner,
+body.sioa-archive-page .nav-container,
+body.sioa-archive-page .bar-inner {
+  width: min(100%, 1320px);
+  margin-inline: auto;
+}
+
+body.sioa-archive-page .topbar-logo,
+body.sioa-archive-page .nav-logo,
+body.sioa-archive-page .bar-logo,
+body.sioa-archive-page .topbar-title {
+  color: var(--sioa-ink-strong) !important;
+  font-family: 'Cormorant Garamond', Georgia, serif !important;
+  font-size: 1.08rem !important;
+  font-weight: 600 !important;
+  letter-spacing: .24em !important;
+  text-transform: uppercase;
+}
+
+body.sioa-archive-page .topbar-brand {
+  color: var(--sioa-ink-strong) !important;
+  text-decoration: none;
+}
+
+body.sioa-archive-page .competition-return {
+  color: var(--sioa-muted) !important;
+  font-family: 'Cormorant Garamond', Georgia, serif !important;
+  font-size: .78rem;
+  font-weight: 600;
+  letter-spacing: .18em;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+body.sioa-archive-page .competition-return:hover {
+  color: var(--sioa-saffron) !important;
+}
+
+body.sioa-archive-page .card,
+body.sioa-archive-page .panel,
+body.sioa-archive-page [class*='-card'],
+body.sioa-archive-page [class*='-panel'],
+body.sioa-archive-page .lb-table,
+body.sioa-archive-page .state-msg,
+body.sioa-archive-page .excluded-note,
+body.sioa-archive-page .identity,
+body.sioa-archive-page .account-block {
+  background: rgba(39, 3, 7, .76) !important;
+  border: 1px solid var(--sioa-line) !important;
+  border-radius: 5px !important;
+  box-shadow: none !important;
+  backdrop-filter: blur(8px);
+}
+
+body.sioa-archive-page button,
+body.sioa-archive-page .btn,
+body.sioa-archive-page [class^='btn-'],
+body.sioa-archive-page [class*=' btn-'],
+body.sioa-archive-page .action-btn,
+body.sioa-archive-page .nav-cta {
+  border-radius: 5px !important;
+}
+
+body.sioa-archive-page .page-header,
+body.sioa-archive-page .welcome-header,
+body.sioa-archive-page .hero {
+  border-bottom: 1px solid var(--sioa-line);
+}
+
+body.sioa-archive-page .page-eyebrow,
+body.sioa-archive-page .welcome-eyebrow,
+body.sioa-archive-page .hero-eyebrow,
+body.sioa-archive-page .ws-eyebrow,
+body.sioa-archive-page .section-label {
+  color: var(--sioa-saffron) !important;
+  font-family: 'Noto Sans', sans-serif !important;
+  font-size: .72rem !important;
+  font-weight: 600 !important;
+  letter-spacing: .24em !important;
+  text-transform: uppercase;
+}
+
+body[data-sioa-page='competition'] .hero {
+  max-width: 1180px;
+  margin-inline: auto;
+  padding: clamp(42px, 7vw, 86px) 24px 30px;
+}
+
+body[data-sioa-page='competition'] .hero h1 {
+  color: var(--sioa-ink-strong) !important;
+  font-family: 'Cormorant Garamond', Georgia, serif !important;
+  font-size: clamp(3rem, 6vw, 5.4rem) !important;
+  font-weight: 500 !important;
+  line-height: .96 !important;
+  letter-spacing: -.02em !important;
+}
+
+body[data-sioa-page='competition'] .hero p {
+  max-width: 62ch;
+  margin-top: 14px;
+  color: var(--sioa-muted) !important;
+}
+
+body[data-sioa-page='competition'] .wrap {
+  width: min(100%, 1180px);
+  margin-inline: auto;
+  padding-inline: 24px;
+}
+
+body[data-sioa-page='competition'] .podium {
+  gap: 14px;
+  margin-top: 44px;
+}
+
+body[data-sioa-page='competition'] .podium-card {
+  max-width: 300px;
+  padding: 28px 22px !important;
+}
+
+body[data-sioa-page='competition'] .pod-name,
+body[data-sioa-page='competition'] .lb-entry-name {
+  color: var(--sioa-ink-strong) !important;
+  font-family: 'Cormorant Garamond', Georgia, serif !important;
+  font-weight: 600 !important;
+}
+
+body[data-sioa-page='competition'] .lb-head {
+  color: var(--sioa-saffron) !important;
+  border-color: var(--sioa-line) !important;
+  text-transform: uppercase;
+  letter-spacing: .12em;
+}
+
+body[data-sioa-page='competition'] .lb-row {
+  border-color: var(--sioa-line) !important;
+}
+
+body[data-sioa-page='competition'] .lb-row:hover {
+  background: rgba(83, 11, 21, .42) !important;
+}
+
+body[data-sioa-page='competition'] .refresh-btn,
+body[data-sioa-page='competition'] .see-all-btn {
+  font-family: 'Noto Sans', sans-serif !important;
+  letter-spacing: .08em;
+}
+
+body[data-sioa-page='account'] .root {
+  width: min(100%, 1440px);
+  margin-inline: auto;
+}
+
+body[data-sioa-page='account'] .identity {
+  background: rgba(35, 2, 5, .7) !important;
+  border-width: 0 1px 0 0 !important;
+  border-radius: 0 !important;
+}
+
+body[data-sioa-page='account'] .workspace,
+body[data-sioa-page='account'] .ws-head,
+body[data-sioa-page='account'] .ws-body,
+body[data-sioa-page='account'] .shell,
+body[data-sioa-page='account'] .main,
+body[data-sioa-page='account'] .sidebar {
+  background: transparent !important;
+}
+
+body[data-sioa-page='account'] .ws-head {
+  border-color: var(--sioa-line) !important;
+}
+
+body[data-sioa-page='account'] .ws-title,
+body[data-sioa-page='account'] .welcome-title,
+body[data-sioa-page='account'] .page-title {
+  color: var(--sioa-ink-strong) !important;
+  font-family: 'Cormorant Garamond', Georgia, serif !important;
+  font-size: clamp(2.4rem, 4vw, 4.2rem) !important;
+  font-weight: 500 !important;
+  line-height: 1 !important;
+  letter-spacing: -.02em !important;
+}
+
+body[data-sioa-page='account'] .id-nav a,
+body[data-sioa-page='account'] .id-nav button,
+body[data-sioa-page='account'] .ws-tab,
+body[data-sioa-page='account'] .nav-item {
+  border-radius: 4px !important;
+}
+
+body[data-sioa-page='account'] .id-nav a:hover,
+body[data-sioa-page='account'] .id-nav button:hover,
+body[data-sioa-page='account'] .id-nav a.on,
+body[data-sioa-page='account'] .nav-item:hover,
+body[data-sioa-page='account'] .nav-item.active {
+  background: rgba(105, 25, 40, .24) !important;
+  color: var(--sioa-ink-strong) !important;
+}
+
+body[data-sioa-page='account'] .ws-tab.on {
+  color: var(--sioa-saffron) !important;
+  border-bottom-color: var(--sioa-saffron) !important;
+}
+
+@media (max-width: 760px) {
+  body.sioa-archive-page .topbar,
+  body.sioa-archive-page .navbar,
+  body.sioa-archive-page .bar { min-height: 64px; }
+
+  body[data-sioa-page='competition'] .hero,
+  body[data-sioa-page='competition'] .wrap { padding-inline: 18px; }
+
+  body[data-sioa-page='account'] .root { width: 100%; }
+  body[data-sioa-page='account'] .identity { border-right: 0 !important; }
+}
+
+/* Competition entries */
+body[data-sioa-page='competition'] .page-header,
+body[data-sioa-page='competition'] .controls-bar,
+body[data-sioa-page='competition'] .gallery-wrap,
+body[data-sioa-page='competition'] .state-container {
+  width: min(100%, 1240px);
+  margin-inline: auto;
+}
+
+body[data-sioa-page='competition'] .page-header {
+  padding: clamp(48px, 7vw, 86px) 32px 38px;
+}
+
+body[data-sioa-page='competition'] .controls-bar {
+  padding: 22px 32px;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+body[data-sioa-page='competition'] .gallery-wrap {
+  padding: 52px 32px 120px;
+}
+
+body[data-sioa-page='competition'] .gallery-grid,
+body[data-sioa-page='competition'] .loading-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 26px;
+}
+
+body[data-sioa-page='competition'] .entry-card,
+body[data-sioa-page='competition'] .skeleton-card {
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  padding: 0;
+  overflow: hidden;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+}
+
+body[data-sioa-page='competition'] .entry-card:focus-visible {
+  outline: 2px solid var(--sioa-saffron) !important;
+  outline-offset: 5px;
+}
+
+body[data-sioa-page='competition'] .entry-card:focus-visible .entry-strip {
+  opacity: 0;
+}
+
+body[data-sioa-page='competition'] .entry-card:focus-visible .entry-overlay,
+body[data-sioa-page='competition'] .entry-card:focus-visible .entry-difficulty,
+body[data-sioa-page='competition'] .entry-card:focus-visible .overlay-state {
+  opacity: 1;
+  transform: none;
+}
+
+body[data-sioa-page='competition'] .lightbox {
+  padding: 28px;
+  background: rgba(13, 1, 2, .9) !important;
+  backdrop-filter: blur(14px);
+  visibility: hidden;
+}
+
+body[data-sioa-page='competition'] .lightbox.open { visibility: visible; }
+
+body[data-sioa-page='competition'] .lb-inner {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 370px;
+  width: min(1240px, 96vw);
+  height: min(820px, calc(100vh - 56px));
+  max-width: none;
+  max-height: none;
+  background: rgba(35, 2, 5, .97) !important;
+  border: 1px solid var(--sioa-line-strong) !important;
+  border-radius: 5px !important;
+  box-shadow: 0 28px 90px rgba(0, 0, 0, .42) !important;
+}
+
+body[data-sioa-page='competition'] .lb-image-side {
+  min-width: 0;
+  min-height: 0;
+  background: rgba(16, 1, 2, .72) !important;
+}
+
+body[data-sioa-page='competition'] .lb-main-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  max-height: none;
+  padding: 24px;
+  object-fit: contain;
+}
+
+body.competition-gallery .navbar .nav-inner {
+  width: min(100%, 1240px);
+  display: grid;
+  grid-template-columns: auto 1fr auto auto;
+  gap: 28px;
+}
+
+body.competition-gallery .navbar .nav-center {
+  justify-self: center;
+}
+
+body.competition-gallery .navbar .nav-back {
+  justify-self: end;
+}
+
+body.competition-gallery .navbar .sioa-controls {
+  margin-left: 0;
+}
+
+@media (max-width: 900px) {
+  body.competition-gallery .navbar .nav-inner {
+    grid-template-columns: auto 1fr auto;
+    gap: 16px;
+  }
+}
+
+body[data-sioa-page='competition'] .lb-info-side {
+  position: relative;
+  width: auto;
+  min-width: 0;
+  padding: 68px 34px 26px;
+  border-color: var(--sioa-line) !important;
+}
+
+body[data-sioa-page='competition'] .lb-close {
+  top: 20px;
+  right: 20px;
+  width: 40px;
+  height: 40px;
+  min-height: 40px;
+  padding: 0;
+  border-radius: 50% !important;
+}
+
+body[data-sioa-page='competition'] .lb-nav {
+  width: 44px;
+  height: 44px;
+  min-height: 44px;
+  padding: 0;
+  border-radius: 50% !important;
+}
+
+body[data-sioa-page='competition'] .lb-help {
+  display: flex;
+  justify-content: space-between;
+  gap: 18px;
+  margin-top: auto;
+  padding-top: 18px;
+  border-top: 1px solid var(--sioa-line);
+  color: var(--sioa-muted);
+  font-size: .7rem;
+  letter-spacing: .08em;
+}
+
+body[data-sioa-page='competition'] .lb-thumb-strip {
+  gap: 9px;
+  padding: 14px 18px;
+}
+
+body[data-sioa-page='competition'] .lb-thumb-button {
+  width: 58px;
+  height: 58px;
+  min-height: 58px;
+  flex: 0 0 58px;
+  padding: 0;
+  overflow: hidden;
+  background: rgba(35, 2, 5, .82) !important;
+  border: 1px solid transparent !important;
+  border-radius: 4px !important;
+}
+
+body[data-sioa-page='competition'] .lb-thumb {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  border-radius: 3px;
+  opacity: .58;
+}
+
+body[data-sioa-page='competition'] .lb-thumb-button.active {
+  border-color: var(--sioa-saffron) !important;
+}
+
+body[data-sioa-page='competition'] .lb-thumb-button.active .lb-thumb,
+body[data-sioa-page='competition'] .lb-thumb-button:hover .lb-thumb {
+  opacity: 1;
+}
+
+@media (max-width: 980px) {
+  body[data-sioa-page='competition'] .gallery-grid,
+  body[data-sioa-page='competition'] .loading-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+  }
+
+  body[data-sioa-page='competition'] .lb-inner {
+    grid-template-columns: 1fr;
+    grid-template-rows: minmax(48vh, 1fr) auto;
+    overflow-y: auto;
+  }
+
+  body[data-sioa-page='competition'] .lb-info-side {
+    width: 100%;
+    max-height: none;
+    border-left: 0 !important;
+    border-top: 1px solid var(--sioa-line) !important;
+  }
+}
+
+@media (max-width: 560px) {
+  body[data-sioa-page='competition'] .page-header,
+  body[data-sioa-page='competition'] .controls-bar,
+  body[data-sioa-page='competition'] .gallery-wrap,
+  body[data-sioa-page='competition'] .state-container {
+    padding-left: 18px;
+    padding-right: 18px;
+  }
+
+  body[data-sioa-page='competition'] .gallery-grid,
+  body[data-sioa-page='competition'] .loading-grid {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+
+  body[data-sioa-page='competition'] .lightbox { padding: 0; }
+  body[data-sioa-page='competition'] .lb-inner {
+    width: 100vw;
+    height: 100svh;
+    max-height: none;
+    border: 0 !important;
+    border-radius: 0 !important;
+  }
+  body[data-sioa-page='competition'] .lb-info-side { padding: 62px 22px 24px; }
+  body[data-sioa-page='competition'] .lb-help { display: none; }
+}
