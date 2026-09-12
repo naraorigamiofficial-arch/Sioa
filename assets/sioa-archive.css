@@ -996,7 +996,7 @@ body[data-sioa-page='competition'] .lb-thumb-button {
   border-radius: 4px !important;
 }
 
-body[data-sioa-page='competition'] .lb-thumb {
+body[data-sioa-page='competition'] .lb-thumb-button .lb-thumb {
   width: 100%;
   height: 100%;
   border: 0;

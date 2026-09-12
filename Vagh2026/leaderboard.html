@@ -179,12 +179,14 @@ button{font-family:inherit;}
 .lb-rank{font-family:'JetBrains Mono',monospace;font-weight:700;color:var(--faint);font-size:14px;}
 .lb-rank.top{color:var(--text);}
 .lb-entry{display:flex;align-items:center;gap:11px;min-width:0;}
-.lb-thumb{width:38px;height:38px;border-radius:8px;object-fit:cover;flex-shrink:0;background:#210205;border:1px solid var(--border-soft);}
-.lb-thumb-fallback{width:38px;height:38px;border-radius:8px;flex-shrink:0;background:#35050a;border:1px solid var(--border-soft);}
+.lb-thumb{width:54px;height:54px;border-radius:5px;object-fit:cover;flex:0 0 54px;background:#210205;border:1px solid var(--border-soft);}
+.lb-thumb-fallback{width:54px;height:54px;border-radius:5px;flex:0 0 54px;background:#35050a;border:1px solid var(--border-soft);}
 .lb-entry-text{display:block;flex:1;min-width:0;overflow:hidden;}
 .lb-entry-name{font-size:14px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 .lb-entry-tag{font-size:11.5px;color:var(--faint);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 .lb-entry-people{font-size:11.5px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.lb-entry-credit{display:block;font-size:11.5px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.45;}
+.lb-entry-credit b{color:var(--text);font-weight:600;}
 .lb-judge{font-size:13px;color:var(--muted);font-family:'JetBrains Mono',monospace;text-align:center;}
 .lb-judge.pending{color:var(--faint);}
 .lb-final{font-size:15.5px;font-weight:800;text-align:right;font-family:'JetBrains Mono',monospace;}
@@ -305,11 +307,11 @@ function weightedTotal(scoreRow) {
 function dynamicCopy(key, values = {}) {
   const language = localStorage.getItem("sioa-language") || "en";
   const copy = {
-    en: { foldedBy:"Folded by", designBy:"Design by", judgesScored:"{count} of {total} judges scored", updated:"Updated {time}", untitled:"Untitled", noMatch:"No entries match your search.", hideList:"Hide full list", seeEntries:"See all entries", underReview:"{count} entries are currently under review and not shown on the leaderboard.", disqualified:"{count} entries were disqualified and not shown on the leaderboard.", disqualifiedReason:"{count} entries were disqualified ({reason}) and not shown on the leaderboard." },
-    hi: { foldedBy:"तहकर्ता", designBy:"रचनाकार", judgesScored:"{total} में से {count} निर्णायकों ने अंक दिए", updated:"अपडेट {time}", untitled:"शीर्षकहीन", noMatch:"आपकी खोज से कोई प्रविष्टि नहीं मिली।", hideList:"पूरी सूची छिपाएँ", seeEntries:"सभी प्रविष्टियाँ देखें", underReview:"{count} प्रविष्टियाँ अभी समीक्षा में हैं और अंक तालिका में नहीं दिखाई गई हैं।", disqualified:"{count} प्रविष्टियाँ अयोग्य ठहराई गईं और अंक तालिका में नहीं दिखाई गईं।", disqualifiedReason:"{count} प्रविष्टियाँ अयोग्य ठहराई गईं ({reason}) और अंक तालिका में नहीं दिखाई गईं।" },
-    ta: { foldedBy:"மடித்தவர்", designBy:"வடிவமைத்தவர்", judgesScored:"{total} நடுவர்களில் {count} பேர் மதிப்பிட்டனர்", updated:"புதுப்பிக்கப்பட்டது {time}", untitled:"தலைப்பிடப்படாதது", noMatch:"உங்கள் தேடலுக்கு எந்தப் படைப்பும் பொருந்தவில்லை.", hideList:"முழுப் பட்டியலை மறைக்கவும்", seeEntries:"அனைத்து படைப்புகளையும் பார்க்கவும்", underReview:"{count} படைப்புகள் தற்போது பரிசீலனையில் உள்ளன, தரவரிசையில் காட்டப்படவில்லை.", disqualified:"{count} படைப்புகள் தகுதி நீக்கம் செய்யப்பட்டதால் தரவரிசையில் காட்டப்படவில்லை.", disqualifiedReason:"{count} படைப்புகள் தகுதி நீக்கம் செய்யப்பட்டன ({reason}), தரவரிசையில் காட்டப்படவில்லை." },
-    te: { foldedBy:"మడిచినవారు", designBy:"రూపకర్త", judgesScored:"{total} మందిలో {count} న్యాయనిర్ణేతలు స్కోరు ఇచ్చారు", updated:"తాజాకరణ {time}", untitled:"శీర్షిక లేనిది", noMatch:"మీ శోధనకు సరిపోయే సమర్పణలు లేవు.", hideList:"పూర్తి జాబితాను దాచండి", seeEntries:"అన్ని సమర్పణలు చూడండి", underReview:"{count} సమర్పణలు ప్రస్తుతం సమీక్షలో ఉన్నాయి, ర్యాంకుల పట్టికలో చూపబడలేదు.", disqualified:"{count} సమర్పణలు అనర్హమైనందున ర్యాంకుల పట్టికలో చూపబడలేదు.", disqualifiedReason:"{count} సమర్పణలు అనర్హమయ్యాయి ({reason}), ర్యాంకుల పట్టికలో చూపబడలేదు." },
-    mr: { foldedBy:"घडीकार", designBy:"रचनाकार", judgesScored:"{total} पैकी {count} परीक्षकांनी गुण दिले", updated:"अद्ययावत {time}", untitled:"शीर्षक नसलेले", noMatch:"तुमच्या शोधाशी कोणतीही प्रवेशिका जुळली नाही.", hideList:"पूर्ण यादी लपवा", seeEntries:"सर्व प्रवेशिका पाहा", underReview:"{count} प्रवेशिका सध्या परीक्षणात आहेत आणि गुणतालिकेत दाखवलेल्या नाहीत.", disqualified:"{count} प्रवेशिका अपात्र ठरल्या आणि गुणतालिकेत दाखवलेल्या नाहीत.", disqualifiedReason:"{count} प्रवेशिका अपात्र ठरल्या ({reason}) आणि गुणतालिकेत दाखवलेल्या नाहीत." }
+    en: { foldedBy:"Folded by", designBy:"Design by", model:"Model", folder:"Folder", designer:"Designer", notProvided:"Not provided", judgesScored:"{count} of {total} judges scored", updated:"Updated {time}", untitled:"Untitled", noMatch:"No entries match your search.", hideList:"Hide full list", seeEntries:"See all entries", underReview:"{count} entries are currently under review and not shown on the leaderboard.", disqualified:"{count} entries were disqualified and not shown on the leaderboard.", disqualifiedReason:"{count} entries were disqualified ({reason}) and not shown on the leaderboard." },
+    hi: { foldedBy:"तहकर्ता", designBy:"रचनाकार", model:"मॉडल", folder:"तहकर्ता", designer:"रचनाकार", notProvided:"उपलब्ध नहीं", judgesScored:"{total} में से {count} निर्णायकों ने अंक दिए", updated:"अपडेट {time}", untitled:"शीर्षकहीन", noMatch:"आपकी खोज से कोई प्रविष्टि नहीं मिली।", hideList:"पूरी सूची छिपाएँ", seeEntries:"सभी प्रविष्टियाँ देखें", underReview:"{count} प्रविष्टियाँ अभी समीक्षा में हैं और अंक तालिका में नहीं दिखाई गई हैं।", disqualified:"{count} प्रविष्टियाँ अयोग्य ठहराई गईं और अंक तालिका में नहीं दिखाई गईं।", disqualifiedReason:"{count} प्रविष्टियाँ अयोग्य ठहराई गईं ({reason}) और अंक तालिका में नहीं दिखाई गईं।" },
+    ta: { foldedBy:"மடித்தவர்", designBy:"வடிவமைத்தவர்", model:"மாதிரி", folder:"மடித்தவர்", designer:"வடிவமைப்பாளர்", notProvided:"வழங்கப்படவில்லை", judgesScored:"{total} நடுவர்களில் {count} பேர் மதிப்பிட்டனர்", updated:"புதுப்பிக்கப்பட்டது {time}", untitled:"தலைப்பிடப்படாதது", noMatch:"உங்கள் தேடலுக்கு எந்தப் படைப்பும் பொருந்தவில்லை.", hideList:"முழுப் பட்டியலை மறைக்கவும்", seeEntries:"அனைத்து படைப்புகளையும் பார்க்கவும்", underReview:"{count} படைப்புகள் தற்போது பரிசீலனையில் உள்ளன, தரவரிசையில் காட்டப்படவில்லை.", disqualified:"{count} படைப்புகள் தகுதி நீக்கம் செய்யப்பட்டதால் தரவரிசையில் காட்டப்படவில்லை.", disqualifiedReason:"{count} படைப்புகள் தகுதி நீக்கம் செய்யப்பட்டன ({reason}), தரவரிசையில் காட்டப்படவில்லை." },
+    te: { foldedBy:"మడిచినవారు", designBy:"రూపకర్త", model:"మోడల్", folder:"మడిచినవారు", designer:"రూపకర్త", notProvided:"అందించలేదు", judgesScored:"{total} మందిలో {count} న్యాయనిర్ణేతలు స్కోరు ఇచ్చారు", updated:"తాజాకరణ {time}", untitled:"శీర్షిక లేనిది", noMatch:"మీ శోధనకు సరిపోయే సమర్పణలు లేవు.", hideList:"పూర్తి జాబితాను దాచండి", seeEntries:"అన్ని సమర్పణలు చూడండి", underReview:"{count} సమర్పణలు ప్రస్తుతం సమీక్షలో ఉన్నాయి, ర్యాంకుల పట్టికలో చూపబడలేదు.", disqualified:"{count} సమర్పణలు అనర్హమైనందున ర్యాంకుల పట్టికలో చూపబడలేదు.", disqualifiedReason:"{count} సమర్పణలు అనర్హమయ్యాయి ({reason}), ర్యాంకుల పట్టికలో చూపబడలేదు." },
+    mr: { foldedBy:"घडीकार", designBy:"रचनाकार", model:"मॉडेल", folder:"घडीकार", designer:"रचनाकार", notProvided:"उपलब्ध नाही", judgesScored:"{total} पैकी {count} परीक्षकांनी गुण दिले", updated:"अद्ययावत {time}", untitled:"शीर्षक नसलेले", noMatch:"तुमच्या शोधाशी कोणतीही प्रवेशिका जुळली नाही.", hideList:"पूर्ण यादी लपवा", seeEntries:"सर्व प्रवेशिका पाहा", underReview:"{count} प्रवेशिका सध्या परीक्षणात आहेत आणि गुणतालिकेत दाखवलेल्या नाहीत.", disqualified:"{count} प्रवेशिका अपात्र ठरल्या आणि गुणतालिकेत दाखवलेल्या नाहीत.", disqualifiedReason:"{count} प्रवेशिका अपात्र ठरल्या ({reason}) आणि गुणतालिकेत दाखवलेल्या नाहीत." }
   };
   let value = (copy[language] || copy.en)[key] || copy.en[key] || key;
   Object.keys(values).forEach(name => { value = value.replace(`{${name}}`, values[name]); });
@@ -557,9 +559,10 @@ function renderFullList() {
         <span class="lb-entry">
           ${thumb}
           <span class="lb-entry-text">
-            <span class="lb-entry-name">${escapeHtml(sub.model_name || dynamicCopy("untitled"))}</span>
+            <span class="lb-entry-name">${dynamicCopy("model")}: ${escapeHtml(sub.model_name || dynamicCopy("untitled"))}</span>
             <span class="lb-entry-tag">${escapeHtml(sub.submission_id || "")}${sub.entry_number ? " · #" + sub.entry_number : ""}</span>
-            <span class="lb-entry-people">${peopleLine(sub)}</span>
+            <span class="lb-entry-credit">${dynamicCopy("folder")}: <b>${escapeHtml(sub.artist_name || dynamicCopy("notProvided"))}</b></span>
+            <span class="lb-entry-credit">${dynamicCopy("designer")}: <b>${escapeHtml(sub.designer || dynamicCopy("notProvided"))}</b></span>
             <span class="lb-caption">${captionParts}</span>
           </span>
         </span>
