@@ -194,65 +194,60 @@ html,body{min-height:100%;background:var(--bg);color:var(--text);font-family:'DM
 
 /* ── RESPONSIVE ── */
 @media(min-width:901px){
-  body{min-height:100vh;padding:0 40px 88px}
-  .root{display:block;width:min(1180px,100%);min-height:calc(100vh - 132px);margin:116px auto 0;padding-top:0}
-  .identity{position:relative;top:auto;width:100%;height:auto;display:grid;grid-template-columns:minmax(340px,1fr) auto;grid-template-areas:'member action' 'localnav localnav';align-items:center;border:0;border-bottom:1px solid rgba(202,137,93,.22);background:transparent;overflow:visible}
-  .id-avatar-zone{grid-area:member;flex-direction:row;align-items:center;text-align:left;padding:0 0 32px;border:0;gap:20px}
-  .big-av{width:76px;height:76px;font-size:27px}
-  .id-name{font-size:24px}
-  .id-handle{font-size:13px;margin-top:4px}
-  .id-loc{font-size:13px;margin-top:5px}
+  body{min-height:100vh;padding:0 24px 72px}
+  body.sioa-archive-page[data-sioa-page='account'] .root{display:block;width:min(860px,calc(100% - 48px))!important;min-height:0;margin:112px auto 0;padding:0!important}
+  body.sioa-archive-page[data-sioa-page='account'] .identity{position:relative;top:auto;width:100%!important;height:auto;display:grid;grid-template-columns:minmax(0,1fr) auto;grid-template-areas:'member action' 'localnav localnav';align-items:center;margin:0;background:rgba(38,3,7,.84)!important;border:1px solid var(--border-hi)!important;border-radius:8px 8px 0 0!important;overflow:visible}
+  .id-avatar-zone{grid-area:member;flex-direction:row;align-items:center;text-align:left;padding:26px 30px;border:0;gap:18px}
+  .big-av{width:64px;height:64px;font-size:23px}
+  .id-name{font-size:21px}
+  .id-handle{font-size:13px;margin-top:3px}
+  .id-loc{font-size:12px;margin-top:4px}
   .id-badge,.id-progress{display:none}
-  .id-nav{grid-area:localnav;flex-direction:row;align-items:center;padding:0;gap:30px;border-top:1px solid var(--border)}
-  .id-nav-section,.id-spacer,.id-divider,.id-nav>a[href='/net/index.html'],.id-nav>a[href='/Vagh2026/about.html'],.id-nav>a[href='/Vagh2026/submission.html']{display:none}
-  .id-nav a,.id-nav button{width:auto;min-height:54px;padding:0 2px;border-radius:0;border-bottom:1px solid transparent;background:transparent!important;font-family:'Cormorant Garamond',Georgia,serif;font-size:14px;letter-spacing:.1em;text-transform:uppercase}
+  .pub-link{grid-area:action;width:auto;min-height:38px;margin:0 30px 0 0;padding:8px 14px;border-radius:5px;font-size:12px}
+  .id-nav{grid-area:localnav;flex-direction:row;align-items:center;padding:0 28px;gap:24px;border-top:1px solid var(--border)}
+  .id-nav-section,.id-spacer,.id-divider,.id-nav .danger-link,.id-nav>a[href='/net/index.html'],.id-nav>a[href='/Vagh2026/about.html'],.id-nav>a[href='/Vagh2026/submission.html']{display:none}
+  .id-nav a{width:auto;min-height:52px;padding:0 2px;border-radius:0;border-bottom:2px solid transparent;background:transparent!important;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;letter-spacing:.02em;text-transform:none}
   .id-nav a.on{border-bottom-color:var(--accent);color:var(--text)}
-  .id-nav .danger-link{margin-left:auto}
-  .pub-link{grid-area:action;width:auto;min-height:40px;margin:0 0 32px;padding:9px 16px;border-radius:4px;font-size:12px}
-  .workspace{width:100%;max-width:none}
+  body.sioa-archive-page[data-sioa-page='account'] .workspace{width:100%!important;max-width:none!important;margin:0}
   .ws-head{display:none}
-  .ws-body{padding:54px 0 0;background:transparent;border:0;border-radius:0}
-  .section-header{margin-bottom:40px;padding:0 0 30px;border-bottom:1px solid var(--border)}
-  .section-header h3{font-size:30px!important}
-  .section-header p{font-size:14px!important;margin-top:8px!important;color:var(--muted)!important}
-  #tab-profile #profile-form{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:46px 64px}
-  #tab-profile .form-section{margin:0;padding-top:26px;border-top:1px solid rgba(202,137,93,.18)}
-  #tab-profile .form-section:nth-child(1),#tab-profile .form-section:nth-child(2){grid-column:1/-1}
-  #tab-profile .action-bar{grid-column:1/-1}
-  .fs-label{font-size:11px;margin-bottom:24px;gap:14px;color:rgba(202,137,93,.72)}
+  body.sioa-archive-page[data-sioa-page='account'] .ws-body{padding:22px 0 0!important}
+  body.sioa-archive-page[data-sioa-page='account'] .ws-panel{padding:36px 40px 42px;background:rgba(38,3,7,.84)!important;border:1px solid var(--border-hi)!important;border-radius:8px!important;box-shadow:none!important}
+  .section-header{margin-bottom:0;padding:0 0 28px;border-bottom:1px solid var(--border)}
+  .section-header h3{font-size:25px!important}
+  .section-header p{font-size:13px!important;margin-top:6px!important;color:var(--muted)!important}
+  #tab-profile #profile-form{display:block}
+  body.sioa-archive-page[data-sioa-page='account'] #tab-profile .form-section{margin:0;padding:30px 0!important;background:transparent!important;border:0!important;border-bottom:1px solid var(--border)!important;border-radius:0!important}
+  .fs-label{font-size:10.5px;margin-bottom:20px;color:rgba(202,137,93,.76)}
   .fs-label::after{display:none}
-  .field-row{gap:28px;margin-bottom:24px}
-  .field{gap:9px}
-  .field label,.social-field-label{font-size:11px;color:var(--muted)}
-  .field input,.field textarea,.field select{min-height:48px;padding:12px 2px;background:transparent;border:0;border-bottom:1px solid var(--border-hi);border-radius:0;font-size:15px}
-  .field input:hover:not(:disabled),.field textarea:hover:not(:disabled),.field select:hover:not(:disabled){background:rgba(255,255,255,.012);border-bottom-color:rgba(202,137,93,.34)}
-  .field input:focus,.field textarea:focus,.field select:focus{background:rgba(255,255,255,.018);border-bottom-color:var(--accent);box-shadow:none}
-  .field textarea{min-height:150px;line-height:1.7}
-  .spec-wrap{min-height:56px;padding:9px 0 14px;gap:9px;background:transparent;border:0;border-bottom:1px solid var(--border-hi);border-radius:0}
-  .spec-wrap[data-off='false']{background:transparent;border-color:rgba(202,137,93,.35)}
-  .spec-pill{padding:7px 13px;font-size:12px}
-  .portfolio-visibility{min-height:48px;align-items:center;padding:13px 2px;background:transparent;border:0;border-bottom:1px solid var(--border-hi);border-radius:0;font-size:13px}
-  .action-bar{padding-top:28px;margin-top:0}
-  .social-platform-grid{gap:28px}
-  .account-block{padding:26px 0;background:transparent;border-width:1px 0;border-radius:0}
-  body.sioa-archive-page[data-sioa-page='account'] .root{width:min(1180px,calc(100% - 96px))!important}
-  body.sioa-archive-page[data-sioa-page='account'] .identity{width:min(1040px,100%)!important;margin-inline:auto;background:transparent!important;border:0!important;border-bottom:1px solid rgba(202,137,93,.22)!important;border-radius:0!important}
-  body.sioa-archive-page[data-sioa-page='account'] .workspace{width:min(1040px,100%)!important;max-width:1040px!important;margin-inline:auto}
-  body.sioa-archive-page[data-sioa-page='account'] .ws-body{padding:54px 28px 0!important}
-  body.sioa-archive-page[data-sioa-page='account'] .ws-panel{background:transparent!important;border:0!important;border-radius:0!important;box-shadow:none!important}
-  body.sioa-archive-page[data-sioa-page='account'] .section-header{padding-inline:18px}
-  body.sioa-archive-page[data-sioa-page='account'] #tab-profile .form-section{padding:28px 18px 0!important;background:transparent!important;border:0!important;border-top:1px solid rgba(202,137,93,.18)!important;border-radius:0!important}
+  .field-row{gap:18px;margin-bottom:18px}
+  .field{gap:7px}
+  .field label,.social-field-label{font-size:10.5px;color:var(--muted)}
+  .field input,.field textarea,.field select{min-height:46px;padding:11px 13px;background:rgba(24,2,4,.58);border:1px solid var(--border-hi);border-radius:6px;font-size:14px}
+  .field textarea{min-height:120px;line-height:1.6}
+  .spec-wrap{min-height:52px;padding:10px;background:rgba(24,2,4,.58);border:1px solid var(--border-hi);border-radius:6px}
+  .spec-pill{padding:6px 11px;font-size:12px}
+  .portfolio-visibility{min-height:46px;align-items:center;padding:12px 13px;background:rgba(24,2,4,.58);border:1px solid var(--border-hi);border-radius:6px;font-size:13px}
+  .action-bar{padding-top:24px;margin-top:0}
+  .social-platform-grid{gap:18px}
+  .account-block{padding:22px;background:rgba(24,2,4,.58);border:1px solid var(--border-hi);border-radius:6px}
 }
 @media(max-width:900px){
-  .root{flex-direction:column}
-  .identity{width:100%;height:auto;position:static;flex-direction:row;flex-wrap:wrap;border-right:none;border-bottom:1px solid var(--border)}
-  .id-avatar-zone{flex-direction:row;text-align:left;padding:16px;flex:1;border-bottom:none}
-  .id-progress{display:none}
-  .id-nav{flex-direction:row;flex-wrap:wrap;padding:8px 12px;border-top:1px solid var(--border);gap:2px}
-  .id-nav-section,.id-spacer,.id-divider{display:none}
-  .pub-link{margin:8px 12px;padding:6px 12px}
-  .ws-body{padding:24px 20px}
-  .ws-head{padding:20px 20px 0}
+  body.sioa-archive-page[data-sioa-page='account'] .root{display:block;width:100%!important;min-height:0;padding:92px 14px 40px!important}
+  body.sioa-archive-page[data-sioa-page='account'] .identity{position:static;width:100%!important;height:auto;display:flex;flex-direction:column;flex-wrap:nowrap;background:rgba(38,3,7,.86)!important;border:1px solid var(--border-hi)!important;border-radius:8px 8px 0 0!important;overflow:visible}
+  .id-avatar-zone{flex-direction:row;text-align:left;padding:20px;border-bottom:none;gap:15px}
+  .big-av{width:56px;height:56px;font-size:21px}
+  .id-name{font-size:18px}
+  .id-progress,.id-badge{display:none}
+  .pub-link{order:2;margin:0 20px 18px;padding:8px 12px}
+  .id-nav{order:3;flex-direction:row;flex-wrap:nowrap;padding:0 10px;border-top:1px solid var(--border);gap:0}
+  .id-nav-section,.id-spacer,.id-divider,.id-nav .danger-link,.id-nav>a[href='/net/index.html'],.id-nav>a[href='/Vagh2026/about.html'],.id-nav>a[href='/Vagh2026/submission.html']{display:none}
+  .id-nav a{flex:1;justify-content:center;min-width:0;min-height:48px;padding:0 3px;font-size:11.5px;border-radius:0;border-bottom:2px solid transparent;background:transparent!important;white-space:nowrap}
+  .id-nav a svg{display:none}
+  .id-nav a.on{border-bottom-color:var(--accent)}
+  .ws-head{display:none}
+  body.sioa-archive-page[data-sioa-page='account'] .ws-body{padding:14px 0 0!important}
+  body.sioa-archive-page[data-sioa-page='account'] .ws-panel{padding:24px 18px 28px;background:rgba(38,3,7,.86)!important;border:1px solid var(--border-hi)!important;border-radius:8px!important}
+  body.sioa-archive-page[data-sioa-page='account'] .form-section{padding:24px 0!important;background:transparent!important;border:0!important;border-bottom:1px solid var(--border)!important;border-radius:0!important}
   .social-platform-grid{grid-template-columns:1fr}
   .custom-row{grid-template-columns:1fr 1fr auto}
 }
