@@ -3,8 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SIOA | Artist Profile</title>
-    <meta name="robots" content="index, follow">
+    <title>Indian Origami Artist Profile | SIOA</title>
+    <meta name="description" content="View an artist profile from the Society of Indian Origami Artists community directory.">
+    <meta name="robots" content="index,follow,max-image-preview:large">
+    <link rel="canonical" href="https://sioa.art/artists/">
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <meta property="og:type" content="profile"><meta property="og:site_name" content="SIOA"><meta property="og:locale" content="en_IN">
+    <meta property="og:title" content="Indian Origami Artist Profile | SIOA"><meta property="og:description" content="An artist profile from the Society of Indian Origami Artists community directory.">
+    <meta property="og:url" content="https://sioa.art/artists/"><meta property="og:image" content="https://sioa.art/assets/og-image.png">
+    <meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https://sioa.art/assets/og-image.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -1046,6 +1053,7 @@
 <div class="toast" id="toast"></div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="../assets/sioa-seo.js"></script>
 <script>
 (function(){
 'use strict';
@@ -1146,7 +1154,7 @@ async function boot() {
     renderTopbar();
 
     const isOwner = currentUserId && currentUserId === profile.id;
-    document.title = (profile.full_name || profile.username) + ' | SIOA Artist';
+    window.SIOASeo.profile(profile);
 
     renderHero(profile, isOwner);
     renderBio(profile);

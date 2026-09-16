@@ -1,0 +1,17 @@
+{
+  "name": "Society of Indian Origami Artists",
+  "short_name": "SIOA",
+  "description": "The national community for origami artists, designers, folders, teachers and enthusiasts across India.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#1b0305",
+  "theme_color": "#310509",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

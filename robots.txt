@@ -1,5 +1,9 @@
 User-agent: *
 Allow: /
 Disallow: /draft/
+Disallow: /dashbord/
+Disallow: /login/
+Disallow: /reset-password.html
+Disallow: /Vagh2026/p.html
 
 Sitemap: https://sioa.art/sitemap.xml

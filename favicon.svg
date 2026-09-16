@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <rect width="512" height="512" rx="80" fill="#310509"/>
+  <path d="M83 128h346M83 384h346" stroke="#ca895d" stroke-width="8" opacity=".85"/>
+  <text x="256" y="294" fill="#f0d3c8" font-family="Georgia,serif" font-size="132" text-anchor="middle" letter-spacing="15">SIOA</text>
+</svg>

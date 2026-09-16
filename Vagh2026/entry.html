@@ -3,7 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>View Entry | VAGH 2026</title>
+<title>Origami Competition Entry | VAGH 2026</title>
+<meta name="description" content="View an origami artwork entered in VAGH 2026, India's National Origami Competition presented by SIOA.">
+<meta name="robots" content="index,follow,max-image-preview:large">
+<link rel="canonical" href="https://sioa.art/Vagh2026/entry.html"><link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="article"><meta property="og:site_name" content="SIOA"><meta property="og:locale" content="en_IN">
+<meta property="og:title" content="Origami Competition Entry | VAGH 2026"><meta property="og:description" content="An origami artwork from India's National Origami Competition.">
+<meta property="og:url" content="https://sioa.art/Vagh2026/entry.html"><meta property="og:image" content="https://sioa.art/assets/og-image.png">
+<meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https://sioa.art/assets/og-image.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -185,6 +192,7 @@ body {
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="../assets/sioa-seo.js"></script>
 <script>
     // 1. Initialize Supabase
     const sbClient = window.supabase.createClient(
@@ -242,6 +250,12 @@ body {
             } else {
                 document.getElementById('statement-container').style.display = 'none';
             }
+
+            let seoImage = '';
+            if (entry.image_paths && Array.isArray(entry.image_paths) && entry.image_paths[0]) {
+                seoImage = sbClient.storage.from('competition_media').getPublicUrl(entry.image_paths[0]).data.publicUrl;
+            }
+            window.SIOASeo.entry(entry, seoImage);
 
             // Populate Images (The "Bigger Pics" Gallery)
             const gallery = document.getElementById('image-gallery');
