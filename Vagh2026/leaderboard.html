@@ -266,6 +266,7 @@ button{font-family:inherit;}
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="../assets/competition-media.js"></script>
 <script>
 // ============================================================
 // CONFIG: same project as the judging panel (read-only here)
@@ -302,8 +303,7 @@ let listQuery = "";
 // ============================================================
 function imgUrl(path) {
   if (!path) return null;
-  if (path.startsWith("http")) return path;
-  return sb.storage.from(IMAGE_BUCKET).getPublicUrl(path).data.publicUrl;
+  return window.SIOAMedia.thumb(path);
 }
 
 function weightedTotal(scoreRow) {

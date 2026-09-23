@@ -367,6 +367,7 @@ textarea.comments{min-height:62px;resize:vertical;font-size:14.5px;margin-top:14
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="../assets/competition-media.js"></script>
 <script>
 // ============================================================
 // CONFIG
@@ -433,8 +434,7 @@ function enterDashboard() {
 // ============================================================
 function imgUrl(path) {
   if (!path) return null;
-  if (path.startsWith('http')) return path;
-  return sb.storage.from(IMAGE_BUCKET).getPublicUrl(path).data.publicUrl;
+  return window.SIOAMedia.display(path);
 }
 
 async function loadData() {

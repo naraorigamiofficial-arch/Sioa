@@ -586,6 +586,7 @@ body {
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="../assets/competition-media.js"></script>
 <script>
 const sb = window.supabase.createClient(
   "https://zbgvgzzaejaxrgcjjovc.supabase.co",
@@ -611,14 +612,18 @@ async function loadEntries() {
 
     if (error) throw error;
 
-    // Sign URLs for all image paths
+    // Use lightweight local display copies. Originals remain available as a fallback.
     for (var i = 0; i < data.length; i++) {
       var entry = data[i];
       entry.signedUrls = [];
       if (entry.image_paths && entry.image_paths.length) {
         entry.signedUrls = entry.image_paths.map(function(path) {
-  return sb.storage.from('competition_media').getPublicUrl(path).data.publicUrl;
-});
+          return window.SIOAMedia.display(path);
+        });
+        entry.thumbUrls = entry.image_paths.map(function(path) {
+          return window.SIOAMedia.thumb(path);
+        });
+        entry.thumbUrl = window.SIOAMedia.thumb(entry.image_paths[0]);
       }
     }
 
@@ -688,12 +693,12 @@ function renderGallery() {
 
   grid.innerHTML = filtered.map(function(entry, idx) {
     var displayName = entry.artist_name || entry.full_name || 'Anonymous';
-    var thumbUrl = entry.signedUrls && entry.signedUrls[0] ? entry.signedUrls[0] : null;
+    var thumbUrl = entry.thumbUrl || null;
     var diffClass = getDiffClass(entry.difficulty);
 
     return '<button class="entry-card" type="button" aria-label="View ' + escHtml(entry.model_name || 'Untitled') + ' by ' + escHtml(displayName) + '" onclick="openLightbox(' + idx + ')">'
       + (thumbUrl
-          ? '<img class="entry-img" src="' + thumbUrl + '" alt="' + escHtml(entry.model_name||'') + '" loading="lazy">'
+          ? '<img class="entry-img" src="' + thumbUrl + '" alt="' + escHtml(entry.model_name||'') + '" loading="lazy" decoding="async">'
           : '<div class="entry-placeholder"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></div>'
         )
       + '<div class="entry-strip">'
@@ -784,8 +789,9 @@ function renderLightbox() {
     mainImg.src = urls[Math.min(currentImageIndex, urls.length - 1)];
     mainImg.style.display = '';
     thumbsEl.style.display = urls.length > 1 ? '' : 'none';
-    thumbsEl.innerHTML = urls.map(function(url, i) {
-      return '<button class="lb-thumb-button' + (i === currentImageIndex ? ' active' : '') + '" type="button" onclick="lbSelectImage(' + i + ')" aria-label="View image ' + (i+1) + '"><img class="lb-thumb" src="' + url + '" alt=""></button>';
+    var thumbUrls = entry.thumbUrls || urls;
+    thumbsEl.innerHTML = thumbUrls.map(function(url, i) {
+      return '<button class="lb-thumb-button' + (i === currentImageIndex ? ' active' : '') + '" type="button" onclick="lbSelectImage(' + i + ')" aria-label="View image ' + (i+1) + '"><img class="lb-thumb" src="' + url + '" alt="" loading="lazy" decoding="async"></button>';
     }).join('');
   } else {
     mainImg.src = '';

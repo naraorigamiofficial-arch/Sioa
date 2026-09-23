@@ -191,7 +191,8 @@ body {
 
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../assets/competition-media.js"></script>
 <script src="../assets/sioa-seo.js"></script>
 <script>
     // 1. Initialize Supabase
@@ -253,7 +254,7 @@ body {
 
             let seoImage = '';
             if (entry.image_paths && Array.isArray(entry.image_paths) && entry.image_paths[0]) {
-                seoImage = sbClient.storage.from('competition_media').getPublicUrl(entry.image_paths[0]).data.publicUrl;
+                seoImage = window.SIOAMedia.display(entry.image_paths[0]);
             }
             window.SIOASeo.entry(entry, seoImage);
 
@@ -261,11 +262,11 @@ body {
             const gallery = document.getElementById('image-gallery');
             if (entry.image_paths && Array.isArray(entry.image_paths)) {
                 entry.image_paths.forEach(path => {
-                    // Generate public URL for each image
-                    const { data: publicUrlData } = sbClient.storage.from('competition_media').getPublicUrl(path);
-
                     const img = document.createElement('img');
-                    img.src = publicUrlData.publicUrl;
+                    img.src = window.SIOAMedia.display(path);
+                    img.loading = 'lazy';
+                    img.decoding = 'async';
+                    img.onerror = function () { window.SIOAMedia.useOriginal(img, path); };
                     img.className = 'gallery-img';
                     img.alt = entry.model_name;
                     gallery.appendChild(img);
