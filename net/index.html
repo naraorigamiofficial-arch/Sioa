@@ -1124,7 +1124,7 @@
 
     // ─── STATE ────────────────────────────────────────────────────────────────
     var currentUserId = null;
-    var currentLanguage = localStorage.getItem('sioa-language') || 'en';
+    var currentLanguage = 'en';
     var lastProfiles = null;
 
     var currentPage = 1;
@@ -1305,10 +1305,6 @@
         if (lastProfiles) renderProfiles(lastProfiles);
         renderPagination();
     }
-
-    window.addEventListener('sioa:languagechange', function(event) {
-        applyRegistryLanguage(event.detail && event.detail.language || 'en');
-    });
 
     // ─── AUTH ─────────────────────────────────────────────────────────────────
     async function checkAuth() {

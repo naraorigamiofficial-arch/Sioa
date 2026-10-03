@@ -312,7 +312,7 @@ function weightedTotal(scoreRow) {
 }
 
 function dynamicCopy(key, values = {}) {
-  const language = localStorage.getItem("sioa-language") || "en";
+  const language = "en";
   const copy = {
     en: { foldedBy:"Folded by", designBy:"Design by", model:"Model", folder:"Folder", designer:"Designer", notProvided:"Not provided", judgesScored:"{count} of {total} judges scored", updated:"Updated {time}", untitled:"Untitled", noMatch:"No entries match your search.", hideList:"Hide full list", seeEntries:"See all entries", underReview:"{count} entries are currently under review and not shown on the leaderboard.", disqualified:"{count} entries were disqualified and not shown on the leaderboard.", disqualifiedReason:"{count} entries were disqualified ({reason}) and not shown on the leaderboard." },
     hi: { foldedBy:"तहकर्ता", designBy:"रचनाकार", model:"मॉडल", folder:"तहकर्ता", designer:"रचनाकार", notProvided:"उपलब्ध नहीं", judgesScored:"{total} में से {count} निर्णायकों ने अंक दिए", updated:"अपडेट {time}", untitled:"शीर्षकहीन", noMatch:"आपकी खोज से कोई प्रविष्टि नहीं मिली।", hideList:"पूरी सूची छिपाएँ", seeEntries:"सभी प्रविष्टियाँ देखें", underReview:"{count} प्रविष्टियाँ अभी समीक्षा में हैं और अंक तालिका में नहीं दिखाई गई हैं।", disqualified:"{count} प्रविष्टियाँ अयोग्य ठहराई गईं और अंक तालिका में नहीं दिखाई गईं।", disqualifiedReason:"{count} प्रविष्टियाँ अयोग्य ठहराई गईं ({reason}) और अंक तालिका में नहीं दिखाई गईं।" },
@@ -595,12 +595,6 @@ document.getElementById("listSearch").addEventListener("input", e => {
 });
 
 document.getElementById("refreshBtn").addEventListener("click", () => loadData(true));
-window.addEventListener("sioa:languagechange", () => {
-  if (leaderboardEntries.length) { renderPodium(); renderFullList(); }
-  renderExcludedNotes();
-  document.getElementById("seeAllLabel").textContent = listOpen ? dynamicCopy("hideList") : dynamicCopy("seeEntries");
-});
-
 function escapeHtml(str) {
   const d = document.createElement("div");
   d.textContent = str == null ? "" : String(str);
