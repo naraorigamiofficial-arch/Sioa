@@ -140,6 +140,58 @@
       .section{padding:76px 20px}.section-intro{margin-bottom:34px}.section h2{font-size:2.65rem}.section-intro>p{font-size:.9rem}.purpose-grid{grid-template-columns:1fr}.purpose-card:first-child{grid-column:auto;min-height:390px}.purpose-card{min-height:220px;padding:26px}.path-card{padding:26px}.path-card h3{margin-top:36px}
       .closing{padding:84px 20px}.closing .hero-actions{justify-content:center}.footer{grid-template-columns:1fr;padding:28px 20px}.footer-nav{grid-row:auto;grid-column:auto;display:grid;grid-template-columns:1fr 1fr;gap:14px}.footer-note{text-align:left;line-height:1.6}
     }
+    /* Light, metal and glass belong to the SIOA identity, not a generic UI kit. */
+    .shell{border-color:rgba(250,210,188,.29);box-shadow:inset 0 1px 0 rgba(255,240,224,.14),0 38px 110px rgba(4,0,1,.6)}
+    .site-header{background:linear-gradient(115deg,rgba(28,5,8,.44),rgba(9,1,3,.22) 50%,rgba(65,11,17,.25));border-bottom-color:rgba(255,216,193,.23);box-shadow:inset 0 1px 0 rgba(255,240,224,.09)}
+    .brand{color:#f5d6c5;text-shadow:0 1px 0 rgba(255,255,255,.2),0 0 24px rgba(247,117,87,.18)}
+    .hero::after{content:'';position:absolute;z-index:1;inset:0;pointer-events:none;background:radial-gradient(540px circle at var(--hero-x,50%) var(--hero-y,42%),rgba(255,152,115,.13),transparent 65%);mix-blend-mode:screen}
+    .hero-copy{animation:glassArrival 1.2s cubic-bezier(.16,1,.3,1) both}
+    .hero h1{text-shadow:0 2px 26px rgba(5,0,1,.42)}
+    .hero h1 span{color:#fb8469;text-shadow:0 0 32px rgba(223,66,60,.33)}
+    .eyebrow{color:#e2b58f}
+    .button{position:relative;overflow:hidden;border-color:rgba(255,224,204,.32);background:linear-gradient(150deg,rgba(255,238,224,.12),rgba(93,31,36,.14) 48%,rgba(9,1,3,.3));box-shadow:inset 0 1px 0 rgba(255,242,227,.17),0 9px 22px rgba(2,0,1,.17);backdrop-filter:blur(18px)}
+    .button::after{content:'';position:absolute;inset:0;transform:translateX(-130%) skewX(-22deg);background:linear-gradient(90deg,transparent,rgba(255,238,220,.25),transparent);transition:transform .65s cubic-bezier(.16,1,.3,1);pointer-events:none}
+    .button:hover::after,.button:focus-visible::after{transform:translateX(130%) skewX(-22deg)}
+    .button-primary{border-color:rgba(255,182,156,.53);background:linear-gradient(145deg,#bc3e48 0%,#871629 46%,#480916 100%);box-shadow:inset 0 1px 0 rgba(255,221,205,.3),inset 0 -1px 0 rgba(19,0,2,.7),0 14px 32px rgba(126,10,27,.28)}
+    .button-primary:hover,.button-primary:focus-visible{background:linear-gradient(145deg,#d15057,#9b1a2e 48%,#570b1a)}
+    .community-stage{margin-top:50px;perspective:900px}
+    .signal-card,.purpose-card:not(:first-child),.path-card{position:relative;overflow:hidden;border:1px solid transparent;background:radial-gradient(240px circle at var(--shine-x,20%) var(--shine-y,0%),rgba(255,233,208,.16),transparent 65%) padding-box,linear-gradient(150deg,rgba(132,45,51,.36),rgba(24,3,7,.45) 45%,rgba(31,4,8,.6)) padding-box,linear-gradient(140deg,rgba(255,233,211,.53),rgba(213,126,109,.18) 37%,rgba(255,231,215,.08) 65%,rgba(235,161,142,.42)) border-box;box-shadow:inset 0 1px 0 rgba(255,238,220,.12),inset 0 -1px 0 rgba(0,0,0,.35),0 22px 50px rgba(2,0,1,.3);backdrop-filter:blur(26px) saturate(135%)}
+    .signal-card::before,.path-card::before,.purpose-card:not(:first-child)::before{content:'';position:absolute;z-index:0;left:18px;right:18px;top:0;height:1px;background:linear-gradient(90deg,transparent,rgba(255,237,216,.55),transparent);pointer-events:none}
+    .signal-card>* ,.path-card>* ,.purpose-card>*{position:relative;z-index:1}
+    .signal-card{border-radius:13px;transition:transform .35s cubic-bezier(.16,1,.3,1),box-shadow .35s ease,filter .35s ease}
+    .signal-card:hover,.signal-card:focus-visible{transform:translateY(-5px);background:radial-gradient(240px circle at var(--shine-x,20%) var(--shine-y,0%),rgba(255,233,208,.23),transparent 65%) padding-box,linear-gradient(150deg,rgba(132,45,51,.42),rgba(24,3,7,.52) 45%,rgba(31,4,8,.66)) padding-box,linear-gradient(140deg,rgba(255,233,211,.7),rgba(213,126,109,.28) 37%,rgba(255,231,215,.13) 65%,rgba(235,161,142,.55)) border-box;box-shadow:inset 0 1px 0 rgba(255,238,220,.19),0 25px 56px rgba(2,0,1,.36)}
+    .signal-icon{width:auto;height:auto;border:0;border-radius:0;background:none;color:#e5b58e;font-size:.67rem;font-weight:700;letter-spacing:.15em}
+    .signal-arrow{color:#dcb29b;transition:transform .3s ease}.signal-card:hover .signal-arrow{transform:translate(2px,-2px)}
+    .signal-card h2{margin-top:26px;font-family:'Cormorant Garamond',serif;font-size:1.45rem;font-weight:600;line-height:1}
+    .signal-card p{margin-top:8px;color:#c7a49a;font-size:.72rem}
+    .community-core{min-height:390px;isolation:isolate}
+    .core-glow{width:370px;max-width:110%;border-radius:50%;background:radial-gradient(circle,rgba(237,88,72,.28),rgba(150,25,33,.14) 37%,transparent 71%);filter:blur(27px);animation:coreBreath 7s ease-in-out infinite}
+    .core-cloud{width:294px;height:344px;aspect-ratio:auto;border-radius:48% 48% 20px 20px/34% 34% 20px 20px;background:conic-gradient(from 145deg,rgba(234,171,143,.05),rgba(255,239,212,.35),rgba(107,20,28,.05),rgba(255,182,150,.31),rgba(65,4,16,.1),rgba(234,171,143,.05));filter:blur(4px);box-shadow:0 0 75px rgba(241,99,73,.25);transform:rotate(-7deg) translateX(-12px);animation:coreShadow 9s ease-in-out infinite}
+    .core-card{width:260px;height:316px;aspect-ratio:auto;overflow:hidden;border:1px solid transparent;border-radius:48% 48% 18px 18px/34% 34% 18px 18px;background:radial-gradient(250px circle at var(--shine-x,30%) var(--shine-y,12%),rgba(255,229,205,.19),transparent 60%) padding-box,linear-gradient(150deg,rgba(154,65,65,.62),rgba(81,14,25,.67) 38%,rgba(24,2,7,.82) 78%) padding-box,linear-gradient(135deg,#fff4df 0%,#b2605b 24%,#4d111b 42%,#ffd8af 73%,#9a403f 100%) border-box;box-shadow:inset 0 2px 2px rgba(255,249,233,.37),inset 0 -16px 28px rgba(12,0,3,.4),0 30px 72px rgba(3,0,1,.6),0 0 32px rgba(217,72,65,.22);backdrop-filter:blur(35px) saturate(155%);animation:coreFloat 8s ease-in-out infinite}
+    .core-card::before{content:'';position:absolute;inset:8px;border:1px solid rgba(255,223,197,.27);border-radius:inherit;box-shadow:inset 0 1px 0 rgba(255,247,226,.1);pointer-events:none}
+    .core-card::after{content:'';position:absolute;inset:-30%;width:55%;background:linear-gradient(90deg,transparent,rgba(255,250,229,.17),transparent);transform:translateX(-170%) skewX(-18deg);animation:coreSweep 9s ease-in-out infinite;pointer-events:none}
+    .core-inscription{display:flex;flex-direction:column;align-items:center;width:100%;padding:62px 20px 23px}
+    .core-inscription small{max-width:180px;color:#e5baa7;font:700 .49rem/1.6 Manrope,sans-serif;letter-spacing:.16em;text-transform:uppercase}
+    .core-inscription strong{margin-top:23px;color:#ffe7cf;font-size:4.55rem;font-weight:600;text-shadow:0 1px 0 rgba(255,255,255,.46),0 4px 22px rgba(21,0,4,.5)}
+    .core-inscription i{width:37px;height:1px;margin:18px 0 0;background:linear-gradient(90deg,transparent,#f0c39c,transparent)}
+    .core-inscription span{margin-top:15px;color:#edd1bc;font:600 .62rem/1.6 Manrope,sans-serif;letter-spacing:.11em;text-transform:uppercase}
+    .core-inscription em{margin-top:24px;color:#c3907c;font:700 .47rem/1.5 Manrope,sans-serif;letter-spacing:.12em}
+    .core-side{position:absolute;top:50%;z-index:2;color:#d6a287;font-size:.54rem;font-weight:700;letter-spacing:.2em;white-space:nowrap;writing-mode:vertical-rl;opacity:.8}.core-side-left{left:0;transform:translateY(-50%) rotate(180deg)}.core-side-right{right:0;transform:translateY(-50%)}
+    .value-rail{display:flex;align-items:center;justify-content:space-between;gap:26px;width:min(1050px,100%);padding:20px 25px;border-color:rgba(255,220,195,.3);background:linear-gradient(150deg,rgba(112,35,40,.32),rgba(21,2,5,.62));box-shadow:inset 0 1px 0 rgba(255,235,211,.19),0 18px 45px rgba(2,0,1,.2);backdrop-filter:blur(30px) saturate(140%)}
+    .value-rail span{flex:none;color:#cb9c85;font-size:.58rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase}.value-rail p{margin:0;color:#f2d5c6;font:500 clamp(1.18rem,1.7vw,1.55rem)/1.1 'Cormorant Garamond',serif;text-align:center}
+    .purpose{background:radial-gradient(circle at 16% 24%,rgba(94,25,29,.2),transparent 38%),linear-gradient(180deg,rgba(31,5,9,.94),rgba(18,2,4,.97))}
+    .purpose-card,.path-card{border-radius:14px}
+    .purpose-card:first-child{border-color:rgba(250,211,190,.26);box-shadow:inset 0 1px 0 rgba(255,235,213,.13),0 22px 55px rgba(2,0,1,.3)}
+    .pathways{background:radial-gradient(circle at 92% 12%,rgba(102,28,32,.12),transparent 40%),rgba(10,1,2,.91)}
+    .path-card:hover,.path-card:focus-visible{box-shadow:inset 0 1px 0 rgba(255,238,220,.2),0 27px 58px rgba(2,0,1,.38)}
+    .mobile-panel{background:linear-gradient(150deg,rgba(33,5,10,.99),rgba(15,1,4,.995));box-shadow:inset 0 1px 0 rgba(255,239,216,.1),0 22px 58px rgba(2,0,1,.45);backdrop-filter:blur(34px)}
+    @keyframes glassArrival{from{opacity:0;filter:blur(11px)}to{opacity:1;filter:blur(0)}}
+    @keyframes coreBreath{50%{transform:scale(1.12);opacity:.7}}
+    @keyframes coreShadow{50%{transform:rotate(-4deg) translateX(4px) scale(1.02)}}
+    @keyframes coreFloat{50%{transform:translateY(-9px)}}
+    @keyframes coreSweep{0%,29%{transform:translateX(-170%) skewX(-18deg)}52%,100%{transform:translateX(360%) skewX(-18deg)}}
+    @media(max-width:960px){.community-core{min-height:335px}.core-side{display:none}.core-card{width:225px;height:275px}.core-cloud{width:250px;height:295px}.core-inscription{padding-top:56px}.core-inscription strong{font-size:3.85rem}.core-inscription i{margin-top:13px}.core-inscription em{margin-top:17px}}
+    @media(max-width:680px){.community-core{min-height:320px}.core-card{width:218px;height:268px}.core-cloud{width:240px;height:286px}.core-glow{width:300px}.signal-card h2{font-size:1.18rem;margin-top:24px}.signal-card p{font-size:.66rem}.hero{background-position:50% 32%}.shell{border:0}.core-inscription strong{font-size:3.65rem}.core-inscription small{font-size:.44rem}.value-rail{display:grid;gap:8px;padding:20px 18px;text-align:center}.value-rail p{font-size:1.4rem}.value-rail span:last-child{font-size:.5rem}}
     @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation:none!important;transition:none!important}.reveal{opacity:1;filter:none}}
   </style>
 </head>
@@ -155,11 +207,11 @@
       </nav>
       <div class="header-actions">
         <a class="utility-link" id="accountLink" href="login/login.html">Login</a>
-        <a class="button button-primary" href="login/index.html">Join SIOA <span aria-hidden="true">→</span></a>
+        <a class="button button-primary" href="login/login.html">Join SIOA <span aria-hidden="true">→</span></a>
       </div>
       <button class="menu-button" type="button" aria-expanded="false" aria-controls="mobilePanel">Menu <span class="menu-lines" aria-hidden="true"><i></i><i></i></span></button>
       <nav class="mobile-panel" id="mobilePanel" aria-label="Mobile navigation" aria-hidden="true">
-        <a href="net/index.html">Artists</a><a href="Vagh2026/about.html">Competition</a><a href="Blog/index.html">Magazine</a><a href="#about">About SIOA</a><a id="mobileAccountLink" href="login/index.html">Join SIOA</a>
+        <a href="net/index.html">Artists</a><a href="Vagh2026/about.html">Competition</a><a href="Blog/index.html">Magazine</a><a href="#about">About SIOA</a><a id="mobileAccountLink" href="login/login.html">Join SIOA</a>
       </nav>
     </header>
 
@@ -167,49 +219,54 @@
       <section class="hero" aria-labelledby="heroTitle">
         <div class="hero-copy reveal visible">
           <p class="eyebrow">Society of Indian Origami Artists</p>
-          <h1 id="heroTitle">India's <span>origami</span> community, together.</h1>
-          <p class="hero-lede">A national space for artists, designers, folders, teachers and enthusiasts to connect, learn and help the practice grow.</p>
-          <div class="hero-actions"><a class="button button-primary" href="net/index.html">Explore artists <span aria-hidden="true">→</span></a><a class="button button-ghost" href="#about">Discover SIOA</a></div>
+          <h1 id="heroTitle">Hi, folder. <br><span>Welcome to SIOA.</span></h1>
+          <p class="hero-lede">Whatever brought you to origami, you're in good company. Meet people who understand why you fold, and see where your practice takes you.</p>
+          <div class="hero-actions"><a class="button button-primary" href="net/index.html">Meet the artists <span aria-hidden="true">→</span></a><a class="button button-ghost" href="#about">Get to know SIOA</a></div>
         </div>
 
         <div class="community-stage reveal" aria-label="SIOA community destinations">
           <div class="signal-stack">
-            <a class="signal-card" href="net/index.html"><div class="signal-top"><span class="signal-icon" aria-hidden="true">A</span><span class="signal-arrow">↗</span></div><h2>Artist directory</h2><p>Meet practitioners from across India.</p></a>
-            <a class="signal-card" href="#practice"><div class="signal-top"><span class="signal-icon" aria-hidden="true">L</span><span class="signal-arrow">↓</span></div><h2>Shared practice</h2><p>Knowledge grows through exchange.</p></a>
+            <a class="signal-card" href="net/index.html"><div class="signal-top"><span class="signal-icon" aria-hidden="true">01</span><span class="signal-arrow">↗</span></div><h2>Meet your people</h2><p>Find folders and designers across India.</p></a>
+            <a class="signal-card" href="#practice"><div class="signal-top"><span class="signal-icon" aria-hidden="true">02</span><span class="signal-arrow">↓</span></div><h2>Keep learning</h2><p>Bring a question. Share what you know.</p></a>
           </div>
-          <div class="community-core" aria-hidden="true"><div class="core-glow"></div><div class="core-cloud"></div><div class="core-card"><div><strong>SIOA</strong><span>Indian origami<br>in community</span></div></div></div>
+          <div class="community-core" aria-hidden="true">
+            <span class="core-side core-side-left">YOUR HANDS · YOUR IDEAS</span>
+            <div class="core-glow"></div><div class="core-cloud"></div>
+            <div class="core-card"><div class="core-inscription"><small>Society of Indian Origami Artists</small><strong>SIOA</strong><i></i><span>There is a place<br>for you here.</span><em>EST. DEC 2025 · INDIA</em></div></div>
+            <span class="core-side core-side-right">YOURS TO SHAPE</span>
+          </div>
           <div class="signal-stack">
-            <a class="signal-card" href="Vagh2026/about.html"><div class="signal-top"><span class="signal-icon" aria-hidden="true">C</span><span class="signal-arrow">↗</span></div><h2>Competition</h2><p>See VAGH 2026 and participate.</p></a>
-            <a class="signal-card" href="Blog/index.html"><div class="signal-top"><span class="signal-icon" aria-hidden="true">M</span><span class="signal-arrow">↗</span></div><h2>SIOA Magazine</h2><p>Stories and ideas, coming soon.</p></a>
+            <a class="signal-card" href="Vagh2026/about.html"><div class="signal-top"><span class="signal-icon" aria-hidden="true">03</span><span class="signal-arrow">↗</span></div><h2>See what’s happening</h2><p>Take a look at VAGH 2026.</p></a>
+            <a class="signal-card" href="Blog/index.html"><div class="signal-top"><span class="signal-icon" aria-hidden="true">04</span><span class="signal-arrow">↗</span></div><h2>Stay curious</h2><p>Your magazine is on its way.</p></a>
           </div>
         </div>
 
-        <div class="value-rail reveal" aria-label="SIOA at a glance">
-          <div class="value-item"><strong>India first</strong><span>Open beyond borders</span></div><div class="value-item"><strong>Open community</strong><span>All experience levels</span></div><div class="value-item"><strong>Since Dec 2025</strong><span>Growing together</span></div><div class="value-item"><strong>Member-led</strong><span>Built by its people</span></div>
+        <div class="value-rail reveal" aria-label="A note from SIOA">
+          <span>A note for you</span><p>Bring the fold you're proud of. Bring the one you haven't solved yet.</p><span>SIOA · India</span>
         </div>
       </section>
 
       <section class="section purpose" id="about" aria-labelledby="aboutTitle">
-        <div class="section-intro reveal"><div><span class="section-number">01 · About SIOA</span><h2 id="aboutTitle">One community.<br>Many ways to fold.</h2></div><p>SIOA brings India's origami community into one shared space. We support meaningful exchange, responsible practice and stronger connections between people working across the art.</p></div>
+        <div class="section-intro reveal"><div><span class="section-number">01 · About SIOA</span><h2 id="aboutTitle">You don't have to fold alone.</h2></div><p>Maybe you design. Maybe you teach. Maybe you simply love the moment a sheet becomes something else. Here, you can meet people who understand that feeling.</p></div>
         <div class="purpose-grid" id="practice">
-          <article class="purpose-card reveal"><span class="label">Why we exist</span><h3>To give Indian origami a place to belong.</h3><p>Artists learn from fellow artists, ideas travel across regions and every thoughtful contribution helps the community become more visible, connected and confident.</p></article>
-          <article class="purpose-card reveal"><span class="label">Connect</span><h3>Find your people.</h3><p>Discover folders, designers, educators and enthusiasts working throughout India.</p></article>
-          <article class="purpose-card reveal"><span class="label">Learn</span><h3>Exchange knowledge.</h3><p>Share methods, experiences and perspectives that strengthen everyone's practice.</p></article>
-          <article class="purpose-card reveal"><span class="label">Participate</span><h3>Take part.</h3><p>Join competitions, community projects and new opportunities as SIOA grows.</p></article>
-          <article class="purpose-card reveal"><span class="label">Contribute</span><h3>Shape what comes next.</h3><p>SIOA is built by its members and made stronger by their ideas and initiative.</p></article>
+          <article class="purpose-card reveal"><span class="label">Why this place exists</span><h3>Your work has somewhere to go.</h3><p>From your first fold to the piece you've spent years refining, your practice deserves conversation, care and a place in India's origami story.</p></article>
+          <article class="purpose-card reveal"><span class="label">Connect</span><h3>Meet someone who gets it.</h3><p>Find folders, artists, designers and teachers across India.</p></article>
+          <article class="purpose-card reveal"><span class="label">Learn</span><h3>Ask. Try. Share.</h3><p>Bring what you're working through. Pass on what you've learned.</p></article>
+          <article class="purpose-card reveal"><span class="label">Participate</span><h3>Show up with your work.</h3><p>Take part in competitions and community projects as they happen.</p></article>
+          <article class="purpose-card reveal"><span class="label">Contribute</span><h3>Make this yours.</h3><p>Your ideas can help decide what SIOA becomes next.</p></article>
         </div>
       </section>
 
       <section class="section pathways" aria-labelledby="pathTitle">
-        <div class="section-intro reveal"><div><span class="section-number">02 · Enter the community</span><h2 id="pathTitle">Start somewhere meaningful.</h2></div><p>Explore people, participate in current work or follow the ideas emerging from India's growing origami community.</p></div>
+        <div class="section-intro reveal"><div><span class="section-number">02 · Your next step</span><h2 id="pathTitle">Where will you begin?</h2></div><p>You can start by meeting an artist, seeing what's happening at VAGH 2026, or finding out what's coming to the magazine.</p></div>
         <div class="path-grid">
-          <a class="path-card reveal" href="net/index.html"><span class="path-index">01</span><h3>Discover artists</h3><p>Browse the member directory and find practitioners by name, location and area of interest.</p><span class="path-link">Open directory <span>→</span></span></a>
-          <a class="path-card reveal" href="Vagh2026/about.html"><span class="path-index">02</span><h3>VAGH 2026</h3><p>Visit the competition, understand the format and see how the community is participating.</p><span class="path-link">View competition <span>→</span></span></a>
-          <a class="path-card reveal" href="Blog/index.html"><span class="path-index">03</span><h3>SIOA Magazine</h3><p>A future home for interviews, knowledge, reflection and stories from the community.</p><span class="path-link">Visit magazine <span>→</span></span></a>
+          <a class="path-card reveal" href="net/index.html"><span class="path-index">01</span><h3>Meet a fellow artist</h3><p>Look through the directory. You may find someone nearby, or someone whose work stays with you.</p><span class="path-link">Meet the artists <span>→</span></span></a>
+          <a class="path-card reveal" href="Vagh2026/about.html"><span class="path-index">02</span><h3>See VAGH 2026</h3><p>Take a closer look at the competition and the work people have brought to it.</p><span class="path-link">See the competition <span>→</span></span></a>
+          <a class="path-card reveal" href="Blog/index.html"><span class="path-index">03</span><h3>Keep an eye on the magazine</h3><p>We're making space for the voices, ideas and stories you will want to return to.</p><span class="path-link">Visit the magazine <span>→</span></span></a>
         </div>
       </section>
 
-      <section class="section closing" aria-labelledby="joinTitle"><div class="closing-inner reveal"><span class="section-number">The community is taking shape</span><h2 id="joinTitle">There is a place for your practice here.</h2><p>Join SIOA to create your artist profile, connect with the community and participate in what comes next.</p><div class="hero-actions"><a class="button button-primary" href="login/index.html">Join SIOA <span aria-hidden="true">→</span></a><a class="button button-ghost" href="mailto:sioa.paper@gmail.com">Contact us</a></div></div></section>
+      <section class="section closing" aria-labelledby="joinTitle"><div class="closing-inner reveal"><span class="section-number">The door is open</span><h2 id="joinTitle">Come in. There's room for you.</h2><p>Create your profile. Let another folder find you. Bring your work, your questions and the things you hope to make next.</p><div class="hero-actions"><a class="button button-primary" href="login/login.html">Join SIOA <span aria-hidden="true">→</span></a><a class="button button-ghost" href="mailto:sioa.paper@gmail.com">Write to us</a></div></div></section>
     </main>
 
     <footer class="footer"><strong>SIOA</strong><nav class="footer-nav" aria-label="Footer navigation"><a href="net/index.html">Artists</a><a href="Vagh2026/about.html">Competition</a><a href="Blog/index.html">Magazine</a><a href="#about">About</a></nav><span class="footer-note">© 2026 Society of Indian Origami Artists · India</span></footer>
@@ -224,8 +281,27 @@
     mobilePanel.addEventListener('click',event=>{if(event.target.closest('a'))setMenu(false)});
     addEventListener('keydown',event=>{if(event.key==='Escape')setMenu(false)});
     addEventListener('resize',()=>{if(innerWidth>960)setMenu(false)});
-    const observer=new IntersectionObserver(entries=>entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add('visible');observer.unobserve(entry.target)}}),{threshold:0,rootMargin:'100% 0px'});
-    document.querySelectorAll('.reveal:not(.visible)').forEach(element=>observer.observe(element));
+    if(matchMedia('(hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference)').matches){
+      const hero=document.querySelector('.hero');
+      let lastPointer,lightFrame=0;
+      hero.addEventListener('pointermove',event=>{
+        lastPointer={x:event.clientX,y:event.clientY};
+        if(lightFrame)return;
+        lightFrame=requestAnimationFrame(()=>{
+          lightFrame=0;
+          const bounds=hero.getBoundingClientRect();
+          hero.style.setProperty('--hero-x',((lastPointer.x-bounds.left)/bounds.width*100)+'%');
+          hero.style.setProperty('--hero-y',((lastPointer.y-bounds.top)/bounds.height*100)+'%');
+        });
+      },{passive:true});
+      document.querySelectorAll('.signal-card,.purpose-card:not(:first-child),.path-card,.core-card').forEach(surface=>{
+        surface.addEventListener('pointermove',event=>{
+          const bounds=surface.getBoundingClientRect();
+          surface.style.setProperty('--shine-x',((event.clientX-bounds.left)/bounds.width*100)+'%');
+          surface.style.setProperty('--shine-y',((event.clientY-bounds.top)/bounds.height*100)+'%');
+        },{passive:true});
+      });
+    }
     (async()=>{try{const client=window.supabase.createClient('https://zbgvgzzaejaxrgcjjovc.supabase.co','sb_publishable_gCLTB6WM95Iw6Txcf2fjCA_5fnXPw77');const result=await client.auth.getSession();if(result.data&&result.data.session){const desktop=document.getElementById('accountLink');const mobile=document.getElementById('mobileAccountLink');desktop.textContent='Account';desktop.href='login/app/loggedin.html';mobile.textContent='Open account';mobile.href='login/app/loggedin.html'}}catch(error){}})();
   </script>
 </body>
