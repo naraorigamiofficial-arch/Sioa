@@ -1,0 +1,46 @@
+/* Full-height chapters use the document's native scrolling. */
+html.home-chapters { scroll-snap-type: y proximity; }
+body.home-page { --header-height: 84px; position: relative; isolation: isolate; background-image: none; }
+.home-backdrop { position: fixed; z-index: -1; top: 0; left: 0; width: 100%; height: 100vh; height: 100lvh; pointer-events: none; background: #280907; }
+.home-backdrop::before, .home-backdrop::after { content: ''; position: absolute; inset: 0; background-position: center; background-size: cover; background-repeat: no-repeat; }
+.home-backdrop::before { background-image: linear-gradient(rgba(24,4,3,.6), rgba(24,4,3,.68)), url('sioa-front-arch-mobile.webp'); }
+.home-backdrop::after { background-image: linear-gradient(rgba(24,4,3,.64), rgba(24,4,3,.73)), url('sioa-second-arch-mobile.webp'); opacity: 0; transition: opacity 1.1s ease; }
+.home-inner-view .home-backdrop::after { opacity: 1; }
+.home-page .home-chapter { display: grid; align-content: center; min-height: 100vh; min-height: 100svh; padding: clamp(64px, 9vh, 110px) max(24px, calc((100vw - 1160px) / 2)); scroll-snap-align: start; }
+.home-page .intro { min-height: calc(100vh - var(--header-height)); min-height: calc(100svh - var(--header-height)); padding-top: 40px; padding-bottom: 40px; scroll-margin-top: var(--header-height); }
+.home-page .hero-copy { width: 100%; padding: 0; }
+.home-page .explore { width: 100%; max-width: none; border: 0; padding: 0; }
+.home-page .section-top { margin-bottom: 42px; }
+.home-page .section-top h2 { font-size: clamp(36px, 4vw, 52px); }
+.chapter-next { display: flex; width: fit-content; align-items: center; gap: 20px; min-height: 44px; margin: 42px auto 0; padding: 8px 4px; color: var(--gold-light); font-size: 11px; }
+.chapter-next span { transition: transform .3s ease; }
+.chapter-next:hover span, .chapter-next:focus-visible span { transform: translateY(3px); }
+.home-page .about-section { width: 100%; align-items: center; padding: 0; border: 0; }
+.home-page .about-section .chapter-next { grid-column: 1 / -1; margin-top: 0; }
+.home-page .chapter-join { display: flex; flex-direction: column; padding: 0; }
+.join-content { display: grid; place-items: center; flex: 1; width: 100%; padding: 80px 24px; }
+.home-page .closing-note { display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 26px; width: min(900px, 100%); margin: 0; padding: clamp(36px, 6vw, 72px); text-align: center; }
+.home-page .closing-note h2 { margin: 0; font: 500 clamp(30px, 3.4vw, 47px)/1.2 var(--serif); letter-spacing: -.02em; }
+.home-page .closing-note .button { align-self: center; }
+.home-page .site-footer, .home-page .footer-bottom { width: 100%; }
+@media (max-width: 1080px) { body.home-page { --header-height: 72px; } }
+@media (max-width: 650px) {
+  html.home-chapters { scroll-snap-type: none; }
+  .home-page .home-chapter { padding: 55px 22px; }
+  .home-page .intro { padding: 35px 22px; }
+  .home-page .hero-actions { margin-top: 23px; }
+  .home-page .action-card { padding: 18px 15px 15px; }
+  .home-page .hero-about { margin-top: 23px; }
+  .home-page .section-top { margin-bottom: 28px; }
+  .home-page .section-top h2 { font-size: 34px; }
+  .home-page .explore-card { padding: 22px; }
+  .home-page .about-section { gap: 28px; }
+  .home-page .about-section h2 { font-size: 43px; }
+  .home-page .about-section .chapter-next { margin-top: 14px; }
+  .home-page .chapter-join { padding: 0; }
+  .join-content { padding: 64px 22px; }
+  .home-page .closing-note { padding: 36px 22px; }
+  .home-page .closing-note h2 { font-size: 32px; }
+}
+@media (max-height: 620px), (prefers-reduced-motion: reduce) { html.home-chapters { scroll-snap-type: none; } }
+@media (prefers-reduced-motion: reduce) { .home-backdrop::after, .chapter-next span { transition: none; } }
