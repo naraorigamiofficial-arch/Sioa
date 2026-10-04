@@ -15,7 +15,7 @@
 
   document.querySelectorAll('a').forEach(function (link) {
     var label = link.textContent.replace(/\s+/g, ' ').trim().toLowerCase();
-    if (label === 'competition' || link.dataset.i18n === 'competition') link.setAttribute('href', '/Vagh2026/about.html');
+    if (label === 'competition' || link.dataset.i18n === 'competition') link.setAttribute('href', '/competition/');
   });
 
   var motifs = {

@@ -38,7 +38,7 @@
   nav.setAttribute('aria-label', 'Mobile navigation');
   var groups = [
     ['Explore', [['Home', 'index.html'], ['Artists', 'net/index.html'], ['Magazine', 'Blog/index.html'], ['About SIOA', 'index.html#about']]],
-    ['Competition', [['Overview', 'Vagh2026/about.html'], ['Entries', 'Vagh2026/gallery.html'], ['Leaderboard', 'Vagh2026/leaderboard.html']]]
+    ['Competition', [['All editions', 'competition/'], ['VAGH 2026', 'Vagh2026/about.html'], ['2026 entries', 'Vagh2026/gallery.html'], ['2026 leaderboard', 'Vagh2026/leaderboard.html']]]
   ];
   function makeLink(item) {
     var link = document.createElement('a');

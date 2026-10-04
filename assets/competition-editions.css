@@ -1,0 +1,33 @@
+.editions-main { width: min(950px, calc(100% - 48px)); min-height: calc(100svh - 220px); margin: 0 auto; padding: 66px 0 65px; text-align: center; }
+.editions-heading h1 { margin: 16px 0 13px; font-size: clamp(42px, 5vw, 66px); }
+.editions-heading > p:last-child { margin: 0; color: var(--muted); font-size: 13px; }
+.edition-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 30px; max-width: 740px; margin: 40px auto 0; }
+.edition-card { display: flex; flex-direction: column; align-items: center; padding: 30px 30px 24px; border: 1px solid var(--line); border-radius: 10px; background: #240d09; animation: edition-arrive .8s ease both; }
+a.edition-card { transition: background .3s ease, border-color .3s ease; }
+a.edition-card:hover, a.edition-card:focus-visible { background: #341209; border-color: var(--gold); }
+.edition-medal { position: relative; display: flex; flex-direction: column; justify-content: center; align-items: center; width: 196px; max-width: 100%; aspect-ratio: 1; margin: 0 0 24px; border: 1px solid var(--gold); border-radius: 50%; color: var(--gold-light); }
+.edition-medal::before { content: ''; position: absolute; inset: 8px; border: 1px solid var(--line); border-radius: 50%; pointer-events: none; }
+.medal-name { font: 500 19px/1 var(--serif); letter-spacing: .24em; padding-left: .24em; }
+.edition-medal h2 { margin: 7px 0 14px; font: 500 57px/1 var(--serif); }
+.medal-signature { font-size: 8px; letter-spacing: .3em; padding-left: .3em; }
+.edition-date { margin: 0 0 24px; font-size: 13px; color: var(--text); }
+.edition-link, .edition-status { width: 100%; margin-top: auto; padding-top: 19px; border-top: 1px solid var(--line); color: var(--gold); font-size: 11px; }
+.edition-link { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+.edition-link span { transition: transform .25s ease; }
+a.edition-card:hover .edition-link span { transform: translateX(3px); }
+.edition-upcoming { animation-delay: .12s; }
+.edition-upcoming .edition-medal { border-color: #9c855f; color: #c3b18b; }
+.edition-status { color: var(--muted); }
+.editions-home { margin-top: 32px; }
+.primary-nav a[aria-current] { color: var(--gold); }
+.primary-nav a[aria-current]::after { transform: scaleX(1); }
+.visually-hidden { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+@keyframes edition-arrive { from { opacity: 0; } to { opacity: 1; } }
+@media (max-width: 600px) {
+  .editions-main { width: calc(100% - 40px); padding: 42px 0 50px; }
+  .edition-grid { grid-template-columns: 1fr; gap: 20px; max-width: 350px; margin-top: 30px; }
+  .edition-card { padding: 26px 26px 22px; }
+  .edition-medal { width: 168px; margin-bottom: 20px; }
+  .edition-medal h2 { font-size: 50px; }
+}
+@media (prefers-reduced-motion: reduce) { .edition-card { animation: none; } }
