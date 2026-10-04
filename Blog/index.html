@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
+  <base href="/">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>SIOA Magazine | Indian Origami Stories and Community</title>
@@ -14,53 +15,29 @@
   <meta property="og:url" content="https://sioa.art/Blog/"><meta property="og:image" content="https://sioa.art/assets/og-image.png">
   <meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="SIOA Magazine"><meta name="twitter:description" content="Indian origami art, artists, practice and community."><meta name="twitter:image" content="https://sioa.art/assets/og-image.png">
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"SIOA Magazine","url":"https://sioa.art/Blog/","description":"A forthcoming publication covering Indian origami art, artists, practice and community.","about":{"@id":"https://sioa.art/#organization"},"isPartOf":{"@id":"https://sioa.art/#website"},"inLanguage":"en-IN"}</script>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&display=swap" rel="stylesheet">
-  <style>
-    :root{--ivory:#dfb7aa;--strong:#f0d3c8;--quiet:#ae7c76;--line:#a96361}
-    *{box-sizing:border-box;margin:0;padding:0}
-    html,body{min-height:100%;background:#160304;color:var(--ivory);font-family:'Cormorant Garamond',Georgia,serif}
-    body{min-height:100svh;background-image:linear-gradient(rgba(22,3,4,.14),rgba(22,3,4,.14)),url('../assets/sioa-constant-bg.png');background-size:cover;background-position:center;background-attachment:fixed}
-    a{color:inherit;text-decoration:none}
-    .topbar{position:fixed;z-index:10;top:0;left:0;width:100%;height:96px;padding:0 clamp(34px,4.8vw,82px);display:grid;grid-template-columns:1fr auto 1fr;align-items:center;text-transform:uppercase;font-size:clamp(.69rem,.73vw,.82rem);font-weight:500;letter-spacing:.28em}
-    .identity{justify-self:start;display:flex;align-items:center;gap:30px;color:var(--strong);font-size:clamp(.98rem,1.1vw,1.22rem);letter-spacing:.32em}
-    .identity::after{content:'';display:block;width:48px;height:1px;background:var(--line);opacity:.75}
-    .nav{display:flex;gap:clamp(24px,3vw,56px);list-style:none}
-    .nav a,.account{position:relative;opacity:.82;transition:opacity .25s ease}
-    .nav a::after,.account::after{content:'';position:absolute;left:0;right:100%;bottom:-8px;height:1px;background:var(--ivory);transition:right .4s cubic-bezier(.16,1,.3,1)}
-    .nav a:hover,.nav a:focus-visible,.account:hover,.account:focus-visible{opacity:1}
-    .nav a:hover::after,.nav a:focus-visible::after,.account:hover::after,.account:focus-visible::after{right:.28em}
-    .account{justify-self:end}
-    main{min-height:100svh;display:grid;place-items:center;padding:120px 24px 60px;text-align:center;text-transform:uppercase}
-    .copy{width:min(760px,100%);min-width:0}
-    .ornament{display:flex;flex-direction:column;align-items:center;color:var(--quiet);font-size:1.05rem}
-    .ornament::before{content:'';width:1px;height:42px;margin-bottom:10px;background:var(--line)}
-    h1{margin-top:42px;color:var(--strong);font-size:clamp(2rem,4vw,4.2rem);font-weight:400;line-height:1;letter-spacing:.14em;text-indent:.14em;white-space:nowrap;text-shadow:0 2px 18px rgba(15,0,2,.45)}
-    p{margin-top:28px;color:var(--quiet);font-size:clamp(.72rem,.85vw,.9rem);font-weight:600;letter-spacing:.38em;text-indent:.38em}
-    :focus-visible{outline:1px solid var(--ivory);outline-offset:6px}
-    @media(max-width:720px){.topbar{height:76px;padding:0 20px;grid-template-columns:1fr auto}.topbar nav{display:none}.identity::after{width:30px}.account{font-size:.68rem}.copy{width:100%}h1{font-size:clamp(1.5rem,7.4vw,3rem);line-height:1.08;letter-spacing:.1em;text-indent:.1em}}
-  </style>
+  <meta name="theme-color" content="#280907">
+  <link rel="preload" href="assets/fonts/cormorant-garamond-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/manrope-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="assets/home-editorial.css?v=20261004d">
+  <link rel="stylesheet" href="assets/magazine.css">
 </head>
-<body>
-  <header class="topbar">
-    <a class="identity" href="../index.html" aria-label="SIOA home">SIOA</a>
-    <nav aria-label="Primary navigation">
-      <ul class="nav">
-        <li><a href="../index.html">Home</a></li>
-        <li><a href="../net/index.html">Artists</a></li>
-        <li><a href="../index.html#about">About</a></li>
-      </ul>
-    </nav>
-    <a class="account" href="../login/login.html">Login</a>
+<body class="magazine-page">
+  <header class="site-header">
+    <a class="brand" href="/" aria-label="SIOA home">SIOA</a>
+    <nav class="primary-nav" aria-label="Primary navigation"><a href="/#about">About</a><a href="net/index.html">Artists</a><a href="competition/">Competition</a><a href="Blog/index.html" aria-current="page">Magazine</a></nav>
+    <div class="header-actions"><a class="account-link" id="accountLink" href="login/login.html">Sign in</a><a class="join-link" href="login/login.html">Join SIOA <span aria-hidden="true">↗</span></a></div>
+    <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="mobileNav">Menu <span class="menu-icon" aria-hidden="true"><i></i><i></i></span></button>
+    <nav class="mobile-nav" id="mobileNav" aria-label="Mobile navigation" aria-hidden="true"><a href="/#about">About SIOA</a><a href="net/index.html">Artists</a><a href="competition/">Competition</a><a href="Blog/index.html" aria-current="page">Magazine</a><a id="mobileAccountLink" href="login/login.html">Sign in</a><a href="login/login.html">Join SIOA</a></nav>
   </header>
-  <main>
-    <div class="copy">
-      <div class="ornament" aria-hidden="true">✥</div>
-      <h1>SIOA Magazine</h1>
-      <p>Under development</p>
-    </div>
+  <main class="magazine-main">
+    <section class="magazine-notice" aria-labelledby="magazineTitle">
+      <p class="eyebrow">Society of Indian Origami Artists</p>
+      <h1 id="magazineTitle">SIOA Magazine</h1>
+      <p class="magazine-status"><span aria-hidden="true"></span>Under development</p>
+    </section>
   </main>
-<script src="../assets/sioa-mobile.js"></script>
+  <footer class="site-footer"><a href="/" aria-label="SIOA home"><strong>SIOA</strong></a><nav class="footer-nav" aria-label="Footer navigation"><a href="/#about">About</a><a href="net/index.html">Artists</a><a href="competition/">Competition</a><a href="Blog/index.html" aria-current="page">Magazine</a></nav><a class="footer-contact" href="mailto:sioa.paper@gmail.com">Write to us ↗</a></footer>
+  <div class="footer-bottom"><span>© 2026 Society of Indian Origami Artists.</span><span>Tradition in a different form.</span></div>
+  <script src="assets/home-editorial.js?v=20261004c"></script>
 </body>
 </html>

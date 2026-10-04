@@ -1,0 +1,44 @@
+/* Share the homepage's typography, navigation, palette, and footer. */
+body.magazine-page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  min-height: 100svh;
+  position: relative;
+  isolation: isolate;
+  background-image: none;
+}
+.magazine-page::before {
+  content: '';
+  position: fixed;
+  z-index: -1;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  height: 100lvh;
+  background: linear-gradient(rgba(24,4,3,.64), rgba(24,4,3,.73)), url('sioa-second-arch-mobile.webp') center / cover no-repeat;
+  pointer-events: none;
+}
+.magazine-page .site-header { flex-shrink: 0; }
+.magazine-page [aria-current='page'] { color: var(--gold); }
+.magazine-page .primary-nav [aria-current='page']::after { transform: scaleX(1); }
+.magazine-main { display: grid; place-items: center; flex: 1; padding: 80px 24px; }
+.magazine-notice {
+  width: min(760px, 100%);
+  padding: 64px 32px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel);
+  text-align: center;
+  animation: appear .8s ease both;
+}
+.magazine-notice h1 { margin: 20px 0 28px; font-size: clamp(36px, 5.1vw, 68px); }
+.magazine-status { display: inline-flex; align-items: center; gap: 10px; margin: 0; color: var(--gold-light); font-size: 12px; }
+.magazine-status span { width: 5px; height: 5px; flex-shrink: 0; border-radius: 50%; background: var(--gold); }
+@media (max-width: 650px) {
+  .magazine-main { padding: 56px 22px; }
+  .magazine-notice { padding: 42px 16px; }
+  .magazine-notice h1 { font-size: clamp(32px, 8.6vw, 48px); }
+}
+@media (prefers-reduced-motion: reduce) { .magazine-notice { animation: none; } }
