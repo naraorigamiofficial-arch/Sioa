@@ -1,0 +1,68 @@
+/* Scoped to the VAGH overview; entries and leaderboard retain their layouts. */
+html.vagh-chapters { scroll-snap-type: y proximity; }
+body.vagh-about { padding-top: 0; }
+body.vagh-about .vagh-chapter {
+  display: flex;
+  align-items: center;
+  min-height: 100vh;
+  min-height: 100svh;
+  padding: clamp(56px, 8vh, 96px) 0;
+  scroll-snap-align: start;
+  border-bottom: 1px solid var(--sioa-line);
+}
+body.vagh-about .vagh-chapter > .container { width: 100%; min-width: 0; }
+body.vagh-about .hero.vagh-chapter {
+  max-width: none;
+  padding: calc(108px + env(safe-area-inset-top)) 0 36px;
+  overflow: visible;
+}
+body.vagh-about .hero-ghost { display: none; }
+body.vagh-about .hero-actions { margin-bottom: 0; }
+body.vagh-about .hero-year { color: var(--sioa-muted); }
+body.vagh-about .gold-crown { top: 16px; right: 16px; left: auto; transform: none; }
+body.vagh-about .vagh-next {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  width: fit-content;
+  min-height: 44px;
+  margin: 28px auto 0;
+  padding: 10px 8px;
+  color: var(--sioa-saffron);
+  font-size: 12px;
+  letter-spacing: .06em;
+  text-decoration: none;
+}
+body.vagh-about .vagh-next:hover { color: var(--sioa-ink-strong); }
+body.vagh-about a:focus-visible { outline: 2px solid var(--sioa-saffron); outline-offset: 5px; }
+body.vagh-about .fade-up { opacity: 1; transform: none; transition: opacity .7s ease; }
+.vagh-motion body.vagh-about .fade-up:not(.visible) { opacity: 0; }
+body.vagh-about .hero-eyebrow,
+body.vagh-about .hero-title,
+body.vagh-about .hero-year,
+body.vagh-about .hero-desc,
+body.vagh-about .hero-actions,
+body.vagh-about .status-banner { opacity: 1; animation: vagh-appear .8s ease both; }
+@keyframes vagh-appear { from { opacity: 0; } to { opacity: 1; } }
+@media (max-width: 920px) {
+  html.vagh-chapters { scroll-snap-type: none; }
+  body.vagh-about .vagh-chapter { padding: 56px 0; }
+  body.vagh-about .hero.vagh-chapter { padding: calc(100px + env(safe-area-inset-top)) 0 32px; }
+  body.vagh-about .hero-year { margin-bottom: 24px; }
+  body.vagh-about .hero-desc { margin-bottom: 26px; }
+  body.vagh-about .status-banner { margin-bottom: 28px; padding: 18px; }
+  body.vagh-about .prizes-header { margin-bottom: 36px; }
+  body.vagh-about .btn-primary, body.vagh-about .btn-ghost { max-width: 100%; text-align: center; }
+}
+@media (max-height: 620px), (prefers-reduced-motion: reduce) {
+  html.vagh-chapters { scroll-snap-type: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html.vagh-chapters { scroll-behavior: auto; }
+  body.vagh-about *, body.vagh-about *::before, body.vagh-about *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+  .vagh-motion body.vagh-about .fade-up:not(.visible) { opacity: 1; }
+}

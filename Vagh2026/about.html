@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="vagh-chapters">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -293,8 +293,9 @@ footer{padding:60px 0 36px;border-top:1px solid rgba(125,32,54,0.15);position:re
 }
 </style>
     <link rel="stylesheet" href="../assets/sioa-archive.css">
+    <link rel="stylesheet" href="../assets/vagh-chapters.css">
 </head>
-<body>
+<body class="sioa-archive-page vagh-about" data-sioa-page="competition">
 
 <!-- NAVBAR -->
 <nav class="navbar" id="navbar">
@@ -311,7 +312,8 @@ footer{padding:60px 0 36px;border-top:1px solid rgba(125,32,54,0.15);position:re
 </nav>
 
 <!-- HERO -->
-<section class="hero">
+<main>
+<section class="hero vagh-chapter" id="results" aria-labelledby="resultsTitle">
   <div class="hero-ghost">VAGH</div>
   <div class="container">
     <div class="hero-inner">
@@ -320,7 +322,7 @@ footer{padding:60px 0 36px;border-top:1px solid rgba(125,32,54,0.15);position:re
         Society of Indian Origami Artists
         <span class="hero-eyebrow-dot"></span>
       </div>
-      <h1 class="hero-title">VAGH</h1>
+      <h1 class="hero-title" id="resultsTitle">VAGH</h1>
       <span class="hero-year">National Origami Competition · 2026</span>
       <p class="hero-desc">VAGH 2026 has come to a close. Thank you to every folder who took part, judging is complete and the results are in.</p>
 
@@ -338,22 +340,17 @@ footer{padding:60px 0 36px;border-top:1px solid rgba(125,32,54,0.15);position:re
         <a href="/Vagh2026/leaderboard.html" class="btn-primary">View Leaderboard</a>
         <a href="/Vagh2026/gallery.html" class="btn-ghost">Browse All Entries</a>
       </div>
+      <a class="vagh-next" href="#about">About VAGH <span aria-hidden="true">↓</span></a>
     </div>
-  </div>
-  <div class="hero-scroll-cue">
-    <span>Scroll</span>
-    <div class="scroll-arrow"></div>
   </div>
 </section>
 
-<div class="section-divider"></div>
-
 <!-- ABOUT / PHILOSOPHY -->
-<section id="about">
+<section id="about" class="vagh-chapter" aria-labelledby="philosophyTitle">
   <div class="container">
     <div class="fade-up" style="text-align:center;margin-bottom:50px;">
       <p class="section-eyebrow">About VAGH</p>
-      <h2 class="section-title">Our Philosophy</h2>
+      <h2 class="section-title" id="philosophyTitle">Our Philosophy</h2>
     </div>
 
     <div class="philosophy-box fade-up">
@@ -367,17 +364,16 @@ footer{padding:60px 0 36px;border-top:1px solid rgba(125,32,54,0.15);position:re
       <p>VAGH was built on a simple belief: origami should stay both <strong>accessible and respected</strong> as an art form. Rather than rewarding complexity for its own sake, judging looked at precision, shaping, and overall execution, so a beautifully folded traditional model could stand alongside an advanced technical piece.</p>
       <p>This was only the first edition. Thank you to every artist who folded, photographed, and shared their work. We hope to see even more of India's origami community at the next VAGH.</p>
     </div>
+    <a class="vagh-next" href="#prizes">The prizes <span aria-hidden="true">↓</span></a>
   </div>
 </section>
 
-<div class="section-divider"></div>
-
 <!-- PRIZES -->
-<section id="prizes" class="prizes-section">
+<section id="prizes" class="prizes-section vagh-chapter" aria-labelledby="prizesTitle">
   <div class="container">
     <div class="prizes-header fade-up">
       <p class="section-eyebrow">Awards</p>
-      <h2 class="section-title">The Prizes</h2>
+      <h2 class="section-title" id="prizesTitle">The Prizes</h2>
       <p class="section-lead" style="margin:0 auto;">What the top three folders of VAGH 2026 took home.</p>
     </div>
 
@@ -466,6 +462,7 @@ footer{padding:60px 0 36px;border-top:1px solid rgba(125,32,54,0.15);position:re
     </p>
   </div>
 </section>
+</main>
 
 <!-- FOOTER -->
 <footer>
@@ -477,16 +474,15 @@ footer{padding:60px 0 36px;border-top:1px solid rgba(125,32,54,0.15);position:re
 </footer>
 
 <script>
-var io = new IntersectionObserver(function(entries){
-  entries.forEach(function(e){ if(e.isIntersecting) e.target.classList.add('visible'); });
-}, { threshold: 0.08, rootMargin: '0px 0px -50px 0px' });
-document.querySelectorAll('.fade-up').forEach(function(el){ io.observe(el); });
-
-var navbarEl = document.getElementById('navbar');
-window.addEventListener('scroll', function(){
-  if(window.scrollY > 40) navbarEl.classList.add('scrolled');
-  else navbarEl.classList.remove('scrolled');
-});
+if ('IntersectionObserver' in window && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+  document.documentElement.classList.add('vagh-motion');
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); }
+    });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.fade-up').forEach(function(el){ io.observe(el); });
+}
 </script>
 <script src="../assets/sioa-archive.js"></script>
 <script src="../assets/sioa-mobile.js"></script>
