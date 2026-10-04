@@ -24,6 +24,27 @@ window.addEventListener('resize', () => {
   if (innerWidth > 1080) setMenu(false);
 });
 
+const motionPreference = matchMedia('(prefers-reduced-motion: reduce)');
+if ('IntersectionObserver' in window && !motionPreference.matches) {
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      entry.target.classList.add('is-revealed');
+      observer.unobserve(entry.target);
+    });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.explore-card, .about-section, .closing-note').forEach(section => {
+    if (section.getBoundingClientRect().top < innerHeight) return;
+    section.classList.add('reveal-pending');
+    observer.observe(section);
+  });
+  motionPreference.addEventListener('change', event => {
+    if (!event.matches) return;
+    document.querySelectorAll('.reveal-pending').forEach(section => section.classList.add('is-revealed'));
+    observer.disconnect();
+  });
+}
+
 (async () => {
   if (!window.supabase) return;
   try {
